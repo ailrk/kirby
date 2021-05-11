@@ -1,0 +1,114 @@
+#!/usr/bin/python
+"""
+A script to recover my directory structure.
+"""
+
+from pathlib import Path
+import os
+import sys
+from typing import List, Optional, Callable
+
+
+class DirNode:
+    node_type = ["folder", "file"]
+    indent = 0
+
+    def __init__(self, type: str, name: str,
+                 children: Optional[List['DirNode']] = None):
+        self.visited = False
+        self.name = name
+        self.parent: Optional['DirNode'] = None
+
+        if type in DirNode.node_type:
+            self.type = type
+        else:
+            raise AttributeError("Wrong key for node")
+
+        self.children: List[DirNode]
+        if children is not None:
+            self.children = children
+            for n in children:
+                n.parent = self
+        else:
+            self.children = []
+
+    def traverse(self, cb: Callable):
+        if self.visited:
+            return
+        cb(self)
+        DirNode.indent += 4
+        if self.type == "file" or len(self.children) == 0:
+            DirNode.indent -= 4
+            return
+        for n in self.children:
+            n.traverse(cb)
+        DirNode.indent -= 4
+
+    def __truediv__(self, val):
+        self.children = val
+        for n in self.children:
+            n.parent = self
+        return self
+
+    def __str__(self) -> str:
+        res = DirNode.indent * " "
+        res += f"<DirNode name={self.name}, type={self.type}>"
+        return res
+
+    __repr__ = __str__
+
+
+paths: List[Path] = []
+
+
+def callback(self: DirNode):
+    ps = [self.name]
+    currnet = self
+    parent = currnet.parent
+    while parent is not None:
+        ps.append(parent.name)
+        currnet = parent
+        parent = parent.parent
+
+    top = ps.pop()
+    path: Path = Path(top)
+    for p in reversed(ps):
+        path = path / Path(p)
+
+    global paths
+    paths.append(path)
+
+
+def Folder(name):
+    return DirNode(type="folder", name=name)
+
+
+def File(name):
+    return DirNode(type="file", name=name)
+
+
+if __name__ == "__main__":
+    assert len(sys.argv) == 2
+
+    h: str = sys.argv[1]
+    home_path = Path(h).absolute()
+    os.chdir(home_path)
+
+    home = Folder(home_path) / [
+        Folder("pj"),
+        Folder("newDisk") / [
+            Folder("book") / [
+                Folder("math")
+            ],
+            Folder("docs"),
+            Folder("Repo"),
+        ],
+        Folder("yeetDisk") / [
+            Folder("docs")
+        ]
+    ]
+
+    home.traverse(callback)
+    for n in paths:
+        # TODO do wathever with the path you get
+        print(n)

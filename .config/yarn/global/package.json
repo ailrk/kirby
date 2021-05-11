@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "create-coc-extension": "^0.6.3"
+  }
+}

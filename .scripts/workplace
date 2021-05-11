@@ -1,0 +1,9 @@
+#!/bin/bash
+
+ID=9980
+current=$(bspc query -D -d .focused --names)
+occupied=$(bspc query -D -d .occupied --names)
+
+cat=$(cat ~/.scripts/static/smallturbocat-escape.txt)
+
+dunstify -t 3000 -r $ID "$(echo -e "$cat \nYour are in workplace:\n$current\n Workplaces occupied: \n\n$occupied\n\n $(date)")"

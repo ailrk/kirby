@@ -1,0 +1,111 @@
+#!/bin/sh
+
+# bg
+#BACKGROUND="~/newDisk/img/Dzhlk6JU0AESnIP.png_large"
+#BACKGROUND="~/newDisk/img/282769.jpg"
+#BACKGROUND="~/newDisk/img/jWTBsU0.jpg"  # pokemon beach
+#BACKGROUND="~/newDisk/img/EaKnktCUcAE5bCg.jpg"  # traffic light
+#BACKGROUND="~/newDisk/img/market.jpeg"  # traffic light
+# feh --bg-scale "$BACKGROUND"&
+#wal -i $BACKGROUND&
+
+# prepare
+pkill blurwal
+pkill dunst
+pkill ibus-daemon
+pkill vanela
+pkill compton
+
+# Environment
+export PATH="${PATH}:$HOME/.scripts"
+xrdb ~/.Xresources
+
+#getcolors () {
+#	FOREGROUND=$(xrdb -query | grep 'foreground:'| awk '{print $NF}')
+#	BACKGROUND=$(xrdb -query | grep 'background:'| awk '{print $NF}')
+#	BLACK=$(xrdb -query | grep 'color0:'| awk '{print $NF}')
+#	RED=$(xrdb -query | grep 'color1:'| awk '{print $NF}')
+#	GREEN=$(xrdb -query | grep 'color2:'| awk '{print $NF}')
+#	YELLOW=$(xrdb -query | grep 'color3:'| awk '{print $NF}')
+#	BLUE=$(xrdb -query | grep 'color4:'| awk '{print $NF}')
+#	MAGENTA=$(xrdb -query | grep 'color5:'| awk '{print $NF}')
+#	CYAN=$(xrdb -query | grep 'color6:'| awk '{print $NF}')
+#	WHITE=$(xrdb -query | grep 'color7:'| awk '{print $NF}')
+#}
+#OFFGREY="#42423d"
+#OFFWHITE="#eee4e5"
+#getcolors
+
+sleep 0.5
+
+. $HOME/.cache/wal/colors.sh
+FOREGROUND=$foreground
+BACKGROUND=$background
+BLACK=$color0
+RED=$color1
+GREEN=$color2
+YELLOW=$color3
+BLUE=$color4
+MAGENTA=$color5
+CYAN=$color6
+WHITE=$color7
+
+bspc monitor eDP-1 -d 'Browser' 'Doc' 'Other'
+bspc monitor DP-2 -d 'Daemon' 'CODE' 'CODE'
+bspc config top_padding         -37
+bspc config bottom_padding      32
+bspc config left_padding        0
+bspc config right_padding       0
+bspc config border_width        2
+bspc config window_gap          2
+
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+#bspc config normal_border_color $BLACK
+bspc config focused_border_color $WHITE
+bspc config presel_border_color "#ffbec9"
+bspc config split_ratio          0.5
+bspc config border_radius        5
+
+## Winodw rules
+# remove all rules first
+bspc rule -r *:*
+bspc rule -a Gimp desktop='^8' state=floating follow=on
+bspc rule -a mupdf state=floating layer=above
+bspc rule -a Zathura state=tiled
+bspc rule -a Screenkey manage=off
+bspc rule -a urxvt:float state=floating rectangle=500x1000+200
+bspc rule -a st:float state=floating rectangle=500x1000+200
+bspc rule -a st:command state=floating rectangle=700x100+500+50
+bspc rule -a "polybar" layer=above
+bspc rule -a "lemonbar" layer=above
+
+ibus-daemon -drx
+xrandr --output eDP1 --mode 1920x1080 --rate 120
+xrandr --output DP-2 --rotate normal --mode 1920x1080
+sxhkd -c ~/.config/sxhkdrc/sxhkdrc&
+vanela &
+mpc update
+mpc listall | mpc add
+compton --config ~/.config/compton-blur-term.conf&
+xinput set-prop 11 295 1
+dunst \
+    -1b "$WHITE" -1f "$BLACK" -1fr "$BLACK" \
+    -nb "$WHITE" -nf "$BLACK" -nfr "$BLACK" \
+    -cb "$WHITE" -cf "$BLACK" -cfr "$BLACK" &
+sleep 0.5
+blurwal -m 1 -b 4 -s 4 &
+
+notify-send "Welcome Home! \(^w^)/"
+
+# wal -qi ~/img/pokebeach.jpg --saturate 0.95 -b "#0d0307"> /dev/null
+# wal -qi ~/img/market.jpeg --saturate 0.3 > /dev/null
+# wal -qi ~/img/nstreet.jpeg --saturate 1.3 > /dev/null
+# wal -qi ~/img/women-pixel-art-4k-98-1920x1080.jpg -b "#282828" --saturate 1.3 > /dev/null
+# wal -qi ~/img/women-pixel-art-4k-98-1920x1080.jpg -l --saturate 2 > /dev/null
+
+wal -qi ~/img/pokebeach.jpg --saturate 0.95 -b "#1c1718"> /dev/null
+# wal -qi ~/img/pokebeach.jpg -l --saturate 0.4 -b "#1c1a1a"> /dev/null
+#292526
+#080305

@@ -1,0 +1,45 @@
+[Added Associations]
+image/jpeg=eog.desktop;mupdf.desktop;gimp.desktop;
+application/pdf=mupdf.desktop;org.gnome.Evince.desktop;
+application/octet-stream=org.gnome.FileRoller.desktop;com.github.libresprite.LibreSprite.desktop;
+image/png=eog.desktop;mupdf.desktop;gimp.desktop;
+x-scheme-handler/http=xfce4-web-browser.desktop;
+x-scheme-handler/https=xfce4-web-browser.desktop;
+application/x-desktop=vim.desktop;
+text/x-csrc=vim.desktop;
+text/css=sublime_text.desktop;
+application/json=vim.desktop;sublime_text.desktop;
+image/gif=feh.desktop;
+audio/mpeg=vlc.desktop;
+text/plain=vim.desktop;sublime_text.desktop;
+application/vnd.font-fontforge-sfd=fontforge.desktop;vim.desktop;sublime_text.desktop;
+application/x-font-pcf=fontforge.desktop;org.gnome.font-viewer.desktop;
+font/ttf=org.gnome.font-viewer.desktop;
+application/x-font-bdf=fontforge.desktop;
+text/markdown=typora.desktop;
+video/webm=vlc.desktop;org.gnome.Totem.desktop;
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop;calibre-gui.desktop;
+video/mp4=vlc.desktop;org.gnome.Totem.desktop;
+application/vnd.openxmlformats-officedocument.presentationml.presentation=libreoffice-impress.desktop;firefox.desktop;org.gnome.FileRoller.desktop;google-chrome.desktop;
+text/x-python=vim.desktop;nvim.desktop;sublime_text.desktop;
+application/x-compressed-tar=org.gnome.Nautilus.desktop;
+application/vnd.rar=org.gnome.FileRoller.desktop;
+text/csv=nvim.desktop;libreoffice-calc.desktop;sublime_text.desktop;
+text/x-matlab=org.octave.Octave.desktop;
+application/msword=libreoffice-writer.desktop;
+inode/directory=org.gnome.FileRoller.desktop;
+application/vnd.ms-powerpoint=libreoffice-impress.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-KMWYR0.desktop;userapp-Telegram Desktop-LG1QT0.desktop;userapp-Telegram Desktop-XVSKU0.desktop;userapp-Telegram Desktop-J0MNY0.desktop;
+
+[Default Applications]
+text/html=google-chrome-beta.desktop
+x-scheme-handler/http=google-chrome-beta.desktop
+x-scheme-handler/https=google-chrome-beta.desktop
+x-scheme-handler/about=google-chrome-beta.desktop
+x-scheme-handler/unknown=google-chrome-beta.desktop
+x-scheme-handler/postman=Postman.desktop
+x-scheme-handler/tg=userapp-Telegram Desktop-J0MNY0.desktop
+x-scheme-handler/webcal=google-chrome.desktop
+x-scheme-handler/ssh=Hyper.desktop
+x-scheme-handler/msteams=teams.desktop
+

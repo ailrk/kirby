@@ -1,0 +1,41 @@
+#!/bin/bash
+ID=7886
+
+case $1 in
+  next)
+    mpc next
+    ;;
+  prev)
+    mpc prev
+    ;;
+  halt)
+    stat="$(mpc status | cut -d "[" -f2 | cut -d "]" -f1  | head -2 | tail -1)"
+    if [ $stat == "playing" ]; then
+      mpc pause
+    else
+      mpc play
+    fi
+esac
+
+
+bar=""
+
+function progress() {
+  progress="$(mpc status | awk '{if (NR==2) print $0}' | cut -d ' ' -f6 | cut -d% -f1 | cut -d '(' -f2)"
+  for i in $(seq $((progress/10)));
+  do
+    echo "$i"
+    bar="$bar>>>";
+  done;
+}
+
+current_name="$(mpc status | head -1)"
+current_status="$(mpc status | awk '{if (NR==2) print $0}' | cut -d ' ' -f1,5-6)"
+current="$current_name\n\n\n$current_status"
+queued="$(mpc queued)"
+
+cat="$(cat ~/.scripts/static/smallturbocat-escape.txt)"
+
+
+progress
+dunstify -t 4000 -r $ID "$cat$(echo -e "\n+++++++++++++++++++++++++\n<Current>\n $current \n$bar\n-----------------------\n <Next> \n$queued")"

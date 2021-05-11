@@ -1,0 +1,424 @@
+{
+  "frame.color_rgba": [
+    0.12, 
+    0.12, 
+    0.12, 
+    0.92
+  ], 
+  "ui.feedback.scale": false, 
+  "colors.palette": {
+    "name": "MyPaint Default", 
+    "columns": 7, 
+    "entries": [
+      [
+        "#000000", 
+        "Black"
+      ], 
+      [
+        "#262626", 
+        "Gray 15"
+      ], 
+      [
+        "#4d4d4d", 
+        "Grey 30"
+      ], 
+      [
+        "#808080", 
+        "Grey 50"
+      ], 
+      [
+        "#ababab", 
+        "Grey 67"
+      ], 
+      [
+        "#d9d9d9", 
+        "Grey 85"
+      ], 
+      [
+        "#ffffff", 
+        "White"
+      ], 
+      [
+        "#800000", 
+        "Maroon"
+      ], 
+      [
+        "#d10000", 
+        "English-red"
+      ], 
+      [
+        "#ff3622", 
+        "Tomato"
+      ], 
+      [
+        "#fc3c03", 
+        "Orange-red"
+      ], 
+      [
+        "#ff8c69", 
+        "Salmon"
+      ], 
+      [
+        "#fce820", 
+        "Cadium-yellow"
+      ], 
+      [
+        "#f3fd25", 
+        "Lemon yellow"
+      ], 
+      [
+        "#790523", 
+        "Dark crimson"
+      ], 
+      [
+        "#a9203e", 
+        "Deep carmine"
+      ], 
+      [
+        "#ff8c00", 
+        "Orange"
+      ], 
+      [
+        "#ffa812", 
+        "Dark tangerine"
+      ], 
+      [
+        "#d99058", 
+        "Persian orange"
+      ], 
+      [
+        "#c2b280", 
+        "Sand"
+      ], 
+      [
+        "#ffe5b4", 
+        "Peach"
+      ], 
+      [
+        "#64362e", 
+        "Bole"
+      ], 
+      [
+        "#6c2934", 
+        "Dark cordovan"
+      ], 
+      [
+        "#a3412c", 
+        "Chestnut"
+      ], 
+      [
+        "#e48864", 
+        "Dark salmon"
+      ], 
+      [
+        "#ffc38f", 
+        "Apricot"
+      ], 
+      [
+        "#ffdbbc", 
+        "Unbleached silk"
+      ], 
+      [
+        "#f2e3c6", 
+        "Straw"
+      ], 
+      [
+        "#35130d", 
+        "Bistre"
+      ], 
+      [
+        "#542a0e", 
+        "Dark chocolate"
+      ], 
+      [
+        "#66332b", 
+        "Burnt sienna"
+      ], 
+      [
+        "#b84200", 
+        "Sienna"
+      ], 
+      [
+        "#d8990c", 
+        "Yellow ochre"
+      ], 
+      [
+        "#d2b48c", 
+        "Tan"
+      ], 
+      [
+        "#e8cc90", 
+        "Dark wheat"
+      ], 
+      [
+        "#003153", 
+        "Prussian blue"
+      ], 
+      [
+        "#304577", 
+        "Dark grey blue"
+      ], 
+      [
+        "#0047ab", 
+        "Cobalt blue"
+      ], 
+      [
+        "#1f75fe", 
+        "Blue"
+      ], 
+      [
+        "#78b4ff", 
+        "Bright french blue"
+      ], 
+      [
+        "#abc8ff", 
+        "Bright steel blue"
+      ], 
+      [
+        "#d0e7ff", 
+        "Ice blue"
+      ], 
+      [
+        "#1e333a", 
+        "Medium jungle green"
+      ], 
+      [
+        "#2f4f4f", 
+        "Dark slate grey"
+      ], 
+      [
+        "#4a685d", 
+        "Dark grullo green"
+      ], 
+      [
+        "#008080", 
+        "Teal"
+      ], 
+      [
+        "#43aab0", 
+        "Turquoise"
+      ], 
+      [
+        "#6daec7", 
+        "Cerulean frost"
+      ], 
+      [
+        "#add9ba", 
+        "Tiffany green"
+      ], 
+      [
+        "#16221d", 
+        "Gray-asparagus"
+      ], 
+      [
+        "#24302d", 
+        "Medium dark teal"
+      ], 
+      [
+        "#4a685d", 
+        "Xanadu"
+      ], 
+      [
+        "#77c679", 
+        "Mint"
+      ], 
+      [
+        "#afcdb6", 
+        "Timberwolf"
+      ], 
+      [
+        "#b9f5f6", 
+        "Celeste"
+      ], 
+      [
+        "#c1ffea", 
+        "Aquamarine"
+      ], 
+      [
+        "#1d3423", 
+        "Cal Poly Pomona"
+      ], 
+      [
+        "#014421", 
+        "Forest green"
+      ], 
+      [
+        "#2a8000", 
+        "Napier green"
+      ], 
+      [
+        "#808000", 
+        "Olive"
+      ], 
+      [
+        "#419c69", 
+        "Sea green"
+      ], 
+      [
+        "#bdf61d", 
+        "Green-yellow"
+      ], 
+      [
+        "#e7f486", 
+        "Bright chartreuse"
+      ], 
+      [
+        "#8a1789", 
+        "Purple"
+      ], 
+      [
+        "#4e278a", 
+        "Violet"
+      ], 
+      [
+        "#c14b6e", 
+        "Dark thulian pink"
+      ], 
+      [
+        "#de3163", 
+        "Cerise"
+      ], 
+      [
+        "#ff1493", 
+        "Deep pink"
+      ], 
+      [
+        "#ff66cc", 
+        "Rose pink"
+      ], 
+      [
+        "#ffcbdb", 
+        "Pink"
+      ], 
+      [
+        "#ffffff", 
+        "White"
+      ], 
+      [
+        "#e51101", 
+        "RGB Red"
+      ], 
+      [
+        "#00ff00", 
+        "RGB Green"
+      ], 
+      [
+        "#0000ff", 
+        "RGB Blue"
+      ], 
+      [
+        "#00ffff", 
+        "CMYK Cyan"
+      ], 
+      [
+        "#ff00ff", 
+        "CMYK Magenta"
+      ], 
+      [
+        "#ffff00", 
+        "CMYK Yellow"
+      ]
+    ]
+  }, 
+  "ui.hide_subwindows_in_fullscreen": true, 
+  "ui.feedback.last_pos": false, 
+  "colors.current": "#292929", 
+  "ui.dark_theme_variant": true, 
+  "brushmanager.selected_groups": [], 
+  "ui.toolbar_items": {
+    "toolbar1_file": true, 
+    "toolbar1_view_modes": true, 
+    "toolbar1_edit": true, 
+    "toolbar1_blendmodes": false, 
+    "toolbar1_view_manips": false, 
+    "toolbar1_view_resets": true, 
+    "toolbar1_scrap": false, 
+    "toolbar1_linemodes": true
+  }, 
+  "saving.scrap_prefix": "~/MyPaint/scrap", 
+  "ui.hide_menubar_in_fullscreen": true, 
+  "devbrush.last_used": "SynPS/2 Synaptics TouchPad", 
+  "input.button_mapping": {
+    "<Primary>Button1": "ColorPickMode", 
+    "<Primary>Button2": "ZoomViewMode", 
+    "<Primary><Shift>Button2": "FrameEditMode", 
+    "<Shift>Button1": "StraightMode", 
+    "<Shift>Button2": "RotateViewMode", 
+    "Button3": "ShowPopupMenu", 
+    "Button2": "PanViewMode", 
+    "<Shift><Alt>Button2": "FrameEditMode", 
+    "<Alt>Button2": "ZoomViewMode", 
+    "<Alt>Button1": "ColorPickMode"
+  }, 
+  "ui.hide_toolbar_in_fullscreen": true, 
+  "view.default_zoom": 1.0, 
+  "misc.context_restores_color": true, 
+  "input.global_pressure_mapping": [
+    [
+      0.0, 
+      1.0
+    ], 
+    [
+      1.0, 
+      0.0
+    ]
+  ], 
+  "workspace.layout": {
+    "fullscreen": false, 
+    "left_sidebar": {
+      "h": 368, 
+      "w": 8, 
+      "groups": [
+        {
+          "tools": [], 
+          "active_page": -1
+        }
+      ]
+    }, 
+    "autohide": true, 
+    "maximized": false, 
+    "position": {
+      "y": 32, 
+      "h": 948, 
+      "w": 1820, 
+      "x": 50
+    }, 
+    "floating": [], 
+    "right_sidebar": {
+      "h": 368, 
+      "w": 8, 
+      "groups": [
+        {
+          "tools": [], 
+          "active_page": -1
+        }
+      ]
+    }
+  }, 
+  "ui.parts": {
+    "main_toolbar": true, 
+    "menubar": true
+  }, 
+  "brushmanager.selected_brush": "deevad/2B_pencil", 
+  "ui.support_smooth_scrolling": true, 
+  "ui.toolbar_icon_size": "large", 
+  "document.autosave_backups": true, 
+  "display.colorspace": "srgb", 
+  "input.devices": {
+    "Virtual core XTEST pointer:mouse:2": {}, 
+    "SynPS/2 Synaptics TouchPad:touchpad:4": {}, 
+    "TPPS/2 Elan TrackPoint:trackpoint:4": {}
+  }, 
+  "view.real_alpha_checks": true, 
+  "colors.history": [
+    "#ee3333", 
+    "#336699", 
+    "#44aa66", 
+    "#aa6633", 
+    "#292929"
+  ], 
+  "document.autosave_interval": 10, 
+  "saving.default_format": "openraster", 
+  "scratchpad.last_opened_scratchpad": "/home/jimmy/.local/share/mypaint/scratchpads/autosave.ora", 
+  "input.device_mode": "screen"
+}

@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+if [ $1 == "high" ]; then
+    redshift -O 5500
+
+elif [ $1 == "low" ]; then
+    redshift -x
+fi

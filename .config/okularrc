@@ -1,0 +1,23 @@
+[Desktop Entry]
+FullScreen=false
+
+[MainWindow]
+RestorePositionForNextInstance=false
+State=AAAA/wAAAAD9AAAAAAAAB4AAAAPaAAAABAAAAAQAAAAIAAAACPwAAAACAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgEAAAAA/////wAAAAAAAAAAAAAAAgAAAAEAAAAiAGEAbgBuAG8AdABhAHQAaQBvAG4AVABvAG8AbABCAGEAcgEAAAAA/////wAAAAAAAAAA
+ToolBarsMovable=Disabled
+eDP-1 DP-2 Height 1080=1080
+eDP-1 DP-2 Width 1920=1920
+eDP-1 DP-2 XPosition=0
+eDP-1 DP-2 YPosition=0
+eDP-1 Height 1080=1008
+eDP-1 Width 1920=1024
+eDP-1 XPosition=25
+eDP-1 YPosition=16
+
+[Recent Files]
+File1[$e]=$HOME/newDisk/book/compiler/Lisp-in-small-pieces.pdf
+File2[$e]=$HOME/newDisk/book/compiler/Modern Compiler Implementation in C.pdf
+File3[$e]=$HOME/newDisk/book/compiler/book_Modern compiler implementation in ML - A.W. Appel.pdf
+Name1[$e]=Lisp-in-small-pieces.pdf
+Name2[$e]=Modern Compiler Implementation in C.pdf
+Name3[$e]=book_Modern compiler implementation in ML - A.W. Appel.pdf

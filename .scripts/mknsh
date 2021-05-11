@@ -1,0 +1,16 @@
+#!/usr/bin/sh
+TEXT="{ pkgs ? import <nixpkgs> {} }:
+pkgs.mkShell {
+  # add your dependencies for the shell
+  inputsFrom = with pkgs; [];
+  buildInputs = [];
+}
+"
+
+if test -f "shell.nix"; then
+    echo "shell.nix already exists"
+else
+    touch shell.nix
+    echo "$TEXT" > shell.nix
+
+fi

@@ -1,0 +1,6 @@
+export QT_IM_MODULE=ibus
+export GTK_IM_MODULE=ibus
+export X_MODIFIERS=@ibus
+xrdb -merge ~/.Xresources
+xset b off
+ibus-daemon -d -x

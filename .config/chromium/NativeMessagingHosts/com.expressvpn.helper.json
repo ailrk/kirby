@@ -1,0 +1,11 @@
+{
+  "name": "com.expressvpn.helper",
+  "description": "ExpressVPN Browser Helper",
+  "path": "/usr/bin/expressvpn-browser-helper",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://fgddmllnllkalaagkghckoinaemmogpe/",
+    "chrome-extension://olhkmmhcabcohlcodnbkfoekafimgkmb/",
+    "chrome-extension://gicmddjpmepnbabhkhihlgdfccbppflm/"
+  ]
+}

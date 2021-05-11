@@ -1,0 +1,46 @@
+video
+  driver:XShm
+  monitor:Primary
+  format:ARGB24
+  exclusive:true
+  blocking:false
+  flush:false
+  luminance:1.0
+  saturation:1.0
+  gamma:1.0
+  output:Center
+  aspectCorrection:true
+  scale:2
+  shader:Blur
+audio
+  driver:None
+  device:Default
+  frequency:48000
+  latency:0
+  exclusive:false
+  blocking:false
+  dynamic:false
+  skew:0
+  volume:1.0
+  balance:0.0
+  mute:false
+input
+  driver:udev
+  unfocused:Block
+interface
+  showStatusBar:true
+  showSystemPanels:true
+  advancedMode:false
+hotkeys
+  toggleStatus
+  togglePanels
+  toggleFullscreen
+  toggleMouseCapture
+  fastForward
+  saveState
+  loadState
+  incrementStateSlot
+  decrementStateSlot
+  pauseEmulation
+  exportMemory
+  quitEmulator

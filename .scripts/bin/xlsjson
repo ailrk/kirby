@@ -1,0 +1,31 @@
+#!/bin/python
+import getopt
+import sys
+import os
+import pandas as pd
+
+try:
+
+    # Short option syntax: "hv:"
+    # Long option syntax: "help" or "verbose="
+    opts, args = getopt.getopt(sys.argv[1:], "hvf:", ["help", "verbose", "file"])
+
+except getopt.GetoptError as err:
+    # Print debug info
+    print(err)
+
+for option, argument in opts:
+    if option in ("-h", "--help"):
+        print("Usage xlsjon -[hv] -f <file>")
+
+    elif option in ("-v", "--verbose"):
+        verbose = argument
+
+    elif option in ("-f", "--file"):
+        xls = pd.ExcelFile(argument, sheet_name=None)
+        dfs = {sn: xls.parse(sn) for sn in xls.sheet_names}
+        # for s in dfs.values():
+        #     sys.stdout.write(s.to_json(orient='records'))
+        print(dfs[xls.sheet_names[1]].to_json(orient='records'))
+
+

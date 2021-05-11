@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+echo "[!] killing..."
+pkill dhcpcd
+pkill wpa_supplicant
+
+case $1 in
+    ubcsecure)
+        echo "[!] connecting to ubcsecure..."
+        wpa_supplicant -B -i wlp2s0 -c /etc/wpa_supplicant/ubcsecure.conf
+        ;;
+    pp)
+        echo "[!] connecting to ubcsecure..."
+        wpa_supplicant -B -i wlp2s0 -c /etc/wpa_supplicant/pp.conf
+        ;;
+esac
+
+dhcpcd wlp2s0
+echo "[!] done..."

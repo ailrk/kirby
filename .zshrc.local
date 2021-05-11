@@ -1,0 +1,93 @@
+# PERSONAL ZSH CONFIG FOR GRML ZSH
+#BACKGROUND="~/newDisk/img/Dzhlk6JU0AESnIP.png_large"
+#BACKGROUND="~/newDisk/img/tumblr_nhkbvqu8vq1sfo1z9o8_1280.jpg"
+setopt prompt_subst
+bindkey -v
+# cat ~/.scripts/static/turbofishcat.txt | lolcat --freq 0.2 -a -d 1 -s 50
+cat ~/.scripts/static/turbofishcat.txt
+PATH=$PATH:/home/jimmy/Opt/bin/:/home/jimmy/.local/bin/
+PATH=$PATH:/home/jimmy/Opt/Discord/
+PATH=$PATH:/home/jimmy/.cargo/bin/
+PATH=$PATH:/home/jimmy/.cabal/bin/
+PATH=$PATH:/home/jimmy/.gem/ruby/2.6.0/bin/:/home/jimmy/.scripts/bin/
+PATH=$PATH:/home/jimmy/.racket/7.5/bin/
+PATH=$PATH:/home/jimmy/.roswell/bin/
+PATH=$PATH:/home/jimmy/.ghcup/bin/
+
+export CARGO_HOME=$HOME/.cargo/
+export NIX_PATH="nixpkgs=https://github.com/NixOS/nixpkgs/archive/release-20.03.tar.gz"
+export TERM=xterm-256color
+
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
+
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^x^e" edit-command-line
+alias bf="cd ~/.scripts/buf"
+alias b="cd ~/book"
+alias d="cd ~/yeetDisk/docs"
+alias p="cd ~/pj"
+alias re="cd ~/newDisk/Repo"
+alias n="cd ~/newDisk"
+alias img="cd ~/img"
+alias imgg="cd ~/newDisk/img/screenshot"
+alias exp="cd ~/newDisk/Repo/misc"
+alias m="mupdf"
+alias v="vim"
+alias gotoswapfile="cd ~/.local/share/nvim/swap/"
+
+alias fzfp="fzf --height 50%  --preview 'bat --style=numbers --color=always --line-range :500 {}'"
+alias ns="nix-shell --command zsh"
+alias nb="nix-build"
+alias ne="nix-env"
+alias vimm="/usr/bin/vim"
+alias vim="/usr/bin/nvim"
+alias t="tmux"
+alias ra="ranger"
+alias ranger="source ranger"
+alias xr="xrdb ~/.Xresources"
+alias config="/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME"
+alias yeet="cd ~/yeetDisk"
+alias dtex="cd ~/yeetDisk/docs/latex"
+alias dn="cd ~/yeetDisk/docs/notes"
+alias db="cgdb"
+alias dow="cd ~/Downloads"
+alias i="ipython"
+alias rkt="racket"
+alias invenv="python -c 'import sys;print(\"within virtualenv\", hasattr(sys, \"real_prefix\"))'"
+alias sbcl="rlwrap sbcl"
+alias qq="exit"
+alias scv="sc-im"
+alias bmath="./newDisk/book/math"
+alias ccc="cat ~/.scripts/static/turbofishcat.txt"
+alias em="emacs -nw"
+alias gg="vim ~/Archives/g.md"
+alias vimgs="sxiv -t ."
+
+function vimfz() {
+    vim $(fzfp)
+}
+
+#tmux
+
+# transset-df  -a 0.90 > /dev/null
+setxkbmap -option caps:escape
+
+if [ ! -z "$IN_NIX_SHELL" ]; then
+    figlet "N I X"
+    PROMPT="nix:"${PROMPT}
+fi
+
+# # begin canvasBot completion
+# . <(canvasBot --completion)
+# # end canvasBot completion
+
+tdb() {
+    local id="$(tmux split-pane -hPF "#D" "tail -f /dev/null")"
+    tmux last-pane
+    local tty="$(tmux display-message -p -t "$id" '#{pane_tty}')"
+    cgdb -- -ex "dashboard -output $tty" "$@"
+    tmux kill-pane -t "$id"
+}
