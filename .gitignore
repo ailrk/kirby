@@ -47,3 +47,4 @@
 .ccls_cache/
 .mypy_cache/
 *.fasl
+a.out

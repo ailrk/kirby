@@ -32,13 +32,14 @@ alias p="cd ~/pj"
 alias re="cd ~/newDisk/Repo"
 alias n="cd ~/newDisk"
 alias img="cd ~/img"
-alias imgg="cd ~/newDisk/img/screenshot"
+alias imgg="cd ~/img/screenshot"
 alias exp="cd ~/newDisk/Repo/misc"
 alias m="mupdf"
 alias v="vim"
 alias gotoswapfile="cd ~/.local/share/nvim/swap/"
+alias algol="jff-algol"
 
-alias fzfp="fzf --height 50%  --preview 'bat --style=numbers --color=always --line-range :500 {}'"
+alias fzfp="fzf --preview 'bat --style=numbers --line-range :500 {}'"
 alias ns="nix-shell --command zsh"
 alias nb="nix-build"
 alias ne="nix-env"
@@ -65,6 +66,11 @@ alias ccc="cat ~/.scripts/static/turbofishcat.txt"
 alias em="emacs -nw"
 alias gg="vim ~/Archives/g.md"
 alias vimgs="sxiv -t ."
+
+function archive_to_screenshot() {
+  mv $1 ~/img/screenshot/
+
+}
 
 function vimfz() {
     vim $(fzfp)

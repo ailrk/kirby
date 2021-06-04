@@ -1,3 +1,10 @@
+def
+printf
+desc
+import
+imp
+const
+spec
 diso
 crate
 res
@@ -6,7 +13,6 @@ func
 ptpython
 inline
 lang
-import
 log
 ifmain
 get
@@ -22,8 +28,6 @@ attr
 roprop
 main
 for
-def
-printf
 MIT
 cout
 info
@@ -39,7 +43,6 @@ ref
 pprint
 return
 con
-imp
 ISC
 vector
 position
@@ -124,7 +127,6 @@ int
 begin
 listing
 readfile
-spec
 specf
 sec
 ita
@@ -156,7 +158,6 @@ mu
 lambda
 drop
 ann
-desc
 bbox
 BEERWARE
 try/finally
@@ -164,7 +165,6 @@ sk
 forr
 namespace
 prf
-const
 img
 modeline
 import2

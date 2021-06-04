@@ -74,7 +74,6 @@
     "lazy",
     "lpure",
     "integ",
-    "map",
     "parser",
     "pure",
     "create",
@@ -92,7 +91,9 @@
     "error",
     "wal",
     "many_acc",
-    "not "
+    "not ",
+    "ma",
+    "map"
   ],
   "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL21pc2MvY29tbW9ubGlzcC9wcmFjdGljYWxjb21tb25saXNw": [
     "make",
@@ -155,7 +156,8 @@
     "Lit"
   ],
   "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL21pc2MvY3Bw": [
-    "contin"
+    "contin",
+    "outpu"
   ],
   "L2hvbWUvamltbXkveWVldERpc2svZG9jcy9VQkMwNFQxL2Nvc2MzMjAvc2hvcnRlc3RwYXRoMzIw": [
     "Gra[h",

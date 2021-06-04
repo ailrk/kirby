@@ -1,6 +1,6 @@
 [Added Associations]
 image/jpeg=eog.desktop;mupdf.desktop;gimp.desktop;
-application/pdf=mupdf.desktop;org.gnome.Evince.desktop;
+application/pdf=org.pwmt.zathura-pdf-mupdf.desktop;mupdf.desktop;org.gnome.Evince.desktop;
 application/octet-stream=org.gnome.FileRoller.desktop;com.github.libresprite.LibreSprite.desktop;
 image/png=eog.desktop;mupdf.desktop;gimp.desktop;
 x-scheme-handler/http=xfce4-web-browser.desktop;
@@ -42,4 +42,3 @@ x-scheme-handler/tg=userapp-Telegram Desktop-J0MNY0.desktop
 x-scheme-handler/webcal=google-chrome.desktop
 x-scheme-handler/ssh=Hyper.desktop
 x-scheme-handler/msteams=teams.desktop
-

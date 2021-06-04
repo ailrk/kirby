@@ -50,8 +50,8 @@ MAGENTA=$color5
 CYAN=$color6
 WHITE=$color7
 
-bspc monitor eDP-1 -d 'Browser' 'Doc' 'Other'
-bspc monitor DP-2 -d 'Daemon' 'CODE' 'CODE'
+bspc monitor eDP-1 -d 'VIEW1' 'VIEW2' 'Doc'
+bspc monitor DP-2 -d 'COM' 'MEDIA' 'CODE'
 bspc config top_padding         -37
 bspc config bottom_padding      32
 bspc config left_padding        0

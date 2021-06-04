@@ -55,8 +55,9 @@
   "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL21pc2MvaGFza2VsbA==": [
     "rename",
     "import",
-    "out",
-    "show"
+    "show",
+    "remove",
+    "out"
   ],
   "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL21pc2MvbW9kZXJuLWNvbXBpbGVyLWltcGxlbWVudGF0aW9uaW4teC9pbi1tbA==": [
     "sni"
@@ -73,7 +74,11 @@
     "show"
   ],
   "L2hvbWUvamltbXk=": [
-    "sni"
+    "sni",
+    "postdo",
+    "po",
+    "post",
+    "pos"
   ],
   "L2hvbWUvamltbXkveWVldERpc2svZG9jcy9VQkMwNFQxL3dlYnByb2cvbGFiNg==": [
     "sni"
@@ -98,7 +103,9 @@
     "sort"
   ],
   "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL21pc2MvY3Bw": [
-    "curry"
+    "curry",
+    "copy",
+    "outpu"
   ],
   "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL3RtbA==": [
     "work",
@@ -125,5 +132,8 @@
   ],
   "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL2hhc2tlbGwtbGFuZ3VhZ2Utc2VydmVyL2doY2lkZQ==": [
     "outpu"
+  ],
+  "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL21pc2MvY29tcGlsZXIvY29tcGlsZS13aXRoLWNvbnRpbnVhdGlvbg==": [
+    "output"
   ]
 }

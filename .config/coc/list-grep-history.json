@@ -138,7 +138,11 @@
     "Exception",
     "SKI",
     "mmap",
-    "join"
+    "join",
+    "LambdaCase",
+    "TODO",
+    "Dynamic",
+    "Files"
   ],
   "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL21pc2MvY29tbW9ubGlzcA==": [
     "apply",
@@ -272,8 +276,9 @@
     "continu",
     "continuation",
     "continuationcontinuati",
-    "swap",
-    "type level list"
+    "type level list",
+    "copy and swap",
+    "swap"
   ],
   "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL215LXN0bA==": [
     "excep",
@@ -286,7 +291,8 @@
   "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL21pc2MvYWxnb3JpdGhtcw==": [
     "apply",
     "gi",
-    "Listj"
+    "Listj",
+    "copy and"
   ],
   "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL2NwcHBhcnNlYw==": [
     "unko",
@@ -507,12 +513,24 @@
   ],
   "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL3BvZ2dlcg==": [
     "throwError",
-    "extractValue"
+    "extractValue",
+    "IOThrowsError",
+    "ThrowsError",
+    "toPoggerE"
   ],
   "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL3B1bG9ndWxhbXU=": [
     "main"
   ],
   "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL21pc2MvcnVzdC9kZW1v": [
     "spin"
+  ],
+  "L2hvbWUvamltbXkveWVldERpc2svLm9wYW0vZGVmYXVsdC9zaGFyZS9tZXJsaW4vdmlt": [
+    "OCamlSwitch"
+  ],
+  "L2hvbWUvamltbXkvT3B0L2FsZ29sLTYwLWNvbXBpbGVy": [
+    "Analysis"
+  ],
+  "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL2RvdGZpbGVzLy5jb25maWcvaGltYWxheWE=": [
+    "best"
   ]
 }

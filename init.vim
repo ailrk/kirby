@@ -1,3 +1,8 @@
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let &packpath=&runtimepath
+let g:python3_host_prog = '/usr/bin/python3'
+let g:python_host_prog = '/usr/bin/python2'
+
 " set the runtime path to include Vundle and initialize set rtp+=~/.vim/autoload/plug.vim
 set encoding=utf-8
 set fileencoding=utf-8
@@ -97,8 +102,10 @@ Plug 'https://github.com/octol/vim-cpp-enhanced-highlight'
 " functional
 Plug 'skywind3000/asyncrun.vim'
 Plug 'soywod/himalaya', {'rtp': 'vim'}
-Plug 'nvim-telescope/telescope.nvim'
 
+" Plug 'nvim-lua/popup.nvim'
+" Plug 'nvim-lua/plenary.nvim'
+" Plug 'nvim-telescope/telescope.nvim'
 
 " editing
 Plug 'jpalardy/vim-slime'
@@ -221,6 +228,9 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+" Manually close all floating windows.
+nmap <C-w>0 :call coc#float#close_all()<CR>
+
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -301,6 +311,7 @@ nnoremap <silent> <space>m :<C-u>CocList mru<CR>
 nnoremap <silent> <space>b :<C-u>CocList buffers<CR>
 " grep""
 nnoremap <silent> <space>g :<C-u>CocList grep<CR>
+
 " End Coc.nvim config
 
 
@@ -428,10 +439,6 @@ autocmd FileType org set conceallevel=0
 autocmd BufWritePre * %s/\s\+$//eg
 
 " End language specific config
-
-" Vim org mod Config
-" let g:org_aggressive_conceal = 0
-" let g:org_agenda_files = ['~/org/index.org']
 
 " Vim wiki
 " let g:vimwiki_list = [{'path': '~/.vimwiki',
@@ -603,12 +610,31 @@ let g:netrw_liststyle = 3
 let g:netrw_browse_split = 2
 let g:netrw_winsize = 30
 
-" nnoremap <C-e> :CocCommand explorer<CR>
 
+" Telescope: Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " Email: himalaya
 let g:himalaya_mailbox_picker = 'fzf'
 
+" fzf
+let g:fzf_colors =
+            \ { 'fg':      ['fg', 'Normal'],
+            \ 'bg':      ['bg', 'Normal'],
+            \ 'hl':      ['fg', 'Comment'],
+            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+            \ 'hl+':     ['fg', 'Statement'],
+            \ 'info':    ['fg', 'PreProc'],
+            \ 'border':  ['fg', 'Ignore'],
+            \ 'prompt':  ['fg', 'Conditional'],
+            \ 'pointer': ['fg', 'Exception'],
+            \ 'marker':  ['fg', 'Keyword'],
+            \ 'spinner': ['fg', 'Label'],
+            \ 'header':  ['fg', 'Comment'] }
 
 " AsyncRun
 let g:asyncrun_open = 12
@@ -623,10 +649,10 @@ nmap <space>n :CocList floaterm<CR>
 nmap <leader>V :Vista<CR>
 
 " commands
-command -nargs=1 PSearch vimgrep /<args>/ **/* | cw
+command! -nargs=1 PSearch vimgrep /<args>/ **/* | cw
 
 " move current window to new tab.
-command -nargs=0 Totab sbp | wincmd p | wincmd T
+command! -nargs=0 Totab sbp | wincmd p | wincmd T
 
 " Create a termial  panel
 function! CreateT()
@@ -656,9 +682,9 @@ function! CreateTermialFullScreen()
     :only
 endfunction
 
-command CreateTermial execute "call CreateT()"
-command VCreateTermial execute "call VCreateT()"
-command CreateTermialFullScreen execute "call CreateTermialFullScreen()"
+command! CreateTermial execute "call CreateT()"
+command! VCreateTermial execute "call VCreateT()"
+command! CreateTermialFullScreen execute "call CreateTermialFullScreen()"
 
 " vim-slime
 let g:slime_python_ipython = 1
@@ -691,7 +717,7 @@ function! MdMode()
     set colorcolumn=0
     set wrap linebreak nolist
 endfunction
-command MD execute "call MdMode()"
+command! MD execute "call MdMode()"
 
 " extend Glyphm shorcut
 let g:glyphs_vim_extend_glyphs = {
@@ -797,4 +823,3 @@ augroup mycolors
     hi ALEWarning cterm=none
     hi ALEInfo cterm=none
 augroup end
-

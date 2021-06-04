@@ -1,4 +1,7 @@
+explorer
 workspace.showOutput
+post.do
+post.new
 document.renameCurrentWord
 python.viewOutput
 workspace.diffDocument
@@ -13,7 +16,6 @@ rust-analyzer.expandMacro
 editor.action.organizeImport
 workspace.diagnosticRelated
 omnisharp.downloadLanguageServer
-explorer
 metals.new-scala-project
 python.startREPL
 python.execInTerminal
@@ -30,8 +32,6 @@ python.enableSourceMapSupport
 python.runLinting
 python.enableLinting
 python.createTerminal
-post.do
-post.new
 tsserver.organizeImports
 java.workspace.compile
 java.projectConfiguration.update

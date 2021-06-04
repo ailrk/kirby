@@ -38,7 +38,7 @@ rofi -show $1 -sidebar-mode \
 -bw 10 \
 -lines 20 \
 -padding 80 \
--width 40 \
+-width 70 \
 -location 2 \
 -columns 1 \
 -terminal urxvt \
@@ -48,7 +48,8 @@ rofi -show $1 -sidebar-mode \
 -color-normal "$BACKGROUND,$FOREGROUND,$BACKGROUND,$BACKGROUND,$GREEN" \
 -color-active "$BACKGROUND,$MAGENTA,$BACKGROUND,$BACKGROUND,$GREEN" \
 -color-urgent "$BACKGROUND,$YELLOW,$BACKGROUND,$BACKGROUND,$GREEN" \
--run-shell-command '{terminal} -e \\" {cmd}; read -n 1 -s"'
+-run-shell-command '{terminal} -e \\" {cmd}; read -n 1 -s"' \
+-show-icons
 
 #-font "ProggyClean TT CE 20" \
 
