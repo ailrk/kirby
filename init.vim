@@ -323,22 +323,61 @@ augroup hslangs
 
     " base
     autocmd Filetype haskell,purescript ino <localleader>F <$>
+    autocmd Filetype haskell,purescript ino <localleader>Fl <$
+    autocmd Filetype haskell,purescript ino <localleader>Fr $>
     autocmd Filetype haskell,purescript ino <localleader>Ff <&>
-    autocmd Filetype haskell,purescript ino <localleader>B >>=
+    autocmd Filetype haskell,purescript ino <localleader>rb >>=
+    autocmd Filetype haskell,purescript ino <localleader>lb =<<
+    autocmd Filetype haskell,purescript ino <localleader>rbb >>= (\a -> undefined)
+    autocmd Filetype haskell,purescript ino <localleader>from <-
     autocmd Filetype haskell,purescript ino <localleader>A <*>
+    autocmd Filetype haskell,purescript ino <localleader>alt <\|>
+    autocmd Filetype haskell,purescript ino <localleader>to ->
+    autocmd Filetype haskell,purescript ino <localleader>to2 _a -> _b -> _c
+    autocmd Filetype haskell,purescript ino <localleader>to3 _a -> _b -> _c -> _d
+    autocmd Filetype haskell,purescript ino <localleader>lfish <=<
+    autocmd Filetype haskell,purescript ino <localleader>rfish >=>
+    autocmd Filetype haskell,purescript ino <localleader>of $
+    autocmd Filetype haskell,purescript ino <localleader>tra traverse
+    autocmd Filetype haskell,purescript ino <localleader>fol foldr _f _b _xs
+    autocmd Filetype haskell,purescript ino <localleader>fom foldMap _f _xs
+    autocmd Filetype haskell,purescript ino <localleader>ap _f <$> _a <*> _b
+    autocmd Filetype haskell,purescript ino <localleader>ap2 _f <$> _a <*> _b <*> _c
+    autocmd Filetype haskell,purescript ino <localleader>ap3 _f <$> _a <*> _b <*> _c <*> _d
+    autocmd Filetype haskell,purescript ino <localleader>lift2 lift . lift
+    autocmd Filetype haskell,purescript ino <localleader>lift3 lift . lift  . lift
+    autocmd Filetype haskell,purescript ino <localleader>lift4 lift . lift  . lift . lift
+    autocmd Filetype haskell,purescript ino <localleader>_2 _ _
+    autocmd Filetype haskell,purescript ino <localleader>_3 _ _ _
+    autocmd Filetype haskell,purescript ino <localleader>_4 _ _ _ _
+    autocmd Filetype haskell,purescript ino <localleader>_5 _ _ _ _ _
+    autocmd Filetype haskell,purescript ino <localleader>_6 _ _ _ _ _ _
+
+    " refs
+    autocmd Filetype haskell,purescript ino <localleader>rioref readIORef _ref
+    autocmd Filetype haskell,purescript ino <localleader>wioref writeIORef _a _ref
+    autocmd Filetype haskell,purescript ino <localleader>mioref modifyIORef _f _ref
+    autocmd Filetype haskell,purescript ino <localleader>rstref readSTRef _ref
+    autocmd Filetype haskell,purescript ino <localleader>wstref writeSTRef _a _ref
+    autocmd Filetype haskell,purescript ino <localleader>mstref modifySTRef _f _ref
+    autocmd Filetype haskell,purescript ino <localleader>rmvar readMVar _mv
+    autocmd Filetype haskell,purescript ino <localleader>wmvar writeMVar _a _mv
+    autocmd Filetype haskell,purescript ino <localleader>mmvar modifyMVar _f _mv
 
     " lens
-    autocmd Filetype haskell,purescript ino <localleader>v ^.
-    autocmd Filetype haskell,purescript ino <localleader>s .~
-    autocmd Filetype haskell,purescript ino <localleader>o %~
-    autocmd Filetype haskell,purescript ino <localleader>p ^?
-    autocmd Filetype haskell,purescript ino <localleader>P ?~
+    autocmd Filetype haskell,purescript ino <localleader>vi ^.
+    autocmd Filetype haskell,purescript ino <localleader>se .~
+    autocmd Filetype haskell,purescript ino <localleader>ov %~
+    autocmd Filetype haskell,purescript ino <localleader>pvi ^?
+    autocmd Filetype haskell,purescript ino <localleader>pse ?~
 
     " lens stateful
-    autocmd Filetype haskell,purescript ino <localleader>ss .=
-    autocmd Filetype haskell,purescript ino <localleader>so %=
+    autocmd Filetype haskell,purescript ino <localleader>sse .=
+    autocmd Filetype haskell,purescript ino <localleader>sov %=
 
-    autocmd Filetype haskell,purescript ino <localleader>\| <\|>
+    " comment
+    autocmd Filetype haskell,purescript ino <localleader>@@ {-@ @-}<left><left><left>
+
     let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
     let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
     let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
