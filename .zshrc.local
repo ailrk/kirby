@@ -1,6 +1,7 @@
 # PERSONAL ZSH CONFIG FOR GRML ZSH
 #BACKGROUND="~/newDisk/img/Dzhlk6JU0AESnIP.png_large"
 #BACKGROUND="~/newDisk/img/tumblr_nhkbvqu8vq1sfo1z9o8_1280.jpg"
+
 setopt prompt_subst
 bindkey -v
 # cat ~/.scripts/static/turbofishcat.txt | lolcat --freq 0.2 -a -d 1 -s 50
@@ -97,3 +98,8 @@ tdb() {
     cgdb -- -ex "dashboard -output $tty" "$@"
     tmux kill-pane -t "$id"
 }
+
+# nix
+source $HOME/.scripts/nix-zsh-completions/nix-zsh-completions.plugin.zsh
+fpath=($HOME/.scripts/nix-zsh-completions $fpath)
+autoload -U compinit && compinit

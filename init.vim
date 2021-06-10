@@ -99,6 +99,8 @@ Plug 'kovisoft/slimv'
 Plug 'https://github.com/jez/vim-better-sml'
 Plug 'https://github.com/octol/vim-cpp-enhanced-highlight'
 
+Plug 'https://github.com/LnL7/vim-nix'
+
 " functional
 Plug 'skywind3000/asyncrun.vim'
 Plug 'soywod/himalaya', {'rtp': 'vim'}
@@ -602,7 +604,7 @@ let g:ale_linters = {
             \}
 
 let g:ale_fixers =  {
-      \ 'haskell' : ["stylish-haskell"],
+      \ 'haskell' : ["ormolu"],
       \ 'cpp' : ["clang-format"]
       \ }
 
@@ -790,8 +792,8 @@ augroup mycolors
 
     " hightlight 80 column and cursors
     if exists('+colorcolumn')
-        autocmd ColorScheme * hi ColorColumn ctermbg=236
-        autocmd ColorScheme * hi CursorLine ctermbg=236
+        autocmd ColorScheme * hi ColorColumn ctermbg=238
+        autocmd ColorScheme * hi CursorLine ctermbg=238
     else
         au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80.\+',-1)
     endif
@@ -809,7 +811,7 @@ augroup mycolors
 
     " Popup menu
     " additional
-    autocmd ColorScheme * hi Pmenu ctermbg=235
+    autocmd ColorScheme * hi Pmenu ctermbg=238
     autocmd ColorScheme * hi PmenuSbar ctermbg=none
     autocmd ColorScheme * hi PmenuThumb ctermbg=none
 

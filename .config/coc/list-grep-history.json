@@ -532,5 +532,23 @@
   ],
   "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL2RvdGZpbGVzLy5jb25maWcvaGltYWxheWE=": [
     "best"
+  ],
+  "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL29ybW9sdQ==": [
+    "AST of input",
+    "UNPACK",
+    "DataCon"
+  ],
+  "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL25peC1kb3RmaWxlcw==": [
+    "x/",
+    "restic",
+    "beets"
+  ],
+  "L2hvbWUvamltbXkvbmV3RGlzay9SZXBvL25peC1kb3RmaWxlcy9ob21lL3Byb2dyYW0=": [
+    "restic",
+    "redshift",
+    "redshi",
+    "formats",
+    "location.nix",
+    "location"
   ]
 }
