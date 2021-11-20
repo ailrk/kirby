@@ -1,0 +1,150 @@
+{
+  "python.venvFolders": [
+    "env",
+    "pyenv",
+    ".env",
+    ".venv"
+  ],
+  "suggest.autoTrigger": "trigger",
+  "python.jediEnabled": false,
+  "python.linting.mypyPath": "/usr/bin/mypy",
+  "python.linting.mypyEnabled": true,
+  "python.linting.pylintEnabled": false,
+  "python.linting.flake8Path": "/usr/bin/flake8",
+  "python.formatting.autopep8Path": "~/.local/bin/autopep8",
+  "java.errors.incompleteClasspath.severity": "ignore",
+  "java.home": "/lib/jvm/java-8-openjdk",
+  "omnisharp.path": "~/.vscode/extensions/ms-dotnettools.csharp-1.23.0/.omnisharp/1.36.1/run",
+  "diagnostic.messageTarget": "float",
+  "diagnostic.refreshOnInsertMode": true,
+  "diagnostic.errorSign": "×",
+  "diagnostic.warningSign": "⟩",
+  "diagnostic.infoSign": "⟩",
+  "diagnostic.hintSign": "⟩",
+  "diagnostic.maxWindowHeight": 20,
+  "codeLens.enable": true,
+  "tsserver.enable": true,
+  "rust-analyzer.updates.channel": "nightly",
+  "rust-analyzer.diagnostics.enable": true,
+  "rust-analyzer.diagnostics.disabled": [
+    "inactive-code",
+    "unresolved-macro-call"
+  ],
+  "rust-analyzer.cargo.allFeatures": false,
+  "erlang_ls.erlang_ls_path": "/usr/bin/erlang_ls",
+  "tsserver.trace.server": "off",
+  "list.normalMappings": {
+    "t": "action:tabe",
+    "v": "action:vsplit",
+    "n": "action:split",
+    "d": "expr:GetDeleteAction"
+  },
+  "list.insertMappings": {
+    "<C-t>": "action:tabe",
+    "<C-v>": "action:vsplit",
+    "<C-n>": "action:split",
+    "<C-d>": "expr:GetDeleteAction"
+  },
+  "lua.enable": true,
+  "languageserver": {
+    "haskell": {
+      "command": "haskell-language-server-wrapper",
+      "args": [
+        "--lsp"
+      ],
+      "rootPatterns": [
+        "*.cabal",
+        "stack.yaml",
+        "cabal.project",
+        "package.yaml"
+      ],
+      "filetypes": [
+        "hs",
+        "lhs",
+        "haskell"
+      ],
+      "initializationOptions": {
+        "languageServerHaskell": {
+          "formattingProvider": "stylish-haskell",
+          "hlintOn": false,
+          "maxNumberofProblems": 5,
+          "completionSnippetsOn": false,
+          "formatOnImportOn": true
+        }
+      }
+    },
+    "ccls": {
+      "command": "ccls",
+      "filetypes": [
+        "c",
+        "cpp",
+        "cuda",
+        "objc",
+        "objcpp"
+      ],
+      "rootPatterns": [
+        ".ccls-root",
+        "compile_commands.json"
+      ],
+      "initializationOptions": {
+        "cache": {
+          "directory": ".ccls-cache"
+        },
+        "client": {
+          "snippetSupport": true
+        },
+        "clang": {
+          "extraArgs": [
+            "-std=c++2a"
+          ]
+        }
+      }
+    },
+    "purescript": {
+      "command": "purescript-language-server",
+      "args": [
+        "--stdio"
+      ],
+      "filetypes": [
+        "purescript"
+      ],
+      "rootPatterns": [
+        "bower.json",
+        "psc-package.json",
+        "spago.dhall"
+      ]
+    },
+    "bash": {
+      "command": "bash-language-server",
+      "args": [
+        "start"
+      ],
+      "filetypes": [
+        "sh"
+      ],
+      "ignoredRootPaths": [
+        "~"
+      ]
+    },
+    "ocaml": {
+      "command": "opam",
+      "args": [
+        "config",
+        "exec",
+        "--",
+        "ocaml-language-server",
+        "--stdio"
+      ],
+      "filetypes": [
+        "ocaml",
+        "reason"
+      ]
+    },
+    "nix": {
+      "command": "rnix-lsp",
+      "filetypes": [
+        "nix"
+      ]
+    }
+  }
+}

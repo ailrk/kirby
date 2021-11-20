@@ -1,0 +1,78 @@
+# PERSONAL ZSH CONFIG FOR GRML ZSH
+#BACKGROUND="~/newDisk/img/Dzhlk6JU0AESnIP.png_large"
+#BACKGROUND="~/newDisk/img/tumblr_nhkbvqu8vq1sfo1z9o8_1280.jpg"
+
+zmodload zsh/zprof
+setopt prompt_subst
+bindkey -v
+
+autoload -z edit-command-line
+# zle -N edit-command-line
+bindkey "^x^e" edit-command-line
+alias bf="cd ~/.config/scripts/buf"
+alias b="cd ~/book"
+alias d="cd ~/yeetDisk/docs"
+alias p="cd ~/pj"
+alias re="cd ~/newDisk/Repo"
+alias n="cd ~/newDisk"
+alias img="cd ~/img"
+alias imgg="cd ~/img/screenshot"
+alias exp="cd ~/newDisk/Repo/misc"
+alias m="mupdf"
+alias v="vim"
+alias gotoswapfile="cd ~/.local/share/nvim/swap/"
+alias algol="jff-algol"
+
+alias fzfp="fzf --preview 'bat --style=numbers --line-range :500 {}'"
+alias ns="nix-shell --command zsh"
+alias nb="nix-build"
+alias ne="nix-env"
+alias vimm="/usr/bin/vim"
+alias vim="nvim"
+alias t="tmux -2"
+alias ra="ranger"
+alias xr="xrdb ~/.Xresources"
+alias config="/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME"
+alias yeet="cd ~/yeetDisk"
+alias dtex="cd ~/yeetDisk/docs/latex"
+alias dn="cd ~/yeetDisk/docs/notes"
+alias db="cgdb"
+alias dow="cd ~/Downloads"
+alias i="ipython"
+alias rkt="racket"
+alias invenv="python -c 'import sys;print(\"within virtualenv\", hasattr(sys, \"real_prefix\"))'"
+alias sbcl="rlwrap sbcl"
+alias qq="exit"
+alias scv="sc-im"
+alias bmath="./newDisk/book/math"
+alias ccc="cat ~/.config/scripts/turbofishcat.txt"
+alias em="emacs -nw"
+alias gg="vim ~/Archives/g.md"
+
+#tmux
+
+# transset-df  -a 0.90 > /dev/null
+# setxkbmap -option caps:escape
+
+if [ ! -z "$IN_NIX_SHELL" ]; then
+    figlet "N I X"
+    PROMPT="nix:"${PROMPT}
+fi
+
+# # begin canvasBot completion
+# . <(canvasBot --completion)
+# # end canvasBot completion
+
+# tdb() {
+#     local id="$(tmux split-pane -hPF "#D" "tail -f /dev/null")"
+#     tmux last-pane
+#     local tty="$(tmux display-message -p -t "$id" '#{pane_tty}')"
+#     cgdb -- -ex "dashboard -output $tty" "$@"
+#     tmux kill-pane -t "$id"
+# }
+
+# nix
+# source $HOME/.config/scripts/nix-zsh-completions/nix-zsh-completions.plugin.zsh
+# fpath=($HOME/.config/scripts/nix-zsh-completions $fpath)
+# source $HOME/.config/scripts/zsh-nix-shell/nix-shell.plugin.zsh
+# autoload -U compinit && compinit

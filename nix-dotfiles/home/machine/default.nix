@@ -1,0 +1,5 @@
+{
+  imports = [
+    ./fatmonad/default.nix
+  ];
+}
