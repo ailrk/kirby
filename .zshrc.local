@@ -5,18 +5,18 @@
 setopt prompt_subst
 bindkey -v
 # cat ~/.scripts/static/turbofishcat.txt | lolcat --freq 0.2 -a -d 1 -s 50
-cat ~/.scripts/static/turbofishcat.txt
+cat ~/.config/scripts/turbofishcat.txt
 PATH=$PATH:/home/jimmy/Opt/bin/:/home/jimmy/.local/bin/
 PATH=$PATH:/home/jimmy/Opt/Discord/
 PATH=$PATH:/home/jimmy/.cargo/bin/
 PATH=$PATH:/home/jimmy/.cabal/bin/
-PATH=$PATH:/home/jimmy/.gem/ruby/2.6.0/bin/:/home/jimmy/.scripts/bin/
+PATH=$PATH:/home/jimmy/.gem/ruby/2.6.0/bin/
+PATH=$PATH:/home/jimmy/.config/scripts/
 PATH=$PATH:/home/jimmy/.racket/7.5/bin/
 PATH=$PATH:/home/jimmy/.roswell/bin/
 PATH=$PATH:/home/jimmy/.ghcup/bin/
 
 export CARGO_HOME=$HOME/.cargo/
-export NIX_PATH="nixpkgs=https://github.com/NixOS/nixpkgs/archive/release-20.03.tar.gz"
 export TERM=xterm-256color
 
 export GTK_IM_MODULE=ibus
@@ -26,7 +26,7 @@ export QT_IM_MODULE=ibus
 autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^x^e" edit-command-line
-alias bf="cd ~/.scripts/buf"
+alias bf="cd ~/.config/scripts/buf"
 alias b="cd ~/book"
 alias d="cd ~/yeetDisk/docs"
 alias p="cd ~/pj"
@@ -40,6 +40,9 @@ alias v="vim"
 alias gotoswapfile="cd ~/.local/share/nvim/swap/"
 alias algol="jff-algol"
 
+alias nixdotfiles="cd ~/Repo/nix-dotfiles/home/"
+alias nixdotfilese="cd ~/Repo/nix-dotfiles/home/program/editor"
+alias nixdotfilesu="cd ~/Repo/nix-dotfiles/home/user/ailrk"
 alias fzfp="fzf --preview 'bat --style=numbers --line-range :500 {}'"
 alias ns="nix-shell --command zsh"
 alias nb="nix-build"
@@ -48,7 +51,6 @@ alias vimm="/usr/bin/vim"
 alias vim="/usr/bin/nvim"
 alias t="tmux"
 alias ra="ranger"
-alias ranger="source ranger"
 alias xr="xrdb ~/.Xresources"
 alias config="/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME"
 alias yeet="cd ~/yeetDisk"
@@ -63,7 +65,7 @@ alias sbcl="rlwrap sbcl"
 alias qq="exit"
 alias scv="sc-im"
 alias bmath="./newDisk/book/math"
-alias ccc="cat ~/.scripts/static/turbofishcat.txt"
+alias ccc="cat ~/.config/scripts/turbofishcat.txt"
 alias em="emacs -nw"
 alias gg="vim ~/Archives/g.md"
 alias vimgs="sxiv -t ."
@@ -100,6 +102,8 @@ tdb() {
 }
 
 # nix
-source $HOME/.scripts/nix-zsh-completions/nix-zsh-completions.plugin.zsh
-fpath=($HOME/.scripts/nix-zsh-completions $fpath)
+source $HOME/.config/scripts/nix-zsh-completions/nix-zsh-completions.plugin.zsh
+fpath=($HOME/.config/scripts/nix-zsh-completions $fpath)
 autoload -U compinit && compinit
+
+source $HOME/.config/scripts/zsh-nix-shell/nix-shell.plugin.zsh

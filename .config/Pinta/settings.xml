@@ -1,6 +1,6 @@
 ﻿<settings>
-  <setting name="window-size-width" type="System.Int32">1920</setting>
-  <setting name="window-size-height" type="System.Int32">1080</setting>
+  <setting name="window-size-width" type="System.Int32">1870</setting>
+  <setting name="window-size-height" type="System.Int32">1000</setting>
   <setting name="ruler-metric" type="System.Int32">0</setting>
   <setting name="window-maximized" type="System.Boolean">False</setting>
   <setting name="ruler-shown" type="System.Boolean">False</setting>
@@ -10,5 +10,4 @@
   <setting name="last-dialog-directory" type="System.String">/home/jimmy</setting>
   <setting name="new-image-width" type="System.Int32">600</setting>
   <setting name="new-image-height" type="System.Int32">300</setting>
-  <setting name="new-image-bg" type="Pinta.NewImageDialog+BackgroundType">White</setting>
 </settings>

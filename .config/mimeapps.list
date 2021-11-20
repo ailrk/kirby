@@ -11,7 +11,7 @@ text/css=sublime_text.desktop;
 application/json=vim.desktop;sublime_text.desktop;
 image/gif=feh.desktop;
 audio/mpeg=vlc.desktop;
-text/plain=vim.desktop;sublime_text.desktop;
+text/plain=org.gnome.gedit.desktop;vim.desktop;sublime_text.desktop;
 application/vnd.font-fontforge-sfd=fontforge.desktop;vim.desktop;sublime_text.desktop;
 application/x-font-pcf=fontforge.desktop;org.gnome.font-viewer.desktop;
 font/ttf=org.gnome.font-viewer.desktop;
@@ -30,6 +30,7 @@ application/msword=libreoffice-writer.desktop;
 inode/directory=org.gnome.FileRoller.desktop;
 application/vnd.ms-powerpoint=libreoffice-impress.desktop;
 x-scheme-handler/tg=userapp-Telegram Desktop-KMWYR0.desktop;userapp-Telegram Desktop-LG1QT0.desktop;userapp-Telegram Desktop-XVSKU0.desktop;userapp-Telegram Desktop-J0MNY0.desktop;
+text/x-tex=vim.desktop;
 
 [Default Applications]
 text/html=google-chrome-beta.desktop
@@ -42,3 +43,4 @@ x-scheme-handler/tg=userapp-Telegram Desktop-J0MNY0.desktop
 x-scheme-handler/webcal=google-chrome.desktop
 x-scheme-handler/ssh=Hyper.desktop
 x-scheme-handler/msteams=teams.desktop
+application/pdf=okularApplication_pdf.desktop

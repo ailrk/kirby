@@ -1,4 +1,4 @@
-!-------------------------------------------------
+!------------------------------------------------
 ! Import colors
 !--------------------------------------------------
 ! COLORSCHEME: "gruvbox"
@@ -9,27 +9,28 @@
 !--------------------------------------------------
 
 !URxvt.font: xft: Gohu GohuFont:size=12:
-!URxvt.font: xft: Misc Tamsyn:size=14
-!URxvt.font: xft: Everson Mono:size=14:style=bold
+!URxvt.font: xft: Misc Tamsyn:size=19
+!URxvt.font: xft: Everson Mono:size=16:style=Bold
+!URxvt.font: xft: RobotoMono:size=14:style=Regular
 
-!URxvt.font: xft: Tahoda:Regualr:size=11:antialias=True, xfg: Wucon Siji, xft:WenQuanYi Micro Hei Mono:antialias=true
+!URxvt.font: xft: Tahoda:Regular:size=12:antialias=True, xfg: Wucon Siji, xft:WenQuanYi Micro Hei Mono:antialias=true
 !URxvt.font: xft: Ubuntu Mono:size=14, xfg: Wucon Siji, xft:WenQuanYi Micro Hei Mono:antialias=true
 !URxvt.font: xft: FiraCode-Medium:size=11, xfg: Wucon Siji, xft:WenQuanYi Micro Hei Mono:antialias=true, xft: Unifont:size=14, -*-unifont-*-*-*-*-*-*-*-*-*-*-*-*
-URxvt.font: xft: APL385 Unicode:style=Regular:size=12.4:antialias=true, xfg: Wucon Siji, xft:WenQuanYi Micro Hei Mono:antialias=true, xft: Unifont:size=14, -*-unifont-*-*-*-*-*-*-*-*-*-*-*-*
+!URxvt.font: xft: APL385 Unicode:style=Regular:size=14:antialias=true, xfg: Wucon Siji, xft:WenQuanYi Micro Hei Mono:antialias=true, xft: Unifont:size=14, -*-unifont-*-*-*-*-*-*-*-*-*-*-*-*
 
-!URxvt.font: xft: ProggySquare TT:size=18:antialias=true, xft: Latin Modern MathJax:size=20, xft: DejaVu:size=18
-! URxvt.font: xft: iosevka:size=12, xft: ProggySquare TT:size=18:antialias=true, xft: Latin Modern MathJax:size=20, xft: DejaVu:size=18
+ URxvt.font: xft: ProggySquare TT:size=22:antialias=true, xft: Latin Modern MathJax:size=20, xft: DejaVu:size=18
+!URxvt.font: xft: iosevka:size=13, xft: ProggySquare TT:size=18:antialias=true, xft: Latin Modern MathJax:size=20, xft: DejaVu:size=18
 
-! xft: Everson Mono:size=14:style=bold, xft: Unifont:size=14, -*-unifont-*-*-*-*-*-*-*-*-*-*-*-*
+!xft: Everson Mono:size=14:style=bold, xft: Unifont:size=14, -*-unifont-*-*-*-*-*-*-*-*-*-*-*-*
 !xft: ProggySquare TT:size=18:antialias=true,
 URxvt.inputMethod: ibus
 URxvt.imLocalec: zh_CN.eucjp, ja_JP.utf8
 URxvt.preeditType: OverTheSpot
 
-URxvt.lineSpace:   0
+URxvt.lineSpace:  7
 URxvt.scrollBar: false
-URxvt.internalBorder: 10
-URxvt.letterSpace: 1
+URxvt.internalBorder: 0
+URxvt.letterSpace: 0
 Xft.autohint:           0
 Xft.lcdfilter:          lcddefault
 Xft.hinting:            1

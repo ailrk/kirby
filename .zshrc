@@ -14,3 +14,4 @@ zstyle ':vcs_info:*' unstagedstr '!'
 zstyle ':vcs_info:*' stagedstr '+'
 zstyle ':vcs_info:git*' formats "%{${fg[cyan]}%}[%{${fg[blue]}%}%b%{${fg[yellow]}%}%m%u%c%{${fg[cyan]}%}]%{$reset_color%}"
 zstyle ':prompt:grml:left:setup' items rc change-root path nix-shell py-virtual-env vcs newline percent
+if [ -e /home/jimmy/.nix-profile/etc/profile.d/nix.sh ]; then . /home/jimmy/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

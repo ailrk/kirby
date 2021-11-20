@@ -1,1 +1,1 @@
-/home/jimmy/Repo/dotfiles/init.vim
+/nix/store/vvqhpbzv857bzh3m8m1qnzyqafbq972d-home-manager-files/.config/nvim/init.vim

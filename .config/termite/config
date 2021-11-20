@@ -4,8 +4,11 @@ audible_bell = false
 bold_is_bright = true
 #clickable_url = true
 #dynamic_title = true
-font = APL385 Unicode 13
-#font = Gohu GohuFont 14
+
+#font =  UbuntuMono Nerd Font 15
+#font =  UbuntuMono Nerd Font 15
+font =  UbuntuMono Nerd Font 15
+
 #fullscreen = true
 #icon_name = terminal
 #mouse_autohide = false
@@ -58,25 +61,25 @@ cursor_shape = block
 #highlight = #2f2f2f
 
 ## Colors from color0 to color254 can be set
-#color0 = #050A1A
-#color1 = #CC241D
-#color2 = #98971A
-#color3 = #D79921
-#color4 = #458588
-#color5 = #B16286
-#color6 = #689D6A
-#color7 = #A89984
-#color8 = #928374
-#color9 = #FB4934
-#color10 = #B8BB26
-#color11 = #FABD2F
-#color12 = #83A598
-#color13 = #D3869B
-#color14 = #8EC07C
-#color15 = #EBDBB2
+color0 = #050A1A
+color1 = #CC241D
+color2 = #98971A
+color3 = #D79921
+color4 = #458588
+color5 = #B16286
+color6 = #689D6A
+color7 = #A89984
+color8 = #928374
+color9 = #FB4934
+color10 = #B8BB26
+color11 = #FABD2F
+color12 = #83A598
+color13 = #D3869B
+color14 = #8EC07C
+color15 = #EBDBB2
 
 [hints]
-#font = Ubuntu Mono 16
+#font =  UbuntuMono Nerd Font 15
 #foreground = #dcdccc
 #background = #3f3f3f
 #active_foreground = #e68080
