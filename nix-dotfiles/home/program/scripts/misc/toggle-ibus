@@ -1,11 +1,11 @@
 #!/usr/bin/bash
 CURRENT_ENGINE=$(ibus engine)
 EN_ENGINE=$(ibus list-engine | grep -i xkb:us::eng)
-CN_ENGINE=$(ibus list-engine | grep -i Pinyin)
+CN_ENGINE=$(ibus list-engine | grep -i libpinyin)
 # JP_ENGINE=$(ibus list-engine | grep -i Anthy)
 MSG="ibus: "
 EN="EN us"
-CN="CN Pinyin"
+CN="CN libpinyin"
 JP="JP Anthy"
 # randome number
 ID=2593

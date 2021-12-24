@@ -114,8 +114,8 @@ notify-send "Welcome Home! \(^w^)/"
 
 #wal -qi ~/img/grasswater.jpeg --saturate 0.20 > /dev/null
 
-#wal -qi ~/img/women-pixel-art-4k-98-1920x1080.jpg -l --saturate 0.90 > /dev/null
-wal -qi ~/img/women-pixel-art-4k-98-1920x1080.jpg --saturate 0.90 -b "#01090d" > /dev/null
+wal -qi ~/img/women-pixel-art-4k-98-1920x1080.jpg > /dev/null
+#wal -qi ~/img/women-pixel-art-4k-98-1920x1080.jpg -l --saturate 0.90 -b "#01090d" > /dev/null
 
 # wal -qi ~/img/pokebeach.jpg --saturate 1.95 -b "#1c1718"> /dev/null
 # wal -qi ~/img/pokebeach.jpg -l --saturate 0.4 -b "#1c1a1a"> /dev/null

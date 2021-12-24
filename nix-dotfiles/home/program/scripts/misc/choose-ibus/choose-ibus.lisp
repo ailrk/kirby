@@ -45,7 +45,7 @@
   (vector
    (make-language :name "EN us"
                   :imp-code (grab-imp-code "xkb:us::eng"))
-   (make-language :name "CH Pinyin"
+   (make-language :name "CN pinyin"
                   :imp-code (grab-imp-code "libpinyin"))))
 
 ;; (make-language :name "JP Anthy"

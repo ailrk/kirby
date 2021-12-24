@@ -38,7 +38,7 @@ require('packer').startup(function()
     use {'kien/rainbow_parentheses.vim'}
     use {'liuchengxu/vista.vim'}
 
-    use {'vimwiki/vimwiki'}
+    -- use {'vimwiki/vimwiki'}
     use {'vim-scripts/DrawIt'}
     use {'https://github.com/nathanaelkane/vim-indent-guides'}
     use {'voldikss/vim-floaterm'}
@@ -51,6 +51,8 @@ require('packer').startup(function()
     use {'junegunn/fzf.vim'}
 
     -- languages
+    use {'deoplete-plugins/deoplete-lsp'}
+    use {'PhilT/vim-fsharp'}
     use {'rhysd/vim-llvm'}
     use {'leafgarland/typescript-vim'}
     use {'peitalin/vim-jsx-typescript'}
@@ -64,6 +66,7 @@ require('packer').startup(function()
     use {'Julian/lean.nvim'}
     use {'justin2004/vim-apl'}
     use {'jez/vim-better-sml'}
+    use {'Nymphium/vim-koka'}
 
     use {'whonore/Coqtail'}
     use {'kovisoft/slimv'}
@@ -80,9 +83,20 @@ require('packer').startup(function()
     use {'nvim-telescope/telescope.nvim'}
     use {'hrsh7th/nvim-compe'}
 
+    use {
+      'rmagatti/auto-session',
+      config = function()
+        require('auto-session').setup {
+          log_level = 'info',
+          auto_session_suppress_dirs = {'~/', '~/Repo', '~/Projects'}
+        }
+      end
+    }
 
     -- useful
     -- use {'ms-jpq/chadtree'}
+
+    use {'diepm/vim-rest-console'}
     use {'preservim/nerdtree'}
     use {'jpalardy/vim-slime'}
     use {'roosta/vim-srcery'}

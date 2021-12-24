@@ -183,9 +183,19 @@ require'lspconfig'.ocamllsp.setup{
   }
 }
 
--- c#
 
 -- java
+
+-- elm
+require'lspconfig'.elmls.setup{
+    on_attach = on_attach,
+    flags = {
+        debounce_text_changes = 150,
+    },
+    settings = {
+
+    }
+}
 
 -- racket
 require'lspconfig'.racket_langserver.setup{
@@ -297,8 +307,21 @@ require'lspconfig'.omnisharp.setup{
   cmd = { omnisharp, "--languageserver", "--hostPID", tostring(pid) }
 }
 
+-- F#
+require'lspconfig'.fsautocomplete.setup{
+  on_attach = on_attach,
+  flags = {
+      debounce_text_changes = 150,
+  }
+}
+
 -- cmake
-require'lspconfig'.cmake.setup{}
+require'lspconfig'.cmake.setup{
+  on_attach = on_attach,
+  flags = {
+      debounce_text_changes = 150,
+  }
+}
 
 -- typescript
 require'lspconfig'.tsserver.setup{

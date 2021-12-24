@@ -3,6 +3,7 @@ augroup set_shiftwidth
   autocmd FileType purescript set shiftwidth=2 tabstop=2
   autocmd FileType javascript set shiftwidth=2 tabstop=2
   autocmd FileType json set shiftwidth=2 tabstop=2
+  autocmd FileType koka set shiftwidth=2 tabstop=2
   autocmd FileType typescript set shiftwidth=2 tabstop=2
   autocmd FileType typescriptreact set shiftwidth=2 tabstop=2
   autocmd FileType ocaml set shiftwidth=2 tabstop=2
@@ -54,8 +55,7 @@ augroup hslangs
     autocmd Filetype haskell,purescript ino <localleader>ev {- $> <cr> <$ -}
 
     " comments
-    autocmd Filetype haskell,purescript ino <localleader>--- ----------------------------------------
-
+    autocmd Filetype haskell,purescript ino <localleader>--- --------------------------------------------------------------------------------
     " refs
     autocmd Filetype haskell,purescript ino <localleader>rioref readIORef _ref
     autocmd Filetype haskell,purescript ino <localleader>wioref writeIORef _a _ref
@@ -165,6 +165,7 @@ augroup end
 augroup smllang
   au! smllang
   au! BufRead,BufNewFile *.sig       setfiletype sml
+  au! FileType sml set conceallevel=0
 
   au FileType sml nnoremap <silent> <buffer> K :SMLTypeQuery<CR>
   au FileType sml nnoremap <silent> <buffer> gd :SMLJumpToDef<CR>
