@@ -20,9 +20,9 @@ in
     programs.fish = {
       enable = true;
 
-      promptInit = ''
-        any-nix-shell fish --info-right | source
-      '';
+      # promptInit = ''
+      #   any-nix-shell fish --info-right | source
+      # '';
 
       shellInit = cfg.preShellInit + ''
         source $HOME/.config/fish/fish-config.fish
