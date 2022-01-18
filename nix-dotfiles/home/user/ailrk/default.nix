@@ -47,6 +47,9 @@ with lib;
       cabal2nix
       haskellPackages.ghcup
 
+      # cli tools
+
+
       # Jokes
       cowsay
       fortune
