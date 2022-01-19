@@ -1,40 +1,16 @@
 #!/bin/sh
 
-# bg
-#BACKGROUND="~/newDisk/img/Dzhlk6JU0AESnIP.png_large"
-#BACKGROUND="~/newDisk/img/282769.jpg"
-#BACKGROUND="~/newDisk/img/jWTBsU0.jpg"  # pokemon beach
-#BACKGROUND="~/newDisk/img/EaKnktCUcAE5bCg.jpg"  # traffic light
-#BACKGROUND="~/newDisk/img/market.jpeg"  # traffic light
-# feh --bg-scale "$BACKGROUND"&
-#wal -i $BACKGROUND&
-
 # prepare
 pkill blurwal
 pkill dunst
 pkill ibus-daemon
 pkill vanela
 pkill compton
+pkill -f bspwpm-workspace-preview
 
 # Environment
 export PATH="${PATH}:$HOME/.config/scripts"
 xrdb ~/.Xresources
-
-#getcolors () {
-#	FOREGROUND=$(xrdb -query | grep 'foreground:'| awk '{print $NF}')
-#	BACKGROUND=$(xrdb -query | grep 'background:'| awk '{print $NF}')
-#	BLACK=$(xrdb -query | grep 'color0:'| awk '{print $NF}')
-#	RED=$(xrdb -query | grep 'color1:'| awk '{print $NF}')
-#	GREEN=$(xrdb -query | grep 'color2:'| awk '{print $NF}')
-#	YELLOW=$(xrdb -query | grep 'color3:'| awk '{print $NF}')
-#	BLUE=$(xrdb -query | grep 'color4:'| awk '{print $NF}')
-#	MAGENTA=$(xrdb -query | grep 'color5:'| awk '{print $NF}')
-#	CYAN=$(xrdb -query | grep 'color6:'| awk '{print $NF}')
-#	WHITE=$(xrdb -query | grep 'color7:'| awk '{print $NF}')
-#}
-#OFFGREY="#42423d"
-#OFFWHITE="#eee4e5"
-#getcolors
 
 sleep 0.5
 
@@ -52,8 +28,8 @@ WHITE=$color7
 
 bspc monitor eDP-1 -d '5' '6' '7' '8'
 bspc monitor DP-2 -d  '1' '2' '3' '4'
-bspc config top_padding         0
-bspc config bottom_padding      0
+bspc config top_padding         -5
+bspc config bottom_padding      15
 bspc config left_padding        0
 bspc config right_padding       0
 bspc config border_width        5
@@ -62,7 +38,7 @@ bspc config window_gap          10
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
-#bspc config normal_border_color $BLACK
+# bspc config normal_border_color $BLACK
 bspc config focused_border_color $WHITE
 bspc config presel_border_color "#ffbec9"
 bspc config split_ratio          0.5
@@ -83,7 +59,6 @@ xrandr --output eDP-1 --rate 120 -mode 1920x1080
 # primary monitor
 xrandr --output DP-2 --left-of eDP-1
 
-
 # rotate
 # xrandr --output DP-2 --rotate right --left-of eDP-1
 sxhkd -c  ~/.config/sxhkd/sxhkdrc &
@@ -98,17 +73,8 @@ dunst \
     -cb "$WHITE" -cf "$BLACK" -cfr "$BLACK" &
 sleep 0.5
 blurwal -m 1 -b 4 -s 4 &
-
 notify-send "Welcome Home! \(^w^)/"
-
 nohup ~/.config/scripts/bspwpm-workspace-preview &
-
-# wal -qi ~/img/women-pixel-art-4k-98-1920x1080.jpg > /dev/null
-#wal -qi ~/img/women-pixel-art-4k-98-1920x1080.jpg -l --saturate 0.90 -b "#01090d" > /dev/null
-#wal -qi ~/img/dune.jpg --saturate 0.90 > /dev/null
-
 wal --themed solarized -l
-# wal -qi ~/img/pokebeach.jpg --saturate 1.95 -b "#1c1718"> /dev/null
+feh --bg-max ~/.config/scripts/static/images/dune.jpg
 # wal -qi ~/img/pokebeach.jpg -l --saturate 0.4 -b "#1c1a1a"> /dev/null
-#292526
-#080305

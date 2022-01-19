@@ -36,11 +36,7 @@ let
   };
 
   static = {
-    "boxcat.txt" = ./static/boxcat.txt;
-    "emojicat.txt" = ./static/emojicat.txt;
-    "smallturbocat-escape.txt" = ./static/smallturbocat-escape.txt;
-    "smallturbocat.txt" = ./static/smallturbocat.txt;
-    "turbofishcat.txt" = ./static/turbofishcat.txt;
+    "static" = ./static;
   };
 in
 {
@@ -52,6 +48,7 @@ in
       default = { };
       description = "Files to source into the scripts directory.";
     };
+
   };
 
   config = mkIf cfg.enable {

@@ -33,10 +33,6 @@ in
     # };
 
     elemental.home.program.scripts.scriptFiles = {
-      "dmenumount" = ./script/dmenumount;
-      "dmenuumount" = ./script/dmenuumount;
-      "dprompt" = ./script/dprompt;
-      "flatpak-run" = ./script/flatpak-run;
       "lock-screen" = ./script/lock-screen;
       "lock-screen-i3" = ./script/lock-screen-i3;
       "set-wall" = ./script/set-wall;
@@ -100,18 +96,18 @@ in
       TERMINAL = "urxvt";
     };
 
+    # programs.gpg = {
+    #   enable = true;
+    #   settings = {
+    #     default-key = "F3F42E1F26FE5C63A19D3061FA5C94EDD085C989";
+    #   };
+    # };
 
-#     programs.gpg = {
-#       enable = true;
-#       settings = {
-#         default-key = "F3F42E1F26FE5C63A19D3061FA5C94EDD085C989";
-#       };
-#     };
-#     services.gpg-agent = {
-#       enable = true;
-#       extraConfig = ''
-#         pinentry-program /run/current-system/sw/bin/pinentry-gtk-2
-#       '';
-#     };
+    # services.gpg-agent = {
+    #   enable = true;
+    #   extraConfig = ''
+    #     pinentry-program /run/current-system/sw/bin/pinentry-gtk-2
+    #   '';
+    # };
   };
 }

@@ -1,5 +1,5 @@
 #
-# wm independent hotkeys
+# wm independent hotkeys -- sxhkd
 #
 
 # terminal emulator
@@ -214,5 +214,5 @@ super + alt + i
 super + alt + c
     ~/.config/scripts/workplace
 
-super + alt + ctrl + L
-  dm-tool lock
+super + alt + ctrl + l
+  lock-screen

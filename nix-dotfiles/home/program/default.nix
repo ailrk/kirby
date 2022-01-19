@@ -12,5 +12,6 @@
     ./editor/neovim/default.nix
     ./editor/emacs/default.nix
     ./terminal/tmux/default.nix
+    ./terminal/alacritty/default.nix
   ];
 }
