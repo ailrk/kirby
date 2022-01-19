@@ -2,8 +2,8 @@
 colorscheme vim-monochrome-waifu
 " colorscheme default
 
-set background=dark
-
+set background=light
+" colorscheme solarized
 
 " Popup menu
 hi Pmenu ctermbg=238 ctermfg=254

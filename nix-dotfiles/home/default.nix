@@ -5,6 +5,7 @@
     ./program/default.nix
     ./role/default.nix
     ./user/default.nix
+    ./static/index.nix
   ];
 
   # Let Home Manager install and manage itself.

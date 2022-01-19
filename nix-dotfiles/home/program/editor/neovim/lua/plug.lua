@@ -112,6 +112,9 @@ require('packer').startup(function()
 
     -- color scheme
     use {'ailrk/vim-monochrome-waifu'}
+    use {'altercation/vim-colors-solarized'}
     use {'morhetz/gruvbox'}
     use {'kristijanhusak/vim-carbon-now-sh'}
+    use {'plan9-for-vimspace/acme-colors'}
+
 end)

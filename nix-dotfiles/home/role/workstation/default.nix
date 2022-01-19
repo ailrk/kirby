@@ -32,15 +32,16 @@ in
     #   };
     # };
 
-    # elemental.home.program.scripts.scriptFiles = {
-    #   "dmenumount" = ./script/dmenumount;
-    #   "dmenuumount" = ./script/dmenuumount;
-    #   "dprompt" = ./script/dprompt;
-    #   "flatpak-run" = ./script/flatpak-run;
-    #   "lock-screen" = ./script/lock-screen;
-    #   "lock-screen-i3" = ./script/lock-screen-i3;
-    #   "set-wall" = ./script/set-wall;
-    # };
+    elemental.home.program.scripts.scriptFiles = {
+      "dmenumount" = ./script/dmenumount;
+      "dmenuumount" = ./script/dmenuumount;
+      "dprompt" = ./script/dprompt;
+      "flatpak-run" = ./script/flatpak-run;
+      "lock-screen" = ./script/lock-screen;
+      "lock-screen-i3" = ./script/lock-screen-i3;
+      "set-wall" = ./script/set-wall;
+      "bspwpm-workspace-preview" = ./script/bspwm-workspace-preview;
+    };
 
     # Setup lorri and mpd
     # TODO

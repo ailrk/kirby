@@ -50,14 +50,14 @@ MAGENTA=$color5
 CYAN=$color6
 WHITE=$color7
 
-bspc monitor eDP-1 -d '3_Work' '4_Browse'
-bspc monitor DP-2 -d  '1_Work' '2_Browse'
-bspc config top_padding         10
-bspc config bottom_padding      20
+bspc monitor eDP-1 -d '5' '6' '7' '8'
+bspc monitor DP-2 -d  '1' '2' '3' '4'
+bspc config top_padding         0
+bspc config bottom_padding      0
 bspc config left_padding        0
 bspc config right_padding       0
 bspc config border_width        5
-bspc config window_gap          20
+bspc config window_gap          10
 
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
@@ -101,22 +101,13 @@ blurwal -m 1 -b 4 -s 4 &
 
 notify-send "Welcome Home! \(^w^)/"
 
-# wal -qi ~/img/pokebeach.jpg --saturate 0.95 -b "#0d0307"> /dev/null
-# wal -qi ~/img/market.jpeg --saturate 0.3 > /dev/null
-# wal -qi ~/img/nstreet.jpeg --saturate 1.3 > /dev/null
-# wal -qi ~/img/women-pixel-art-4k-98-1920x1080.jpg -b "#282828" --saturate 1.3 > /dev/null
-# wal -qi ~/img/women-pixel-art-4k-98-1920x1080.jpg -l --saturate 2 > /dev/null
+nohup ~/.config/scripts/bspwpm-workspace-preview &
 
-# -b "#332f2f"
-# mild black
-# -b "#1c1a1a"
-# wal -qi ~/img/grasswater.jpeg -l --saturate 0.20 -b "#1c1a1a" > /dev/null
-
-#wal -qi ~/img/grasswater.jpeg --saturate 0.20 > /dev/null
-
-wal -qi ~/img/women-pixel-art-4k-98-1920x1080.jpg > /dev/null
+# wal -qi ~/img/women-pixel-art-4k-98-1920x1080.jpg > /dev/null
 #wal -qi ~/img/women-pixel-art-4k-98-1920x1080.jpg -l --saturate 0.90 -b "#01090d" > /dev/null
+#wal -qi ~/img/dune.jpg --saturate 0.90 > /dev/null
 
+wal --themed solarized -l
 # wal -qi ~/img/pokebeach.jpg --saturate 1.95 -b "#1c1718"> /dev/null
 # wal -qi ~/img/pokebeach.jpg -l --saturate 0.4 -b "#1c1a1a"> /dev/null
 #292526

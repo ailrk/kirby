@@ -6,7 +6,6 @@
     # ./networking/ssh/default.nix
     ./scripts/index.nix
 
-    ./scripts/index.nix
     ./shell/zsh/default.nix
     ./shell/fish/default.nix
     ./file-manager/ranger/default.nix
