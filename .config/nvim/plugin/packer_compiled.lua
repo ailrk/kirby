@@ -11,7 +11,7 @@ local no_errors, error_msg = pcall(function()
 
   local time
   local profile_info
-  local should_profile = false
+  local should_profile = true
   if should_profile then
     local hrtime = vim.loop.hrtime
     profile_info = {}
@@ -57,7 +57,7 @@ end
 time([[Luarocks path setup]], false)
 time([[try_loadstring definition]], true)
 local function try_loadstring(s, component, name)
-  local success, result = pcall(loadstring(s))
+  local success, result = pcall(loadstring(s), name, _G.packer_plugins[name])
   if not success then
     vim.schedule(function()
       vim.api.nvim_notify('packer.nvim: Error running ' .. component .. ' for ' .. name .. ': ' .. result, vim.log.levels.ERROR, {})
@@ -79,10 +79,21 @@ _G.packer_plugins = {
     path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/DrawIt",
     url = "https://github.com/vim-scripts/DrawIt"
   },
+  ["Ionide-vim"] = {
+    loaded = true,
+    path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/Ionide-vim",
+    url = "https://github.com/ionide/Ionide-vim"
+  },
   ["asyncrun.vim"] = {
     loaded = true,
     path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/asyncrun.vim",
     url = "https://github.com/skywind3000/asyncrun.vim"
+  },
+  ["auto-session"] = {
+    config = { "\27LJ\2\nå\1\0\0\4\0\6\0\t6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\4\0=\3\5\2B\0\2\1K\0\1\0\31auto_session_suppress_dirs\1\4\0\0\a~/\v~/Repo\15~/Projects\1\0\1\14log_level\tinfo\nsetup\17auto-session\frequire\0" },
+    loaded = true,
+    path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/auto-session",
+    url = "https://github.com/rmagatti/auto-session"
   },
   ["completion-nvim"] = {
     loaded = true,
@@ -244,6 +255,11 @@ _G.packer_plugins = {
     path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/vim-jsx-typescript",
     url = "https://github.com/peitalin/vim-jsx-typescript"
   },
+  ["vim-koka"] = {
+    loaded = true,
+    path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/vim-koka",
+    url = "https://github.com/Nymphium/vim-koka"
+  },
   ["vim-llvm"] = {
     loaded = true,
     path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/vim-llvm",
@@ -259,6 +275,11 @@ _G.packer_plugins = {
     path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/vim-misc",
     url = "https://github.com/xolox/vim-misc"
   },
+  ["vim-monochrome-waifu"] = {
+    loaded = true,
+    path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/vim-monochrome-waifu",
+    url = "https://github.com/ailrk/vim-monochrome-waifu"
+  },
   ["vim-nix"] = {
     loaded = true,
     path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/vim-nix",
@@ -268,6 +289,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/vim-notes",
     url = "https://github.com/xolox/vim-notes"
+  },
+  ["vim-rest-console"] = {
+    loaded = true,
+    path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/vim-rest-console",
+    url = "https://github.com/diepm/vim-rest-console"
   },
   ["vim-slime"] = {
     loaded = true,
@@ -284,11 +310,6 @@ _G.packer_plugins = {
     path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/vim-srcery",
     url = "https://github.com/roosta/vim-srcery"
   },
-  ["vim-sunbather"] = {
-    loaded = true,
-    path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/vim-sunbather",
-    url = "https://github.com/nikolvs/vim-sunbather"
-  },
   ["vim-system-copy"] = {
     loaded = true,
     path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/vim-system-copy",
@@ -299,11 +320,6 @@ _G.packer_plugins = {
     path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/vimtex",
     url = "https://github.com/lervag/vimtex"
   },
-  vimwiki = {
-    loaded = true,
-    path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/vimwiki",
-    url = "https://github.com/vimwiki/vimwiki"
-  },
   ["vista.vim"] = {
     loaded = true,
     path = "/home/jimmy/.local/share/nvim/site/pack/packer/start/vista.vim",
@@ -312,6 +328,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: auto-session
+time([[Config for auto-session]], true)
+try_loadstring("\27LJ\2\nå\1\0\0\4\0\6\0\t6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\4\0=\3\5\2B\0\2\1K\0\1\0\31auto_session_suppress_dirs\1\4\0\0\a~/\v~/Repo\15~/Projects\1\0\1\14log_level\tinfo\nsetup\17auto-session\frequire\0", "config", "auto-session")
+time([[Config for auto-session]], false)
 if should_profile then save_profiles() end
 
 end)

@@ -1002,7 +1002,8 @@
        id="boot">
       <group
          id="shown"
-         ver1.1="1" />
+         ver1.1="1"
+         ver1.1.1="1" />
     </group>
     <group
        id="font"
@@ -1019,7 +1020,7 @@
        x="24"
        y="15"
        maximized="1"
-       fullscreen="0"
+       fullscreen="1"
        id="geometry" />
     <group
        id="XYfront" />
@@ -1120,8 +1121,8 @@
   <group
      id="theme"
      defaultPreferDarkTheme="0"
-     defaultGtkTheme="HighContrast"
-     defaultIconTheme="black-red"
+     defaultGtkTheme="Adwaita"
+     defaultIconTheme="Adwaita"
      symbolicIcons="0"
      preferDarkTheme="0"
      darkTheme="0"

@@ -20,43 +20,35 @@ function setEnv() {
 # detect monitors and set
 function setMonitor() {
     MONITORS=$(xrandr | grep -o "^.* connected" | sed "s/ connected//" )
-    # XAXIS=$(xrandr --current | grep '*' | uniq | awk '{print $1}' | cut -d 'x' -f1)
-    # YAXIS=$(xrandr --current | grep '*' | uniq | awk '{print $1}' | cut -d 'x' -f2)
-
     XAXIS=$(xrandr --current | grep -A1 'connected' | \
         grep -P '[0-9]{4}x[0-9]{4} ' | uniq | awk '{print $1}' | cut -d 'x' -f1)
-
     YAXIS=$(xrandr --current | grep -A1 'connected' | \
         grep -P '[0-9]{4}x[0-9]{4} ' | uniq | awk '{print $1}' | cut -d 'x' -f2)
 
-    NUM_MONITOR=$(echo $MONITORS | wc -l)
-
+    NUM_MONITOR=$(echo $MONITORS | wc -w)
     WORKSPACE_PER_SCREEN=4
-
     MAXIMUM_WORKSPACE=$(($WORKSPACE_PER_SCREEN * $NUM_MONITOR))
     if [ $MAXIMUM_WORKSPACE -gt 10 ]; then
         MAXIMUM_WORKSPACE=10
     fi
 
+    echo "MAX WORKSPACE: $MAXIMUM_WORKSPACE"
+
     CURRENT_WORKSPACE=1
 
     # set workspace. up to 3 monitors and 10 workspaces.
     while read MONITOR; do
-        declare -a WORKSPACE_FOR_CURRENT_MONITOR
         if [ $CURRENT_WORKSPACE -gt $MAXIMUM_WORKSPACE ]; then
             break
         fi
 
-        for ((i = 0; i < $WORKSPACE_PER_SCREEN; ++i));
-        do
-            IDX=$(($i + $CURRENT_WORKSPACE))
-            WORKSPACE_FOR_CURRENT_MONITOR[$i]=$IDX
+        IDXS=""
+        for ((i = 0; i < $WORKSPACE_PER_SCREEN; ++i)); do
+            IDXS="$IDXS $(($i + $CURRENT_WORKSPACE))"
         done
+        eval $"bspc monitor $MONITOR -d $IDXS"
+        CURRENT_WORKSPACE=$(($CURRENT_WORKSPACE + 1 + $WORKSPACE_PER_SCREEN))
 
-        for i in $WORKSPACE_FOR_CURRENT_MONITOR; do
-            echo $i
-            bspc monitor $MONITOR -a $i
-        done
     done <<< $MONITORS
 
 
@@ -73,8 +65,10 @@ function setMonitor() {
         # new monitor is always added to the left of  the previous monitor
         else
             DIM="${X}x${Y}"
-            xrandr --output $MONITOR --mode $DIM \
-                --left-of $PREVIOUS_MONITOR
+            if [[ X == 3840 ]]; then
+                xrandr --output $MONITOR --mode $DIM --scale 0.8x0.8 \
+                    --left-of $PREVIOUS_MONITOR
+            fi
         fi
 
         PREVIOUS_MONITOR=$MONITOR

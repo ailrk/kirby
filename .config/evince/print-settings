@@ -2,7 +2,7 @@
 evince-print-setting-page-size=false
 output-file-format=pdf
 evince-print-setting-page-autorotate=true
-printer=Print to LPR
+printer=Print to File
 evince-print-setting-page-scale=1
 
 lpr-commandline=lpr
