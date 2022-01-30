@@ -1,7 +1,0 @@
-#!/usr/bin/bash
-COLOR_ARRAY=()
-for c in ls $HOME/.colors; do COLOR_ARRAY+=("$c"); done
-RAN_CO_INX=$((RANDOM % ${#COLOR_ARRAY[@]}))
-RAN_CO=$COLOR_ARRAY[RAN_CO_INX]
-
-sed $HOME/.Xresources

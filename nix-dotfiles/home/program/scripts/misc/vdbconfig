@@ -1,3 +1,0 @@
-#!/usr/bin/bash
-
-cp ~/.config/vimspector-templates/.vimspector.json .

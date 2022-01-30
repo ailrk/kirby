@@ -1,5 +1,0 @@
-
-# replace all newline with space
-sudo pacman -Qq | grep haskell | sed  ':a;N;$!ba;s/\n/ /g'
-
-

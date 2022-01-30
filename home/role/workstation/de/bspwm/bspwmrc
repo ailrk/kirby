@@ -1,0 +1,90 @@
+#!/bin/sh
+
+function killDaemons() {
+    pkill blurwal
+    pkill dunst
+    pkill ibus-daemon
+    pkill vanela
+    pkill compton
+    pkill -f bspwpm-workspace-preview
+}
+
+# Environment
+function setEnv() {
+    export PATH="${PATH}:$HOME/.config/scripts"
+    xrdb ~/.Xresources
+    . $HOME/.cache/wal/colors.sh
+    sleep 0.1
+}
+
+# detect monitors and set
+function setMonitor() {
+    bspc monitor DP-2 -d '1' '2' '3' '4'
+    bspc monitor eDP-1 -d '5' '6' '7' '8'
+
+    xrandr --output eDP-1 --primary --mode 1920x1080 \
+           --output DP-2 --mode 3840x2160 --rate 60  --scale 0.80x0.80 --left-of eDP-1
+    xrandr --output eDP-1 --scale 0.9999x0.9999
+
+
+}
+
+function setBspwmConfigs() {
+    bspc config top_padding         0
+    bspc config bottom_padding      15
+    bspc config left_padding        0
+    bspc config right_padding       0
+    bspc config border_width        5
+    bspc config window_gap          10
+
+    bspc config borderless_monocle   true
+    bspc config gapless_monocle      true
+
+    # bspc config normal_border_color $BLACK
+    bspc config focused_border_color $WHITE
+    bspc config split_ratio          0.5
+    # bspc config presel_border_color "#ffbec9"
+    # bspc config border_radius        10
+}
+
+function setBspwmRules() {
+    ## Winodw rules
+    # remove all rules first
+    bspc rule -r *:*
+    bspc rule -a urxvt:float state=floating rectangle=500x800+200+50
+    bspc rule -a vimiv state=floating rectangle=700x100+500+50
+    bspc rule -a "lemonbar" layer=above
+}
+
+function spawnDaemon() {
+    ibus-daemon -drx
+    sxhkd -c  ~/.config/sxhkd/sxhkdrc &
+    vanela &
+    mpc update
+    mpc listall | mpc add
+    compton --config ~/.config/compton-blur-term.conf&
+    xinput set-prop 11 295 1
+    dunst \
+        -1b "$WHITE" -1f "$BLACK" -1fr "$BLACK" \
+        -nb "$WHITE" -nf "$BLACK" -nfr "$BLACK" \
+        -cb "$WHITE" -cf "$BLACK" -cfr "$BLACK" &
+    sleep 0.5
+}
+
+function theme() {
+    notify-send "Welcome Home! \(^w^)/"
+    blurwal -m 1 -b 4 -s 4 &
+    nohup ~/.config/scripts/bspwpm-workspace-preview &
+    feh --bg-fill ~/.config/scripts/static/images/dune.jpg
+    wal --theme vscode
+}
+
+# Start of the script
+
+killDaemons
+setEnv
+setMonitor
+setBspwmConfigs
+setBspwmRules
+spawnDaemon
+theme
