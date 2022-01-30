@@ -39,10 +39,10 @@ rofi -show $1 -sidebar-mode \
 -lines 20 \
 -padding 80 \
 -width 70 \
--location 2 \
+-location 0 \
 -columns 1 \
 -terminal urxvt \
--font " Iosevka,Iosevka Bold Extended:style=Bold Extended,Regular 14" \
+-font " Iosevka,Iosevka Bold Extended:style=Bold Extended,Regular 16" \
 -color-enabled true \
 -color-window "$BACKGROUND,$WHITE,$BACKGROUND" \
 -color-normal "$BACKGROUND,$FOREGROUND,$BACKGROUND,$BACKGROUND,$GREEN" \

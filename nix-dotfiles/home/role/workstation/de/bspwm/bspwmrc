@@ -19,64 +19,18 @@ function setEnv() {
 
 # detect monitors and set
 function setMonitor() {
-    MONITORS=$(xrandr | grep -o "^.* connected" | sed "s/ connected//" )
-    XAXIS=$(xrandr --current | grep -A1 'connected' | \
-        grep -P '[0-9]{4}x[0-9]{4} ' | uniq | awk '{print $1}' | cut -d 'x' -f1)
-    YAXIS=$(xrandr --current | grep -A1 'connected' | \
-        grep -P '[0-9]{4}x[0-9]{4} ' | uniq | awk '{print $1}' | cut -d 'x' -f2)
+    bspc monitor DP-2 -d '1' '2' '3' '4'
+    bspc monitor eDP-1 -d '5' '6' '7' '8'
 
-    NUM_MONITOR=$(echo $MONITORS | wc -w)
-    WORKSPACE_PER_SCREEN=4
-    MAXIMUM_WORKSPACE=$(($WORKSPACE_PER_SCREEN * $NUM_MONITOR))
-    if [ $MAXIMUM_WORKSPACE -gt 10 ]; then
-        MAXIMUM_WORKSPACE=10
-    fi
-
-    echo "MAX WORKSPACE: $MAXIMUM_WORKSPACE"
-
-    CURRENT_WORKSPACE=1
-
-    # set workspace. up to 3 monitors and 10 workspaces.
-    while read MONITOR; do
-        if [ $CURRENT_WORKSPACE -gt $MAXIMUM_WORKSPACE ]; then
-            break
-        fi
-
-        IDXS=""
-        for ((i = 0; i < $WORKSPACE_PER_SCREEN; ++i)); do
-            IDXS="$IDXS $(($i + $CURRENT_WORKSPACE))"
-        done
-        eval $"bspc monitor $MONITOR -d $IDXS"
-        CURRENT_WORKSPACE=$(($CURRENT_WORKSPACE + 1 + $WORKSPACE_PER_SCREEN))
-
-    done <<< $MONITORS
+    xrandr --output eDP-1 --primary --mode 1920x1080 \
+           --output DP-2 --mode 3840x2160 --rate 60  --scale 0.8x0.8 --left-of eDP-1
+    xrandr --output eDP-1 --scale 0.9999x0.9999
 
 
-    MONITOR_NUM=0
-    PREVIOUS_MONITOR="eDP-1"
-    while read MONITOR; do
-        MONITOR_NUM=$(($MONITOR_NUM + 1))
-        X=$(echo $XAXIS | cut -d' ' -f"$MONITOR_NUM")
-        Y=$(echo $YAXIS | cut -d' ' -f"$MONITOR_NUM")
-
-        if [[ $MONITOR == "eDP-1" ]]; then
-            xrandr --output eDP-1 --mode 1920x1080
-
-        # new monitor is always added to the left of  the previous monitor
-        else
-            DIM="${X}x${Y}"
-            if [[ X == 3840 ]]; then
-                xrandr --output $MONITOR --mode $DIM --scale 0.8x0.8 \
-                    --left-of $PREVIOUS_MONITOR
-            fi
-        fi
-
-        PREVIOUS_MONITOR=$MONITOR
-    done <<< $MONITORS
 }
 
 function setBspwmConfigs() {
-    bspc config top_padding         -5
+    bspc config top_padding         0
     bspc config bottom_padding      15
     bspc config left_padding        0
     bspc config right_padding       0
@@ -122,8 +76,8 @@ function theme() {
     notify-send "Welcome Home! \(^w^)/"
     blurwal -m 1 -b 4 -s 4 &
     nohup ~/.config/scripts/bspwpm-workspace-preview &
-    wal --themed solarized -l
     feh --bg-fill ~/.config/scripts/static/images/dune.jpg
+    wal --theme vscode
 }
 
 # Start of the script
