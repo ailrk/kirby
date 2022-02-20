@@ -1,21 +1,21 @@
 # cat ~/.config/scripts/turbofishcat.txt
 
 set -x TERM xterm
-set PATH /home/jimmy/Opt/bin/ $PATH
-set PATH /home/jimmy/Opt/cross/bin/ $PATH
-set PATH /home/jimmy/.local/bin/ $PATH
-set PATH /home/jimmy/Opt/bin/ $PATH
-set PATH /home/jimmy/.local/bin/ $PATH
-set PATH /home/jimmy/Opt/Discord/ $PATH
-set PATH /home/jimmy/.cargo/bin/ $PATH
-set PATH /home/jimmy/.cabal/bin/ $PATH
-set PATH /home/jimmy/.gem/ruby/2.6.0/bin/ $PATH
-set PATH /home/jimmy/.config/scripts/ $PATH
-set PATH /home/jimmy/.roswell/bin/ $PATH
-set PATH /home/jimmy/.ghcup/bin/ $PATH
+set PATH $HOME/Opt/bin/ $PATH
+set PATH $HOME/Opt/cross/bin/ $PATH
+set PATH $HOME/.local/bin/ $PATH
+set PATH $HOME/Opt/bin/ $PATH
+set PATH $HOME/.local/bin/ $PATH
+set PATH $HOME/Opt/Discord/ $PATH
+set PATH $HOME/.cargo/bin/ $PATH
+set PATH $HOME/.cabal/bin/ $PATH
+set PATH $HOME/.gem/ruby/2.6.0/bin/ $PATH
+set PATH $HOME/.config/scripts/ $PATH
+set PATH $HOME/.roswell/bin/ $PATH
+set PATH $HOME/.ghcup/bin/ $PATH
 
 # temporary
-set PATH /home/jimmy/Opt/Dyalog/opt/mdyalog/18.0/64/unicode $PATH
+set PATH $HOME/Opt/Dyalog/opt/mdyalog/18.0/64/unicode $PATH
 
 # alias
 alias re="cd $HOME/Repo"

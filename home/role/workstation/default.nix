@@ -9,8 +9,8 @@ in
   imports = [
     # DE
     # ./de/polybar/default.nix
-    # ./de/dunst/default.nix
-    # ./de/compton/default.nix
+    ./de/dunst/default.nix
+    ./de/compton/default.nix
 
     ./de/bspwm/default.nix
     ./de/sxhkd/default.nix
@@ -51,18 +51,18 @@ in
       bspwm
       sxhkd
 
-      # dunst
-      # compton
+      dunst
+      compton
 
-      # ncmpcpp
-      # zathura
+      ncmpcpp
+      zathura
 
       # Graphical
       #anki
       # joplin-desktop
       # thunderbird
       # librecad
-      # wireshark-qt
+      wireshark-qt
       # zoom-us
 
       # Devlopment Graphical
@@ -82,11 +82,6 @@ in
     #     };
     #   };
 
-    #   screen-locker = {
-    #     enable = true;
-    #     inactiveInterval = 1;
-    #     lockCmd = "lock-screen-i3";
-    #   };
     # };
 
     # Environment

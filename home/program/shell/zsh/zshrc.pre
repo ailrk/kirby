@@ -1,15 +1,15 @@
 #!/bin/zsh
 ###############################################################################
 cat ~/.config/scripts/turbofishcat.txt
-PATH=$PATH:/home/jimmy/Opt/bin/:/home/jimmy/.local/bin/
-PATH=$PATH:/home/jimmy/Opt/Discord/
-PATH=$PATH:/home/jimmy/.cargo/bin/
-PATH=$PATH:/home/jimmy/.cabal/bin/
-PATH=$PATH:/home/jimmy/.gem/ruby/2.6.0/bin/
-PATH=$PATH:/home/jimmy/.config/scripts/
-PATH=$PATH:/home/jimmy/.racket/7.5/bin/
-PATH=$PATH:/home/jimmy/.roswell/bin/
-PATH=$PATH:/home/jimmy/.ghcup/bin/
+PATH=$PATH:/$HOME/Opt/bin/:/home/jimmy/.local/bin/
+PATH=$PATH:/$HOME/Opt/Discord/
+PATH=$PATH:/$HOME/.cargo/bin/
+PATH=$PATH:/$HOME/.cabal/bin/
+PATH=$PATH:/$HOME/.gem/ruby/2.6.0/bin/
+PATH=$PATH:/$HOME/.config/scripts/
+PATH=$PATH:/$HOME/.racket/7.5/bin/
+PATH=$PATH:/$HOME/.roswell/bin/
+PATH=$PATH:/$HOME/.ghcup/bin/
 
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus

@@ -37,8 +37,8 @@ in
       enable = true;
       userEmail = cfg.userEmail;
       userName = cfg.userName;
-      signing.key = cfg.gpgKey;
-      signing.signByDefault = cfg.signByDefault;
+      # signing.key = cfg.gpgKey;
+      # signing.signByDefault = cfg.signByDefault;
       delta.enable = true; # Use Delta for diff viewing
       extraConfig = {
         # Force SSH

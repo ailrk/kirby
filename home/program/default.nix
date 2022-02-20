@@ -1,9 +1,9 @@
 {
   imports = [
     # ./admin/topgrade/default.nix
-    # ./dev/git/default.nix
     # ./networking/nmap/default.nix
     # ./networking/ssh/default.nix
+    ./dev/git/default.nix
     ./scripts/index.nix
 
     ./shell/zsh/default.nix

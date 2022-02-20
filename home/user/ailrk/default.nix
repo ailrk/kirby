@@ -22,14 +22,13 @@ with lib;
         editor.emacs.enable = true;
         editor.neovim.enable = true;
 
-        # dev.git = {
-        #   enable = true;
-
-        #   userEmail = "hugo@hugoreeves.com";
-        #   userName = "Hugo Reeves";
-        #   gpgKey = "0xE5D84E498A9A056E";
-        #   signByDefault = true;
-        # };
+        dev.git = {
+          enable = true;
+          userEmail = "jimmy123good@hotmail.com";
+          userName = "ailrk";
+          # gpgKey = "0xE5D84E498A9A056E";
+          # signByDefault = true;
+        };
       };
     };
 
@@ -48,6 +47,8 @@ with lib;
       haskellPackages.ghcup
 
       # cli tools
+      htop
+      inetutils
 
 
       # Jokes
