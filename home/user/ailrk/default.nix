@@ -1,8 +1,8 @@
 { config, lib, pkgs, ... }:
 with lib;
 {
-  config = mkIf (config.elemental.user == "ailrk") {
-    elemental.home = {
+  config = mkIf (config.kirby.user == "ailrk") {
+    kirby.home = {
       program = {
         # admin.topgrade.enable = true;
         # networking.ssh.enable = true;
@@ -15,7 +15,7 @@ with lib;
         #      press q ranger will exit the entire shell!
         #      not sure what happend, I have to fall back to
         #      archlinux version
-        # filemanager.ranger.enable = true;
+        filemanager.ranger.enable = true;
         scripts.enable = true;
         terminal.tmux.enable = true;
 
@@ -44,11 +44,32 @@ with lib;
       zlib.out
       gmp
       cabal2nix
-      haskellPackages.ghcup
 
       # cli tools
       htop
       inetutils
+      ripgrep
+      killall
+      xtitle
+      lemonbar
+      acpi
+
+      # font
+      iosevka
+      fira-code
+
+      # languages
+      smlnj
+      ocaml
+      racket
+      python39Full
+      lua
+      xdo
+      gcc
+      haskellPackages.ghcup
+      dotnet-sdk
+      fsharp
+      rebar3
 
 
       # Jokes
@@ -57,6 +78,9 @@ with lib;
       figlet
       lolcat
       nms
+
+      # others
+      google-chrome
     ] ++ lib.optionals stdenv.isLinux [
       # Data, Files and Networking
       sshfs

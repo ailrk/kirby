@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 CURRENT_ENGINE=$(ibus engine)
 EN_ENGINE=$(ibus list-engine | grep -i xkb:us::eng)
 CN_ENGINE=$(ibus list-engine | grep -i libpinyin)

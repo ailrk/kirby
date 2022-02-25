@@ -4,7 +4,7 @@
 
 # terminal emulator
 super + Return
-    urxvt
+    alacritty
 super + shift + Return
     bspc rule -a \* -o state=floating && $TERMINAL
 
@@ -155,7 +155,7 @@ super + alt + s
 
 # open browser
 super + B
-    google-chrome-beta
+    google-chrome-stable
 
 # open file manager
 super + shift + F

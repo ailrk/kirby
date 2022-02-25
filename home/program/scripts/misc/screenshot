@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 ID=2931
 IMG_PATH=$HOME/newDisk/img/screenshot;
 

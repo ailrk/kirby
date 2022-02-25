@@ -1,1 +1,1 @@
-# Dotfiles nix version
+# nixpkgs

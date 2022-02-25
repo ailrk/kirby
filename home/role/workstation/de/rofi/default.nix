@@ -3,12 +3,11 @@ with
 lib;
 {
   home.packages = with pkgs; [
-    bspwm
-    feh
+    rofi
   ];
 
-  xdg.configFile."bspwm/bspwmrc" = {
-      source = ./bspwmrc;
+  xdg.configFile."/scripts/rofio" = {
+      source = ./rofio;
       executable = true;
   };
 }

@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./elemental.nix
+    ./kirby.nix
     ./home/default.nix
   ];
 
@@ -13,7 +13,7 @@
   nixpkgs.config.allowUnfree = true;
   home.sessionVariables.LOCALES_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
 
-  elemental.machine = "fatmonad";
-  elemental.role = "workstation";
-  elemental.user = "ailrk";
+  kirby.machine = "fatmonad";
+  kirby.role = "workstation";
+  kirby.user = "ailrk";
 }

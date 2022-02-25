@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 code_session () {
     tmux new-session -s CODE -d 'cd ~; zsh -i'

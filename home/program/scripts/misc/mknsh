@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/usr/bin/env sh
 TEXT="{ pkgs ? import <nixpkgs> {} }:
 pkgs.mkShell {
   # add your dependencies for the shell

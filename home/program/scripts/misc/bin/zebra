@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # zebra (display png/jpg images in urxvt/xterm)
 

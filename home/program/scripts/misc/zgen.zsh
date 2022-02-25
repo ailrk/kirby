@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 # vim: set ft=zsh fenc=utf-8 noai ts=8 et sts=4 sw=0 tw=80 nowrap :
 local ZGEN_SOURCE="$0:A:h"
 

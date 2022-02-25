@@ -1,10 +1,12 @@
 #!/bin/sh
 
+export _JAVA_AWT_WM_NONREPARENTING=1
+
 function killDaemons() {
-    pkill blurwal
+    # pkill blurwal
     pkill dunst
-    pkill ibus-daemon
-    pkill vanela
+    # pkill ibus-daemon
+    # pkill vanela
     pkill compton
     pkill -f bspwpm-workspace-preview
 }
@@ -12,8 +14,8 @@ function killDaemons() {
 # Environment
 function setEnv() {
     export PATH="${PATH}:$HOME/.config/scripts"
-    xrdb ~/.Xresources
-    . $HOME/.cache/wal/colors.sh
+    # xrdb ~/.Xresources
+    # . $HOME/.cache/wal/colors.sh
     sleep 0.1
 }
 
@@ -57,11 +59,11 @@ function setBspwmRules() {
 }
 
 function spawnDaemon() {
-    ibus-daemon -drx
+    # ibus-daemon -drx
     sxhkd -c  ~/.config/sxhkd/sxhkdrc &
-    vanela &
-    mpc update
-    mpc listall | mpc add
+    # vanela &
+    # mpc update
+    # mpc listall | mpc add
     compton --config ~/.config/compton-blur-term.conf&
     xinput set-prop 11 295 1
     dunst \
@@ -72,11 +74,11 @@ function spawnDaemon() {
 }
 
 function theme() {
-    notify-send "Welcome Home! \(^w^)/"
-    blurwal -m 1 -b 4 -s 4 &
+    # notify-send "Welcome Home! \(^w^)/"
+    # blurwal -m 1 -b 4 -s 4 &
     nohup ~/.config/scripts/bspwpm-workspace-preview &
     feh --bg-fill ~/.config/scripts/static/images/dune.jpg
-    wal --theme vscode
+    # wal --theme vscode
 }
 
 # Start of the script

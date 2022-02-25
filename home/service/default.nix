@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./dev/lorri/default.nix
-    ./media/mpd/default.nix
+    ./lorri/default.nix
+    ./mpd/default.nix
   ];
 }

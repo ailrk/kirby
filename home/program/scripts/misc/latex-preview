@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 FILENAME="$(echo $1 | cut -d. -f1).pdf"
 
 zathura $FILENAME&

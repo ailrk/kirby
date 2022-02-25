@@ -32,9 +32,10 @@ col = #00f
 ;margin-top = 0
 ;margin-bottom = 0
 
-[bar/bottom]
-;monitor = ${env:MONITOR:HDMI-1}
-;monitor = ${env:MONITOR}
+[section/base]
+monitor = ${env:MONITOR}
+[bar/main]
+; monitor = ${env:MONITOR:DP-2}
 bottom = true
 margin-top = 0
 margin-bottom = 0
@@ -66,6 +67,9 @@ modules-right = wlan volume date
 
 scroll-up = i3wm-wsnext
 scroll-down = i3wm-wsprev
+
+[bar/secondary]
+inherit = section/base
 
 [module/xwindow]
 type = internal/xwindow
@@ -193,7 +197,7 @@ format-online = "<label-song> @ <label-time>"
 format-offline = "offline"
 
 label-song = %artist% - %title%
-label-song-maxlen = 50 
+label-song-maxlen = 50
 label-song-ellipsis = true
 
 
@@ -202,7 +206,7 @@ type = internal/date
 interval = 1
 
 date = "%m-%d"
-date-alt = "%Y-%m-%d" 
+date-alt = "%Y-%m-%d"
 time = %I:%M %p
 time-alt = %I:%M:%S %p
 
@@ -212,7 +216,7 @@ label =  %date%   %time%
 [module/volume]
 type = internal/pulseaudio
 
-format-volume = <ramp-volume> <label-volume> 
+format-volume = <ramp-volume> <label-volume>
 label-volume = %percentage%%
 
 ramp-volume-0 = 

@@ -7,11 +7,7 @@ lib;
     dunst
   ];
 
-  services.dunst = {
-    enable = true;
-  };
+  services.dunst.enable = true;
 
-  xdg.configFile = {
-    "dunst/dunstrc".source = ./dunstrc;
-  };
+  xdg.configFile."dunst/dunstrc".source = ./dunstrc;
 }

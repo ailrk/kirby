@@ -2,7 +2,6 @@
 with
 lib;
 {
-
   xdg.configFile = {
     "skhd/skhdrc" = {
       source = ./skhdrc;

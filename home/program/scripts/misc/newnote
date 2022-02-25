@@ -1,2 +1,2 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 touch $(date +%Y-%m-%d-$1).md

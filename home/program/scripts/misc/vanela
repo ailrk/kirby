@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Just a simple Lemonbar script
 # Only clickable workspaces, window title, and clock
@@ -17,7 +17,8 @@
 # Based on default example from Bspwm GitHub repository
 # Some parts are modified to make them look like what i want
 # Cheers! Addy
-. "$HOME/.cache/wal/colors.sh"
+
+# . "$HOME/.cache/wal/colors.sh"
 
 #getcolors () {
 #	FOREGROUND=$(xrdb -query | grep 'foreground:'| awk '{print $NF}')
@@ -247,7 +248,7 @@ render() {
   #   barout+="%{S${tmp}}$out}"
   #   let tmp=$tmp+1
   # done
-	printf "%s\n" "${out}"
+  printf "%s\n" "${out}"
 }
 
 panel_bar() {

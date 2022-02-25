@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ID=9980
 current=$(bspc query -D -d .focused --names)

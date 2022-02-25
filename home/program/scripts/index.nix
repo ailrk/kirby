@@ -2,7 +2,7 @@
 with
 lib;
 let
-  cfg = config.elemental.home.program.scripts;
+  cfg = config.kirby.home.program.scripts;
 
   scripts = {
     "brightness" = ./misc/brightness;
@@ -11,7 +11,6 @@ let
     "mpc-song" = ./misc/mpc-song;
     "newnote" = ./misc/newnote;
     "redshift-toggle" = ./misc/redshift-toggle;
-    "rofio" = ./misc/rofio;
     "screenshot" = ./misc/screenshot;
     "switchwifi" = ./misc/switchwifi;
     "tmux-setup" = ./misc/tmux-setup;
@@ -40,7 +39,7 @@ let
   };
 in
 {
-  options.elemental.home.program.scripts = {
+  options.kirby.home.program.scripts = {
     enable = mkEnableOption "Enable home scripts";
 
     scriptFiles = mkOption {
