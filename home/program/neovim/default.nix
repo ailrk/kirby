@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 let
-  cfg = config.kirby.home.program.editor.neovim;
+  cfg = config.kirby.home.program.neovim;
 
 in
 {
-  options.kirby.home.program.editor.neovim = {
+  options.kirby.home.program.neovim = {
     enable = lib.mkEnableOption "Enable the neovim editor";
   };
 

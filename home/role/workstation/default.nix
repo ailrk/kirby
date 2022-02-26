@@ -13,7 +13,6 @@ in
     ./de/polybar/default.nix
     ./de/bspwm/default.nix
     ./de/sxhkd/default.nix
-    ./de/rofi/default.nix
   ];
 
   options.kirby.home.role.workstation = {
@@ -21,10 +20,10 @@ in
   };
 
   config = mkIf (config.kirby.role == "workstation") {
-    kirby.home.program.terminal.alacritty = {
+    kirby.home.program.alacritty = {
       enable = true;
       settingOverrides = {
-        font.size = 11;
+        font.size = 13;
         font.user_thin_strokes = false;
         window = {
           decorations = "full";
@@ -32,17 +31,11 @@ in
       };
     };
 
-    # kirby.home.program.scripts.scriptFiles = {
-    #   "lock-screen" = ./script/lock-screen;
-    #   "lock-screen-i3" = ./script/lock-screen-i3;
-    #   "set-wall" = ./script/set-wall;
-    #   "bspwpm-workspace-preview" = ./script/bspwm-workspace-preview;
-    # };
-
     # Setup lorri and mpd
     # kirby.home.service.dev.lorri.enable = true;
-    # kirby.home.service.media.mpd.enable = true;
+    # kirby.home.service.mpd.enable = true;
 
+    kirby.home.program.scripts.enable = true;
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.pulseaudio = true;
 
@@ -50,6 +43,14 @@ in
       ncmpcpp
       zathura
       wireshark-qt
+
+      brightnessctl
+      xdotool
+      xtitle
+      lsof
+      xdo
+      gcc
+      pinentry
     ];
 
     xsession = {
@@ -72,18 +73,8 @@ in
       TERMINAL = "alacritty";
     };
 
-    programs.gpg = {
-      enable = true;
-      settings = {
-        default-key = "F3F42E1F26FE5C63A19D3061FA5C94EDD085C989";
-      };
-    };
-
     services.gpg-agent = {
-      enable = true;
-      extraConfig = ''
-        pinentry-program /run/current-system/sw/bin/pinentry-gtk-2
-      '';
+     enable = true;
     };
   };
 }

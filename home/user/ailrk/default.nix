@@ -6,23 +6,15 @@ with lib;
       program = {
         # admin.topgrade.enable = true;
         # networking.ssh.enable = true;
-        # networking.nmap.enable = true;
+        nmap.enable = true;
+        emacs.enable = true;
+        neovim.enable = true;
+        zsh.enable = true;
+        fish.enable = true;
+        ranger.enable = true;
+        tmux.enable = true;
 
-        shell.zsh.enable = true;
-        shell.fish.enable = true;
-
-        # TODO nix version is somehow broken.
-        #      press q ranger will exit the entire shell!
-        #      not sure what happend, I have to fall back to
-        #      archlinux version
-        filemanager.ranger.enable = true;
-        scripts.enable = true;
-        terminal.tmux.enable = true;
-
-        editor.emacs.enable = true;
-        editor.neovim.enable = true;
-
-        dev.git = {
+        git = {
           enable = true;
           userEmail = "jimmy123good@hotmail.com";
           userName = "ailrk";
@@ -35,8 +27,6 @@ with lib;
     # Install packages
     home.packages = with pkgs; [
       tmux
-
-      # terms
       direnv
 
       # utils
@@ -50,9 +40,14 @@ with lib;
       inetutils
       ripgrep
       killall
-      xtitle
       lemonbar
       acpi
+      expect
+      fd
+      bat
+      fzf
+      git-crypt
+      gnupg
 
       # font
       iosevka
@@ -64,13 +59,14 @@ with lib;
       racket
       python39Full
       lua
-      xdo
-      gcc
       haskellPackages.ghcup
       dotnet-sdk
       fsharp
       rebar3
-
+      purescript
+      rustup
+      nodejs
+      valgrind
 
       # Jokes
       cowsay
@@ -78,6 +74,7 @@ with lib;
       figlet
       lolcat
       nms
+      rofi
 
       # others
       google-chrome

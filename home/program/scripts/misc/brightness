@@ -3,10 +3,10 @@
 ID=3421
 case $1 in
     up)
-        light -A 10
-        dunstify -t 1000 -r $ID "Brightness: `light`"
+        brightnessctl set 10%+
+        dunstify -t 1000 -r $ID "Brightness: up"
         ;;
     down)
-        light -U 10
-        dunstify -t 1000 -r $ID "Brightness: `light`"
+        brightnessctl set 10%-
+        dunstify -t 1000 -r $ID "Brightness: donw"
 esac

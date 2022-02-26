@@ -11,13 +11,11 @@ ismute(){
 
 case $1 in
     up)
-        amixer -D pulse set Master on > /dev/null
-        amixer -D pulse sset Master 5%+ > /dev/null
+        amixer sset Master 5%+ > /dev/null
         dunstify -t 1000 -r $ID "Volume: `getvol`"
         ;;
     down)
-        amixer -D pulse set Master on > /dev/null
-        amixer -D pulse sset Master 5%- > /dev/null
+        amixer sset Master 5%- > /dev/null
         dunstify -t 1000 -r $ID "Volume: `getvol`"
         ;;
     mute)

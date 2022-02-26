@@ -2,10 +2,10 @@
 with
 lib;
 let
-  cfg = config.kirby.home.program.terminal.tmux;
+  cfg = config.kirby.home.program.tmux;
 in
 {
-  options.kirby.home.program.terminal.tmux = {
+  options.kirby.home.program.tmux = {
     enable = mkEnableOption "Enable to tmux terminal multiplexer";
   };
 

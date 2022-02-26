@@ -24,6 +24,7 @@ let
     "workplace" = ./misc/workplace;
     "xclips" = ./misc/xclips;
     "xlsjson" = ./misc/xlsjson;
+    "rofio" = ./misc/rofio;
 
     "bin" = ./misc/bin;
     "nix-zsh-completions" = ./misc/nix-zsh-completions;

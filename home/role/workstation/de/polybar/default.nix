@@ -5,7 +5,7 @@ lib;
   services.polybar = {
     enable = true;
     config = ./config;
-    script =  "$HOME/.config/polybar/start.sh";
+    script =  "polybar main &";
   };
 
   xdg.configFile."polybar/start.sh" = {

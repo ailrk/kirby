@@ -74,9 +74,9 @@ function spawnDaemon() {
 }
 
 function theme() {
-    # notify-send "Welcome Home! \(^w^)/"
+    dunstify "Welcome Home! \(^w^)/"
     # blurwal -m 1 -b 4 -s 4 &
-    nohup ~/.config/scripts/bspwpm-workspace-preview &
+    # nohup ~/.config/scripts/bspwpm-workspace-preview &
     feh --bg-fill ~/.config/scripts/static/images/dune.jpg
     # wal --theme vscode
 }

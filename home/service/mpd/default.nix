@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.kirby.home.service.media.mpd;
+  cfg = config.kirby.home.service.mpd;
 in
 {
-  options.kirby.home.service.media.mpd = {
+  options.kirby.home.service.mpd = {
     enable = mkEnableOption "Enable mpd for local music playing";
   };
 

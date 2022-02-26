@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.kirby.home.service.dev.lorri;
+  cfg = config.kirby.home.service.lorri;
 in
 {
-  options.kirby.home.service.dev.lorri = {
+  options.kirby.home.service.lorri = {
     enable = mkEnableOption "Enable the Lorri daemon for better nix development";
   };
 

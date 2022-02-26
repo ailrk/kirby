@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 let
-  cfg = config.kirby.home.program.editor.emacs;
+  cfg = config.kirby.home.program.emacs;
 in
 {
 
-  options.kirby.home.program.editor.emacs = {
+  options.kirby.home.program.emacs = {
     enable = lib.mkEnableOption "Enable the emacs editor";
   };
 

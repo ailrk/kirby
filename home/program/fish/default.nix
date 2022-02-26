@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.kirby.home.program.shell.fish;
+  cfg = config.kirby.home.program.fish;
 in
 {
-  options.kirby.home.program.shell.fish = {
+  options.kirby.home.program.fish = {
     enable = lib.mkEnableOption "Enable fish";
 
     preShellInit = mkOption {

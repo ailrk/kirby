@@ -2,10 +2,10 @@
 with
 lib;
 let
-  cfg = config.kirby.home.program.terminal.alacritty;
+  cfg = config.kirby.home.program.alacritty;
 in
 {
-  options.kirby.home.program.terminal.alacritty = {
+  options.kirby.home.program.alacritty = {
     enable = mkEnableOption "Enable the alacritty terminal";
 
     settingOverrides = mkOption {
@@ -33,7 +33,7 @@ in
           };
 
           font = {
-            size = 18.0;
+            size = 14;
             use_thin_strokes = true;
 
             normal.family = "iosevka";

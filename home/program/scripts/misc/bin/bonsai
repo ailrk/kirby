@@ -340,7 +340,7 @@ init() {
 		base+="${filler}${line}"
 		[ $iter -ne $baseHeight ] && base+='\n'
 		iter=$((iter+1))
-	done	
+	done
 	unset IFS	# reset delimiter
 
 	# declare vars
@@ -389,7 +389,7 @@ branch() {
 
 	# as long as we're alive...
 	while [ "$life" -gt 0 ]; do
-		
+
 		life=$((life - 1))	# ensure life ends
 
 		# set dy based on type
@@ -409,7 +409,7 @@ branch() {
 					[9-10]) dy=1 ;;
 				esac
 				;;
-				
+
 			*)	# grow up/not at all
 				dy=0
 				[ "$life" -ne "$lifeStart" ] && [ $((RANDOM % 10)) -gt 2 ] && dy=-1
@@ -447,7 +447,7 @@ branch() {
 
 		# re-branch upon conditions
 		if [ $branches -lt $branchesMax ]; then
-			
+
 			# branch is dead
 			if [ $life -lt 3 ]; then
 				branch "$x" "$y" dead "$life"
@@ -474,7 +474,7 @@ branch() {
 					tmpLife=$(( life + multiplier - 2 ))
 					[ $tmpLife -lt 0 ] && tmpLife=0
 
-					# first shoot is randomly directed	
+					# first shoot is randomly directed
 					if [ $shoots -eq 0 ]; then
 						tmpType="shootLeft"
 						[ $((RANDOM % 2)) -eq 0 ] && tmpType="shootRight"
@@ -499,7 +499,7 @@ branch() {
 		# implement dx,dy
 		x=$((x + dx))
 		y=$((y + dy))
-		
+
 		# choose color
 		case $type in
 			trunk|shoot*)
@@ -563,7 +563,7 @@ branch() {
 		# [ $life -eq 0 ] && chars=('&' '&') 	# eh, maybe
 
 		((verbose)) && printf '%b\n' "$life:\\t$x, $y: $char"
-		
+
 		# add this/these character(s) to our grid
 		index=0
 		for char in "${chars[@]}"; do
@@ -583,7 +583,7 @@ branch() {
 			timeLeft="$(printf '%s\n' "$timeStep - $elapsed" | bc -l)"
 			[ "$(printf '%s\n' "($timeLeft) > 0" | bc -l)" -eq 1 ] && sleep "$timeLeft"
 		fi
-	done	
+	done
 }
 
 display() {
@@ -613,7 +613,7 @@ display() {
 		output+="$line\\n"
 	done
 
-	output+="$base" 	# add the ascii-art base we generated earlier	
+	output+="$base" 	# add the ascii-art base we generated earlier
 	printf '%b' "$output"
 }
 

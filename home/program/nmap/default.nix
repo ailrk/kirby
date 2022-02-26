@@ -2,10 +2,10 @@
 with
 lib;
 let
-  cfg = config.kirby.home.program.networking.nmap;
+  cfg = config.kirby.home.program.nmap;
 in
 {
-  options.kirby.home.program.networking.nmap = {
+  options.kirby.home.program.nmap = {
     enable = mkEnableOption "Enable nmap";
   };
 

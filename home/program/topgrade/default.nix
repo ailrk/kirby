@@ -2,10 +2,10 @@
 with
 lib;
 let
-  cfg = config.kirby.home.program.admin.topgrade;
+  cfg = config.kirby.home.program.topgrade;
 in
 {
-  options.kirby.home.program.admin.topgrade = {
+  options.kirby.home.program.topgrade = {
     enable = mkEnableOption "Enable topgrade for convenient upgrades across package managers";
   };
 

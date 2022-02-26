@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.kirby.home.program.dev.git;
+  cfg = config.kirby.home.program.git;
 in
 {
-  options.kirby.home.program.dev.git = {
+  options.kirby.home.program.git = {
     enable = lib.mkEnableOption "Enable git";
 
     userEmail = lib.mkOption {
@@ -37,16 +37,17 @@ in
       enable = true;
       userEmail = cfg.userEmail;
       userName = cfg.userName;
-      # signing.key = cfg.gpgKey;
-      # signing.signByDefault = cfg.signByDefault;
+      signing.key = cfg.gpgKey;
+      signing.signByDefault = cfg.signByDefault;
       delta.enable = true; # Use Delta for diff viewing
       extraConfig = {
-        # Force SSH
-        url = {
-          "git@github.com:" = {
-            insteadOf = "https://github.com/";
-          };
-        };
+        # # Force SSH
+        # url = {
+        #   "git@github.com:" = {
+        #     insteadOf = "https://github.com/";
+        #   };
+        # };
+
         # Pull behaviour
         pull.rebase = false;
       };

@@ -2,10 +2,10 @@
 with
 lib;
 let
-  cfg = config.kirby.home.program.filemanager.ranger;
+  cfg = config.kirby.home.program.ranger;
 in
 {
-  options.kirby.home.program.filemanager.ranger = {
+  options.kirby.home.program.ranger = {
     enable = mkEnableOption "Enable to ranger file manager";
   };
 

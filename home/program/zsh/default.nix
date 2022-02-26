@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 let
-  cfg = config.kirby.home.program.shell.zsh;
+  cfg = config.kirby.home.program.zsh;
 in
 {
-  options.kirby.home.program.shell.zsh = {
+  options.kirby.home.program.zsh = {
     enable = lib.mkEnableOption "Enable zsh";
   };
 
