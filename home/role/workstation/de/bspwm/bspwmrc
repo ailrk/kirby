@@ -1,12 +1,11 @@
 #!/bin/sh
 
 export _JAVA_AWT_WM_NONREPARENTING=1
+unset SSH_ASKPASS
 
 function killDaemons() {
-    # pkill blurwal
     pkill dunst
-    # pkill ibus-daemon
-    # pkill vanela
+    pkill polybar
     pkill compton
     pkill -f bspwpm-workspace-preview
 }
@@ -61,10 +60,10 @@ function setBspwmRules() {
 function spawnDaemon() {
     # ibus-daemon -drx
     sxhkd -c  ~/.config/sxhkd/sxhkdrc &
-    # vanela &
+    $HOME/.config/polybar/start.sh &
     # mpc update
     # mpc listall | mpc add
-    compton --config ~/.config/compton-blur-term.conf&
+    compton --config ~/.config/compton-blur-term.conf &
     xinput set-prop 11 295 1
     dunst \
         -1b "$WHITE" -1f "$BLACK" -1fr "$BLACK" \

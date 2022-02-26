@@ -2,14 +2,13 @@
 with
 lib;
 {
-  services.polybar = {
-    enable = true;
-    config = ./config;
-    script =  "polybar main &";
-  };
+  home.packages = with pkgs; [
+    polybar
+  ];
 
   xdg.configFile."polybar/start.sh" = {
     source = ./start.sh;
     executable = true;
   };
+  xdg.configFile."polybar/config".source = ./config;
 }

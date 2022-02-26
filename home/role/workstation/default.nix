@@ -43,6 +43,7 @@ in
       ncmpcpp
       zathura
       wireshark-qt
+      mpd
 
       brightnessctl
       xdotool

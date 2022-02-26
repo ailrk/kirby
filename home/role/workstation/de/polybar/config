@@ -32,16 +32,14 @@ col = #00f
 ;margin-top = 0
 ;margin-bottom = 0
 
-[section/base]
-monitor = ${env:MONITOR}
 [bar/main]
-; monitor = ${env:MONITOR:DP-2}
+monitor = ${env:MONITOR:}
 bottom = true
 margin-top = 0
 margin-bottom = 0
 width = 100%
 height = 30
-;radius = 6.0
+radius = 6.0
 fixed-center = true
 
 background = ${colors.background}
@@ -67,9 +65,6 @@ modules-right = wlan volume date
 
 scroll-up = i3wm-wsnext
 scroll-down = i3wm-wsprev
-
-[bar/secondary]
-inherit = section/base
 
 [module/xwindow]
 type = internal/xwindow
@@ -178,7 +173,7 @@ label-disconnected-foreground = ${colors.foreground-alt}
 
 [module/wlan]
 type = internal/network
-interface = wlp6s0
+interface = wlp2s0
 interval = 3.0
 
 format-connected = <label-connected>

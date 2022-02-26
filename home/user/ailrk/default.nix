@@ -9,7 +9,7 @@ with lib;
         nmap.enable = true;
         emacs.enable = true;
         neovim.enable = true;
-        zsh.enable = true;
+        # zsh.enable = true;
         fish.enable = true;
         ranger.enable = true;
         tmux.enable = true;
