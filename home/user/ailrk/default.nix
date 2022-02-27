@@ -56,6 +56,8 @@ with lib;
         fira-code
 
         # languages
+        gnumake
+        cmake
         smlnj
         ocaml
         racket
@@ -91,6 +93,7 @@ with lib;
         wireshark-qt
         muse
         musescore
+        xfce.thunar
       ];
 
       linuxSpecifics = lib.optionals stdenv.isLinux [

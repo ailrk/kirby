@@ -61,3 +61,6 @@ hi link LspCodeLens NonText
 
 " Never wnat a split bar styling
 hi VerSplit cterm=None
+
+" Transparent background
+hi Normal guibg=none ctermbg=none

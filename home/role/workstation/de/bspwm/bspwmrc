@@ -30,11 +30,11 @@ function setMonitor() {
 
 function setBspwmConfigs() {
     bspc config top_padding         0
-    bspc config bottom_padding      15
+    bspc config bottom_padding      0
     bspc config left_padding        0
     bspc config right_padding       0
-    bspc config border_width        5
-    bspc config window_gap          10
+    bspc config border_width        2
+    bspc config window_gap          20
 
     bspc config borderless_monocle   true
     bspc config gapless_monocle      true
@@ -60,7 +60,7 @@ function spawnDaemon() {
     $HOME/.config/polybar/start.sh &
     # mpc update
     # mpc listall | mpc add
-    compton --config ~/.config/compton-blur-term.conf &
+    compton &
     xinput set-prop 11 295 1
     dunst \
         -1b "$WHITE" -1f "$BLACK" -1fr "$BLACK" \

@@ -22,9 +22,10 @@ in
         ({
           env = {
             "TERM" = "xterm-256color";
+            "WINIT_X11_SCALE_FACTOR"=  "1.0";
           };
 
-          background_opacity = 0.5;
+          background_opacity = 0.95;
 
           window = {
             padding.x = 10;
@@ -33,7 +34,7 @@ in
           };
 
           font = {
-            size = 12;
+            size = 15;
             use_thin_strokes = true;
 
             normal.family = "iosevka";
@@ -87,7 +88,7 @@ in
           # Nord
           colors = {
             primary = {
-              background = "0x2E3440";
+              background = "0x000000";
               foreground = "0xD8DEE9";
             };
 

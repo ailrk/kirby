@@ -137,13 +137,13 @@ alt + shift {h,j,k,l}
 
 # open rofi
 super + d
-    ~/.config/scripts/rofio drun
-super + shift + d
     ~/.config/scripts/rofio window
+super + space
+    ~/.config/scripts/rofio drun
 
 
 # toggle ibus
-super + space
+super + shift + space
     ~/.config/scripts/toggle-ibus
 
 # print screen
