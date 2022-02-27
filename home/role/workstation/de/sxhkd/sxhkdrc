@@ -16,6 +16,9 @@ super + shift + Return
 super + Escape
 	pkill -USR1 -x sxhkd
 
+super + R
+    alacritty -e "sh" "-c" "home-manager switch && read -n 1 -p 'echo #enter any key' && bspc wm -r && pkill -USR1 -x sxhkd"
+
 #
 # bspwm hotkeys
 #

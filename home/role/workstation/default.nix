@@ -20,31 +20,17 @@ in
   };
 
   config = mkIf (config.kirby.role == "workstation") {
-    kirby.home.program.alacritty = {
-      enable = true;
-      settingOverrides = {
-        font.size = 13;
-        font.user_thin_strokes = false;
-        window = {
-          decorations = "full";
-        };
-      };
-    };
 
     # Setup lorri and mpd
     # kirby.home.service.dev.lorri.enable = true;
     # kirby.home.service.mpd.enable = true;
 
+    kirby.home.program.alacritty.enable = true;
     kirby.home.program.scripts.enable = true;
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.pulseaudio = true;
 
     home.packages = with pkgs; [
-      ncmpcpp
-      zathura
-      wireshark-qt
-      mpd
-
       brightnessctl
       xdotool
       xtitle
@@ -52,6 +38,8 @@ in
       xdo
       gcc
       pinentry
+      w3m
+      conky
     ];
 
     xsession = {
@@ -61,6 +49,15 @@ in
         xset -b
       '';
 
+      # NOTE:
+      # in /etc/nixos/configuration.nix add
+      #   services.xserver.desktopManager.sessoin = [
+      #     name = "home-manager";
+      #     start = ''
+      #       ${pkgs.runtimeShell} $HOME/.hm-xsession &
+      #       waitPID=$!
+      #     '';
+      #   ];
       windowManager.command = ''
         bspwm
         ${pkgs.xterm}/bin/xterm -ls

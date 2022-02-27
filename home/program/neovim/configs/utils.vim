@@ -1,4 +1,4 @@
-command! -nargs=0 RemoveTrailing :%s#\($\n\s*\)\+\%$##
+ommand! -nargs=0 RemoveTrailing :%s#\($\n\s*\)\+\%$##
 
 " commands
 command! -nargs=1 PSearch vimgrep /<args>/ **/* | cw
@@ -106,7 +106,7 @@ command -nargs=0 HomeManagerSwitchBSPWM :silent! AsyncRun home-manager switch &&
 
 command -nargs=1 Google :call GoogleSearch(<args>)<cr>
 
-let vimrc_nix_path = "~/Repo/nix-dotfiles/home/"
+let vimrc_nix_path = "$HOME/.config/nixpkgs/home/"
 let vimrc_vim_path = g:vimrc_nix_path . "program/editor/neovim/"
 let vimrc_bspwm_path = g:vimrc_nix_path . "role/workstation/de/bspwm/bspwmrc"
 

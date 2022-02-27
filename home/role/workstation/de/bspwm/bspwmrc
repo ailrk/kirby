@@ -26,8 +26,6 @@ function setMonitor() {
     xrandr --output eDP-1 --primary --mode 1920x1080 \
            --output DP-2 --mode 3840x2160 --rate 60  --scale 0.80x0.80 --left-of eDP-1
     xrandr --output eDP-1 --scale 0.9999x0.9999
-
-
 }
 
 function setBspwmConfigs() {
@@ -76,7 +74,8 @@ function theme() {
     dunstify "Welcome Home! \(^w^)/"
     # blurwal -m 1 -b 4 -s 4 &
     # nohup ~/.config/scripts/bspwpm-workspace-preview &
-    feh --bg-fill ~/.config/scripts/static/images/dune.jpg
+    # feh --bg-fill ~/.config/scripts/static/images/dune.jpg
+    feh --bg-fill ~/.config/scripts/static/images/nordish.png
     # wal --theme vscode
 }
 

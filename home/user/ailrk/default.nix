@@ -18,71 +18,89 @@ with lib;
           enable = true;
           userEmail = "jimmy123good@hotmail.com";
           userName = "ailrk";
-          # gpgKey = "0xE5D84E498A9A056E";
-          # signByDefault = true;
         };
       };
     };
 
     # Install packages
-    home.packages = with pkgs; [
-      tmux
-      direnv
+    home.packages = with pkgs;
+    let
+      common = [
 
-      # utils
-      zlib.dev
-      zlib.out
-      gmp
-      cabal2nix
+        tmux
+        direnv
 
-      # cli tools
-      htop
-      inetutils
-      ripgrep
-      killall
-      lemonbar
-      acpi
-      expect
-      fd
-      bat
-      fzf
-      git-crypt
-      gnupg
+        # utils
+        zlib.dev
+        zlib.out
+        gmp
+        cabal2nix
 
-      # font
-      iosevka
-      fira-code
+        # cli tools
+        htop
+        inetutils
+        ripgrep
+        killall
+        lemonbar
+        acpi
+        expect
+        fd
+        bat
+        fzf
+        git-crypt
+        gnupg
 
-      # languages
-      smlnj
-      ocaml
-      racket
-      python39Full
-      lua
-      haskellPackages.ghcup
-      dotnet-sdk
-      fsharp
-      rebar3
-      purescript
-      rustup
-      nodejs
-      valgrind
+        # font
+        iosevka
+        fira-code
 
-      # Jokes
-      cowsay
-      fortune
-      figlet
-      lolcat
-      nms
-      rofi
+        # languages
+        smlnj
+        ocaml
+        racket
+        python39Full
+        lua
+        haskellPackages.ghcup
+        dotnet-sdk
+        fsharp
+        rebar3
+        purescript
+        rustup
+        nodejs
+        valgrind
 
-      # others
-      google-chrome
-    ] ++ lib.optionals stdenv.isLinux [
-      # Data, Files and Networking
-      sshfs
-      iotop
-      fio
-    ];
+        # Jokes
+        cowsay
+        fortune
+        figlet
+        lolcat
+        nms
+        rofi
+
+        # others
+        google-chrome
+        blender
+        xournalpp
+        aseprite
+        mupdf
+        ncmpcpp
+        zathura
+        wireshark-qt
+      ];
+
+      linuxSpecifics = lib.optionals stdenv.isLinux [
+        # Data, Files and Networking
+        sshfs
+        iotop
+        fio
+      ];
+
+      unfree = [
+        discord
+        tdesktop
+      ];
+
+    in
+    common ++ linuxSpecifics ++ unfree;
   };
 }

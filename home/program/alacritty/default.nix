@@ -29,11 +29,11 @@ in
           window = {
             padding.x = 10;
             padding.y = 10;
-            decorations = "buttonless";
+            decorations = "none";
           };
 
           font = {
-            size = 14;
+            size = 12;
             use_thin_strokes = true;
 
             normal.family = "iosevka";

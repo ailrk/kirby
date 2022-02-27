@@ -2,5 +2,6 @@
 {
   imports = [
     ./workstation/default.nix
+    ./darwin-laptop/default.nix
   ];
 }

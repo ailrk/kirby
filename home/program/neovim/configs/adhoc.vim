@@ -1,26 +1,14 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
 " NerdTree
 "
 nnoremap <C-e> :NERDTreeToggle<CR>
-" nnoremap <localleader>ff :NERDTreeFind<CR>
 let NERDTreeRespectWildIgnore=1
 let g:NERDTreeWinSize = 30
 
-" let g:netrwon = 1
-" let g:netrw_banner = 0
-" let g:netrw_liststyle = 3
-" let g:netrw_browse_split = 2
-" let g:netrw_winsize = 30
-
-"
-" ChadTree
-"
-" nnoremap <C-e> :CHADopen<CR>
-" let g:chadtree_settings =
-"       \ {'theme.icon_glyph_set' : 'ascii',
-"       \  'ignore.name_glob' : ['*.fasl', '*.pyc', '*.class', '*.o', '*.DS_Store', '*.bin', '*.cmo', '*.cmi', '*.agdai', '*.hg', '*.swp'],
-"       \  'view.width': 30
-"       \ }
+nnoremap <leader>Nf <cmd>NERDTreeFind<cr>
+nnoremap <leader>Nr <cmd>NERDTreeRefreshRoot<cr>
+nnoremap <leader>Nc <cmd>NERDTreeCWD <cr>
 
 "
 " ultisnips
@@ -31,7 +19,6 @@ let g:UltiSnipsExpandTrigger="<c-j>"
 "ctags setting
 "
 set tags=./.tags;,.tags
-
 let c_no_curly_error=1
 
 "
@@ -113,12 +100,13 @@ nnoremap <leader>D <cmd>Telescope lsp_document_symbols<cr>
 nnoremap <leader>A <cmd>Telescope lsp_code_actions<cr>
 
 "
-" auto-sessoin
+" auto-session
 "
 nnoremap <leader>SS <cmd>SearchSession<cr>
 nnoremap <leader>SV <cmd>SaveSession<cr>
 nnoremap <leader>SR <cmd>RestoreSession<cr>
 nnoremap <leader>SD <cmd>DeleteSession<cr>
+nnoremap <leader>Nt <cmd>NERDTree<cr>
 
 
 nmap # <nop>

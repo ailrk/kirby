@@ -54,6 +54,7 @@ normal_maps {
     {[[ <space>rs     ]], [[ :LspStart<cr>        ]]}, -- ad hoc formatter
     {[[ <leader>fm     ]], [[ :Format<cr>            ]]},
 
+
     -- remove trailing empty line
     {[[ <leader>rt     ]], [[ :RemoveTrailing<cr>    ]]},
     {[[ <space>qo     ]], [[ :call ToggleQuickFix(0)<cr>    ]]},
