@@ -12,7 +12,7 @@ set shiftwidth=4
 set expandtab
 set smartindent
 set cmdheight=2
-set shell=/usr/bin/env fish
+set shell=fish
 "set term=xterm-256color
 set t_Co=256
 set splitbelow

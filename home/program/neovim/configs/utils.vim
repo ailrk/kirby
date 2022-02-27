@@ -1,33 +1,5 @@
-ommand! -nargs=0 RemoveTrailing :%s#\($\n\s*\)\+\%$##
-
-" commands
-command! -nargs=1 PSearch vimgrep /<args>/ **/* | cw
-
 " move current window to new tab.
 command! -nargs=0 Totab sbp | wincmd p | wincmd T
-
-" " Create a termial  panel
-" function! CreateT()
-"     if has('nvim')
-"         :split
-"         :terminal
-"     else
-"         :terminal
-"     endif
-
-"     :winc J
-"     :resize 11
-" endfunction
-
-" function! VCreateT()
-"     if has('nvim')
-"         :vsplit
-"         :terminal
-"     else
-"         :vert terminal
-"     endif
-"     :vert resize 80
-" endfunction
 
 function! ToggleQuickFix(full)
   if empty(filter(getwininfo(), 'v:val.quickfix'))
@@ -99,7 +71,6 @@ function! SynGroup()
     let l:s = synID(line('.'), col('.'), 1)
     echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
 endfun
-
 
 command -nargs=0 HomeManagerSwitch :silent! AsyncRun -silent home-manager switch<cr>
 command -nargs=0 HomeManagerSwitchBSPWM :silent! AsyncRun home-manager switch && bspc wm -r && pkill -USR1 sxhkd <cr>

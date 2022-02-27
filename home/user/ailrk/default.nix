@@ -9,7 +9,7 @@ with lib;
         nmap.enable = true;
         emacs.enable = true;
         neovim.enable = true;
-        # zsh.enable = true;
+        zsh.enable = true;
         fish.enable = true;
         ranger.enable = true;
         tmux.enable = true;
@@ -49,6 +49,7 @@ with lib;
         fzf
         git-crypt
         gnupg
+        scrot
 
         # font
         iosevka
@@ -67,6 +68,7 @@ with lib;
         purescript
         rustup
         nodejs
+        gcc
         valgrind
 
         # Jokes
@@ -79,6 +81,7 @@ with lib;
 
         # others
         google-chrome
+        wine
         blender
         xournalpp
         aseprite
@@ -86,6 +89,8 @@ with lib;
         ncmpcpp
         zathura
         wireshark-qt
+        muse
+        musescore
       ];
 
       linuxSpecifics = lib.optionals stdenv.isLinux [
@@ -96,7 +101,6 @@ with lib;
       ];
 
       unfree = [
-        discord
         tdesktop
       ];
 

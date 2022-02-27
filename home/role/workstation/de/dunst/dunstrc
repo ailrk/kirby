@@ -49,7 +49,7 @@
     transparency = 10           # The transparency of the window. 0 (opaque) to 100 (transparent) - requires compositing window manager (xcompmgr, compiz, compton, etc)
     shrink = no                 # Shrink window if it's smaller than the width (ignored if width is 0)
     monitor = 0                 # Display notifications on the monitor indicated (0 is default)
-    follow = none               # Follow mouse/keyboard/none
+    follow = keyboard           # Follow mouse/keyboard/none
     show_indicators = no        # Display indicators for URLs (U) and actions (A)
     line_height = 0             # The spacing between lines (forced to height of font at minimum)
     notification_height = 0     # The height of the entire notification (forced to height of font height and padding at minimum)

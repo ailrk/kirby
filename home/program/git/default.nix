@@ -41,13 +41,6 @@ in
       signing.signByDefault = cfg.signByDefault;
       delta.enable = true; # Use Delta for diff viewing
       extraConfig = {
-        # # Force SSH
-        # url = {
-        #   "git@github.com:" = {
-        #     insteadOf = "https://github.com/";
-        #   };
-        # };
-
         # Pull behaviour
         pull.rebase = false;
       };

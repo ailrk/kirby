@@ -56,7 +56,6 @@ function setBspwmRules() {
 }
 
 function spawnDaemon() {
-    # ibus-daemon -drx
     sxhkd -c  ~/.config/sxhkd/sxhkdrc &
     $HOME/.config/polybar/start.sh &
     # mpc update

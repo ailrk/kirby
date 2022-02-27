@@ -5,7 +5,7 @@
 
     ./nmap/default.nix
     ./git/default.nix
-    # ./zsh/default.nix
+    ./zsh/default.nix
     ./fish/default.nix
     ./ranger/default.nix
     ./neovim/default.nix
