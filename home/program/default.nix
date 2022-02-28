@@ -11,6 +11,7 @@
     ./neovim/default.nix
     ./emacs/default.nix
     ./tmux/default.nix
+    ./rofi/default.nix
     ./alacritty/default.nix
   ];
 }

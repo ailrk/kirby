@@ -13,10 +13,9 @@ with lib;
         fish.enable = true;
         ranger.enable = true;
         tmux.enable = true;
-
         git = {
           enable = true;
-          userEmail = "jimmy123good@hotmail.com";
+          userEmail = "jimmy124good@hotmail.com";
           userName = "ailrk";
         };
       };

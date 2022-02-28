@@ -25,11 +25,16 @@ in
 
     # kirby.home.service.dev.lorri.enable = true;
     # kirby.home.service.mpd.enable = true;
+    nixpkgs.config.allowUnfree = true;
+    nixpkgs.config.pulseaudio = true;
 
     kirby.home.program.alacritty.enable = true;
     kirby.home.program.scripts.enable = true;
-    nixpkgs.config.allowUnfree = true;
-    nixpkgs.config.pulseaudio = true;
+    kirby.home.program.rofi = {
+      enable = true;
+      resolution = "720p";
+    };
+
 
     home.packages = with pkgs; [
       brightnessctl
@@ -38,7 +43,9 @@ in
       lsof
       xdo
       pinentry
+      libnotify
       w3m
+      xclip
     ];
 
     fonts.fontconfig.enable = true;
