@@ -3,13 +3,12 @@ with
 lib;
 let
   cfg = config.kirby.home.role.workstation;
-  # location = import ./location.nix;
 in
 {
   imports = [
     # DE
-    ./de/dunst/default.nix
     ./de/compton/default.nix
+    ./de/dunst/default.nix
     ./de/polybar/default.nix
     ./de/bspwm/default.nix
     ./de/sxhkd/default.nix
@@ -46,6 +45,7 @@ in
       libnotify
       w3m
       xclip
+
     ];
 
     fonts.fontconfig.enable = true;

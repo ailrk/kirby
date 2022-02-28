@@ -13,5 +13,6 @@
     ./tmux/default.nix
     ./rofi/default.nix
     ./alacritty/default.nix
+    ./kitty/default.nix
   ];
 }

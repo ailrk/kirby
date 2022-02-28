@@ -11,9 +11,11 @@
 
   # Allow unfree
   nixpkgs.config.allowUnfree = true;
-  home.sessionVariables.LOCALES_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
+  # home.sessionVariables.LOCALES_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
 
   kirby.machine = "fatmonad";
-  kirby.role = "workstation";
+  kirby.role = "darwin-laptop";
   kirby.user = "ailrk";
+
 }
+

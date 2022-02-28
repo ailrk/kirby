@@ -40,37 +40,27 @@ with lib;
         inetutils
         ripgrep
         killall
-        lemonbar
-        acpi
         expect
         fd
         bat
         fzf
         git-crypt
         gnupg
-        scrot
 
         # font
-        iosevka
         fira-code
 
         # languages
         gnumake
         cmake
-        smlnj
         ocaml
-        racket
         python39Full
         lua
         haskellPackages.ghcup
-        dotnet-sdk
-        fsharp
         rebar3
-        purescript
         rustup
         nodejs
         gcc
-        valgrind
 
         # Jokes
         cowsay
@@ -78,40 +68,52 @@ with lib;
         figlet
         lolcat
         nms
-        rofi
 
         # nix
         any-nix-shell
 
         # others
-        google-chrome
-        wine
-        blender
-        xournalpp
-        aseprite
         mupdf
         ncmpcpp
         zathura
-        wireshark-qt
-        muse
-        musescore
-        xfce.thunar
-        blueman
       ];
 
-      linuxSpecifics = lib.optionals stdenv.isLinux [
+      linux = lib.optionals stdenv.isLinux [
+        # font
+        iosevka
+
+        # language
+        smlnj
+        racket
+        purescript
+        valgrind
+        dotnet-sdk
+        fsharp
+
         # Data, Files and Networking
         sshfs
         iotop
         fio
+        acpi
+        scrot
+
+        # user
+        google-chrome
+        wireshark-qt
+        muse
+        blender
+        xournalpp
+        aseprite
+        xfce.thunar
+        blueman
       ];
 
-      unfree = [
+      unfree = lib.optionals stdenv.isLinux [
         tdesktop
         discord
       ];
 
     in
-    common ++ linuxSpecifics ++ unfree;
+    common ++ linux ++ unfree;
   };
 }

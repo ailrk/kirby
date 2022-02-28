@@ -2,6 +2,11 @@
 with
 lib;
 {
+
+  home.packages = with pkgs; [
+    yabai
+  ];
+
   xdg.configFile = {
     "yabai/yabairc" = {
       source = ./yabairc;
