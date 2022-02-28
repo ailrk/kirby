@@ -81,6 +81,9 @@ with lib;
         nms
         rofi
 
+        # nix
+        any-nix-shell
+
         # others
         google-chrome
         wine
@@ -94,6 +97,7 @@ with lib;
         muse
         musescore
         xfce.thunar
+        blueman
       ];
 
       linuxSpecifics = lib.optionals stdenv.isLinux [
@@ -105,6 +109,7 @@ with lib;
 
       unfree = [
         tdesktop
+        discord
       ];
 
     in
