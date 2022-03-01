@@ -136,10 +136,26 @@ alt + shift {h,j,k,l}
 	bspc node -v {-200 0,0 200,0 -200, 200 0}
 
 # open rofi
-super + d
-    ~/.config/scripts/rofio window
 super + space
-    ~/.config/scripts/rofio drun
+    ~/.config/rofi/scripts/launcher.sh text style_1
+super + alt + a
+    ~/.config/rofi/scripts/apps.sh applet square
+super + alt + B
+    ~/.config/rofi/scripts/backlight.sh applet square
+super + alt + b
+    ~/.config/rofi/scripts/battery.sh applet square
+super + alt + p
+    ~/.config/rofi/scripts/powermenu.sh applet square
+super + alt + n
+    ~/.config/rofi/scripts/network.sh applet square
+super + alt + s
+    ~/.config/rofi/scripts/screenshot.sh applet square
+super + alt + t
+    ~/.config/rofi/scripts/time.sh applet square
+super + alt + v
+    ~/.config/rofi/scripts/volume.sh applet square
+super + alt + q
+    ~/.config/rofi/scripts/quicklinks.sh applet square
 
 
 # toggle ibus
@@ -147,14 +163,14 @@ super + shift + space
     ~/.config/scripts/toggle-ibus
 
 # print screen
-super + alt + ctrl + f
-    ~/.config/scripts/screenshot full
+# super + alt + ctrl + f
+#     ~/.config/scripts/screenshot full
 
-super + alt + f
-    ~/.config/scripts/screenshot win
+# super + alt + f
+#     ~/.config/scripts/screenshot win
 
-super + alt + s
-    ~/.config/scripts/screenshot sel
+# super + alt + s
+#     ~/.config/scripts/screenshot sel
 
 # open browser
 super + B

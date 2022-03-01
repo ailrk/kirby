@@ -14,8 +14,7 @@
   # home.sessionVariables.LOCALES_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
 
   kirby.machine = "fatmonad";
-  kirby.role = "darwin-laptop";
+  kirby.role = "workstation";
   kirby.user = "ailrk";
 
 }
-

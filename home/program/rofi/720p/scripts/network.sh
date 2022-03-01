@@ -5,10 +5,28 @@
 ## Github  : @adi1090x
 ## Twitter : @adi1090x
 
-style="$($HOME/.config/rofi/applets/applets/style.sh)"
 
-dir="$HOME/.config/rofi/applets/applets/configs/$style"
-rofi_command="rofi -theme $dir/network.rasi"
+dir=""
+rofi_command=""
+
+case  $1 in
+    "applet")
+        case $2 in
+            "circle")
+                dir="$HOME/.config/rofi/theme/applet/circle"
+                ;;
+            "rounded")
+                dir="$HOME/.config/rofi/theme/applet/rounded"
+                ;;
+            "square")
+                dir="$HOME/.config/rofi/theme/applet/square"
+                ;;
+        esac
+        rofi_command="rofi -theme $dir/network.rasi"
+        ;;
+esac
+
+
 
 ## Get info
 IFACE="$(nmcli | grep -i interface | awk '/interface/ {print $2}')"
@@ -53,7 +71,7 @@ case $chosen in
 			nmcli radio wifi off
 		else
 			nmcli radio wifi on
-		fi 
+		fi
         ;;
     $bmon)
         termite -e bmon

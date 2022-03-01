@@ -5,8 +5,31 @@
 ## Github  : @adi1090x
 ## Twitter : @adi1090x
 
-dir="$HOME/.config/rofi/applets/android"
-rofi_command="rofi -theme $dir/three.rasi"
+
+dir=""
+rofi_command=""
+
+case  $1 in
+    "android")
+        dir="$HOME/.config/rofi/theme/android"
+        rofi_command="rofi -theme $dir/three.rasi"
+        ;;
+    "applet")
+        case $2 in
+            "circle")
+                dir="$HOME/.config/rofi/theme/applet/circle"
+                ;;
+            "rounded")
+                dir="$HOME/.config/rofi/theme/applet/rounded"
+                ;;
+            "square")
+                dir="$HOME/.config/rofi/theme/applet/square"
+                ;;
+        esac
+        rofi_command="rofi -theme $dir/backlight.rasi"
+        ;;
+esac
+
 
 # Error msg
 msg() {

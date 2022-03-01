@@ -57,7 +57,7 @@ function setBspwmRules() {
 }
 
 function spawnDaemon() {
-    sxhkd -c  ~/.config/sxhkd/sxhkdrc &
+    sxhkd -c  ~/.config/sxhkd/sxhkdrc  -f 100 &
     $HOME/.config/polybar/start.sh &
     # mpc update
     # mpc listall | mpc add

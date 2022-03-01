@@ -5,8 +5,32 @@
 ## Github  : @adi1090x
 ## Twitter : @adi1090x
 
-dir="$HOME/.config/rofi/applets/android"
-rofi_command="rofi -theme $dir/five.rasi"
+
+dir=""
+rofi_command=""
+
+case  $1 in
+    "android")
+        dir="$HOME/.config/rofi/theme/android"
+        rofi_command="rofi -theme $dir/five.rasi"
+        ;;
+    "applet")
+        case $2 in
+            "circle")
+                dir="$HOME/.config/rofi/theme/applet/circle"
+                ;;
+            "rounded")
+                dir="$HOME/.config/rofi/theme/applet/rounded"
+                ;;
+            "square")
+                dir="$HOME/.config/rofi/theme/applet/square"
+                ;;
+        esac
+        rofi_command="rofi -theme $dir/powermenu.rasi"
+        ;;
+esac
+
+
 
 uptime=$(uptime -p | sed -e 's/up //g')
 

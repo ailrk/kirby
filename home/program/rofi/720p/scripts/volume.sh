@@ -5,8 +5,28 @@
 ## Github  : @adi1090x
 ## Twitter : @adi1090x
 
-dir="$HOME/.config/rofi/applets/android"
-rofi_command="rofi -theme $dir/three.rasi"
+case  $1 in
+    "android")
+        dir="$HOME/.config/rofi/theme/android"
+        rofi_command="rofi -theme $dir/three.rasi"
+        ;;
+    "applet")
+        case $2 in
+            "circle")
+                dir="$HOME/.config/rofi/theme/applet/circle"
+                ;;
+            "rounded")
+                dir="$HOME/.config/rofi/theme/applet/rounded"
+                ;;
+            "square")
+                dir="$HOME/.config/rofi/theme/applet/square"
+                ;;
+        esac
+        rofi_command="rofi -theme $dir/quicklinks.rasi"
+        ;;
+esac
+
+
 
 ## Get Volume
 #VOLUME=$(amixer get Master | tail -n 1 | awk -F ' ' '{print $5}' | tr -d '[]%')

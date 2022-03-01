@@ -5,10 +5,30 @@
 ## Github  : @adi1090x
 ## Twitter : @adi1090x
 
-style="$($HOME/.config/rofi/applets/applets/style.sh)"
 
-dir="$HOME/.config/rofi/applets/applets/configs/$style"
-rofi_command="rofi -theme $dir/time.rasi"
+
+dir=""
+rofi_command=""
+style=$2
+
+case  $1 in
+    "applet")
+        case $2 in
+            "circle")
+                dir="$HOME/.config/rofi/theme/applet/circle"
+                ;;
+            "rounded")
+                dir="$HOME/.config/rofi/theme/applet/rounded"
+                ;;
+            "square")
+                dir="$HOME/.config/rofi/theme/applet/square"
+                ;;
+        esac
+        rofi_command="rofi -theme $dir/time.rasi"
+        ;;
+esac
+
+
 
 ## Get time and date
 TIME="$(date +"%I:%M %p")"
