@@ -166,22 +166,22 @@ augroup end
 
 augroup elmlang
     au! elmlang
-    au FileType fsharp set shiftwidth=2 tabstop=2
-    au Filetype fsharp ino <localleader>l1 (\ _a -> _z)
-    au Filetype fsharp ino <localleader>l2 (\ _a _b -> _z)
-    au Filetype fsharp ino <localleader>l3 (\ _a _b _c -> _z)
-    au Filetype fsharp ino <localleader>l4 (\ _a _b _c _d -> _z)
-    au Filetype fsharp ino <localleader>l5 (\ _a _b _c _d _e -> _z)
-    au Filetype fsharp ino <localleader>l6 (\ _a _b _c _d _e _f -> _z)
-    au Filetype fsharp ino <localleader>l7 (\ _a _b _c _d _e _f _g -> _z)
-    au Filetype fsharp ino <localleader>l8 (\ _a _b _c _d _e _f _g _h -> _z)
-    au Filetype fsharp ino <localleader>l9 (\ _a _b _c _d _e _f _g _h _i -> _z)
-    au Filetype fsharp ino <localleader>f <bar>> List.map _fn
-    au Filetype fsharp ino <localleader>fdl <bar>> List.fold _fn _base
-    au Filetype fsharp ino <localleader>fi <bar>> List.filter _fn
-    au Filetype fsharp ino <localleader>mb <bar>> Maybe.andThen _v
-    au Filetype fsharp ino <localleader>if if _c then _t else _f
-    au Filetype fsharp ino <localleader>mc case _p of
+    au FileType elm set shiftwidth=2 tabstop=2
+    au Filetype elm ino <localleader>l1 (\ _a -> _z)
+    au Filetype elm ino <localleader>l2 (\ _a _b -> _z)
+    au Filetype elm ino <localleader>l3 (\ _a _b _c -> _z)
+    au Filetype elm ino <localleader>l4 (\ _a _b _c _d -> _z)
+    au Filetype elm ino <localleader>l5 (\ _a _b _c _d _e -> _z)
+    au Filetype elm ino <localleader>l6 (\ _a _b _c _d _e _f -> _z)
+    au Filetype elm ino <localleader>l7 (\ _a _b _c _d _e _f _g -> _z)
+    au Filetype elm ino <localleader>l8 (\ _a _b _c _d _e _f _g _h -> _z)
+    au Filetype elm ino <localleader>l9 (\ _a _b _c _d _e _f _g _h _i -> _z)
+    au Filetype elm ino <localleader>f <bar>> List.map _fn
+    au Filetype elm ino <localleader>fdl <bar>> List.fold _fn _base
+    au Filetype elm ino <localleader>fi <bar>> List.filter _fn
+    au Filetype elm ino <localleader>mb <bar>> Maybe.andThen _v
+    au Filetype elm ino <localleader>if if _c then _t else _f
+    au Filetype elm ino <localleader>mc case _p of
 augroup end
 
 augroup cppconfig
