@@ -197,6 +197,14 @@ require'lspconfig'.elmls.setup{
     }
 }
 
+require'lspconfig'.purescriptls.setup{
+    on_attach = on_attach,
+    flags = {
+        debounce_text_changes = 150,
+    },
+}
+
+
 -- racket
 require'lspconfig'.racket_langserver.setup{
   on_attach = on_attach,
