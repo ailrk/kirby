@@ -31,12 +31,13 @@ augroup hslangs
     autocmd Filetype haskell,purescript ino <localleader>to ->
     autocmd Filetype haskell,purescript ino <localleader>to2 _a -> _b -> _c
     autocmd Filetype haskell,purescript ino <localleader>to3 _a -> _b -> _c -> _d
-    autocmd Filetype haskell,purescript ino <localleader>lfish <=<
-    autocmd Filetype haskell,purescript ino <localleader>rfish >=>
+    autocmd Filetype haskell,purescript ino <localleader>lfsh <=<
+    autocmd Filetype haskell,purescript ino <localleader>rfsh >=>
     autocmd Filetype haskell,purescript ino <localleader>of $
-    autocmd Filetype haskell,purescript ino <localleader>tra traverse
-    autocmd Filetype haskell,purescript ino <localleader>fol foldr _f _b _xs
-    autocmd Filetype haskell,purescript ino <localleader>fom foldMap _f _xs
+    autocmd Filetype haskell,purescript ino <localleader>tv traverse
+    autocmd Filetype haskell,purescript ino <localleader>fdr foldr _f _b _xs
+    autocmd Filetype haskell,purescript ino <localleader>fdl foldl _f _b _xs
+    autocmd Filetype haskell,purescript ino <localleader>fdm foldMap _f _xs
     autocmd Filetype haskell,purescript ino <localleader>ap _f <$> _a <*> _b
     autocmd Filetype haskell,purescript ino <localleader>ap2 _f <$> _a <*> _b <*> _c
     autocmd Filetype haskell,purescript ino <localleader>ap3 _f <$> _a <*> _b <*> _c <*> _d
@@ -145,13 +146,13 @@ augroup fsharplang
     au FileType fsharp set shiftwidth=2 tabstop=2
     au FileType fsharp setl commentstring=(*%s*)
     au Filetype fsharp ino <localleader>l (fun _a -> _c)
-    au Filetype fsharp ino <localleader>mp _ |> Seq.map _fn
-    au Filetype fsharp ino <localleader>fd _ |> Seq.fold _fn _base
-    au Filetype fsharp ino <localleader>fi _ |> Seq.filter _fn
-    au Filetype fsharp ino <localleader>ta _ |> Seq.toArray
-    au Filetype fsharp ino <localleader>tl _ |> Seq.toList
-    au Filetype fsharp ino <localleader>sc _ |> String.concat ""
-    au Filetype fsharp ino <localleader>dv _ |> Option.defaultValue _v
+    au Filetype fsharp ino <localleader>mp _ <bar>> Seq.map _fn
+    au Filetype fsharp ino <localleader>fd _ <bar>> Seq.fold _fn _base
+    au Filetype fsharp ino <localleader>fi _ <bar>> Seq.filter _fn
+    au Filetype fsharp ino <localleader>ta _ <bar>> Seq.toArray
+    au Filetype fsharp ino <localleader>tl _ <bar>> Seq.toList
+    au Filetype fsharp ino <localleader>sc _ <bar>> String.concat ""
+    au Filetype fsharp ino <localleader>dv _ <bar>> Option.defaultValue _v
     au Filetype fsharp ino <localleader>if if _c then _t else _f
     au Filetype fsharp ino <localleader>mc match _p with
     au Filetype fsharp ino <localleader>lc let _f = function
