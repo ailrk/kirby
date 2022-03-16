@@ -1,16 +1,12 @@
 augroup set_shiftwidth
     autocmd! set_shiftwidth
-  autocmd FileType purescript set shiftwidth=2 tabstop=2
   autocmd FileType javascript set shiftwidth=2 tabstop=2
   autocmd FileType json set shiftwidth=2 tabstop=2
   autocmd FileType koka set shiftwidth=2 tabstop=2
   autocmd FileType typescript set shiftwidth=2 tabstop=2
   autocmd FileType typescriptreact set shiftwidth=2 tabstop=2
-  autocmd FileType ocaml set shiftwidth=2 tabstop=2
-  autocmd FileType scheme set shiftwidth=2 tabstop=2
   autocmd FileType c set shiftwidth=4 tabstop=4
   autocmd FileType cuda set shiftwidth=4 tabstop=4
-  autocmd FileType cpp set shiftwidth=4 tabstop=4
   autocmd FileType markdown set conceallevel=0
   autocmd FileType org set conceallevel=0
   autocmd BufWritePre * %s/\s\+$//eg
@@ -89,9 +85,6 @@ augroup hslangs
     autocmd Filetype haskell ino <localleader>immapp import Control.Applicative
     autocmd Filetype haskell ino <localleader>imtext import qualified Data.Text as T
 
-    " ALEFix
-    " autocmd FileType haskell nnoremap <leader>fm :ALEFix<CR>
-
     let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
     let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
     let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
@@ -100,18 +93,6 @@ augroup hslangs
     let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
     let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
     let g:haskell_classic_highlighting = 1
-
-    " fix highlight
-    " autocmd Filetype haskell sy keyword haskellTrace trace traceId traceShow traceStack traceIO traceM traceShowM traceEvent traceEventIO traceMarker traceMarkerIO
-    " autocmd Filetype haskell hi link haskellType Constant
-    " autocmd Filetype haskell hi link haskellTrace Operator
-
-    " autocmd Filetype haskell sy keyword haskellMonadic join >>= >=> <=< >> << lift liftIO liftM traverse traverse_ traverseM mapM mapM_
-    " autocmd Filetype haskell sy keyword haskellImperative newIORef readIORef writeIORef modifyIORef modifyIORef' atomicModifyIORef atomicModifyIORef' atomicWriteIORef mkWeakIORef newEmptyMVar newMVar takeMVar putMVar readMVar swapMVar newSTRef readSTRef writeSTRef writeSTRef modifySTRef
-
-    " autocmd Filetype haskell hi link haskellMonadic Constant
-    " autocmd Filetype haskell hi link haskellImperative Constant
-
     let g:haskell_trace_highlight_on = 0
 
     " highlight trace command
@@ -134,6 +115,7 @@ augroup end
 " ocaml
 augroup ocamlsetup
   set rtp+=~/.opam/default/share/merlin/vim
+  au FileType ocaml set shiftwidth=2 tabstop=2
   au FileType ocaml nnoremap <silent> <buffer> K :MerlinTypeOf<CR>
   au FileType ocaml vnoremap <silent> <buffer> K :MerlinTypeOfSel<CR>
   au FileType ocaml vnoremap <silent> <buffer> gd :MerlinLocate<CR>
@@ -145,19 +127,39 @@ function! EnableRanbowParenthesesWrapper()
 endfunction
 
 augroup luap
-  autocmd! luap
-  autocmd FileType lua nnoremap <leader>fm :call LuaFormat()<cr>
+  au! luap
+  au FileType lua nnoremap <leader>fm :call LuaFormat()<cr>
 augroup end
 
 augroup lispy
-    autocmd! lispy
-    autocmd FileType scheme call EnableRanbowParenthesesWrapper()
-    autocmd FileType lisp call EnableRanbowParenthesesWrapper()
-    autocmd FileType closure call EnableRanbowParenthesesWrapper()
+    au! lispy
+    au FileType scheme set shiftwidth=2 tabstop=2
+    au FileType lisp set shiftwidth=2 tabstop=2
+    au FileType closure call EnableRanbowParenthesesWrapper()
+    au FileType lisp call EnableRanbowParenthesesWrapper()
+    au FileType closure call EnableRanbowParenthesesWrapper()
+augroup end
+
+augroup fsharplang
+    au! fsharplang
+    au FileType fsharp set shiftwidth=2 tabstop=2
+    au FileType fsharp setl commentstring=(*%s*)
+    au Filetype fsharp ino <localleader>l (fun _a -> _c)
+    au Filetype fsharp ino <localleader>mp _ |> Seq.map _fn
+    au Filetype fsharp ino <localleader>fd _ |> Seq.fold _fn _base
+    au Filetype fsharp ino <localleader>fi _ |> Seq.filter _fn
+    au Filetype fsharp ino <localleader>ta _ |> Seq.toArray
+    au Filetype fsharp ino <localleader>tl _ |> Seq.toList
+    au Filetype fsharp ino <localleader>sc _ |> String.concat ""
+    au Filetype fsharp ino <localleader>dv _ |> Option.defaultValue _v
+    au Filetype fsharp ino <localleader>if if _c then _t else _f
+    au Filetype fsharp ino <localleader>mc match _p with
+    au Filetype fsharp ino <localleader>lc let _f = function
 augroup end
 
 augroup cppconfig
     autocmd! cppconfig
+    autocmd FileType cpp set shiftwidth=4 tabstop=4
     autocmd BufRead, BufNewFile CMakeLists.txt :set filetype=cmake
     autocmd FileType cpp set commentstring=//%s
 augroup end
@@ -184,7 +186,6 @@ augroup smllang
   au FileType sml nnoremap <silent> <buffer> <leader>ic :SMLReplClear<CR>
   " set the print depth to 100
   au FileType sml nnoremap <silent> <buffer> <leader>ip :SMLReplPrintDepth<CR>
-
 augroup end
 
 augroup agdalang
@@ -211,9 +212,6 @@ augroup texconfig
     autocmd FileType plaintex set filetype=tex
     autocmd FileType tex nnoremap <F5> :setlocal spell! spelllang=en_us<CR>
 
-    " vimtex
-    " let g:Tex_MultipleCompileFormats = 'pdf'
-    " let g:Tex_DefaultTargetFormat = 'pdf'
     let g:tex_flavor='latex'
     let g:vimtex_view_method='zathura'
     let g:vimtex_quickfix_mode=0
@@ -227,10 +225,7 @@ augroup texconfig
     nnoremap <leader>li :VimtexInfo
     nnoremap <leader>lv :VimtexView<CR>
     nnoremap <Leader>lc :VimtexClean
-    " nnoremap <leader>ltoc :VimtexTocToggle
-    " nnoremap <Leader>le :VimtexErrors
 augroup end
-
 
 
 " CSS
@@ -242,15 +237,6 @@ function EnableRainbowParenthese()
     :RainbowParenthesesLoadRound
     :RainbowParenthesesActivate
 endfunction
-
-" Racket
-" function RacketAutoComplete()
-"     :silent !gen-rkt-symbols
-"     if filereadable("/tmp/racket-dict.vim")
-"         :set dictionary+=/tmp/racket-dict.vim
-"     endif
-" endfunction
-" autocmd FileType racket call RacketAutoComplete()
 
 " markdown
 let g:vim_markdown_folding_disabled = 1

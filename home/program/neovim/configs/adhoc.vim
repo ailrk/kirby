@@ -138,9 +138,3 @@ let g:system_copy#paste_command='xclip -sel clibpoard -o'
 "
 let g:goyo_width = 150
 let g:goyo_height = 150
-
-" " for writing
-" nnoremap <space>P :Goyo 100<cr>
-
-" " for quickfix
-" nnoremap <space>p :Goyo <cr>
