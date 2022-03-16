@@ -158,7 +158,7 @@ augroup fsharplang
     au Filetype fsharp ino <localleader>sq <bar>> Task.seq
     au Filetype fsharp ino <localleader>sc <bar>> String.concat ""
     au Filetype fsharp ino <localleader>dv <bar>> Option.defaultValue _v
-    au Filetype fsharp ino <localleader>mb <bar>> |> Option.bind _v
+    au Filetype fsharp ino <localleader>mb <bar>> Option.bind _v
     au Filetype fsharp ino <localleader>if if _c then _t else _f
     au Filetype fsharp ino <localleader>mc match _p with
     au Filetype fsharp ino <localleader>lc let _f = function
@@ -179,7 +179,7 @@ augroup elmlang
     au Filetype fsharp ino <localleader>f <bar>> List.map _fn
     au Filetype fsharp ino <localleader>fdl <bar>> List.fold _fn _base
     au Filetype fsharp ino <localleader>fi <bar>> List.filter _fn
-    au Filetype fsharp ino <localleader>mb <bar>> <bar>> Maybe.andThen _v
+    au Filetype fsharp ino <localleader>mb <bar>> Maybe.andThen _v
     au Filetype fsharp ino <localleader>if if _c then _t else _f
     au Filetype fsharp ino <localleader>mc case _p of
 augroup end
