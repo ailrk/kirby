@@ -145,17 +145,43 @@ augroup fsharplang
     au! fsharplang
     au FileType fsharp set shiftwidth=2 tabstop=2
     au FileType fsharp setl commentstring=(*%s*)
-    au Filetype fsharp ino <localleader>l (fun _a -> _c)
-    au Filetype fsharp ino <localleader>mp _ <bar>> Seq.map _fn
-    au Filetype fsharp ino <localleader>fd _ <bar>> Seq.fold _fn _base
-    au Filetype fsharp ino <localleader>fi _ <bar>> Seq.filter _fn
-    au Filetype fsharp ino <localleader>ta _ <bar>> Seq.toArray
-    au Filetype fsharp ino <localleader>tl _ <bar>> Seq.toList
-    au Filetype fsharp ino <localleader>sc _ <bar>> String.concat ""
-    au Filetype fsharp ino <localleader>dv _ <bar>> Option.defaultValue _v
+    au Filetype fsharp ino <localleader>l1 (fun _a -> _z)
+    au Filetype fsharp ino <localleader>l2 (fun _a _b -> _z)
+    au Filetype fsharp ino <localleader>l3 (fun _a _b _c -> _z)
+    au Filetype fsharp ino <localleader>l4 (fun _a _b _c _d -> _z)
+    au Filetype fsharp ino <localleader>l5 (fun _a _b _c _d _e -> _z)
+    au Filetype fsharp ino <localleader>f <bar>> Seq.map _fn
+    au Filetype fsharp ino <localleader>fdl <bar>> Seq.fold _fn _base
+    au Filetype fsharp ino <localleader>fi <bar>> Seq.filter _fn
+    au Filetype fsharp ino <localleader>ta <bar>> Seq.toArray
+    au Filetype fsharp ino <localleader>tl <bar>> Seq.toList
+    au Filetype fsharp ino <localleader>sq <bar>> Task.seq
+    au Filetype fsharp ino <localleader>sc <bar>> String.concat ""
+    au Filetype fsharp ino <localleader>dv <bar>> Option.defaultValue _v
+    au Filetype fsharp ino <localleader>mb <bar>> |> Option.bind _v
     au Filetype fsharp ino <localleader>if if _c then _t else _f
     au Filetype fsharp ino <localleader>mc match _p with
     au Filetype fsharp ino <localleader>lc let _f = function
+augroup end
+
+augroup elmlang
+    au! elmlang
+    au FileType fsharp set shiftwidth=2 tabstop=2
+    au Filetype fsharp ino <localleader>l1 (\ _a -> _z)
+    au Filetype fsharp ino <localleader>l2 (\ _a _b -> _z)
+    au Filetype fsharp ino <localleader>l3 (\ _a _b _c -> _z)
+    au Filetype fsharp ino <localleader>l4 (\ _a _b _c _d -> _z)
+    au Filetype fsharp ino <localleader>l5 (\ _a _b _c _d _e -> _z)
+    au Filetype fsharp ino <localleader>l6 (\ _a _b _c _d _e _f -> _z)
+    au Filetype fsharp ino <localleader>l7 (\ _a _b _c _d _e _f _g -> _z)
+    au Filetype fsharp ino <localleader>l8 (\ _a _b _c _d _e _f _g _h -> _z)
+    au Filetype fsharp ino <localleader>l9 (\ _a _b _c _d _e _f _g _h _i -> _z)
+    au Filetype fsharp ino <localleader>f <bar>> List.map _fn
+    au Filetype fsharp ino <localleader>fdl <bar>> List.fold _fn _base
+    au Filetype fsharp ino <localleader>fi <bar>> List.filter _fn
+    au Filetype fsharp ino <localleader>mb <bar>> <bar>> Maybe.andThen _v
+    au Filetype fsharp ino <localleader>if if _c then _t else _f
+    au Filetype fsharp ino <localleader>mc case _p of
 augroup end
 
 augroup cppconfig
