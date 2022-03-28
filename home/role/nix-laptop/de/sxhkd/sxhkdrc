@@ -4,11 +4,7 @@
 
 # terminal emulator
 super + Return
-    $TERMINAL
-
-ctrl + alt + shift + Return
-    $TERMINAL
-
+    alacritty
 super + shift + Return
     bspc rule -a \* -o state=floating && $TERMINAL
 
@@ -19,6 +15,9 @@ super + shift + Return
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
+
+super + R
+    alacritty -e "sh" "-c" "home-manager switch && read -n 1 -p 'echo #enter any key' && bspc wm -r && pkill -USR1 -x sxhkd"
 
 #
 # bspwm hotkeys
@@ -209,6 +208,15 @@ super + alt + h
 
 super + alt + b
     urxvt -name float -e zsh -c "cd ~/newDisk/book/ && ranger"
+
+super + V
+    urxvt -name float -e zsh -c "tmux-vim"
+
+super + alt + n
+    urxvt -name float -e zsh -c "ncmpcpp"
+
+super + alt + o
+    urxvt -name float -e zsh -c "ranger"
 
 super + alt + m
     ~/.config/scripts/mpc-song

@@ -25,11 +25,10 @@ in
             "WINIT_X11_SCALE_FACTOR"=  "1.0";
           };
 
-          background_opacity = 0.95;
-
           window = {
             padding.x = 10;
-            padding.y = 10;
+            padding.y = 11;
+            opacity = 0.95;
             decorations = "none";
           };
 

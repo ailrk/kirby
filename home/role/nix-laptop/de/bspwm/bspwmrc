@@ -4,7 +4,6 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 unset SSH_ASKPASS
 
 function killDaemons() {
-    pkill sxhkd
     pkill dunst
     pkill polybar
     pkill compton
@@ -21,8 +20,13 @@ function setEnv() {
 
 # detect monitors and set
 function setMonitor() {
-    bspc monitor DisplayPort-1 -d '1' '2' '3' '4' '5' '6' '7' '8'
-    xrandr --output DisplayPort-1 --mode 3840x2160 --rate 60  --scale 0.80x0.80
+    bspc monitor DP-2 -d '1' '2' '3' '4' '5' '6'
+    bspc monitor eDP-1 -d '7' '8' '9' '0'
+
+    xrandr --output eDP-1 --primary --mode 1920x1080 \
+           --output DP-2 --mode 3840x2160 --rate 60  --scale 0.80x0.80 --left-of eDP-1
+    xrandr --output eDP-1 --scale 0.9999x0.9999
+    xrandr --ouput eDP-1 --brightness 1.1 --gamma 2:2:2
 }
 
 function setBspwmConfigs() {
@@ -53,7 +57,7 @@ function setBspwmRules() {
 }
 
 function spawnDaemon() {
-    sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
+    sxhkd -c  ~/.config/sxhkd/sxhkdrc &
     $HOME/.config/polybar/start.sh &
     # mpc update
     # mpc listall | mpc add

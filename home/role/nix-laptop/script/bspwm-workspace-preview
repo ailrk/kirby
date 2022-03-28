@@ -1,0 +1,133 @@
+#!/usr/bin/env python
+import tkinter as tk
+from PIL import Image, ImageGrab, ImageDraw, ImageTk, ImageFont
+from pynput import keyboard
+import configparser
+
+import subprocess
+import json
+
+configIni = """
+[BWP]
+update-interval=1000
+window-x=0
+window-y=30
+
+[Previewer]
+side=left
+fallback-bg=#333333
+
+[Thumbnail]
+width=160
+height=90
+font-location=/usr/share/fonts/ubuntu/UbuntuMono-R.ttf
+font-size=14
+text-bg=#333333
+text-fg=#ffffff
+text-pad-x=6
+text-pad-y=3
+"""
+
+
+def workspaces():
+    return subprocess.check_output(["bspc", "query", "-D", "--names"], encoding='utf-8').split()
+
+def current_workspace():
+    return subprocess.check_output(["bspc", "query", "-D", "-d", "focused", "--names"], encoding='utf-8').strip()
+
+def current_bounds():
+    jsonInfo = subprocess.check_output(["bspc", "query", "-T", "-m"], encoding='utf-8')
+    info = json.loads(jsonInfo)
+
+    rect = info['rectangle']
+    return (rect['x'], rect['y'], rect['x'] + rect['width'], rect['y'] + rect['height'])
+
+def generate(screenshot, desktop, conf):
+    w, h = int(conf['width']), int(conf['height'])
+
+    # Scale the image
+    thumb = screenshot.resize((w, h))
+    draw = ImageDraw.Draw(thumb)
+
+    font = ImageFont.truetype(conf['font-location'], int(conf['font-size']))
+    text_w, text_h = draw.textsize(desktop, font)
+
+    # Pad the text
+    padx = int(conf['text-pad-x'])
+    pady = int(conf['text-pad-y'])
+
+    draw.rectangle([0, h-text_h-2*pady, text_w+2*padx, h], outline=None, fill=conf['text-bg'])
+    draw.text((padx, h-text_h-pady), desktop, conf['text-fg'], font=font)
+
+    return ImageTk.PhotoImage(thumb)
+
+class Previewer(tk.Frame):
+    def __init__(self, parent, ini):
+        super().__init__(parent)
+        self.conf = ini['Previewer']
+        self.thumb_conf = ini['Thumbnail']
+        fallback_bg = Image.new('RGB', (1, 1), self.conf['fallback-bg'])
+        self.previews = {w: tk.Label(self) for w in workspaces()}
+        [p.pack(side=self.conf['side']) for p in self.previews.values()]
+        [self.update(p, fallback_bg) for p in self.previews]
+
+    def update(self, name, image):
+        img = generate(image, name, self.thumb_conf)
+        self.previews[name].image = img
+        self.previews[name].configure(image=img)
+
+class App(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        ini = configparser.ConfigParser()
+        ini.read_string(configIni)
+        self.conf = ini['BWP']
+        self.overrideredirect(True)
+        self.geometry(f"+{self.conf['window-x']}+{self.conf['window-y']}")
+        self.preview = Previewer(self, ini)
+        self.preview.pack(fill=tk.BOTH)
+        self.withdraw()
+        self.update()
+
+    def update(self):
+        self.after(self.conf['update-interval'], self.update)
+        workspace = current_workspace()
+        image = ImageGrab.grab()
+        image = image.crop(current_bounds())
+        self.preview.update(workspace, image)
+
+    def show(self):
+        self.deiconify()
+        self.lift()
+
+    def hide(self):
+        self.withdraw()
+
+
+HOTKEY = { keyboard.Key.cmd , keyboard.Key.ctrl }
+
+
+if __name__ == "__main__":
+    a = App()
+    current = set()
+
+    def on_press(key):
+        if key in HOTKEY:
+            current.add(key)
+            if all(k in current for k in HOTKEY):
+                a.show()
+            else:
+                0
+
+    def on_release(_):
+        try:
+            global current
+            current = set()
+            a.hide()
+        except KeyError:
+            pass
+
+    listener = keyboard.Listener(on_press=on_press,
+                                 on_release=on_release)
+    listener.start()
+    a.mainloop()

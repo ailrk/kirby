@@ -2,7 +2,7 @@
 with
 lib;
 let
-  cfg = config.kirby.home.role.workstation;
+  cfg = config.kirby.home.role.nix-laptop;
 in
 {
   imports = [
@@ -14,11 +14,11 @@ in
     ./de/sxhkd/default.nix
   ];
 
-  options.kirby.home.role.workstation = {
-    enable = mkEnableOption "Enable linux workstation role";
+  options.kirby.home.role.nix-laptop = {
+    enable = mkEnableOption "Enable linux nix laptop role";
   };
 
-  config = mkIf (config.kirby.role == "workstation") {
+  config = mkIf (config.kirby.role == "nix-laptop") {
 
     # Setup lorri and mpd
 
@@ -34,6 +34,7 @@ in
       resolution = "720p";
     };
 
+
     home.packages = with pkgs; [
       brightnessctl
       xdotool
@@ -44,47 +45,31 @@ in
       libnotify
       w3m
       xclip
+
     ];
 
     fonts.fontconfig.enable = true;
     xdg.configFile."nix/nix.conf".source = ./nix.conf;
 
-    home.file.".xinitrc" = {
-      executable = true;
-      text = ''
-        if [ -z "$HM_XPROFILE_SOURCED" ]; then
-          . "/home/fatmonad/.xprofile"
-        fi
-        unset HM_XPROFILE_SOURCED
-
+    xsession = {
+      enable = true;
+      scriptPath = ".hm-xsession";
+      initExtra = ''
         xset -b
-        exec bspwm
       '';
-    };
 
-    home.file.".xsession" = {
-      executable = true;
-      text = ''
-        source $HOME/.xinitrc
-      '';
-    };
-
-    home.file.".xprofile" = {
-      executable = true;
-      text = ''
-        . "/home/fatmonad/.nix-profile/etc/profile.d/hm-session-vars.sh"
-        if [ -e "$HOME/.profile" ]; then
-          . "$HOME/.profile"
-        fi
-
-        export HM_XPROFILE_SOURCED=1
-      '';
-    };
-
-    home.file.".profile" = {
-      executable = true;
-      text = ''
-        export NIX_PATH="$HOME/.nix-defexpr/channels"
+      # NOTE:
+      # in /etc/nixos/configuration.nix add
+      #   services.xserver.desktopManager.sessoin = [
+      #     name = "home-manager";
+      #     start = ''
+      #       ${pkgs.runtimeShell} $HOME/.hm-xsession &
+      #       waitPID=$!
+      #     '';
+      #   ];
+      windowManager.command = ''
+        bspwm
+        ${pkgs.xterm}/bin/xterm -ls
       '';
     };
 
@@ -92,7 +77,7 @@ in
     home.sessionVariables = {
       EDITOR = "nvim";
       BROWSER = "google-chrome-stable";
-      TERMINAL = "nixGL alacritty";
+      TERMINAL = "alacritty";
     };
 
     services.gpg-agent = {
