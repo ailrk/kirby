@@ -12,6 +12,10 @@ ctrl + alt + shift + Return
 super + shift + Return
     bspc rule -a \* -o state=floating && $TERMINAL
 
+super + R
+    bspc rule -a \* -o state=floating && xterm -e bash -c "home-manager switch; read -n 1 -p 'echo enter any key: '; bspc wm -r && pkill -USR1 -x sxhkd"
+
+
 # program launcher
 #super + @space
 #	dmenu_run

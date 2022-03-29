@@ -1,19 +1,19 @@
 set -x TERM xterm
-set PATH $HOME/Opt/bin/ $PATH
-set PATH $HOME/Opt/cross/bin/ $PATH
-set PATH $HOME/.local/bin/ $PATH
-set PATH $HOME/Opt/bin/ $PATH
-set PATH $HOME/.local/bin/ $PATH
-set PATH $HOME/Opt/Discord/ $PATH
-set PATH $HOME/.cargo/bin/ $PATH
-set PATH $HOME/.cabal/bin/ $PATH
-set PATH $HOME/.gem/ruby/2.6.0/bin/ $PATH
-set PATH $HOME/.config/scripts/ $PATH
-set PATH $HOME/.roswell/bin/ $PATH
-set PATH $HOME/.ghcup/bin/ $PATH
+set PATH $PATH $HOME/Opt/bin/
+set PATH $PATH $HOME/Opt/cross/bin/
+set PATH $PATH $HOME/.local/bin/
+set PATH $PATH $HOME/Opt/bin/
+set PATH $PATH $HOME/.local/bin/
+set PATH $PATH $HOME/Opt/Discord/
+set PATH $PATH $HOME/.cargo/bin/
+set PATH $PATH $HOME/.cabal/bin/
+set PATH $PATH $HOME/.gem/ruby/2.6.0/bin/
+set PATH $PATH $HOME/.config/scripts/
+set PATH $PATH $HOME/.roswell/bin/
+set PATH $PATH $HOME/.ghcup/bin/
 
 # temporary
-set PATH $HOME/Opt/Dyalog/opt/mdyalog/18.0/64/unicode $PATH
+set PATH $PATH $HOME/Opt/Dyalog/opt/mdyalog/18.0/64/unicode
 
 # alias
 alias re="cd $HOME/Repo"

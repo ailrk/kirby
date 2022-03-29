@@ -6,6 +6,8 @@ unset SSH_ASKPASS
 function killDaemons() {
     pkill sxhkd
     pkill dunst
+    pkill $(pgrep discord)
+    pkill $(pgrep telegram-desktop)
     pkill polybar
     pkill compton
     pkill -f bspwpm-workspace-preview
@@ -17,6 +19,11 @@ function setEnv() {
     # xrdb ~/.Xresources
     # . $HOME/.cache/wal/colors.sh
     sleep 0.1
+}
+
+function autoStart() {
+    bspc rule -a \* -o && discord &
+    bspc rule -a \* -o && telegram-desktop &
 }
 
 # detect monitors and set
@@ -55,8 +62,6 @@ function setBspwmRules() {
 function spawnDaemon() {
     sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
     $HOME/.config/polybar/start.sh &
-    # mpc update
-    # mpc listall | mpc add
     compton &
     xinput set-prop 11 295 1
     dunst \
@@ -84,3 +89,4 @@ setBspwmConfigs
 setBspwmRules
 spawnDaemon
 theme
+autoStart
