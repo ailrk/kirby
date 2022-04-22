@@ -27,7 +27,6 @@ with lib;
       common = [
 
         tmux
-        direnv
 
         # utils
         zlib.dev
@@ -54,13 +53,11 @@ with lib;
         gnumake
         cmake
         ocaml
-        python39Full
         lua
         haskellPackages.ghcup
         rebar3
         rustup
         nodejs
-        gcc
 
         # Jokes
         cowsay

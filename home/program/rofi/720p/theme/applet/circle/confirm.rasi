@@ -1,6 +1,6 @@
 /* Confirm Dialog */
 
-@import "colors.rasi"
+@import "../../../styles/colors.rasi"
 
 * {
     background-color:       @background;

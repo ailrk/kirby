@@ -7,7 +7,6 @@ function killDaemons() {
     pkill sxhkd
     pkill dunst
     pkill $(pgrep discord)
-    pkill $(pgrep telegram-desktop)
     pkill polybar
     pkill compton
     pkill -f bspwpm-workspace-preview
@@ -23,7 +22,6 @@ function setEnv() {
 
 function autoStart() {
     bspc rule -a \* -o && discord &
-    bspc rule -a \* -o && telegram-desktop &
 }
 
 # detect monitors and set

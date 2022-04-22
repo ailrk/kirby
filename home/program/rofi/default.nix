@@ -6,7 +6,7 @@ let
 in
 {
   options.kirby.home.program.rofi = {
-    enable = mkEnableOption "Enable to tmux terminal multiplexer";
+    enable = mkEnableOption "Enable rofi";
 
     resolution = mkOption {
       type = types.str;

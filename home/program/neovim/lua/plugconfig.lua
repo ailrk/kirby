@@ -331,6 +331,14 @@ require'lspconfig'.cmake.setup{
   }
 }
 
+require'lspconfig'.erlangls.setup{
+  on_attach = on_attach,
+  flags = {
+      debounce_text_changes = 150,
+  }
+}
+
+
 -- typescript
 require'lspconfig'.tsserver.setup{
   on_attach = on_attach,
