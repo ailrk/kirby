@@ -15,7 +15,7 @@ with lib;
         tmux.enable = true;
         git = {
           enable = true;
-          userEmail = "jimmy124good@hotmail.com";
+          userEmail = "jimmy123good@hotmail.com";
           userName = "ailrk";
         };
       };

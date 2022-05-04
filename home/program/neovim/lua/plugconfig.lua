@@ -305,7 +305,7 @@ require'lspconfig'.rust_analyzer.setup{
   flags = {
       debounce_text_changes = 150,
   },
-  cmd = {"rustup", "run", "nightly", "rust-analyzer"}
+  cmd = {"rust-analyzer"}
 }
 
 

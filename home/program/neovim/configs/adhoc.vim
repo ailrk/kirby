@@ -50,7 +50,7 @@ let g:asyncrun_open = 12
 let g:floaterm_width = 0.8
 let g:floaterm_wdith = 0.8
 nmap <C-n> :FloatermToggle<CR>
-nmap <localleader>0 :FloatermNew<CR>
+nmap <localleader>] :FloatermNew<CR>
 nmap <localleader>9 :FloatermSend<space>
 
 "

@@ -33,7 +33,7 @@ in
           };
 
           font = {
-            size = 15;
+            size = 12;
             use_thin_strokes = true;
             normal.family = "iosevka";
             bold.family = "iosevka";
