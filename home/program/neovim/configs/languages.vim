@@ -14,55 +14,77 @@ augroup end
 
 augroup hslangs
     autocmd! hslangs
+
+
+    autocmd Filetype haskell ino <localleader>nt2 newtype _M a = _M {un_M :: _ (_ (_ IO)) a} deriving (Functor, Applicative, Monad, MonadIO, MonadReader _r , MonadWriter _w)
     " haskell
     autocmd FileType haskell,purescript set shiftwidth=2 tabstop=2
 
     " base
-    autocmd Filetype haskell,purescript ino <localleader>F <$>
-    autocmd Filetype haskell,purescript ino <localleader>Fl <$
-    autocmd Filetype haskell,purescript ino <localleader>Fr $>
-    autocmd Filetype haskell,purescript ino <localleader>Ff <&>
-    autocmd Filetype haskell,purescript ino <localleader>rb >>=
-    autocmd Filetype haskell,purescript ino <localleader>lb =<<
-    autocmd Filetype haskell,purescript ino <localleader>rbb >>= (\a -> undefined)
-    autocmd Filetype haskell,purescript ino <localleader>from <-
+    autocmd Filetype haskell,purescript ino <localleader>f <$>
+    autocmd Filetype haskell,purescript ino <localleader>fl <$
+    autocmd Filetype haskell,purescript ino <localleader>fr $>
+    autocmd Filetype haskell,purescript ino <localleader>f' <&>
+    autocmd Filetype haskell,purescript ino <localleader>rb >>= (\_ -> _)
+    autocmd Filetype haskell,purescript ino <localleader>rb' >>= (pure . _)
+    autocmd Filetype haskell,purescript ino <localleader>lb (\_ -> _) =<<
+    autocmd Filetype haskell,purescript ino <localleader>lb' (pure . _) =<<
     autocmd Filetype haskell,purescript ino <localleader>A <*>
-    autocmd Filetype haskell,purescript ino <localleader>alt <\|>
-    autocmd Filetype haskell,purescript ino <localleader>to ->
+    autocmd Filetype haskell,purescript ino <localleader>A' <\|>
     autocmd Filetype haskell,purescript ino <localleader>to2 _a -> _b -> _c
     autocmd Filetype haskell,purescript ino <localleader>to3 _a -> _b -> _c -> _d
-    autocmd Filetype haskell,purescript ino <localleader>lfsh <=<
-    autocmd Filetype haskell,purescript ino <localleader>rfsh >=>
-    autocmd Filetype haskell,purescript ino <localleader>of $
-    autocmd Filetype haskell,purescript ino <localleader>tv traverse
+    autocmd Filetype haskell,purescript ino <localleader>lfsh _ <=< _
+    autocmd Filetype haskell,purescript ino <localleader>rfsh _ >=> _
+    autocmd Filetype haskell,purescript ino <localleader>for forM _ $ do
+    autocmd Filetype haskell,purescript ino <localleader>trv traverse _f _
+    autocmd Filetype haskell,purescript ino <localleader>for_ forM _ $ do
+    autocmd Filetype haskell,purescript ino <localleader>trv_ traverse_ _f _
     autocmd Filetype haskell,purescript ino <localleader>fdr foldr _f _b _xs
     autocmd Filetype haskell,purescript ino <localleader>fdl foldl _f _b _xs
     autocmd Filetype haskell,purescript ino <localleader>fdm foldMap _f _xs
     autocmd Filetype haskell,purescript ino <localleader>ap _f <$> _a <*> _b
-    autocmd Filetype haskell,purescript ino <localleader>ap2 _f <$> _a <*> _b <*> _c
-    autocmd Filetype haskell,purescript ino <localleader>ap3 _f <$> _a <*> _b <*> _c <*> _d
-    autocmd Filetype haskell,purescript ino <localleader>lift2 lift . lift
-    autocmd Filetype haskell,purescript ino <localleader>lift3 lift . lift  . lift
-    autocmd Filetype haskell,purescript ino <localleader>lift4 lift . lift  . lift . lift
+    autocmd Filetype haskell,purescript ino <localleader>ap2 _f <$> _a <*> _b
+    autocmd Filetype haskell,purescript ino <localleader>ap3 _f <$> _a <*> _b <*> _c
+    autocmd Filetype haskell,purescript ino <localleader>ap4 _f <$> _a <*> _b <*> _c <*> _d
+    autocmd Filetype haskell,purescript ino <localleader>ap5 _f <$> _a <*> _b <*> _c <*> _d <*> _e
+    autocmd Filetype haskell,purescript ino <localleader>l lift
+    autocmd Filetype haskell,purescript ino <localleader>l2 lift . lift
+    autocmd Filetype haskell,purescript ino <localleader>t2 (_, _)
+    autocmd Filetype haskell,purescript ino <localleader>t3 (_, _, _)
+    autocmd Filetype haskell,purescript ino <localleader>t4 (_, _, _, _)
+    autocmd Filetype haskell,purescript ino <localleader>t5 (_, _, _, _, _)
     autocmd Filetype haskell,purescript ino <localleader>_2 _ _
     autocmd Filetype haskell,purescript ino <localleader>_3 _ _ _
     autocmd Filetype haskell,purescript ino <localleader>_4 _ _ _ _
     autocmd Filetype haskell,purescript ino <localleader>_5 _ _ _ _ _
-    autocmd Filetype haskell,purescript ino <localleader>_6 _ _ _ _ _ _
     autocmd Filetype haskell,purescript ino <localleader>ev {- $> <cr> <$ -}
+
+    " newtype mtl
+    autocmd Filetype haskell ino <localleader>nt newtype _M a = _M {un_M :: _ a} deriving (Functor, Applicative, Monad, MonadIO, MonadReader _r , MonadWriter _w)
+    autocmd Filetype haskell ino <localleader>nt1 newtype _M a = _M {un_M :: _ (_ IO) a} deriving (Functor, Applicative, Monad, MonadIO, MonadReader _r , MonadWriter _w)
+    autocmd Filetype haskell ino <localleader>nt2 newtype _M a = _M {un_M :: _ (_ (_ IO)) a} deriving (Functor, Applicative, Monad, MonadIO, MonadReader _r , MonadWriter _w)
+
 
     " comments
     autocmd Filetype haskell,purescript ino <localleader>--- --------------------------------------------------------------------------------
+
     " refs
-    autocmd Filetype haskell,purescript ino <localleader>rioref readIORef _ref
-    autocmd Filetype haskell,purescript ino <localleader>wioref writeIORef _a _ref
-    autocmd Filetype haskell,purescript ino <localleader>mioref modifyIORef _f _ref
-    autocmd Filetype haskell,purescript ino <localleader>rstref readSTRef _ref
-    autocmd Filetype haskell,purescript ino <localleader>wstref writeSTRef _a _ref
-    autocmd Filetype haskell,purescript ino <localleader>mstref modifySTRef _f _ref
-    autocmd Filetype haskell,purescript ino <localleader>rmvar readMVar _mv
-    autocmd Filetype haskell,purescript ino <localleader>wmvar writeMVar _a _mv
-    autocmd Filetype haskell,purescript ino <localleader>mmvar modifyMVar _f _mv
+    autocmd Filetype haskell ino <localleader>rio readIORef _ref
+    autocmd Filetype haskell ino <localleader>wio writeIORef _a _ref
+    autocmd Filetype haskell ino <localleader>mio modifyIORef _f _ref
+    autocmd Filetype haskell ino <localleader>rst readSTRef _ref
+    autocmd Filetype haskell ino <localleader>wst writeSTRef _a _ref
+    autocmd Filetype haskell ino <localleader>mst modifySTRef _f _ref
+    autocmd Filetype haskell ino <localleader>rmv readMVar _mv
+    autocmd Filetype haskell ino <localleader>wmv writeMVar _a _mv
+    autocmd Filetype haskell ino <localleader>mmv modifyMVar _f _mv
+    autocmd Filetype haskell ino <localleader>rtv readTVar _mv
+    autocmd Filetype haskell ino <localleader>wtv writeTVar _a _mv
+    autocmd Filetype haskell ino <localleader>mtv modifyTVar _f _mv
+
+    " exception
+    autocmd Filetype haskell ino <localleader>c (\_ -> _) `catch` \(e :: SomeException) -> _
+    autocmd Filetype haskell ino <localleader>cs (\_ -> _) `catches` [Handler _1, Handler _2]
 
     " lens
     autocmd Filetype haskell,purescript ino <localleader>vi ^.
@@ -75,16 +97,11 @@ augroup hslangs
     autocmd Filetype haskell,purescript ino <localleader>sse .=
     autocmd Filetype haskell,purescript ino <localleader>sov %=
 
-    autocmd Filetype haskell ino <localleader>ret return $
-    autocmd Filetype haskell ino <localleader>trc trace (": " ++ show "") $
+    autocmd Filetype haskell ino <localleader>tr trace (": " ++ show _) $
+    autocmd Filetype haskell ino <localleader>tm traceM (": " ++ show _)
 
     " comment
     autocmd Filetype haskell,purescript ino <localleader>@@ {-@ @-}<left><left><left>
-
-    " haskell import
-    autocmd Filetype haskell ino <localleader>immonad import Control.Monad
-    autocmd Filetype haskell ino <localleader>immapp import Control.Applicative
-    autocmd Filetype haskell ino <localleader>imtext import qualified Data.Text as T
 
     let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
     let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
