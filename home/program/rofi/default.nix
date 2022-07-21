@@ -24,5 +24,9 @@ in
       home.file.".fonts/Feather.ttf".source = ./fonts/Feather.ttf;
       home.file.".fonts/Hurmit-Nerd-Font-Mono.otf".source = ./fonts/Hurmit-Nerd-Font-Mono.otf;
       home.file.".fonts/Iosevka-Nerd-Font.ttf".source = ./fonts/Iosevka-Nerd-Font.ttf;
+
+      home.file.".fonts/Code-New-Roman-b.woff".source = ./fonts/Code-New-Roman-b.woff;
+      home.file.".fonts/Code-New-Roman-i.woff".source = ./fonts/Code-New-Roman-i.woff;
+      home.file.".fonts/Code-New-Roman.woff".source = ./fonts/Code-New-Roman.woff;
   };
 }

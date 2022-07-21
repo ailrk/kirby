@@ -56,6 +56,7 @@ with lib;
       linux = lib.optionals stdenv.isLinux [
         # font
         iosevka
+        meslo-lg
 
         # language
         smlnj

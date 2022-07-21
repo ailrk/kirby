@@ -35,9 +35,9 @@ in
           font = {
             size = 15;
             use_thin_strokes = true;
-            normal.family = "iosevka";
-            bold.family = "iosevka";
-            italic.family = "iosevka";
+            normal.family = "Code New Roman";
+            bold.family = "Code New Roman";
+            italic.family = "Code New Roman";
           };
 
           cursor.style = "Beam";
