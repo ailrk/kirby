@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+
+import os
+import subprocess
+import shlex
+import sys
+
+buffer = []
+for n in os.environ['PATH'].split(":"):
+    if (n.find("nix-profile") == -1) and (n.find("/nix/var") == -1):
+        buffer.append(n)
+
+paths = ":".join(buffer)
+os.environ['PATH'] = paths
+
+cmd = ' '.join(sys.argv[1:])
+cmd = shlex.split(cmd)
+subprocess.Popen(cmd)

@@ -6,9 +6,9 @@ nnoremap <C-e> :NERDTreeToggle<CR>
 let NERDTreeRespectWildIgnore=1
 let g:NERDTreeWinSize = 30
 
-nnoremap <leader>Nf <cmd>NERDTreeFind<cr>
-nnoremap <leader>Nr <cmd>NERDTreeRefreshRoot<cr>
-nnoremap <leader>Nc <cmd>NERDTreeCWD <cr>
+nnoremap <leader>nf <cmd>NERDTreeFind<cr>
+nnoremap <leader>nr <cmd>NERDTreeRefreshRoot<cr>
+nnoremap <leader>nc <cmd>NERDTreeCWD <cr>
 
 "
 " ultisnips
@@ -102,11 +102,12 @@ nnoremap <leader>A <cmd>Telescope lsp_code_actions<cr>
 "
 " auto-session
 "
+
+let g:auto_session_pre_save_cmds = ["tabdo NERDTreeClose"]
 nnoremap <leader>SS <cmd>SearchSession<cr>
 nnoremap <leader>SV <cmd>SaveSession<cr>
 nnoremap <leader>SR <cmd>RestoreSession<cr>
 nnoremap <leader>SD <cmd>DeleteSession<cr>
-nnoremap <leader>Nt <cmd>NERDTree<cr>
 
 
 nmap # <nop>

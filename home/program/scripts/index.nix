@@ -12,6 +12,7 @@ let
     "newnote" = ./misc/newnote;
     "redshift-toggle" = ./misc/redshift-toggle;
     "screenshot" = ./misc/screenshot;
+    "unnix" = ./misc/unnix;
     "switchwifi" = ./misc/switchwifi;
     "tmux-setup" = ./misc/tmux-setup;
     "tmux-vim" = ./misc/tmux-vim;

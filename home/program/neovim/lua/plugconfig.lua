@@ -164,16 +164,32 @@ require'lspconfig'.ccls.setup{
   },
 
   init_options = {
-    compilationDatabaseDirectory = "build";
+    compilationDatabaseDirectory = "build",
     index = {
-      threads = 0;
+      threads = 0
     };
     clang = {
       excludeArgs = {"-frounding-math"},
       extraArgs = {"-std=c++2a" }
     };
+  },
+  filetypes = {
+      "cpp", "objc", "objcpp"
   }
 }
+
+
+require'lspconfig'.clangd.setup{
+  on_attach = on_attach,
+  flags = {
+      debounce_text_changes = 150,
+  },
+  filetypes = {
+    "c"
+  }
+}
+
+
 
 -- ocaml
 require'lspconfig'.ocamllsp.setup{

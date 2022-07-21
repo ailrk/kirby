@@ -93,8 +93,15 @@ require('packer').startup(function()
       end
     }
 
-    -- useful
-    -- use {'ms-jpq/chadtree'}
+    use {
+      'rmagatti/session-lens',
+      requires = {'rmagatti/auto-session', 'nvim-telescope/telescope.nvim'},
+      config = function()
+        require('session-lens').setup({
+            previewer = true
+        })
+      end
+    }
 
     use {'diepm/vim-rest-console'}
     use {'preservim/nerdtree'}
