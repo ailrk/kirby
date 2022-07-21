@@ -22,7 +22,6 @@ in
     nixpkgs.config.allowUnfree = true;
 
     home.packages = with pkgs; [
-      lsof
       xclip
       pinentry
     ];

@@ -25,7 +25,6 @@ with lib;
     home.packages = with pkgs;
     let
       common = [
-
         tmux
 
         # utils
@@ -49,30 +48,9 @@ with lib;
         # font
         fira-code
 
-        # languages
-        gnumake
-        cmake
-        ocaml
-        lua
-        haskellPackages.ghcup
-        rebar3
-        rustup
-        nodejs
-
-        # Jokes
-        cowsay
-        fortune
-        figlet
-        lolcat
-        nms
-
         # nix
         any-nix-shell
 
-        # others
-        mupdf
-        ncmpcpp
-        zathura
       ];
 
       linux = lib.optionals stdenv.isLinux [
@@ -103,6 +81,29 @@ with lib;
         aseprite
         xfce.thunar
         blueman
+
+        # languages
+        gnumake
+        cmake
+        ocaml
+        lua
+        haskellPackages.ghcup
+        rebar3
+        rustup
+        nodejs
+
+        # Jokes
+        cowsay
+        fortune
+        figlet
+        lolcat
+        nms
+
+
+        # others
+        mupdf
+        ncmpcpp
+        zathura
       ];
 
       unfree = lib.optionals stdenv.isLinux [
