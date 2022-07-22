@@ -115,6 +115,13 @@ nnoremap # <cmd>Telescope grep_string<cr>
 
 
 "
+" renamer
+"
+
+nnoremap <silent> <leader>rn <cmd>lua require('renamer').rename()<cr>
+vnoremap <silent> <leader>rn <cmd>lua require('renamer').rename()<cr>
+
+"
 " Slimv
 "
 let g:slimv_ctags = "ctags"

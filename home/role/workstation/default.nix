@@ -44,6 +44,7 @@ in
       libnotify
       w3m
       xclip
+      libGL
     ];
 
     fonts.fontconfig.enable = true;

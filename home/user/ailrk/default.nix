@@ -88,7 +88,6 @@ with lib;
         cmake
         ocaml
         lua
-        haskellPackages.ghcup
         rebar3
         rustup
         nodejs
