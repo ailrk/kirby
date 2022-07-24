@@ -76,8 +76,12 @@ require('packer').startup(function()
 
     use {'https://github.com/LnL7/vim-nix'}
     use {'skywind3000/asyncrun.vim'}
+    use {'skywind3000/asyncrun.vim'}
+
+
 
     -- nvim
+    use {'github/copilot.vim'}
     use {'nvim-lua/popup.nvim'}
     use {'nvim-lua/plenary.nvim'}
     use {'nvim-telescope/telescope.nvim'}
@@ -102,6 +106,12 @@ require('packer').startup(function()
         })
       end
     }
+
+    use {
+     'nvim-treesitter/nvim-treesitter',
+     run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+    }
+
 
     use {'diepm/vim-rest-console'}
     use {'preservim/nerdtree'}

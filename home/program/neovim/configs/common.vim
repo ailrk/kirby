@@ -18,7 +18,7 @@ set t_Co=256
 set splitbelow
 set splitright
 set scrolloff=5
-set colorcolumn=80
+"set colorcolumn=80
 set cursorline
 set signcolumn=yes
 set hlsearch                        "gutter
