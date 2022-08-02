@@ -465,6 +465,8 @@ vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handle
 
 -------------------------------------------------------------------
 -- tree sitter
+--
+require 'nvim-treesitter.install'.compilers = { "clang" }
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all"
   ensure_installed = {
@@ -478,7 +480,8 @@ require'nvim-treesitter.configs'.setup {
   auto_install = true,
 
   -- List of parsers to ignore installing (for "all")
-  ignore_install = {},
+  ignore_install = {
+  },
 
 incremental_selection = { enable = true },
 
@@ -490,7 +493,16 @@ incremental_selection = { enable = true },
     -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
     -- the name of the parser)
     -- list of language that will be disabled
-    disable = {},
+    disable = {
+        "markdown",
+        "c",
+        "toml",
+        "rust",
+        "nix",
+        "bash",
+        "make",
+        "vim"
+    },
 
     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
