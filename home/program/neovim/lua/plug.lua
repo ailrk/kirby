@@ -86,7 +86,6 @@ require('packer').startup(function()
     use {'nvim-lua/plenary.nvim'}
     use {'nvim-telescope/telescope.nvim'}
     use {'hrsh7th/nvim-compe'}
-    use {'oberblastmeister/neuron.nvim'}
 
     use {
       'rmagatti/auto-session',
