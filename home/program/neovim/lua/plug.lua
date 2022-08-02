@@ -135,12 +135,3 @@ require('packer').startup(function()
     use {'plan9-for-vimspace/acme-colors'}
 
 end)
-
-
-require'neuron'.setup {
-    virtual_titles = true,
-    mappings = true,
-    run = nil,
-    neuron_dir = "~/zettelkasten",
-    leader = "gz",
-}
