@@ -1,29 +1,136 @@
-if require'conf'.debug then
-  print("[lua] init plug configurations")
+-- https://github.com/wbthomason/packer.nvim#notices
+
+-------------------------------------------------------------------
+-- bootstrapping
+local execute = vim.api.nvim_command
+do
+    local fn = vim.fn
+    local install_path = fn.stdpath('data') ..
+                             '/site/pack/packer/start/packer.nvim'
+
+    if fn.empty(fn.glob(install_path)) > 0 then
+        if require'conf'.debug then
+          print("[lua] bootstrapping")
+        end
+        fn.system {
+            'git', 'clone', 'https://github.com/wbthomason/packer.nvim',
+            install_path
+        }
+    end
 end
 
-function os.capture(cmd, raw)
-  local f = assert(io.popen(cmd, "r"))
-  local s = assert(f:read("*a"))
-  f:close()
-  if raw then return s end
-  s = string.gsub(s, "^%s+", "")
-  s = string.gsub(s, "%s+$", "")
-  s = string.gsub(s, "[\n\r]+", " ")
-  return s
-end
+execute 'packadd packer.nvim'
 
-function file_exists(name)
-  local f = io.open(name, "r")
-  return f ~= nil and io.close(f)
-end
+-------------------------------------------------------------------
+-- PLUGINS
+require('packer').startup(function()
+    use {'tpope/vim-fugitive'}
+
+    -- convenient
+    use {'junegunn/goyo.vim'}
+    use {'tpope/vim-commentary'}
+    use {'kien/rainbow_parentheses.vim'}
+    use {'liuchengxu/vista.vim'}
+
+    use {'vim-scripts/DrawIt'}
+    use {'https://github.com/nathanaelkane/vim-indent-guides'}
+    use {'voldikss/vim-floaterm'}
+    use {'xolox/vim-misc'}
+    use {'xolox/vim-notes'}
+    use {'christoomey/vim-system-copy'}
+    use {'mtth/scratch.vim'}
+
+    use {'jummy233/glyphs-vim'}
+    use {'junegunn/fzf.vim'}
+
+    -- languages
+    use {'deoplete-plugins/deoplete-lsp'}
+    use {'PhilT/vim-fsharp'}
+    use {'rhysd/vim-llvm'}
+    use {'leafgarland/typescript-vim'}
+    use {'peitalin/vim-jsx-typescript'}
+    use {'lervag/vimtex'}
+    use {'mattn/emmet-vim'}
+    use {'purescript-contrib/purescript-vim'}
+    use {'neovimhaskell/haskell-vim'}
+    use {'pangloss/vim-javascript'}
+    use {'plasticboy/vim-markdown'}
+    -- use {'leanprover/lean.vim'}
+    use {'Julian/lean.nvim'}
+    use {'justin2004/vim-apl'}
+    use {'jez/vim-better-sml'}
+    use {'Nymphium/vim-koka'}
+
+    use {'whonore/Coqtail'}
+    use {'kovisoft/slimv'}
+
+--    use {'https://github.com/jez/vim-better-sml'}
+--    use {'https://github.com/octol/vim-cpp-enhanced-highlight'}
+
+    use {'https://github.com/LnL7/vim-nix'}
+    use {'skywind3000/asyncrun.vim'}
+
+    -- nvim
+    use {'github/copilot.vim'}
+    use {'nvim-lua/popup.nvim'}
+    use {'nvim-lua/plenary.nvim'}
+    use {'nvim-telescope/telescope.nvim'}
+    use {'hrsh7th/nvim-compe'}
+
+    use {
+      'rmagatti/auto-session',
+      config = function()
+        require('auto-session').setup {
+          log_level = 'info',
+          auto_session_suppress_dirs = {'~/', '~/Repo', '~/Projects'}
+        }
+      end
+    }
+
+    use {
+      'rmagatti/session-lens',
+      requires = {'rmagatti/auto-session', 'nvim-telescope/telescope.nvim'},
+      config = function()
+        require('session-lens').setup({
+            previewer = true
+        })
+      end
+    }
+
+    use {
+     'nvim-treesitter/nvim-treesitter',
+     run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+    }
+
+
+    use {'diepm/vim-rest-console'}
+    use {'preservim/nerdtree'}
+    use {'jpalardy/vim-slime'}
+    use {'roosta/vim-srcery'}
+    use {'honza/vim-snippets'}
+    use {'SirVer/ultisnips'}
+
+    use {'nvim-lua/completion-nvim'}
+    use {'neovim/nvim-lspconfig'}
+    use {'neovim/nvim-lsp'}
+    use {'RishabhRD/popfix'}
+    use {'RishabhRD/nvim-lsputils'}
+
+
+    -- color scheme
+    use {'ailrk/vim-monochrome-waifu'}
+    use {'altercation/vim-colors-solarized'}
+    use {'morhetz/gruvbox'}
+    use {'kristijanhusak/vim-carbon-now-sh'}
+    use {'plan9-for-vimspace/acme-colors'}
+
+end)
+
 
 -------------------------------------------------------------------
 -- NVIM LSP
-----------------------------
 -- General nvim lsp config
 
-----------------------------
 -- Key bindings
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -61,7 +168,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "<space>cr", "<cmd>lua vim.lsp.codelens.refresh()<CR>", opts)
 end
 
--------------------------------------------------------------------
+
 -- lean lsp
 require'lspconfig'.leanls.setup{}
 require('lean').setup{
@@ -100,6 +207,7 @@ require('lean').setup{
 
   -- Enable suggested mappings?
   --
+  --
   -- false by default, true to enable
   mappings = true,
 
@@ -124,7 +232,7 @@ require('lean').setup{
 
 
 -------------------------------------------------------------------
--- setup lsps
+-- SETUP LSPS
 
 
 -- haskell
@@ -189,7 +297,6 @@ require'lspconfig'.clangd.setup{
 }
 
 
-
 -- ocaml
 require'lspconfig'.ocamllsp.setup{
   on_attach = on_attach,
@@ -230,61 +337,12 @@ require'lspconfig'.racket_langserver.setup{
 }
 
 -- lua
-do
-  local system_name
-  if vim.fn.has("mac") == 1 then system_name = "macOS"
-  elseif vim.fn.has("unix") == 1 then system_name = "Linux"
-  elseif vim.fn.has("win32") == 1 then system_name = "Windows"
-  else
-    print("[err] Unsupported system for sumneko")  -- bottom
-    goto lualsp_end
-  end
-
-  local sumneko_root_path = vim.fn.stdpath('cache') .. '/lua-language-server'
-  if sumneko_root_path == nil  then
-    print("[err] with sumneko_root_path: " .. sumneko_root_path)
-    goto lualsp_end
-  end
-
-  local sumneko_binary = sumneko_root_path .. "/bin/" .. system_name .. "/lua-language-server"
-  if sumneko_root_path == nil then
-    print("err with sumneko_binary: " .. sumneko_binary)
-    goto lualsp_end
-  end
-
-  -- install to $HOME/.cache/nvim if it's not already there.
-  if not file_exists(sumneko_root_path) then
-    print("Sumneko is not installed, installing now...")
-
-    os.execute([[
-      cd $HOME/.cache/nvim &&
-      git clone https://github.com/sumneko/lua-language-server &&
-      cd lua-language-server &&
-      git submodule update --init --recursive
-    ]])
-
-    if not(file_exists(sumneko_root_path) or file_exists(sumneko_binary)) then
-      os.execute("rm -rf $HOME/.cache/nvim/lua-language_server")
-      goto lualsp_end
-    end
-
-    print("lua-langauge-server is downloaded.")
-    print("$ cd $HOME/.cache/nvim/lua-language-server/3rd/luamake $$ ./compile/install.sh && cd ../.. && 3rd/luamake/luamake rebuild")
-  end
-
-  local runtime_path = vim.split(package.path, ";")
-  table.insert(runtime_path, "lua/?.lua")
-  table.insert(runtime_path, "lua/?/init.lua")
-
-  require'lspconfig'.sumneko_lua.setup {
-  cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+require'lspconfig'.sumneko_lua.setup {
   settings = {
     Lua = {
       runtime = {
         -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
         version = 'LuaJIT',
-        -- Setup your lua path
-        path = runtime_path,
       },
       diagnostics = {
         -- Get the language server to recognize the `vim` global
@@ -301,10 +359,6 @@ do
     },
   },
 }
-
-:: lualsp_end ::
-end
-
 
 -- python
 require'lspconfig'.pyright.setup{
@@ -450,8 +504,6 @@ vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 
 
 -------------------------------------------------------------------
--- Plug 'RishabhRD/popfix'
--- Plug 'RishabhRD/nvim-lsputils'
 
 vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
 vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
@@ -462,10 +514,9 @@ vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.imp
 vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
 vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 
-
 -------------------------------------------------------------------
 -- tree sitter
---
+
 require 'nvim-treesitter.install'.compilers = { "clang" }
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all"
@@ -501,7 +552,8 @@ incremental_selection = { enable = true },
         "nix",
         "bash",
         "make",
-        "vim"
+        "vim",
+        "lua"
     },
 
     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
@@ -511,3 +563,64 @@ incremental_selection = { enable = true },
     additional_vim_regex_highlighting = false,
   },
 }
+
+
+
+-------------------------------------------------------------------
+-- MAPPINGS
+
+local function trim(s) return s:match '^%s*(.*%S)' or '' end
+
+local function make_maps(mode, config)
+    return function(maps)
+        for _, v in ipairs(maps) do
+            local from, to = unpack(v)
+            vim.api.nvim_set_keymap(mode, trim(from), trim(to), config)
+        end
+    end
+end
+
+local normal_maps = make_maps('n', {noremap = true, silent = true})
+local local_maps = make_maps('i', {noremap = true, silent = true})
+local terminal_maps = make_maps('t', {noremap = true, silent = true})
+
+-- general inop maps
+local_maps {
+    -- strings are trimed
+    {[[ "         ]], [[ ""<left>      ]]},
+    {[[ {         ]], [[ {}<left>      ]]},
+    {[[ (         ]], [[ ()<left>      ]]},
+    {[[ [         ]], [[ []<left>      ]]},
+    {[[ {<CR>     ]], [[ {<CR>}<ESC>O  ]]},
+    {[[ {;<CR>    ]], [[ {<CR>};<ESC>O ]]},
+    {[[ <leader>; ]], [[ ::<left>      ]]},
+    {[[ <leader>< ]], [[ <><left>      ]]},
+    {[[ <leader>" ]], [[ "             ]]},
+    {[[ <leader>L ]], [[ λ             ]]},
+    {[[ <C-l>     ]], [[ <ESC>         ]]},
+    {[[ <C-@>     ]], [[ <C-space>     ]]}
+}
+
+
+-- general inop maps
+normal_maps {
+    -- line number
+    {[[ <leader>N     ]], [[ :set number!           ]]}, -- easy to config
+    {[[ <leader>ev     ]], [[ :split $MYVIMRC<cr>    ]]},
+    {[[ <leader>sv     ]], [[ :source $MYVIMRC<cr>   ]]}, -- coc.nvim extension
+    {[[ <space>rt     ]], [[ :LspStop<cr>        ]]},
+    {[[ <space>rs     ]], [[ :LspStart<cr>        ]]}, -- ad hoc formatter
+    {[[ <leader>fm     ]], [[ :Format<cr>            ]]},
+
+
+    -- remove trailing empty line
+    {[[ <leader>rt     ]], [[ :RemoveTrailing<cr>    ]]},
+    {[[ <space>qo     ]], [[ :call ToggleQuickFix(0)<cr>    ]]},
+    {[[ <space>qO     ]], [[ :call ToggleQuickFix(1)<cr>    ]]},
+}
+
+terminal_maps {{'<Esc>', [[<C-\><C-n>]]}}
+
+-----------------------------------------------------------------
+
+
