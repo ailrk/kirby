@@ -258,7 +258,8 @@ command -nargs=0 VimLuaScripts :execute "edit! $HOME/.config/nixpkgs/home/progra
 " check current syntax group
 command -nargs=0 SynCheckGroup :call SynGroup()<cr>
 
-colorscheme vim-monochrome-waifu
+" colorscheme vim-monochrome-waifu
+colorscheme off
 
 set background=dark
 

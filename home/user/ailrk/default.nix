@@ -85,8 +85,8 @@ with lib;
 
         # languages
         gnumake
-        cmake
         ocaml
+        cmake
         lua
         rebar3
         rustup

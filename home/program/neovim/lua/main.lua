@@ -9,9 +9,6 @@ do
                              '/site/pack/packer/start/packer.nvim'
 
     if fn.empty(fn.glob(install_path)) > 0 then
-        if require'conf'.debug then
-          print("[lua] bootstrapping")
-        end
         fn.system {
             'git', 'clone', 'https://github.com/wbthomason/packer.nvim',
             install_path
@@ -121,6 +118,8 @@ require('packer').startup(function()
     use {'ailrk/vim-monochrome-waifu'}
     use {'altercation/vim-colors-solarized'}
     use {'morhetz/gruvbox'}
+    use {'pbrisbin/vim-colors-off'}
+
     use {'kristijanhusak/vim-carbon-now-sh'}
     use {'plan9-for-vimspace/acme-colors'}
 
