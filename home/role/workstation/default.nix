@@ -57,7 +57,6 @@ in
           . "/home/fatmonad/.xprofile"
         fi
         unset HM_XPROFILE_SOURCED
-
         xset -b
         exec bspwm
       '';
@@ -86,6 +85,9 @@ in
       executable = true;
       text = ''
         export NIX_PATH="$HOME/.nix-defexpr/channels"
+        export GTK_IM_MODULE=ibus
+        export QT_IM_MODULE=ibus
+        export XMODIFIERS=@im=ibus
       '';
     };
 

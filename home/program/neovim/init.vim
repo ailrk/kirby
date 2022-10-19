@@ -259,19 +259,18 @@ command -nargs=0 VimLuaScripts :execute "edit! $HOME/.config/nixpkgs/home/progra
 command -nargs=0 SynCheckGroup :call SynGroup()<cr>
 
 " colorscheme vim-monochrome-waifu
-colorscheme off
+" colorscheme off
+colorscheme macvim-light
 
-set background=dark
-
+set background=light
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Syntax Modification
-"
 
 "
 " Popup menu
 "
-hi Pmenu ctermbg=238 ctermfg=254
+hi Pmenu ctermbg=254 ctermfg=0
 hi PmenuSbar ctermbg=none
 hi PmenuThumb ctermbg=none
 
@@ -283,13 +282,15 @@ hi SignColumn ctermbg=none ctermfg=none
 hi SyntasticErrorSign ctermbg=none  ctermfg=3
 hi SyntasticWarningSign ctermbg=none ctermfg=3
 hi htmlBold ctermbg=none ctermfg=none
-
 hi ColorColumn ctermbg=white
 
 "
 " hight search
 "
-hi Search ctermfg=4 ctermbg=16
+hi Search ctermfg=232 ctermbg=243
+hi CursorLine cterm=none ctermbg=252 
+hi Visual ctermfg=255 ctermbg=250
+hi CursorLineNr  cterm=none ctermfg=none gui=none guifg=none
 
 "
 " trivial stuffs.
@@ -297,10 +298,6 @@ hi Search ctermfg=4 ctermbg=16
 hi htmlUnderline ctermbg=none ctermfg=none
 hi htmlUnderlineItalic ctermbg=none ctermfg=none
 
-
-" visual mode color. Gruvbox will force this setting
-" so it should be set after setting colorscheme
-hi Visual cterm=none ctermbg=4
 
 "
 " Cocnvim
@@ -346,7 +343,7 @@ hi Normal guibg=none ctermbg=none
 "
 
 augroup set_shiftwidth
-    autocmd! set_shiftwidth
+  autocmd! set_shiftwidth
   autocmd FileType javascript set shiftwidth=2 tabstop=2
   autocmd FileType json set shiftwidth=2 tabstop=2
   autocmd FileType koka set shiftwidth=2 tabstop=2
@@ -356,8 +353,10 @@ augroup set_shiftwidth
   autocmd FileType cuda set shiftwidth=4 tabstop=4
   autocmd FileType markdown set conceallevel=0
   autocmd FileType org set conceallevel=0
-  autocmd BufWritePre * %s/\s\+$//eg
 augroup end
+
+
+" autocmd BufWritePre * %s/\s\+$//eg
 
 "
 " Haskell

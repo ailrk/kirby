@@ -3,8 +3,10 @@ with
 lib;
 {
   home.packages = with pkgs; [
-    compton
+   picom 
   ];
+
+  services.picom.enable = true;
 
   xdg.configFile = {
     "compton/compton.conf".source = ./compton.conf;

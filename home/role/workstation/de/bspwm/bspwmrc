@@ -8,7 +8,6 @@ function killDaemons() {
     pkill dunst
     pkill $(pgrep discord)
     pkill polybar
-    pkill compton
     pkill -f bspwpm-workspace-preview
 }
 
@@ -26,8 +25,10 @@ function autoStart() {
 
 # detect monitors and set
 function setMonitor() {
-    bspc monitor DisplayPort-1 -d '1' '2' '3' '4' '5' '6' '7' '8'
-    xrandr --output DisplayPort-1 --mode 3840x2160 --rate 60
+    bspc monitor HDMI-A-0 -d '1' '2' '3' '4' '5' 
+    bspc monitor DisplayPort-1 -d '6' '7' '8' '9' '0'
+    xrandr --output HDMI-A-0 --mode 2560x1440 --rate 60 
+    xrandr --output DisplayPort-1 --mode 3840x2160 --scale 0.9x0.9 --rate 60 --right-of HDMI-A-0
 }
 
 function setBspwmConfigs() {
@@ -60,7 +61,6 @@ function setBspwmRules() {
 function spawnDaemon() {
     sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
     $HOME/.config/polybar/start.sh &
-    compton &
     xinput set-prop 11 295 1
     dunst \
         -1b "$WHITE" -1f "$BLACK" -1fr "$BLACK" \
@@ -69,13 +69,12 @@ function spawnDaemon() {
     sleep 0.5
 }
 
+
 function theme() {
-    dunstify "Welcome Home! \(^w^)/"
     # blurwal -m 1 -b 4 -s 4 &
     # nohup ~/.config/scripts/bspwpm-workspace-preview &
-    # feh --bg-fill ~/.config/scripts/static/images/dune.jpg
-    feh --bg-fill ~/.config/scripts/static/images/nordish.png
-    # wal --theme vscode
+    dunstify "Welcome Home! \(^w^)/"
+    feh --bg-fill ~/.config/scripts/static/images/sugarchess.jpeg
 }
 
 # Start of the script

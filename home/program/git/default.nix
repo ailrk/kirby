@@ -39,7 +39,7 @@ in
       userName = cfg.userName;
       signing.key = cfg.gpgKey;
       signing.signByDefault = cfg.signByDefault;
-      delta.enable = true; # Use Delta for diff viewing
+      # delta.enable = true; # Use Delta for diff viewing
       extraConfig = {
         # Pull behaviour
         pull.rebase = false;

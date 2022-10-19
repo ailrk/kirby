@@ -164,7 +164,7 @@ super + alt + q
 
 
 # toggle ibus
-super + shift + space
+alt + space
     ~/.config/scripts/toggle-ibus
 
 # print screen

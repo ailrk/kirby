@@ -18,6 +18,5 @@ let
 in
 
 {
-
   imports = linux ++ mac;
 }
