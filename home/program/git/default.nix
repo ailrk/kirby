@@ -19,17 +19,32 @@ in
       default = "";
     };
 
-    gpgKey = lib.mkOption {
-      type = types.lines;
-      description = "The gpg-signing key";
-      default = "";
-    };
-
     signByDefault = lib.mkOption {
       type = types.bool;
       description = "Whether to gpg sign by default";
       default = false;
     };
+    
+    signKey = lib.mkOption {
+      type = types.lines;
+      description = "The gpg-signing key";
+      default = "";
+    };
+
+    extraConfig = lib.mkOption {
+      description = "Extra git config";
+      default = {
+        # Pull behaviour
+        pull.rebase = false;
+      };
+    };
+
+    delta.enable = lib.mkOption {
+      type = types.bool;
+      description = "Use Delta for diff viewing";
+      default = false;
+    };
+
   };
 
   config = lib.mkIf cfg.enable {
@@ -37,14 +52,9 @@ in
       enable = true;
       userEmail = cfg.userEmail;
       userName = cfg.userName;
-      signing.key = cfg.gpgKey;
       signing.signByDefault = cfg.signByDefault;
-      # delta.enable = true; # Use Delta for diff viewing
-      extraConfig = {
-        # Pull behaviour
-        pull.rebase = false;
-      };
-      # Aliases
+      signing.key = cfg.signKey;
+      extraConfig = cfg.extraConfig;
       aliases = {
         "s" = "status";
         "co" = "checkout";

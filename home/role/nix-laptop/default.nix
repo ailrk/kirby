@@ -24,6 +24,7 @@ in
 
     # kirby.home.service.dev.lorri.enable = true;
     # kirby.home.service.mpd.enable = true;
+    kirby.home.service.dropbox.enable = true;
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.pulseaudio = true;
 

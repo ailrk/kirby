@@ -21,17 +21,36 @@ in
   config = mkIf (config.kirby.role == "workstation") {
 
     # Setup lorri and mpd
-
     # kirby.home.service.dev.lorri.enable = true;
     # kirby.home.service.mpd.enable = true;
-    nixpkgs.config.allowUnfree = true;
-    nixpkgs.config.pulseaudio = true;
 
-    kirby.home.program.alacritty.enable = true;
-    kirby.home.program.scripts.enable = true;
-    kirby.home.program.rofi = {
-      enable = true;
-      resolution = "720p";
+    kirby.home.service = {
+      dropbox.enable = true;
+    };
+
+    nixpkgs.config = {
+      allowUnfree = true;
+      pulseaudio = true;
+    };
+
+    kirby.home.program = {
+      git = {
+        enable = true;
+        userEmail = "jimmy123good@gmail.com";
+        userName = "Ailrk";
+        signByDefault = true;
+        signKey = "~/.ssh/id_rsa.pub";
+        extraConfig = {
+          gpg.format = "ssh";
+        };
+      };
+
+      alacritty.enable = true;
+      scripts.enable = true;
+      rofi = {
+        enable = true;
+        resolution = "720p";
+      };
     };
 
     home.packages = with pkgs; [
@@ -50,46 +69,50 @@ in
     fonts.fontconfig.enable = true;
     xdg.configFile."nix/nix.conf".source = ./nix.conf;
 
-    home.file.".xinitrc" = {
-      executable = true;
-      text = ''
-        if [ -z "$HM_XPROFILE_SOURCED" ]; then
-          . "/home/fatmonad/.xprofile"
-        fi
-        unset HM_XPROFILE_SOURCED
-        xset -b
-        exec bspwm
-      '';
+    home.file = {
+      ".xinitrc" = {
+        executable = true;
+        text = ''
+          if [ -z "$HM_XPROFILE_SOURCED" ]; then
+            . "/home/fatmonad/.xprofile"
+          fi
+          unset HM_XPROFILE_SOURCED
+          xset -b
+          exec bspwm
+        '';
+      };
+
+      ".xsession" = {
+        executable = true;
+        text = ''
+          source $HOME/.xinitrc
+        '';
+      };
+
+      ".xprofile" = {
+        executable = true;
+        text = ''
+          . "/home/fatmonad/.nix-profile/etc/profile.d/hm-session-vars.sh"
+          if [ -e "$HOME/.profile" ]; then
+            . "$HOME/.profile"
+          fi
+
+          export HM_XPROFILE_SOURCED=1
+        '';
+      };
+
+      ".profile" = {
+        executable = true;
+        text = ''
+          export NIX_PATH="$HOME/.nix-defexpr/channels"
+          export GTK_IM_MODULE=ibus
+          export QT_IM_MODULE=ibus
+          export XMODIFIERS=@im=ibus
+        '';
+      };
+
     };
 
-    home.file.".xsession" = {
-      executable = true;
-      text = ''
-        source $HOME/.xinitrc
-      '';
-    };
-
-    home.file.".xprofile" = {
-      executable = true;
-      text = ''
-        . "/home/fatmonad/.nix-profile/etc/profile.d/hm-session-vars.sh"
-        if [ -e "$HOME/.profile" ]; then
-          . "$HOME/.profile"
-        fi
-
-        export HM_XPROFILE_SOURCED=1
-      '';
-    };
-
-    home.file.".profile" = {
-      executable = true;
-      text = ''
-        export NIX_PATH="$HOME/.nix-defexpr/channels"
-        export GTK_IM_MODULE=ibus
-        export QT_IM_MODULE=ibus
-        export XMODIFIERS=@im=ibus
-      '';
-    };
 
     # Environment
     home.sessionVariables = {

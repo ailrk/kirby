@@ -258,11 +258,11 @@ command -nargs=0 VimLuaScripts :execute "edit! $HOME/.config/nixpkgs/home/progra
 " check current syntax group
 command -nargs=0 SynCheckGroup :call SynGroup()<cr>
 
-" colorscheme vim-monochrome-waifu
+colorscheme vim-monochrome-waifu
 " colorscheme off
-colorscheme macvim-light
+" colorscheme macvim-light
 
-set background=light
+set background=dark
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Syntax Modification
@@ -270,9 +270,9 @@ set background=light
 "
 " Popup menu
 "
-hi Pmenu ctermbg=254 ctermfg=0
-hi PmenuSbar ctermbg=none
-hi PmenuThumb ctermbg=none
+"hi Pmenu ctermbg=254 ctermfg=0
+"hi PmenuSbar ctermbg=none
+"hi PmenuThumb ctermbg=none
 
 
 "
@@ -288,7 +288,7 @@ hi ColorColumn ctermbg=white
 " hight search
 "
 hi Search ctermfg=232 ctermbg=243
-hi CursorLine cterm=none ctermbg=252 
+"hi CursorLine cterm=none ctermbg=252 
 hi Visual ctermfg=255 ctermbg=250
 hi CursorLineNr  cterm=none ctermfg=none gui=none guifg=none
 
@@ -297,6 +297,7 @@ hi CursorLineNr  cterm=none ctermfg=none gui=none guifg=none
 "
 hi htmlUnderline ctermbg=none ctermfg=none
 hi htmlUnderlineItalic ctermbg=none ctermfg=none
+hi Vertsplit cterm=none
 
 
 "
