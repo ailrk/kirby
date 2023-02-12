@@ -13,7 +13,7 @@ with lib;
         fish.enable = true;
         ranger.enable = true;
         tmux.enable = true;
-
+        taskwarrior.enable = true;
       };
     };
 
@@ -22,6 +22,7 @@ with lib;
     let
       common = [
         tmux
+
 
         # utils
         zlib.dev
@@ -46,7 +47,6 @@ with lib;
 
         # nix
         any-nix-shell
-
       ];
 
       linux = lib.optionals stdenv.isLinux [

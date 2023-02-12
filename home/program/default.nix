@@ -14,5 +14,6 @@
     ./rofi/default.nix
     ./alacritty/default.nix
     ./kitty/default.nix
+    ./taskwarrior/default.nix
   ];
 }
