@@ -55,8 +55,9 @@ module-margin-right = 2
 
 font-0 = Roboto:pixelsize=9;1
 font-1 = "FuraCode Nerd Font:style=Solid:pixelsize=9;1"
-;font-2 = "Font Awesome:style=Regular:pixelsize=9;1"
-;font-3 = "Font Awesome:pixelsize=9;1"
+font-2 = " WenQuanYi Micro Hei,文泉驛微米黑,文泉驿微米黑:style=Regular"
+font-2 = "Font Awesome:style=Regular:pixelsize=9;1"
+font-3 = "Font Awesome:pixelsize=9;1"
 
 wm-restack = bspwm
 modules-left = bspwm mpd

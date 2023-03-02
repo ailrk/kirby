@@ -25,8 +25,8 @@ function autoStart() {
 
 # detect monitors and set
 function setMonitor() {
-    bspc monitor HDMI-A-0 -d '1' '2' '3' '4' '5' 
-    bspc monitor DisplayPort-1 -d '6' '7' '8' '9' '0'
+    bspc monitor HDMI-A-0 -d '壹' '贰' '叁' '肆' '伍'
+    bspc monitor DisplayPort-1 -d '陆' '柒' '捌' '玖' '拾'
     xrandr --output HDMI-A-0 --mode 2560x1440 --rate 60 
     xrandr --output DisplayPort-1 --mode 3840x2160 --scale 0.9x0.9 --rate 60 --right-of HDMI-A-0
 }
