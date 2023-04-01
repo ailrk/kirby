@@ -19,15 +19,6 @@ in
   };
 
   config = mkIf (config.kirby.role == "workstation") {
-
-    # Setup lorri and mpd
-    # kirby.home.service.dev.lorri.enable = true;
-    # kirby.home.service.mpd.enable = true;
-
-    kirby.home.service = {
-      dropbox.enable = true;
-    };
-
     nixpkgs.config = {
       allowUnfree = true;
       pulseaudio = true;
@@ -53,6 +44,10 @@ in
       };
     };
 
+    kirby.home.service = {
+      dropbox.enable = true;
+    };
+
     home.packages = with pkgs; [
       brightnessctl
       xdotool
@@ -64,7 +59,13 @@ in
       w3m
       xclip
       libGL
+      ibus
     ];
+
+    i18n.inputMethod = {
+      enabled = "fcitx5";
+      fcitx5.addons = with pkgs; with pkgs.fcitx-engines; [ fcitx5-rime fcitx5-mozc fcitx5-gtk fcitx5-chinese-addons ];
+    };
 
     fonts.fontconfig.enable = true;
     xdg.configFile."nix/nix.conf".source = ./nix.conf;
@@ -78,6 +79,7 @@ in
           fi
           unset HM_XPROFILE_SOURCED
           xset -b
+          fcitx5 &
           exec bspwm
         '';
       };
@@ -105,14 +107,10 @@ in
         executable = true;
         text = ''
           export NIX_PATH="$HOME/.nix-defexpr/channels"
-          export GTK_IM_MODULE=ibus
-          export QT_IM_MODULE=ibus
-          export XMODIFIERS=@im=ibus
         '';
       };
 
     };
-
 
     # Environment
     home.sessionVariables = {

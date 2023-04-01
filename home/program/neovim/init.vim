@@ -566,8 +566,14 @@ augroup elmlang
 augroup end
 
 "
-" C++
+" C/C++
 "
+
+augroup ccpp
+    autocmd!
+    autocmd BufRead,BufNewFile *.h,*.c set filetype=c
+augroup end
+
 augroup cppconfig
     autocmd! cppconfig
     autocmd FileType cpp set shiftwidth=4 tabstop=4

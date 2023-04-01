@@ -141,7 +141,7 @@ alt + shift {h,j,k,l}
 	bspc node -v {-200 0,0 200,0 -200, 200 0}
 
 # open rofi
-super + space
+alt + space
     ~/.config/rofi/scripts/launcher.sh text style_1
 super + alt + a
     ~/.config/rofi/scripts/apps.sh applet square
@@ -163,9 +163,6 @@ super + alt + q
     ~/.config/rofi/scripts/quicklinks.sh applet square
 
 
-# toggle ibus
-alt + space
-    ~/.config/scripts/toggle-ibus
 
 # print screen
 # super + alt + ctrl + f
