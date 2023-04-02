@@ -2,11 +2,11 @@
 with
 lib;
 let
-  cfg = config.kirby.program.bspwm;
+  cfg = config.kirby.program.compton;
 in
 {
   options.kirby.program.compton = {
-    enable = mkEnableOption "Enable compton";
+    enable = mkEnableOption "Enable compton compositor";
   };
 
   config = mkIf cfg.enable {

@@ -6,7 +6,7 @@ let
 in
 {
   options.kirby.program.rofi = {
-    enable = mkEnableOption "Enable rofi";
+    enable = mkEnableOption "Enable rofi application launcher";
 
     resolution = mkOption {
       type = types.str;

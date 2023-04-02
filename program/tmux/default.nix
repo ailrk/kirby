@@ -6,7 +6,7 @@ let
 in
 {
   options.kirby.program.tmux = {
-    enable = mkEnableOption "Enable to tmux terminal multiplexer";
+    enable = mkEnableOption "Enable tmux terminal multiplexer";
   };
 
   config = mkIf cfg.enable {

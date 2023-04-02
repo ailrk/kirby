@@ -5,7 +5,7 @@ let
 in
 {
   options.kirby.program.fish = {
-    enable = lib.mkEnableOption "Enable fish";
+    enable = lib.mkEnableOption "Enable fish shell";
 
     preShellInit = mkOption {
       type = types.lines;

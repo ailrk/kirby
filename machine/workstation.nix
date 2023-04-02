@@ -3,7 +3,7 @@ with
 lib;
 {
   options.kirby.machine.workstation = {
-    enable = mkEnableOption "Enable the alacritty terminal";
+    enable = mkEnableOption "Enable linux workstation";
   };
 
   config = mkIf config.kirby.machine.workstation.enable {

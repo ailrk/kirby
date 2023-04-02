@@ -3,7 +3,6 @@ with
 lib;
 let
   cfg = config.kirby.program.bspwm;
-
 in
 {
   options.kirby.program.bspwm = {

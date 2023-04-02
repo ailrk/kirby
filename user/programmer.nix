@@ -1,15 +1,19 @@
+# A programmer who does everything with a computer.
 { config, lib, pkgs, ... }:
 with lib;
 {
-  options.kirby.user.ailrk = {
-    enable = mkEnableOption "Enable the alacritty terminal";
+  options.kirby.user.programmer = {
+    enable = mkEnableOption "Set user as a programmer";
   };
 
-  config = mkIf config.kirby.user.ailrk.enable {
+  config = mkIf config.kirby.user.programmer.enable {
     kirby.program = {
       nmap.enable = true;
       emacs.enable = true;
-      neovim.enable = true;
+      neovim = {
+        enable = true;
+        nightly = false;
+      };
       zsh.enable = true;
       fish.enable = true;
       ranger.enable = true;
@@ -94,7 +98,6 @@ with lib;
         lolcat
         nms
 
-
         # others
         mupdf
         ncmpcpp
@@ -112,18 +115,12 @@ with lib;
     # User specific overlays.
     nixpkgs.overlays = [
 
-      # neovim nightly
-      # (import (builtins.fetchTarball {
-      #    url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-      # }))
-
       # discord
       (self: super: {
         discord = super.discord.overrideAttrs (_: {
           src = builtins.fetchTarball https://discord.com/api/download?platform=linux&format=tar.gz;
         });
       })
-
     ];
   };
 }

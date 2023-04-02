@@ -4,23 +4,20 @@
   imports = [
     ./program/default.nix
     ./service/default.nix
-    ./machine/workstation/default.nix
-    ./user/ailrk.nix
+    ./machine/default.nix
+    ./user/default.nix
   ];
 
   manual.manpages.enable = false;
 
-  kirby.machine.workstation.enable = true;
-  kirby.user.ailrk.enable = true;
-
-
-  # kirby.role = "workstation";
-  # kirby.user = "ailrk";
-
-  # Let Home Manager install itself
-  # programs.home-manager.enable = true;
+  # 
+  # kirby configuration.
+  #
+  kirby = {
+    machine.workstation.enable = true;
+    user.programmer.enable = true;
+  };
 
   # Allow unfree
   nixpkgs.config.allowUnfree = true;
-  # home.sessionVariables.LOCALES_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
 }

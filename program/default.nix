@@ -14,9 +14,11 @@
     ./ranger/default.nix
     ./rofi/default.nix
     ./scripts/index.nix
+    ./skhd/default.nix
     ./sxhkd/default.nix
     ./taskwarrior/default.nix
     ./tmux/default.nix
+    ./yabai/default.nix
     ./zsh/default.nix
   ];
 }

@@ -6,7 +6,7 @@ let
 in
 {
   options.kirby.program.dunst = {
-    enable = mkEnableOption "Enable dunst";
+    enable = mkEnableOption "Enable dunst notification daemon";
   };
 
   config = mkIf cfg.enable {
