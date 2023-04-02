@@ -11,7 +11,9 @@
   manual.manpages.enable = false;
 
   # 
-  # kirby configuration.
+  # kirby configuration. You can pick any machine and 
+  # user config as long as their configurations don't
+  # conflict
   #
   kirby = {
     machine.workstation.enable = true;
