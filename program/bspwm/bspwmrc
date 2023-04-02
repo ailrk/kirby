@@ -1,0 +1,85 @@
+#!/bin/sh
+
+export _JAVA_AWT_WM_NONREPARENTING=1
+unset SSH_ASKPASS
+
+function killDaemons() {
+    pkill sxhkd
+    pkill dunst
+    pkill $(pgrep discord)
+    pkill polybar
+    pkill -f bspwpm-workspace-preview
+}
+
+# Environment
+function setEnv() {
+    export PATH="${PATH}:$HOME/.config/scripts"
+    # xrdb ~/.Xresources
+    # . $HOME/.cache/wal/colors.sh
+    sleep 0.1
+}
+
+# detect monitors and set
+function setMonitor() {
+    bspc monitor HDMI-A-0 -d '壹' '贰' '叁' '肆' '伍'
+    bspc monitor DisplayPort-1 -d '陆' '柒' '捌' '玖' '拾'
+    xrandr --output HDMI-A-0 --mode 2560x1440 --rate 60 
+    xrandr --output DisplayPort-1 --mode 3840x2160 --scale 0.9x0.9 --rate 60 --right-of HDMI-A-0
+}
+
+function setBSPWMConfigs() {
+    bspc config top_padding         0
+    bspc config bottom_padding      0
+    bspc config left_padding        0
+    bspc config right_padding       0
+    bspc config border_width        2
+    bspc config window_gap          5
+
+    bspc config borderless_monocle   true
+    bspc config gapless_monocle      true
+
+    # bspc config normal_border_color $BLACK
+    bspc config focused_border_color $WHITE
+    bspc config split_ratio          0.5
+    # bspc config presel_border_color "#ffbec9"
+    # bspc config border_radius        10
+}
+
+function setBSPWMRules() {
+    ## Winodw rules
+    # remove all rules first
+    bspc rule -r *:*
+    bspc rule -a urxvt:float state=floating rectangle=500x800+200+50
+    bspc rule -a vimiv state=floating rectangle=700x100+500+50
+    bspc rule -a "lemonbar" layer=above
+}
+
+function spawnDaemon() {
+    sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
+    $HOME/.config/polybar/start.sh &
+    xinput set-prop 11 295 1
+    dunst \
+        -1b "$WHITE" -1f "$BLACK" -1fr "$BLACK" \
+        -nb "$WHITE" -nf "$BLACK" -nfr "$BLACK" \
+        -cb "$WHITE" -cf "$BLACK" -cfr "$BLACK" &
+    sleep 0.5
+}
+
+
+function theme() {
+    # blurwal -m 1 -b 4 -s 4 &
+    # nohup ~/.config/scripts/bspwpm-workspace-preview &
+    dunstify "Welcome Home! \(^w^)/"
+    file=$(ls ~/.config/bspwm/background | shuf -n 1) 
+    feh --bg-fill $file
+}
+
+# Start of the script
+
+killDaemons
+setEnv
+setMonitor
+setBSPWMConfigs
+setBSPWMRules
+spawnDaemon
+theme
