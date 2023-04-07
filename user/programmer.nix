@@ -86,7 +86,6 @@ with lib;
         gnumake
         ocaml
         cmake
-        lua
         rebar3
         rustup
         nodejs

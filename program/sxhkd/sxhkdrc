@@ -44,10 +44,6 @@ super + m
 super + y
 	bspc node newest.marked.local -n newest.!automatic.local
 
-# swap the current node and the biggest node
-super + g
-	bspc node -s biggest
-
 #
 # state/flags
 #
@@ -80,6 +76,10 @@ super + {_,shift + }c
 super + bracket{left,right}
 	bspc desktop -f {prev,next}.local
 
+# focus the next/previous window in the current workspace
+super + shift + bracket{left,right}
+    bspc node -f {prev,next}.local
+
 # focus the last node/desktop
 super + {grave,Tab}
 	bspc {node,desktop} -f last
@@ -93,12 +93,6 @@ super + {o,i}
 # focus or send to the given desktop
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
-
-# super + {_,shift + }{1-3}
-#   	bspc {desktop -f,node -d} '^{1-3}'
-
-# super + {_,shift + }{8-9,0}
-#   	bspc {desktop -f,node -d} '^{4-5,6}'
 
 #
 # preselect
@@ -143,43 +137,29 @@ alt + shift {h,j,k,l}
 # open rofi
 alt + space
     ~/.config/rofi/scripts/launcher.sh text style_1
-super + alt + a
-    ~/.config/rofi/scripts/apps.sh applet square
-super + alt + B
-    ~/.config/rofi/scripts/backlight.sh applet square
-super + alt + b
-    ~/.config/rofi/scripts/battery.sh applet square
 super + alt + p
     ~/.config/rofi/scripts/powermenu.sh applet square
-super + alt + n
-    ~/.config/rofi/scripts/network.sh applet square
 super + alt + s
     ~/.config/rofi/scripts/screenshot.sh applet square
 super + alt + t
     ~/.config/rofi/scripts/time.sh applet square
-super + alt + v
-    ~/.config/rofi/scripts/volume.sh applet square
-super + alt + q
-    ~/.config/rofi/scripts/quicklinks.sh applet square
-
-
-# print screen
-# super + alt + ctrl + f
-#     ~/.config/scripts/screenshot full
-
-# super + alt + f
-#     ~/.config/scripts/screenshot win
-
-# super + alt + s
-#     ~/.config/scripts/screenshot sel
 
 # open browser
 super + B
     google-chrome-stable
 
+super + alt + B
+    bspc rule -a \* -o state=floating && google-chrome-stable
+
 # open file manager
 super + shift + F
     bspc rule -a \* -o state=floating && nautilus
+
+super + shift + S
+
+super + alt + ctrl + l
+  lock-screen
+
 
 # colume control
 XF86AudioLowerVolume
@@ -197,33 +177,3 @@ XF86MonBrightnessDown
 
 XF86MonBrightnessUp
     ~/.config/scripts/brightness up
-
-super + alt + p
-    ~/.config/scripts/redshift-toggle high
-
-super + alt + q
-    ~/.config/scripts/redshift-toggle low
-
-super + alt + h
-    urxvt -name float -e zsh -c "htop"
-
-super + alt + b
-    urxvt -name float -e zsh -c "cd ~/newDisk/book/ && ranger"
-
-super + alt + m
-    ~/.config/scripts/mpc-song
-
-super + alt + d
-    ~/.config/scripts/mpc-song next
-
-super + alt + u
-    ~/.config/scripts/mpc-song prev
-
-super + alt + i
-    ~/.config/scripts/mpc-song halt
-
-super + alt + c
-    ~/.config/scripts/workplace
-
-super + alt + ctrl + l
-  lock-screen
