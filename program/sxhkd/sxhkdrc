@@ -36,10 +36,6 @@ super + {_,shift + }q
 super + m
 	bspc desktop -l next
 
-# send the newest marked node to the newest preselected node
-super + y
-	bspc node newest.marked.local -n newest.!automatic.local
-
 #
 # state/flags
 #
@@ -81,12 +77,6 @@ super + {grave,Tab}
 	bspc {node,desktop} -f last; \ 
     dunstify $(bspc query -D -d .focused --names) -t 500
 
-# focus the older or newer node in the focus history
-super + {o,i}
-	bspc wm -h off; \
-	bspc node {older,newer} -f; \
-	bspc wm -h on
-
 # focus or send to the given desktop
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
@@ -110,6 +100,46 @@ super + ctrl + space
 # cancel the preselection for the focused desktop
 super + ctrl + shift + space
 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+
+#
+# fast desktop selection
+#
+
+super + y 
+    bspc desktop -f '伍'; \
+    dunstify $(bspc query -D -d .focused --names) -t 500
+
+super + u
+    bspc desktop -f '陆'; \
+    dunstify $(bspc query -D -d .focused --names) -t 500
+
+super + i
+    bspc desktop -f  '柒'; \
+    dunstify $(bspc query -D -d .focused --names) -t 500
+
+super + o
+    bspc desktop -f  '捌'; \
+    dunstify $(bspc query -D -d .focused --names) -t 500
+
+
+super + Y
+    bspc desktop -f '壹'; \
+    dunstify $(bspc query -D -d .focused --names) -t 500
+
+super + U
+    bspc desktop -f '贰'; \
+    dunstify $(bspc query -D -d .focused --names) -t 500
+
+super + I
+    bspc desktop -f '叁'; \
+    dunstify $(bspc query -D -d .focused --names) -t 500
+
+super + O
+    bspc desktop -f '肆'; \
+    dunstify $(bspc query -D -d .focused --names) -t 500
+
+
 
 #
 # move/resize
@@ -152,12 +182,9 @@ super + alt + B
     bspc rule -a \* -o state=floating && google-chrome-stable
 
 # open file manager
-super + shift + F
+super + shift + S
     bspc rule -a \* -o state=floating && nautilus
 
-super + shift + S
-    bspc desktop -f '伍'; \
-    dunstify $(bspc query -D -d .focused --names) -t 500
 
 super + alt + ctrl + l
   lock-screen
