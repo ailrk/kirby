@@ -16,10 +16,6 @@ super + R
     bspc rule -a \* -o state=floating && xterm -e bash -c "nix-shell '<home-manager>' -A install; read -n 1 -p 'echo enter any key: '; bspc wm -r && pkill -USR1 -x sxhkd"
 
 
-# program launcher
-# super + @space
-#	dmenu_run
-
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
@@ -82,7 +78,8 @@ super + shift + bracket{left,right}
 
 # focus the last node/desktop
 super + {grave,Tab}
-	bspc {node,desktop} -f last
+	bspc {node,desktop} -f last; \ 
+    dunstify $(bspc query -D -d .focused --names) -t 500
 
 # focus the older or newer node in the focus history
 super + {o,i}
@@ -137,10 +134,13 @@ alt + shift {h,j,k,l}
 # open rofi
 alt + space
     ~/.config/rofi/scripts/launcher.sh text style_1
+
 super + alt + p
     ~/.config/rofi/scripts/powermenu.sh applet square
+
 super + alt + s
     ~/.config/rofi/scripts/screenshot.sh applet square
+
 super + alt + t
     ~/.config/rofi/scripts/time.sh applet square
 
@@ -156,6 +156,8 @@ super + shift + F
     bspc rule -a \* -o state=floating && nautilus
 
 super + shift + S
+    bspc desktop -f '伍'; \
+    dunstify $(bspc query -D -d .focused --names) -t 500
 
 super + alt + ctrl + l
   lock-screen
