@@ -569,9 +569,10 @@ augroup end
 " C/C++
 "
 
-augroup ccpp
+augroup cconfig
     autocmd!
     autocmd BufRead,BufNewFile *.h,*.c set filetype=c
+    au Filetype c ino <localleader>--- /* -------------------------------------------------------------------------- */
 augroup end
 
 augroup cppconfig

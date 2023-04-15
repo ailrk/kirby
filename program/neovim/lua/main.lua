@@ -32,8 +32,6 @@ require('packer').startup(function()
     use {'vim-scripts/DrawIt'}
     use {'https://github.com/nathanaelkane/vim-indent-guides'}
     use {'voldikss/vim-floaterm'}
-    use {'xolox/vim-misc'}
-    use {'xolox/vim-notes'}
     use {'christoomey/vim-system-copy'}
     use {'mtth/scratch.vim'}
 
@@ -101,6 +99,7 @@ require('packer').startup(function()
     use {'roosta/vim-srcery'}
     use {'honza/vim-snippets'}
     use {'SirVer/ultisnips'}
+    use {'triglav/vim-visual-increment'}
 
     use {'nvim-lua/completion-nvim'}
     use {'neovim/nvim-lspconfig'}
@@ -116,7 +115,6 @@ require('packer').startup(function()
     use {'pbrisbin/vim-colors-off'}
     use { 'aunsira/macvim-light' }
     use {'kristijanhusak/vim-carbon-now-sh'}
-    use {'plan9-for-vimspace/acme-colors'}
 
 end)
 
@@ -332,7 +330,7 @@ require'lspconfig'.racket_langserver.setup{
 }
 
 -- lua
-require'lspconfig'.sumneko_lua.setup {
+require'lspconfig'.lua_ls.setup {
   settings = {
     Lua = {
       runtime = {
