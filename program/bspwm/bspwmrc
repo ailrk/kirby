@@ -21,8 +21,8 @@ function setEnv() {
 
 # detect monitors and set
 function setMonitor() {
-    bspc monitor DisplayPort-1 -d '壹' '贰' '叁' '肆' '伍'
-    bspc monitor HDMI-A-0 -d '陆' '柒' '捌' '玖' '零'
+    bspc monitor DisplayPort-1 -d '陆' '柒' '捌' '玖' '零'  
+    bspc monitor HDMI-A-0 -d '壹' '贰' '叁' '肆' '伍'
     xrandr --output HDMI-A-0 --mode 2560x1440 --rate 60 --rotate right
     xrandr --output DisplayPort-1 --mode 3840x2160 --scale 0.9x0.9 --rate 60 --right-of HDMI-A-0
 }
@@ -70,8 +70,9 @@ function theme() {
     # blurwal -m 1 -b 4 -s 4 &
     # nohup ~/.config/scripts/bspwpm-workspace-preview &
     dunstify "Welcome Home! \(^w^)/"
-    file=$(ls ~/.config/bspwm/background | shuf -n 1) 
-    feh --bg-fill $file
+    file1="~/.config/bspwm/background/redtv.jpeg"
+    file2="~/.config/bspwm/background/redtv.jpeg"
+    feh --bg-fill $file1 --bg-fill $file2
 }
 
 # Start of the script
