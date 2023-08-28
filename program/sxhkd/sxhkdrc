@@ -103,45 +103,6 @@ super + ctrl + shift + space
 
 
 #
-# fast desktop selection
-#
-
-super + y 
-    bspc desktop -f '伍'; \
-    dunstify $(bspc query -D -d .focused --names) -t 500
-
-super + u
-    bspc desktop -f '陆'; \
-    dunstify $(bspc query -D -d .focused --names) -t 500
-
-super + i
-    bspc desktop -f  '柒'; \
-    dunstify $(bspc query -D -d .focused --names) -t 500
-
-super + o
-    bspc desktop -f  '捌'; \
-    dunstify $(bspc query -D -d .focused --names) -t 500
-
-
-super + Y
-    bspc desktop -f '壹'; \
-    dunstify $(bspc query -D -d .focused --names) -t 500
-
-super + U
-    bspc desktop -f '贰'; \
-    dunstify $(bspc query -D -d .focused --names) -t 500
-
-super + I
-    bspc desktop -f '叁'; \
-    dunstify $(bspc query -D -d .focused --names) -t 500
-
-super + O
-    bspc desktop -f '肆'; \
-    dunstify $(bspc query -D -d .focused --names) -t 500
-
-
-
-#
 # move/resize
 #
 
@@ -191,6 +152,16 @@ super + shift + S
 
 super + alt + ctrl + l
   lock-screen
+
+
+# Mourse
+
+button9
+    ~/.config/rofi/scripts/launcher.sh drun
+
+
+button8
+    ~/.config/rofi/scripts/launcher.sh window
 
 
 # colume control

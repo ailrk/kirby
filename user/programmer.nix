@@ -16,6 +16,7 @@ with lib;
       };
       zsh.enable = true;
       fish.enable = true;
+      nemo.enable = true;
       ranger.enable = true;
       tmux.enable = true;
       taskwarrior.enable = true;

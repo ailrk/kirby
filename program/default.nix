@@ -8,6 +8,7 @@
     ./fish/default.nix
     ./git/default.nix
     ./kitty/default.nix
+    ./nemo/default.nix
     ./neovim/default.nix
     ./nmap/default.nix
     ./polybar/default.nix
