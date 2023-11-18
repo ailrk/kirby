@@ -19,6 +19,7 @@
     ./sxhkd/default.nix
     ./taskwarrior/default.nix
     ./tmux/default.nix
+    ./xconfig/default.nix
     ./yabai/default.nix
     ./zsh/default.nix
   ];

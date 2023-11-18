@@ -102,6 +102,8 @@ with lib;
         mupdf
         ncmpcpp
         zathura
+        weechat-unwrapped
+        nodePackages.bash-language-server
       ];
 
       unfree = lib.optionals stdenv.isLinux [

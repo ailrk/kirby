@@ -50,13 +50,9 @@ require('packer').startup(function()
     use {'neovimhaskell/haskell-vim'}
     use {'pangloss/vim-javascript'}
     use {'plasticboy/vim-markdown'}
-    -- use {'leanprover/lean.vim'}
-    use {'Julian/lean.nvim'}
     use {'justin2004/vim-apl'}
     use {'jez/vim-better-sml'}
     use {'Nymphium/vim-koka'}
-
-    use {'whonore/Coqtail'}
     use {'kovisoft/slimv'}
 
 --    use {'https://github.com/jez/vim-better-sml'}
@@ -113,9 +109,33 @@ require('packer').startup(function()
     use {'altercation/vim-colors-solarized'}
     use {'morhetz/gruvbox'}
     use {'pbrisbin/vim-colors-off'}
-    use { 'aunsira/macvim-light' }
+    use {'aunsira/macvim-light' }
     use {'kristijanhusak/vim-carbon-now-sh'}
 
+    -- llm
+    use { 'nomnivore/ollama.nvim',
+          dependencies = {
+            "nvim-lua/plenary.nvim",
+          },
+
+          -- All the user commands added by the plugin
+          cmd = { "Ollama", "OllamaModel", "OllamaServe", "OllamaServeStop" },
+
+          -- Sample keybind for prompting. Note that the <c-u> is important for selections to work properly.
+          keys = {
+            {
+              "<leader>oo",
+              ":<c-u>lua require('ollama').prompt()<cr>",
+              desc = "ollama prompt",
+              mode = { "n", "v" },
+            },
+          },
+
+          ---@type Ollama.Config
+          opts = {
+            -- your configuration overrides
+          }
+    }
 end)
 
 
@@ -161,67 +181,6 @@ on_attach = function(client, bufnr)
   buf_set_keymap("n", "<space>cr", "<cmd>lua vim.lsp.codelens.refresh()<CR>", opts)
 end
 
-
--- lean lsp
-require'lspconfig'.leanls.setup{}
-require('lean').setup{
-  -- Enable the Lean language server(s)?
-  --
-  -- false to disable, otherwise should be a table of options to pass to
-  --  `leanls` and/or `lean3ls`.
-  --
-  -- See https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#leanls for details.
-
-  -- Lean 4
-  lsp = { on_attach = on_attach },
-
-  -- Lean 3
-  -- lsp3 = { on_attach = on_attach },
-
-  -- Abbreviation support
-  abbreviations = {
-    -- Set one of the following to true to enable abbreviations
-    builtin = true, -- built-in expander
-    compe = true, -- nvim-compe source
-    snippets = false, -- snippets.nvim source
-    -- additional abbreviations:
-    extra = {
-      -- Add a \wknight abbreviation to insert ♘
-      --
-      -- Note that the backslash is implied, and that you of
-      -- course may also use a snippet engine directly to do
-      -- this if so desired.
-      wknight = '♘',
-    },
-    -- Change if you don't like the backslash
-    -- (comma is a popular choice on French keyboards)
-    leader = '\\',
-  },
-
-  -- Enable suggested mappings?
-  --
-  --
-  -- false by default, true to enable
-  mappings = true,
-
-  -- Infoview support
-  infoview = {
-    -- Enable the infoview?
-    enable = true,
-    -- Automatically open an infoview on entering a Lean buffer?
-    autoopen = true,
-    -- Set the infoview windows' widths
-    width = 50,
-  },
-
-  -- Progress bar support
-  progress_bars = {
-    -- Enable the progress bars?
-    enable = true,
-    -- Use a different priority for the signs
-    priority = 10,
-  },
-}
 
 
 -------------------------------------------------------------------
@@ -372,10 +331,8 @@ require'lspconfig'.rust_analyzer.setup{
 
 
 -- C#
-local pid = vim.fn.getpid()
-require'lspconfig'.omnisharp.setup{
-  cmd = { omnisharp, "--languageserver", "--hostPID", tostring(pid) }
-}
+require'lspconfig'.csharp_ls.setup{}
+
 
 -- F#
 require'lspconfig'.fsautocomplete.setup{

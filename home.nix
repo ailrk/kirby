@@ -8,6 +8,10 @@
     ./user/default.nix
   ];
 
+  home.username = "fatmonad";
+  home.homeDirectory = "/home/fatmonad";
+  home.stateVersion = "23.05"; # Please read the comment before changing.
+
   manual.manpages.enable = false;
 
   # 

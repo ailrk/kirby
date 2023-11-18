@@ -31,6 +31,7 @@ lib;
       sxhkd.enable = true;
       alacritty.enable = true;
       scripts.enable = true;
+      xconfig.enable = true;
       rofi = {
         enable = true;
         resolution = "720p";
@@ -57,7 +58,7 @@ lib;
 
     i18n.inputMethod = {
       enabled = "fcitx5";
-      fcitx5.addons = with pkgs; with pkgs.fcitx-engines; [ fcitx5-rime fcitx5-mozc fcitx5-gtk fcitx5-chinese-addons ];
+      fcitx5.addons = with pkgs; with pkgs.fcitx5; [ fcitx5-rime fcitx5-mozc fcitx5-gtk fcitx5-chinese-addons ];
     };
 
     fonts.fontconfig.enable = true;

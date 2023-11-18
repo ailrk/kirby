@@ -33,8 +33,7 @@ in
           };
 
           font = {
-            size = 14;
-            use_thin_strokes = true;
+            size = 16;
             normal.family = "Code New Roman";
             bold.family = "Code New Roman";
             italic.family = "Code New Roman";

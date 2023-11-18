@@ -134,14 +134,6 @@ nmap <C-n> :FloatermToggle<CR>
 nmap <localleader>] :FloatermNew<CR>
 nmap <localleader>9 :FloatermSend<space>
 
-"
-" Vista
-"
-nmap <leader>V :Vista<CR>
-let g:vista_icon_indent = ["|->", "─>"]
-let g:vista_default_executive = 'coc'
-let g:vista#renderer#enable_icon = 0
-
 
 "
 " vim-slime

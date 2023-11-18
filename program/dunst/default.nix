@@ -1,6 +1,5 @@
 { config, lib, pkgs, ... }:
-with
-lib;
+with lib;
 let
   cfg = config.kirby.program.dunst;
 in
