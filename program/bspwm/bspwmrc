@@ -6,6 +6,7 @@ unset SSH_ASKPASS
 function killDaemons() {
     pkill sxhkd
     pkill dunst
+    pkill picom
     pkill $(pgrep discord)
     pkill polybar
     pkill -f bspwpm-workspace-preview
@@ -58,6 +59,7 @@ function spawnDaemon() {
     sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
     $HOME/.config/polybar/start.sh &
     xinput set-prop 11 295 1
+    picom &
     dunst \
         -1b "$WHITE" -1f "$BLACK" -1fr "$BLACK" \
         -nb "$WHITE" -nf "$BLACK" -nfr "$BLACK" \

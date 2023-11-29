@@ -15,11 +15,11 @@ in
     programs.neovim = {
       enable = true;
       extraConfig = ''
-        source $HOME/.config/nvim/init.vim
+        source $HOME/.config/nvim/main.vim
       '';
     };
 
-    xdg.configFile."nvim/init.vim".source = ./init.vim;
+    xdg.configFile."nvim/main.vim".source = ./main.vim;
     xdg.configFile."nvim/lua".source = ./lua;
 
     nixpkgs.overlays = if cfg.nightly then [ nightly ] else [];
