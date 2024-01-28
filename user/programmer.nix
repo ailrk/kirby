@@ -104,6 +104,7 @@ with lib;
         zathura
         weechat-unwrapped
         nodePackages.bash-language-server
+        nodePackages.typescript-language-server
       ];
 
       unfree = lib.optionals stdenv.isLinux [
