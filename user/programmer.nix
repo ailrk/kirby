@@ -23,101 +23,154 @@ with lib;
     };
 
     # Install packages
-    home.packages = with pkgs;
-    let
-      common = [
-        tmux
+    home = {
+      packages = with pkgs;
+        [ tmux
 
-        # utils
-        zlib.dev
-        zlib.out
-        gmp
-        cabal2nix
+          # utils
+          zlib.dev
+          zlib.out
+          gmp
+          cabal2nix
 
-        # cli tools
-        htop
-        inetutils
-        ripgrep
-        killall
-        expect
-        fd
-        bat
-        fzf
-        git-crypt
-        gnupg
+          # cli tools
+          htop
+          inetutils
+          ripgrep
+          killall
+          expect
+          fd
+          bat
+          fzf
+          git-crypt
+          gnupg
 
-        # font
-        fira-code
+          # font
+          fira-code
 
-        # nix
-        any-nix-shell
-      ];
+          # nix
+          any-nix-shell
 
-      linux = lib.optionals stdenv.isLinux [
-        # font
-        iosevka
-        meslo-lg
+          brightnessctl
+          xdotool
+          xtitle
+          lsof
+          xdo
+          pinentry
+          libnotify
+          w3m
+          xclip
+          libGL
+          ibus
 
-        # language
-        smlnj
-        racket
-        purescript
-        valgrind
-        dotnet-sdk
-        fsharp
+          # font
+          iosevka
+          meslo-lg
 
-        # Data, Files and Networking
-        sshfs
-        iotop
-        fio
-        acpi
-        scrot
+          # language
+          smlnj
+          racket
+          purescript
+          valgrind
+          dotnet-sdk
+          fsharp
 
-        # user
-        google-chrome
-        wireshark-qt
-        muse
-        blender
-        xournalpp
-        aseprite
-        xfce.thunar
-        blueman
+          # Data, Files and Networking
+          sshfs
+          iotop
+          fio
+          acpi
+          scrot
 
-        # languages
-        gnumake
-        ocaml
-        cmake
-        rebar3
-        rustup
-        nodejs
+          # user
+          google-chrome
+          wireshark-qt
+          muse
+          blender
+          xournalpp
+          aseprite
+          xfce.thunar
+          blueman
 
-        # Jokes
-        cowsay
-        fortune
-        figlet
-        lolcat
-        nms
+          # languages
+          gnumake
+          ocaml
+          cmake
+          rebar3
+          rustup
+          nodejs
 
-        # others
-        mupdf
-        ncmpcpp
-        zathura
-        weechat-unwrapped
-        nodePackages.bash-language-server
-        nodePackages.typescript-language-server
-      ];
+          # Jokes
+          cowsay
+          fortune
+          figlet
+          lolcat
+          nms
 
-      unfree = lib.optionals stdenv.isLinux [
-        tdesktop
-        discord
-      ];
+          # others
+          mupdf
+          ncmpcpp
+          zathura
+          weechat-unwrapped
+          nodePackages.bash-language-server
+          nodePackages.typescript-language-server
 
-    in
-    common ++ linux ++ unfree;
+          tdesktop
+          discord
+        ];
+
+      file = {
+        ".xinitrc" = {
+          executable = true;
+          text = ''
+            if [ -z "$HM_XPROFILE_SOURCED" ]; then
+              . "/home/fatmonad/.xprofile"
+            fi
+            unset HM_XPROFILE_SOURCED
+            xset -b
+            fcitx5 &
+            exec bspwm
+          '';
+        };
+
+        ".xsession" = {
+          executable = true;
+          text = ''
+            source $HOME/.xinitrc
+          '';
+        };
+
+        ".xprofile" = {
+          executable = true;
+          text = ''
+            . "/home/fatmonad/.nix-profile/etc/profile.d/hm-session-vars.sh"
+            if [ -e "$HOME/.profile" ]; then
+              . "$HOME/.profile"
+            fi
+
+            export HM_XPROFILE_SOURCED=1
+          '';
+        };
+
+        ".profile" = {
+          executable = true;
+          text = ''
+            export NIX_PATH="$HOME/.nix-defexpr/channels"
+          '';
+        };
+      };
+
+      # Environment
+      sessionVariables = {
+        EDITOR = "nvim";
+        BROWSER = "google-chrome-stable";
+        TERMINAL = "nixGL alacritty";
+      };
+    }; 
+
 
     # User specific overlays.
     nixpkgs.overlays = [
-
       # discord
       (self: super: {
         discord = super.discord.overrideAttrs (_: {
