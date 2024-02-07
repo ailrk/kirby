@@ -1,8 +1,8 @@
 {
   dark = {
     primary = {
-      background = "0x1A1819";
-      foreground = "0xD8DEE9";
+      background = "0x050505";
+      foreground  = "0xffffff";
     };
 
     cursor = {
@@ -18,7 +18,7 @@
       blue = "0x81A1C1";
       magenta = "0xB48EAD";
       cyan = "0x88C0D0";
-      white = "0xE5E9F0";
+      white = "0xffffff";
     };
 
     bright = {
@@ -29,7 +29,7 @@
       blue = "0x81A1C1";
       magenta = "0xB48EAD";
       cyan = "0x8FBCBB";
-      white = "0xECEFF4";
+      white = "0xffffff";
     };
   };
 
