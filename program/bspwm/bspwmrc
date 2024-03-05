@@ -22,18 +22,17 @@ function setEnv() {
 
 # detect monitors and set
 function setMonitor() {
-    bspc monitor DisplayPort-1 -d '|     陆     ' \
-                                  '|     柒     ' \
-                                  '|     捌     ' \
-                                  '|     玖     ' \
-                                  '|     零     |'  
-    bspc monitor HDMI-A-0 -d '|     壹     ' \
-                             '|     贰     ' \
-                             '|     叁     ' \
-                             '|     肆     ' \
-                             '|     伍     |'
-    xrandr --output HDMI-A-0 --mode 2560x1440 --rate 60 --rotate right
-    xrandr --output DisplayPort-1 --mode 3840x2160 --scale 0.9x0.9 --rate 60 --right-of HDMI-A-0
+    bspc monitor DisplayPort-1  -d '|     壹     ' \
+                                   '|     贰     ' \
+                                   '|     叁     ' \
+                                   '|     肆     ' \
+                                   '|     伍     ' \
+                                   '|     陆     ' \
+                                   '|     柒     ' \
+                                   '|     捌     ' \
+                                   '|     玖     ' \
+                                   '|     零     |'  
+    xrandr --output DisplayPort-1 --mode 3840x2160 --scale 0.9x0.9 --rate 60
 }
 
 function setBSPWMConfigs() {
