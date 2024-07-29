@@ -33,7 +33,7 @@ in
           };
 
           font = {
-            size = 16;
+            size = 18;
             normal.family = "Code New Roman";
             bold.family = "Code New Roman";
             italic.family = "Code New Roman";

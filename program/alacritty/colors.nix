@@ -1,7 +1,7 @@
 {
   dark = {
     primary = {
-      background = "0x050505";
+      background = "0x1C1C1C";
       foreground  = "0xffffff";
     };
 

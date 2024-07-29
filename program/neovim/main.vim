@@ -172,27 +172,10 @@ nnoremap <leader>R <cmd>Telescope registers<cr>
 nnoremap <leader>D <cmd>Telescope lsp_document_symbols<cr>
 nnoremap <leader>A <cmd>Telescope lsp_code_actions<cr>
 
-"
-" auto-session
-"
-
-let g:auto_session_pre_save_cmds = ["tabdo NERDTreeClose"]
-nnoremap <leader>SS <cmd>SearchSession<cr>
-nnoremap <leader>SV <cmd>SaveSession<cr>
-nnoremap <leader>SR <cmd>RestoreSession<cr>
-nnoremap <leader>SD <cmd>DeleteSession<cr>
-
 
 nmap # <nop>
 nnoremap # <cmd>Telescope grep_string<cr>
 
-
-"
-" renamer
-"
-
-nnoremap <silent> <leader>rn <cmd>lua require('renamer').rename()<cr>
-vnoremap <silent> <leader>rn <cmd>lua require('renamer').rename()<cr>
 
 "
 " Slimv

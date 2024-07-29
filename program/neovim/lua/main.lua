@@ -20,7 +20,7 @@ execute 'packadd packer.nvim'
 
 -------------------------------------------------------------------
 -- PLUGINS
-require('packer').startup(function()
+require('packer').startup(function(use)
     use {'tpope/vim-fugitive'}
 
     -- convenient
@@ -28,13 +28,11 @@ require('packer').startup(function()
     use {'tpope/vim-commentary'}
     use {'kien/rainbow_parentheses.vim'}
     use {'liuchengxu/vista.vim'}
-
     use {'vim-scripts/DrawIt'}
     use {'https://github.com/nathanaelkane/vim-indent-guides'}
     use {'voldikss/vim-floaterm'}
     use {'christoomey/vim-system-copy'}
     use {'mtth/scratch.vim'}
-
     use {'jummy233/glyphs-vim'}
     use {'junegunn/fzf.vim'}
 
@@ -55,44 +53,16 @@ require('packer').startup(function()
     use {'Nymphium/vim-koka'}
     use {'kovisoft/slimv'}
 
---    use {'https://github.com/jez/vim-better-sml'}
---    use {'https://github.com/octol/vim-cpp-enhanced-highlight'}
-
     use {'https://github.com/LnL7/vim-nix'}
     use {'skywind3000/asyncrun.vim'}
 
     -- nvim
-    -- use {'github/copilot.vim'}
     use {'nvim-lua/popup.nvim'}
     use {'nvim-lua/plenary.nvim'}
     use {'nvim-telescope/telescope.nvim'}
-    use {'hrsh7th/nvim-compe'}
 
-    use {
-      'rmagatti/auto-session',
-      config = function()
-        require('auto-session').setup {
-          log_level = 'info',
-          auto_session_suppress_dirs = {'~/', '~/Repo', '~/Projects'}
-        }
-      end
-    }
-
-    use {
-      'rmagatti/session-lens',
-      requires = {'rmagatti/auto-session', 'nvim-telescope/telescope.nvim'},
-      config = function()
-        require('session-lens').setup({
-            previewer = true
-        })
-      end
-    }
-
-
-    use {'diepm/vim-rest-console'}
     use {'preservim/nerdtree'}
     use {'jpalardy/vim-slime'}
-    use {'roosta/vim-srcery'}
     use {'honza/vim-snippets'}
     use {'SirVer/ultisnips'}
     use {'triglav/vim-visual-increment'}
@@ -105,6 +75,7 @@ require('packer').startup(function()
 
 
     -- color scheme
+    use {'roosta/vim-srcery'}
     use {'ailrk/vim-monochrome-waifu'}
     use {'altercation/vim-colors-solarized'}
     use {'morhetz/gruvbox'}
@@ -179,18 +150,14 @@ require'lspconfig'.hls.setup{
     "haskell"
   },
 
-  -- TODO Note this is a chance for issue.
   settings = {
-    haskell = {   -- TODO this is so weird. it's is found from the output
+    haskell = {
       formattingProvider = "stylish-haskell",
       hlintOn = false,
       maxNumberofProblems = 5,
       completionSnippetsOn = false,
       formatOnImportOn = true
     },
-    -- languageServerHaskell = {
-    --   formattingProvider = "stylish-haskell",
-    -- }
   }
 }
 
@@ -370,69 +337,6 @@ require'lspconfig'.bashls.setup{
 }
 
 -------------------------------------------------------------------
--- NVIM auto completion compo
--- Compe setup
--- use {'hrsh7th/nvim-compe'}
-require'compe'.setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'enable';
-  throttle_time = 80;
-  source_timeout = 200;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
-
-  source = {
-    path = true;
-    nvim_lsp = true;
-  };
-}
-
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-        return true
-    else
-        return false
-    end
-end
-
--- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
-_G.tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-n>"
-  elseif check_back_space() then
-    return t "<Tab>"
-  else
-    return vim.fn['compe#complete']()
-  end
-end
-_G.s_tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-p>"
-  else
-    return t "<S-Tab>"
-  end
-end
-
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-
-
--------------------------------------------------------------------
 
 vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
 vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
@@ -498,7 +402,3 @@ normal_maps {
 }
 
 terminal_maps {{'<Esc>', [[<C-\><C-n>]]}}
-
------------------------------------------------------------------
-
-
