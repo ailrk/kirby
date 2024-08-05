@@ -380,25 +380,25 @@ local_maps {
     {[[ <leader>" ]], [[ "             ]]},
     {[[ <leader>L ]], [[ λ             ]]},
     {[[ <C-l>     ]], [[ <ESC>         ]]},
-    {[[ <C-@>     ]], [[ <C-space>     ]]}
+    {[[ <C-@>     ]], [[ <C-space>     ]]},
 }
 
 
 -- general inop maps
 normal_maps {
     -- line number
-    {[[ <leader>N     ]], [[ :set number!           ]]}, -- easy to config
-    {[[ <leader>ev     ]], [[ :split $MYVIMRC<cr>    ]]},
-    {[[ <leader>sv     ]], [[ :source $MYVIMRC<cr>   ]]}, -- coc.nvim extension
-    {[[ <space>rt     ]], [[ :LspStop<cr>        ]]},
-    {[[ <space>rs     ]], [[ :LspStart<cr>        ]]}, -- ad hoc formatter
-    {[[ <leader>fm     ]], [[ :Format<cr>            ]]},
+    {[[ <leader>N  ]], [[ :set number!           ]]}, -- easy to config
+    {[[ <leader>ev ]], [[ :split $MYVIMRC<cr>    ]]},
+    {[[ <leader>sv ]], [[ :source $MYVIMRC<cr>   ]]}, -- coc.nvim extension
 
+    {[[ <space>rt  ]], [[ :LspStop<cr>        ]]},
+    {[[ <space>rs  ]], [[ :LspStart<cr>        ]]}, -- ad hoc formatter
+    {[[ <leader>fm ]], [[ :Format<cr>            ]]},
 
     -- remove trailing empty line
-    {[[ <leader>rt     ]], [[ :RemoveTrailing<cr>    ]]},
-    {[[ <space>qo     ]], [[ :call ToggleQuickFix(0)<cr>    ]]},
-    {[[ <space>qO     ]], [[ :call ToggleQuickFix(1)<cr>    ]]},
+    {[[ <leader>rt ]], [[ :RemoveTrailing<cr>    ]]},
+    {[[ <space>qo  ]], [[ :call ToggleQuickFix(0)<cr>    ]]},
+    {[[ <space>qO  ]], [[ :call ToggleQuickFix(1)<cr>    ]]},
 }
 
 terminal_maps {{'<Esc>', [[<C-\><C-n>]]}}
