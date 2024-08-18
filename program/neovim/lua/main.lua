@@ -272,7 +272,14 @@ require'lspconfig'.rust_analyzer.setup{
   flags = {
       debounce_text_changes = 150,
   },
-  cmd = {"rust-analyzer"}
+  cmd = {"rust-analyzer"},
+  settings = {
+    ['rust-analyzer'] = {
+        check = {
+            ignore = { "dead_code" }
+        }
+    },
+  },
 }
 
 
