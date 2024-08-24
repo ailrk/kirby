@@ -20,7 +20,7 @@ execute 'packadd packer.nvim'
 
 -------------------------------------------------------------------
 -- PLUGINS
-require('packer').startup(function(use)
+require('packer').startup(function()
     use {'tpope/vim-fugitive'}
 
     -- convenient
@@ -72,7 +72,7 @@ require('packer').startup(function(use)
     use {'neovim/nvim-lsp'}
     use {'RishabhRD/popfix'}
     use {'RishabhRD/nvim-lsputils'}
-
+    use { 'lifepillar/vim-mucomplete' }
 
     -- color scheme
     use {'roosta/vim-srcery'}
@@ -96,6 +96,7 @@ end)
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 
+
 on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -105,9 +106,6 @@ on_attach = function(client, bufnr)
 
   -- Mappings.
   local opts = { noremap=true, silent=true }
-
-  -- autocmd
-  vim.api.nvim_command [[autocmd CursorHold,CursorHoldI,InsertLeave <buffer> lua vim.lsp.codelens.refresh()]]
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
@@ -263,7 +261,7 @@ require'lspconfig'.pyright.setup{
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
-  }
+  },
 }
 
 -- rust
