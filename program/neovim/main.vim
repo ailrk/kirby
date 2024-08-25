@@ -80,7 +80,7 @@ set updatetime=300
 
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
-
+set completeopt=menu,noinsert,noselect
 
 "
 " NerdTree
@@ -660,8 +660,3 @@ let g:OmniSharp_server_use_mono = 1
 " sql
 "
 let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
-
-
-" mucomplete
-let g:mucomplete#enable_auto_at_startup = 1
-set completeopt+=noinsert,noselect

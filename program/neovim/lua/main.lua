@@ -70,9 +70,10 @@ require('packer').startup(function()
     use {'nvim-lua/completion-nvim'}
     use {'neovim/nvim-lspconfig'}
     use {'neovim/nvim-lsp'}
+    use {'echasnovski/mini.nvim'}
     use {'RishabhRD/popfix'}
     use {'RishabhRD/nvim-lsputils'}
-    use { 'lifepillar/vim-mucomplete' }
+
 
     -- color scheme
     use {'roosta/vim-srcery'}
@@ -407,3 +408,7 @@ normal_maps {
 }
 
 terminal_maps {{'<Esc>', [[<C-\><C-n>]]}}
+
+
+-- mini
+require('mini.completion').setup()
