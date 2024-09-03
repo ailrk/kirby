@@ -385,7 +385,6 @@ local_maps {
     {[[ <leader>< ]], [[ <><left>      ]]},
     {[[ <leader>" ]], [[ "             ]]},
     {[[ <leader>L ]], [[ λ             ]]},
-    {[[ <C-l>     ]], [[ <ESC>         ]]},
     {[[ <C-@>     ]], [[ <C-space>     ]]},
 }
 
@@ -405,6 +404,9 @@ normal_maps {
     {[[ <leader>rt ]], [[ :RemoveTrailing<cr>    ]]},
     {[[ <space>qo  ]], [[ :call ToggleQuickFix(0)<cr>    ]]},
     {[[ <space>qO  ]], [[ :call ToggleQuickFix(1)<cr>    ]]},
+    {[[ <C-t>      ]], [[ :tabnew<cr>       ]]},
+    {[[ <C-h>     ]],  [[ gT         ]]},
+    {[[ <C-l>     ]],  [[ gt         ]]},
 }
 
 terminal_maps {{'<Esc>', [[<C-\><C-n>]]}}
