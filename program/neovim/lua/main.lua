@@ -318,7 +318,7 @@ require'lspconfig'.erlangls.setup{
 
 
 -- typescript
-require'lspconfig'.tsserver.setup{
+require'lspconfig'.ts_ls.setup{
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
