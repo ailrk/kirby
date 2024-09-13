@@ -60,6 +60,13 @@ require('packer').startup(function()
     use {'nvim-lua/popup.nvim'}
     use {'nvim-lua/plenary.nvim'}
     use {'nvim-telescope/telescope.nvim'}
+    use { 'rmagatti/auto-session',
+           config = function()
+               require("auto-session").setup {
+                   suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
+               }
+           end
+        }
 
     use {'preservim/nerdtree'}
     use {'jpalardy/vim-slime'}
