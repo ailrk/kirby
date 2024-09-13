@@ -60,14 +60,9 @@ require('packer').startup(function()
     use {'nvim-lua/popup.nvim'}
     use {'nvim-lua/plenary.nvim'}
     use {'nvim-telescope/telescope.nvim'}
-    use { 'rmagatti/auto-session',
-           config = function()
-               require("auto-session").setup {
-                   suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
-               }
-           end
-        }
+    use {'rmagatti/auto-session',
 
+        }
     use {'preservim/nerdtree'}
     use {'jpalardy/vim-slime'}
     use {'honza/vim-snippets'}
@@ -349,6 +344,7 @@ require'lspconfig'.bashls.setup{
   }
 }
 
+
 -------------------------------------------------------------------
 
 vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
@@ -360,6 +356,16 @@ vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.imp
 vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
 vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 
+
+-------------------------------------------------------------------
+-- auto-session
+require("auto-session").setup {
+  suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
+  cwd_change_handling = true, 
+  pre_cwd_changed_cmds = {
+      "tabdo NERDTreeClose" -- Close NERDTree before saving session
+  }
+}
 
 -------------------------------------------------------------------
 -- MAPPINGS
