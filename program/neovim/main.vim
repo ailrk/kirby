@@ -172,6 +172,8 @@ nnoremap <leader>M <cmd>Telescope marks<cr>
 nnoremap <leader>R <cmd>Telescope registers<cr>
 nnoremap <leader>D <cmd>Telescope lsp_document_symbols<cr>
 nnoremap <leader>A <cmd>Telescope lsp_code_actions<cr>
+nnoremap <space>s <cmd>SessionSearch<cr>
+nnoremap <C-s>     <cmd>SessionSave<cr>
 
 
 nmap # <nop>
@@ -661,3 +663,8 @@ let g:OmniSharp_server_use_mono = 1
 " sql
 "
 let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
+
+"
+" Automatically remove trailing space
+"
+autocmd BufWritePre * :%s/\s\+$//e
