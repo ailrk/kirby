@@ -34,9 +34,9 @@ in
 
           font = {
             size = 18;
-            normal.family = "Code New Roman";
-            bold.family = "Code New Roman";
-            italic.family = "Code New Roman";
+            normal.family = "PT Mono";
+            bold.family = "PT Mono";
+            italic.family = "PT Mono";
           };
 
           cursor.style = "Beam";

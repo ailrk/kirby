@@ -17,7 +17,6 @@ set expandtab
 set smartindent
 set cmdheight=2
 set shell=fish
-"set term=xterm-256color
 set t_Co=256
 set splitbelow
 set splitright
@@ -119,11 +118,6 @@ let g:fzf_colors =
             \ 'marker':  ['fg', 'Keyword'],
             \ 'spinner': ['fg', 'Label'],
             \ 'header':  ['fg', 'Comment'] }
-
-"
-" AsyncRun
-"
-let g:asyncrun_open = 12
 
 "
 " floatterm
@@ -277,29 +271,12 @@ hi htmlUnderline ctermbg=none ctermfg=none
 hi htmlUnderlineItalic ctermbg=none ctermfg=none
 hi Vertsplit cterm=none
 
-
 "
-" Cocnvim
-"
-hi CocUnderline cterm=none
-hi CocErrorHighlight cterm=none
-hi CocWarningHighlight cterm=none
-hi CocHintHighlight cterm=none
-hi CocInfoHighlight cterm=none
-
-"
-" ALE info
-"
-hi ALEError cterm=none
-hi ALEWarning cterm=none
-hi ALEInfo cterm=none
-
 "
 " Telescope
 "
 hi link TelescopePreviewLine Search
 hi link TelescopeSelection Search
-
 
 "
 " nvim LSP
@@ -311,7 +288,7 @@ hi link LspDiagnosticsDefaultError ErrorMsg
 hi link LspCodeLens NonText
 
 " Never wnat a split bar styling
-hi VerSplit cterm=None
+""hi VerSplit cterm=None
 
 " Transparent background
 hi Normal guibg=none ctermbg=none
@@ -458,41 +435,6 @@ augroup hslangs
 
 augroup end
 
-"
-" ocaml
-"
-augroup ocamlsetup
-  set rtp+=~/.opam/default/share/merlin/vim
-  au FileType ocaml set shiftwidth=2 tabstop=2
-  au FileType ocaml nnoremap <silent> <buffer> K :MerlinTypeOf<CR>
-  au FileType ocaml vnoremap <silent> <buffer> K :MerlinTypeOfSel<CR>
-  au FileType ocaml vnoremap <silent> <buffer> gd :MerlinLocate<CR>
-  au FileType ocaml vnoremap <silent> <buffer> rn :MerlinRename
-augroup end
-
-function! EnableRanbowParenthesesWrapper()
-  :execute 'try | call EnableRainbowParenthese() | catch | | endtry'
-endfunction
-
-"
-" Lua
-"
-augroup luap
-  au! luap
-  au FileType lua nnoremap <leader>fm :call LuaFormat()<cr>
-augroup end
-
-"
-" lisp
-"
-augroup lispy
-    au! lispy
-    au FileType scheme set shiftwidth=2 tabstop=2
-    au FileType lisp set shiftwidth=2 tabstop=2
-    au FileType closure call EnableRanbowParenthesesWrapper()
-    au FileType lisp call EnableRanbowParenthesesWrapper()
-    au FileType closure call EnableRanbowParenthesesWrapper()
-augroup end
 
 "
 " F#
@@ -541,59 +483,6 @@ augroup elmlang
     au Filetype elm ino <localleader>mb <bar>> Maybe.andThen _v
     au Filetype elm ino <localleader>if if _c then _t else _f
     au Filetype elm ino <localleader>mc case _p of
-augroup end
-
-"
-" C/C++
-"
-
-augroup cconfig
-    autocmd!
-    autocmd BufRead,BufNewFile *.h,*.c set filetype=c
-    au Filetype c ino <localleader>--- /* -------------------------------------------------------------------------- */
-augroup end
-
-augroup cppconfig
-    autocmd! cppconfig
-    autocmd FileType cpp set shiftwidth=4 tabstop=4
-    autocmd BufRead, BufNewFile CMakeLists.txt :set filetype=cmake
-    autocmd FileType cpp set commentstring=//%s
-augroup end
-
-"
-" SML
-"
-augroup smllang
-  au! smllang
-  au! BufRead,BufNewFile *.sig       setfiletype sml
-  au! FileType sml set conceallevel=0
-
-  au FileType sml nnoremap <silent> <buffer> K :SMLTypeQuery<CR>
-  au FileType sml nnoremap <silent> <buffer> gd :SMLJumpToDef<CR>
-
-  " open the REPL terminal buffer
-  au FileType sml nnoremap <silent> <buffer> <leader>is :SMLReplStart<CR>
-  " close the REPL (mnemonic: k -> kill)
-  au FileType sml nnoremap <silent> <buffer> <leader>ik :SMLReplStop<CR>
-  " build the project (using CM if possible)
-  au FileType sml nnoremap <silent> <buffer> <leader>ib :SMLReplBuild<CR>
-  " for opening a structure, not a file
-  au FileType sml nnoremap <silent> <buffer> <leader>io :SMLReplOpen<CR>
-  " use the current file into the REPL (even if using CM)
-  au FileType sml nnoremap <silent> <buffer> <leader>iu :SMLReplUse<CR>
-  " clear the REPL screen
-  au FileType sml nnoremap <silent> <buffer> <leader>ic :SMLReplClear<CR>
-  " set the print depth to 100
-  au FileType sml nnoremap <silent> <buffer> <leader>ip :SMLReplPrintDepth<CR>
-augroup end
-
-"
-" agda
-"
-augroup agdalang
-  au! agdalang
-  au! Filetype agda syn match agdaRewritingRelation "[^\s]⇝[^\s]"
-  au! Filetype agda hi link agdaRewritingRelation ErrorMsg
 augroup end
 
 "
@@ -653,16 +542,6 @@ endfunction
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
-
-"
-" c#
-"
-let g:OmniSharp_server_use_mono = 1
-
-"
-" sql
-"
-let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
 
 "
 " Automatically remove trailing space

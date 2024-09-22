@@ -216,7 +216,8 @@ with lib;
       sessionVariables = {
         EDITOR = "nvim";
         BROWSER = "google-chrome-stable";
-        TERMINAL = "xterm";
+        TERMINAL = "nixGL alacritty";
+        TERM = "nixGL alacritty";
       };
     };
 

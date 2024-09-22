@@ -6,7 +6,7 @@ in
 {
   options.kirby.program.neovim = {
     enable = lib.mkEnableOption "Enable the neovim editor";
-    nightly = lib.mkEnableOption "Enable nvim nightly overlay"; 
+    nightly = lib.mkEnableOption "Enable nvim nightly overlay";
 
   };
 

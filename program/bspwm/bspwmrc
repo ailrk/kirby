@@ -79,7 +79,7 @@ theme() {
     # blurwal -m 1 -b 4 -s 4 &
     # nohup ~/.config/scripts/bspwpm-workspace-preview &
     dunstify "Welcome Home! \(^w^)/"
-    file1="$HOME/.config/bspwm/background/girl-city-bg.jpg"
+    file1="$HOME/.config/bspwm/background/jWTBsU0.jpg"
     feh --bg-fill $file1
 }
 

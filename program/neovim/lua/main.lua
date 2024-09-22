@@ -54,7 +54,6 @@ require('packer').startup(function()
     use {'kovisoft/slimv'}
 
     use {'https://github.com/LnL7/vim-nix'}
-    use {'skywind3000/asyncrun.vim'}
 
     -- nvim
     use {'nvim-lua/popup.nvim'}
@@ -361,7 +360,7 @@ vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handle
 -- auto-session
 require("auto-session").setup {
   suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
-  cwd_change_handling = true, 
+  cwd_change_handling = true,
   pre_cwd_changed_cmds = {
       "tabdo NERDTreeClose" -- Close NERDTree before saving session
   }
