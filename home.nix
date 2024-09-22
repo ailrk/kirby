@@ -9,7 +9,7 @@ in
         ./program/default.nix 
         ./program/linux.nix
         ./service/default.nix
-        ./user/default.nix
+        ./user/x86_64_linux/fatmonad.nix
       ];
 
     kirby.user.x86_64_linux.fatmonad.enable = true;
@@ -20,7 +20,7 @@ in
         ./program/default.nix
         ./program/darwin.nix
         ./service/default.nix
-        ./user/default.nix
+        ./user/aarch64_darwin/ailrk.nix
       ];
     kirby.user.aarch64_darwin.ailrk.enable = true;
   } else abort "unknown user"
