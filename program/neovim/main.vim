@@ -266,7 +266,7 @@ hi ColorColumn ctermbg=white
 " hight search
 "
 hi Search ctermfg=232 ctermbg=243
-"hi CursorLine cterm=none ctermbg=252 
+"hi CursorLine cterm=none ctermbg=252
 hi Visual ctermfg=255 ctermbg=250
 hi CursorLineNr  cterm=none ctermfg=none gui=none guifg=none
 

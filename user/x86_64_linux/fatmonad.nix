@@ -1,26 +1,74 @@
-# A programmer who does everything with a computer.
+# fatmonad
 { config, lib, pkgs, ... }:
 with lib;
 {
-  options.kirby.user.programmer = {
-    enable = mkEnableOption "Set user as a programmer";
+  options.kirby.user.x86_64_linux.fatmonad = {
+    enable = mkEnableOption "Set user as a fatmonad";
   };
 
-  config = mkIf config.kirby.user.programmer.enable {
-    kirby.program = {
-      nmap.enable = true;
-      emacs.enable = true;
-      neovim = {
-        enable = true;
-        nightly = false;
+  config = mkIf config.kirby.user.x86_64_linux.fatmonad.enable {
+    home.stateVersion = "23.11";
+    home.username = "fatmonad";
+    home.homeDirectory = "/home/fatmonad";
+    manual.manpages.enable = false;
+
+    kirby = {
+      program = {
+        git = {
+          enable = true;
+          userEmail = "jimmy123good@gmail.com";
+          userName = "Ailrk";
+          signByDefault = true;
+          signKey = "~/.ssh/id_rsa.pub";
+          extraConfig = {
+            gpg.format = "ssh";
+          };
+        };
+        neovim = {
+          enable = true;
+          nightly = false;
+        };
+        ranger.enable = true;
+        tmux.enable = true;
+        bspwm.enable = true;
+        compton.enable = true;
+        polybar.enable = true;
+        sxhkd.enable = true;
+        dunst.enable = true;
+        alacritty.enable = true;
+        scripts.enable = true;
+        xconfig.enable = true;
+        rofi = {
+          enable = true;
+          resolution = "720p";
+        };
+        nmap.enable = true;
+        zsh.enable = true;
+        fish.enable = true;
+        nemo.enable = true;
+        taskwarrior.enable = true;
       };
-      zsh.enable = true;
-      fish.enable = true;
-      nemo.enable = true;
-      ranger.enable = true;
-      tmux.enable = true;
-      taskwarrior.enable = true;
+
+      service = {
+        dropbox.enable = true;
+      };
     };
+
+    services.gpg-agent = {
+     enable = true;
+    };
+
+    nixpkgs.config = {
+      allowUnfree = true;
+      pulseaudio = true;
+    };
+
+    i18n.inputMethod = {
+      enabled = "fcitx5";
+      fcitx5.addons = with pkgs; with pkgs.fcitx5; [ fcitx5-rime fcitx5-mozc fcitx5-gtk fcitx5-chinese-addons ];
+    };
+
+  fonts.fontconfig.enable = true;
 
     # Install packages
     home = {
@@ -50,7 +98,6 @@ with lib;
 
           # nix
           any-nix-shell
-
           brightnessctl
           xdotool
           xtitle
@@ -166,7 +213,7 @@ with lib;
         BROWSER = "google-chrome-stable";
         TERMINAL = "nixGL alacritty";
       };
-    }; 
+    };
 
 
     # User specific overlays.
