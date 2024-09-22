@@ -48,8 +48,9 @@ with lib;
         cabal2nix
         binutils
 
-
         # cli tools
+        w3m
+        rsync
         htop
         inetutils
         ripgrep

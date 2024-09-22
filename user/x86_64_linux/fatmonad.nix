@@ -96,7 +96,6 @@ with lib;
           # font
           fira-code
 
-          # nix
           any-nix-shell
           brightnessctl
           xdotool
