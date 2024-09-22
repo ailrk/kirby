@@ -95,6 +95,7 @@ with lib;
 
           # font
           fira-code
+          paratype-pt-mono
 
           any-nix-shell
           brightnessctl
@@ -204,13 +205,18 @@ with lib;
             export NIX_PATH="$HOME/.nix-defexpr/channels"
           '';
         };
+
+        ".Xresources" = {
+          executable = true;
+          text = builtins.readFile ./Xresources;
+        };
       };
 
       # Environment
       sessionVariables = {
         EDITOR = "nvim";
         BROWSER = "google-chrome-stable";
-        TERMINAL = "nixGL alacritty";
+        TERMINAL = "xterm";
       };
     };
 
