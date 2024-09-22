@@ -1,0 +1,6 @@
+. "/home/fatmonad/.nix-profile/etc/profile.d/hm-session-vars.sh"
+if [ -e "$HOME/.profile" ]; then
+  . "$HOME/.profile"
+fi
+
+export HM_XPROFILE_SOURCED=1

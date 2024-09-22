@@ -169,46 +169,27 @@ with lib;
       file = {
         ".xinitrc" = {
           executable = true;
-          text = ''
-            if [ -z "$HM_XPROFILE_SOURCED" ]; then
-              . "/home/fatmonad/.xprofile"
-            fi
-            unset HM_XPROFILE_SOURCED
-            xset -b
-            fcitx5 &
-            exec bspwm
-          '';
+          text = builtins.readFile ./.xinitrc;
         };
 
         ".xsession" = {
           executable = true;
-          text = ''
-            source $HOME/.xinitrc
-          '';
+          text = builtins.readFile ./.xsession;
         };
 
         ".xprofile" = {
           executable = true;
-          text = ''
-            . "/home/fatmonad/.nix-profile/etc/profile.d/hm-session-vars.sh"
-            if [ -e "$HOME/.profile" ]; then
-              . "$HOME/.profile"
-            fi
-
-            export HM_XPROFILE_SOURCED=1
-          '';
+          text = builtins.readFile ./.xprofile;
         };
 
         ".profile" = {
           executable = true;
-          text = ''
-            export NIX_PATH="$HOME/.nix-defexpr/channels"
-          '';
+          text = builtins.readFile ./.profile;
         };
 
         ".Xresources" = {
           executable = true;
-          text = builtins.readFile ./Xresources;
+          text = builtins.readFile ./.Xresources;
         };
       };
 
