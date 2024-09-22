@@ -3,18 +3,24 @@ with lib;
 let
   home = builtins.getEnv "HOME";
 in
-{
-  imports = [
-    ./program/default.nix
-    ./service/default.nix
-    ./user/default.nix
-  ];
+  if home == "/home/fatmonad" then
+  {
+    imports = [
+        ./program/default.nix 
+        ./program/linux.nix
+        ./service/default.nix
+        ./user/default.nix
+      ];
 
-  kirby.user.x86_64_linux.fatmonad = mkIf (home == "/home/fatmonad") {
-    enable = true;
-  };
-
-  kirby.user.aarch64_darwin.ailrk = mkIf (home == "/Users/ailrk") {
-    enable = true;
-  };
-}
+    kirby.user.x86_64_linux.fatmonad.enable = true;
+  }
+  else if home == "/Users/ailrk" then
+  {
+    imports = [
+        ./program/default.nix
+        ./program/darwin.nix
+        ./service/default.nix
+        ./user/default.nix
+      ];
+    kirby.user.aarch64_darwin.ailrk.enable = true;
+  } else abort "unknown user"
