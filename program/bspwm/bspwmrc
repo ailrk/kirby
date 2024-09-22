@@ -3,7 +3,7 @@
 export _JAVA_AWT_WM_NONREPARENTING=1
 unset SSH_ASKPASS
 
-function killDaemons() {
+killDaemons() {
     pkill sxhkd
     pkill dunst
     pkill picom
@@ -13,7 +13,7 @@ function killDaemons() {
 }
 
 # Environment
-function setEnv() {
+setEnv() {
     export PATH="${PATH}:$HOME/.config/scripts"
     # xrdb ~/.Xresources
     # . $HOME/.cache/wal/colors.sh
@@ -21,7 +21,7 @@ function setEnv() {
 }
 
 # detect monitors and set
-function setMonitor() {
+setMonitor() {
     bspc monitor DisplayPort-1  -d '|     壹     ' \
                                    '|     贰     ' \
                                    '|     叁     ' \
@@ -31,11 +31,11 @@ function setMonitor() {
                                    '|     柒     ' \
                                    '|     捌     ' \
                                    '|     玖     ' \
-                                   '|     零     |'  
+                                   '|     零     |'
     xrandr --output DisplayPort-1 --mode 3840x2160 --scale 0.9x0.9 --rate 60
 }
 
-function setBSPWMConfigs() {
+setBSPWMConfigs() {
     bspc config top_padding         0
     bspc config bottom_padding      0
     bspc config left_padding        0
@@ -53,7 +53,7 @@ function setBSPWMConfigs() {
     # bspc config border_radius        10
 }
 
-function setBSPWMRules() {
+setBSPWMRules() {
     ## Winodw rules
     # remove all rules first
     bspc rule -r *:*
@@ -62,7 +62,7 @@ function setBSPWMRules() {
     bspc rule -a "lemonbar" layer=above
 }
 
-function spawnDaemon() {
+spawnDaemon() {
     sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
     $HOME/.config/polybar/start.sh &
     xinput set-prop 11 295 1
@@ -75,7 +75,7 @@ function spawnDaemon() {
 }
 
 
-function theme() {
+theme() {
     # blurwal -m 1 -b 4 -s 4 &
     # nohup ~/.config/scripts/bspwpm-workspace-preview &
     dunstify "Welcome Home! \(^w^)/"

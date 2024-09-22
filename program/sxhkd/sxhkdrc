@@ -74,7 +74,7 @@ super + shift + bracket{left,right}
 
 # focus the last node/desktop
 super + {grave,Tab}
-	bspc {node,desktop} -f last; \ 
+	bspc {node,desktop} -f last; \
     dunstify $(bspc query -D -d .focused --names) -t 500
 
 # focus or send to the given desktop
