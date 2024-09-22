@@ -79,9 +79,8 @@ theme() {
     # blurwal -m 1 -b 4 -s 4 &
     # nohup ~/.config/scripts/bspwpm-workspace-preview &
     dunstify "Welcome Home! \(^w^)/"
-    file1="~/.config/bspwm/background/redtv.jpeg"
-    file2="~/.config/bspwm/background/redtv.jpeg"
-    feh --bg-fill $file1 --bg-fill $file2
+    file1="$HOME/.config/bspwm/background/girl-city-bg.jpg"
+    feh --bg-fill $file1
 }
 
 # Start of the script
