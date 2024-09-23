@@ -1,6 +1,5 @@
 {
   imports = [
-    ./emacs/default.nix
     ./fish/default.nix
     ./git/default.nix
     ./nemo/default.nix
