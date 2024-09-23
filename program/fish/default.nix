@@ -15,6 +15,9 @@ in
   };
 
   config = mkIf cfg.enable {
+    home.packages = with pkgs; [
+      fishPlugins.bass
+    ];
 
     programs.fish = {
       enable = true;

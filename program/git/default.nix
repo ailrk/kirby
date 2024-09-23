@@ -24,7 +24,7 @@ in
       description = "Whether to gpg sign by default";
       default = false;
     };
-    
+
     signKey = lib.mkOption {
       type = types.lines;
       description = "The gpg-signing key";
@@ -54,15 +54,22 @@ in
       userName = cfg.userName;
       signing.signByDefault = cfg.signByDefault;
       signing.key = cfg.signKey;
-      extraConfig = cfg.extraConfig;
+      extraConfig = {
+        diff = {
+          tool = "vimdiff";
+        };
+      } // cfg.extraConfig;
       aliases = {
         "s" = "status";
-        "co" = "checkout";
+        "ch" = "checkout";
         "br" = "branch";
+        "d" = "diff";
+        "dw" = "diff --color-words";
+        "dn" = "diff --name-only";
+        "f" = "fetch";
         # Commits, additions, and modifications
-        "cm" = "commit -m";
-        "aa" = "add .";
-        "rh" = "reset --hard";
+        "c" = "commit";
+        "a" = "add";
         # Logging
         "lgo" = "log --oneline --graph";
         "lo" = "log --oneline";
