@@ -132,7 +132,6 @@ on_attach = function(client, bufnr)
 end
 
 
-
 -------------------------------------------------------------------
 -- SETUP LSPS
 
@@ -195,6 +194,10 @@ require'lspconfig'.clangd.setup{
 }
 
 
+-- nix
+require'lspconfig'.nil_ls.setup{}
+
+
 -- ocaml
 require'lspconfig'.ocamllsp.setup{
   on_attach = on_attach,
@@ -203,8 +206,6 @@ require'lspconfig'.ocamllsp.setup{
   }
 }
 
-
--- java
 
 -- elm
 require'lspconfig'.elmls.setup{
@@ -216,6 +217,7 @@ require'lspconfig'.elmls.setup{
 
     }
 }
+
 
 require'lspconfig'.purescriptls.setup{
     on_attach = on_attach,
@@ -233,6 +235,7 @@ require'lspconfig'.racket_langserver.setup{
   },
   cmd = { "racket", "--lib", "racket-langserver" }
 }
+
 
 -- lua
 require'lspconfig'.lua_ls.setup {
@@ -258,6 +261,7 @@ require'lspconfig'.lua_ls.setup {
   },
 }
 
+
 -- python
 require'lspconfig'.pyright.setup{
   on_attach = on_attach,
@@ -265,6 +269,7 @@ require'lspconfig'.pyright.setup{
       debounce_text_changes = 150,
   },
 }
+
 
 -- rust
 require'lspconfig'.rust_analyzer.setup{
@@ -295,6 +300,7 @@ require'lspconfig'.fsautocomplete.setup{
   }
 }
 
+
 -- cmake
 require'lspconfig'.cmake.setup{
   on_attach = on_attach,
@@ -303,6 +309,8 @@ require'lspconfig'.cmake.setup{
   }
 }
 
+
+-- erlang
 require'lspconfig'.erlangls.setup{
   on_attach = on_attach,
   flags = {
@@ -319,6 +327,7 @@ require'lspconfig'.ts_ls.setup{
   }
 }
 
+
 -- viml
 require'lspconfig'.vimls.setup{
   on_attach = on_attach,
@@ -327,6 +336,7 @@ require'lspconfig'.vimls.setup{
   }
 }
 
+
 -- cmake
 require'lspconfig'.cmake.setup{
   on_attach = on_attach,
@@ -334,6 +344,7 @@ require'lspconfig'.cmake.setup{
       debounce_text_changes = 150,
   }
 }
+
 
 -- bash
 require'lspconfig'.bashls.setup{

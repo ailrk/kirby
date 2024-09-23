@@ -239,13 +239,6 @@ set background=dark
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Syntax Modification
 
-"
-" Popup menu
-"
-"hi Pmenu ctermbg=254 ctermfg=0
-"hi PmenuSbar ctermbg=none
-"hi PmenuThumb ctermbg=none
-
 
 "
 " gutter
@@ -287,6 +280,11 @@ hi link LspDiagnosticsDefaultWarning NonText
 hi link LspDiagnosticsDefaultError ErrorMsg
 hi link LspCodeLens NonText
 
+"
+" NERDTree
+"
+hi! link Directory Type
+
 " Never wnat a split bar styling
 ""hi VerSplit cterm=None
 
@@ -312,8 +310,6 @@ augroup set_shiftwidth
 augroup end
 
 
-" autocmd BufWritePre * %s/\s\+$//eg
-
 "
 " Haskell
 "
@@ -326,66 +322,25 @@ augroup hslangs
     autocmd FileType haskell,purescript set shiftwidth=2 tabstop=2
 
     " base
-    autocmd Filetype haskell,purescript ino <localleader>f <$>
-    autocmd Filetype haskell,purescript ino <localleader>fl <$
-    autocmd Filetype haskell,purescript ino <localleader>fr $>
-    autocmd Filetype haskell,purescript ino <localleader>f' <&>
     autocmd Filetype haskell,purescript ino <localleader>rb >>= (\_ -> _)
     autocmd Filetype haskell,purescript ino <localleader>rb' >>= (pure . _)
     autocmd Filetype haskell,purescript ino <localleader>lb (\_ -> _) =<<
     autocmd Filetype haskell,purescript ino <localleader>lb' (pure . _) =<<
-    autocmd Filetype haskell,purescript ino <localleader>A <*>
-    autocmd Filetype haskell,purescript ino <localleader>A' <\|>
-    autocmd Filetype haskell,purescript ino <localleader>to2 _a -> _b -> _c
-    autocmd Filetype haskell,purescript ino <localleader>to3 _a -> _b -> _c -> _d
-    autocmd Filetype haskell,purescript ino <localleader>lfsh _ <=< _
-    autocmd Filetype haskell,purescript ino <localleader>rfsh _ >=> _
     autocmd Filetype haskell,purescript ino <localleader>for forM _ $ do
-    autocmd Filetype haskell,purescript ino <localleader>trv traverse _f _
-    autocmd Filetype haskell,purescript ino <localleader>for_ forM _ $ do
-    autocmd Filetype haskell,purescript ino <localleader>trv_ traverse_ _f _
-    autocmd Filetype haskell,purescript ino <localleader>fdr foldr _f _b _xs
-    autocmd Filetype haskell,purescript ino <localleader>fdl foldl _f _b _xs
-    autocmd Filetype haskell,purescript ino <localleader>fdm foldMap _f _xs
     autocmd Filetype haskell,purescript ino <localleader>ap _f <$> _a <*> _b
     autocmd Filetype haskell,purescript ino <localleader>ap2 _f <$> _a <*> _b
-    autocmd Filetype haskell,purescript ino <localleader>ap3 _f <$> _a <*> _b <*> _c
-    autocmd Filetype haskell,purescript ino <localleader>ap4 _f <$> _a <*> _b <*> _c <*> _d
-    autocmd Filetype haskell,purescript ino <localleader>ap5 _f <$> _a <*> _b <*> _c <*> _d <*> _e
     autocmd Filetype haskell,purescript ino <localleader>l lift
     autocmd Filetype haskell,purescript ino <localleader>l2 lift . lift
     autocmd Filetype haskell,purescript ino <localleader>t2 (_, _)
     autocmd Filetype haskell,purescript ino <localleader>t3 (_, _, _)
-    autocmd Filetype haskell,purescript ino <localleader>t4 (_, _, _, _)
-    autocmd Filetype haskell,purescript ino <localleader>t5 (_, _, _, _, _)
     autocmd Filetype haskell,purescript ino <localleader>_2 _ _
     autocmd Filetype haskell,purescript ino <localleader>_3 _ _ _
-    autocmd Filetype haskell,purescript ino <localleader>_4 _ _ _ _
-    autocmd Filetype haskell,purescript ino <localleader>_5 _ _ _ _ _
     autocmd Filetype haskell,purescript ino <localleader>ev {- $> <cr> <$ -}
 
     " newtype mtl
     autocmd Filetype haskell ino <localleader>nt newtype _M a = _M {un_M :: _ a} deriving (Functor, Applicative, Monad, MonadIO, MonadReader _r , MonadWriter _w)
     autocmd Filetype haskell ino <localleader>nt1 newtype _M a = _M {un_M :: _ (_ IO) a} deriving (Functor, Applicative, Monad, MonadIO, MonadReader _r , MonadWriter _w)
     autocmd Filetype haskell ino <localleader>nt2 newtype _M a = _M {un_M :: _ (_ (_ IO)) a} deriving (Functor, Applicative, Monad, MonadIO, MonadReader _r , MonadWriter _w)
-
-
-    " comments
-    autocmd Filetype haskell,purescript ino <localleader>--- --------------------------------------------------------------------------------
-
-    " refs
-    autocmd Filetype haskell ino <localleader>rio readIORef _ref
-    autocmd Filetype haskell ino <localleader>wio writeIORef _a _ref
-    autocmd Filetype haskell ino <localleader>mio modifyIORef _f _ref
-    autocmd Filetype haskell ino <localleader>rst readSTRef _ref
-    autocmd Filetype haskell ino <localleader>wst writeSTRef _a _ref
-    autocmd Filetype haskell ino <localleader>mst modifySTRef _f _ref
-    autocmd Filetype haskell ino <localleader>rmv readMVar _mv
-    autocmd Filetype haskell ino <localleader>wmv writeMVar _a _mv
-    autocmd Filetype haskell ino <localleader>mmv modifyMVar _f _mv
-    autocmd Filetype haskell ino <localleader>rtv readTVar _mv
-    autocmd Filetype haskell ino <localleader>wtv writeTVar _a _mv
-    autocmd Filetype haskell ino <localleader>mtv modifyTVar _f _mv
 
     " exception
     autocmd Filetype haskell ino <localleader>c (\_ -> _) `catch` \(e :: SomeException) -> _
@@ -437,55 +392,6 @@ augroup end
 
 
 "
-" F#
-"
-augroup fsharplang
-    au! fsharplang
-    au FileType fsharp set shiftwidth=2 tabstop=2
-    au FileType fsharp setl commentstring=(*%s*)
-    au Filetype fsharp ino <localleader>l1 (fun _a -> _z)
-    au Filetype fsharp ino <localleader>l2 (fun _a _b -> _z)
-    au Filetype fsharp ino <localleader>l3 (fun _a _b _c -> _z)
-    au Filetype fsharp ino <localleader>l4 (fun _a _b _c _d -> _z)
-    au Filetype fsharp ino <localleader>l5 (fun _a _b _c _d _e -> _z)
-    au Filetype fsharp ino <localleader>f <bar>> Seq.map _fn
-    au Filetype fsharp ino <localleader>fdl <bar>> Seq.fold _fn _base
-    au Filetype fsharp ino <localleader>fi <bar>> Seq.filter _fn
-    au Filetype fsharp ino <localleader>ta <bar>> Seq.toArray
-    au Filetype fsharp ino <localleader>tl <bar>> Seq.toList
-    au Filetype fsharp ino <localleader>sq <bar>> Task.seq
-    au Filetype fsharp ino <localleader>sc <bar>> String.concat ""
-    au Filetype fsharp ino <localleader>dv <bar>> Option.defaultValue _v
-    au Filetype fsharp ino <localleader>mb <bar>> Option.bind _v
-    au Filetype fsharp ino <localleader>if if _c then _t else _f
-    au Filetype fsharp ino <localleader>mc match _p with
-    au Filetype fsharp ino <localleader>lc let _f = function
-augroup end
-
-"
-" elm
-"
-augroup elmlang
-    au! elmlang
-    au FileType elm set shiftwidth=2 tabstop=2
-    au Filetype elm ino <localleader>l1 (\ _a -> _z)
-    au Filetype elm ino <localleader>l2 (\ _a _b -> _z)
-    au Filetype elm ino <localleader>l3 (\ _a _b _c -> _z)
-    au Filetype elm ino <localleader>l4 (\ _a _b _c _d -> _z)
-    au Filetype elm ino <localleader>l5 (\ _a _b _c _d _e -> _z)
-    au Filetype elm ino <localleader>l6 (\ _a _b _c _d _e _f -> _z)
-    au Filetype elm ino <localleader>l7 (\ _a _b _c _d _e _f _g -> _z)
-    au Filetype elm ino <localleader>l8 (\ _a _b _c _d _e _f _g _h -> _z)
-    au Filetype elm ino <localleader>l9 (\ _a _b _c _d _e _f _g _h _i -> _z)
-    au Filetype elm ino <localleader>f <bar>> List.map _fn
-    au Filetype elm ino <localleader>fdl <bar>> List.fold _fn _base
-    au Filetype elm ino <localleader>fi <bar>> List.filter _fn
-    au Filetype elm ino <localleader>mb <bar>> Maybe.andThen _v
-    au Filetype elm ino <localleader>if if _c then _t else _f
-    au Filetype elm ino <localleader>mc case _p of
-augroup end
-
-"
 " APL
 "
 augroup apllang
@@ -493,6 +399,7 @@ augroup apllang
   let g:apl_prefix_key = '<M-a>'
   au! BufRead,BufNewFile *.aplf,*aplc,*apln       setfiletype apl
 augroup end
+
 
 "
 " latex

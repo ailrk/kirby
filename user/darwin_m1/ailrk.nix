@@ -2,11 +2,11 @@
 { config, lib, pkgs, ... }:
 with lib;
 {
-  options.kirby.user.aarch64_darwin.ailrk = {
+  options.kirby.user.darwin_m1.ailrk = {
     enable = mkEnableOption "Set user as a ailrk";
   };
 
-  config = mkIf config.kirby.user.aarch64_darwin.ailrk.enable {
+  config = mkIf config.kirby.user.darwin_m1.ailrk.enable {
     home.stateVersion = "23.11";
     home.username = "ailrk";
     home.homeDirectory = "/Users/ailrk";

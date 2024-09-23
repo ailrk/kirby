@@ -2,11 +2,11 @@
 { config, lib, pkgs, ... }:
 with lib;
 {
-  options.kirby.user.x86_64_linux.fatmonad = {
+  options.kirby.user.linux_x86.fatmonad = {
     enable = mkEnableOption "Set user as a fatmonad";
   };
 
-  config = mkIf config.kirby.user.x86_64_linux.fatmonad.enable {
+  config = mkIf config.kirby.user.linux_x86.fatmonad.enable {
     home.stateVersion = "23.11";
     home.username = "fatmonad";
     home.homeDirectory = "/home/fatmonad";
@@ -121,6 +121,7 @@ with lib;
           valgrind
           dotnet-sdk
           fsharp
+          nil
 
           # Data, Files and Networking
           sshfs

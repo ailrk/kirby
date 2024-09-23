@@ -6,13 +6,13 @@ in
   if home == "/home/fatmonad" then
   {
     imports = [
-        ./program/default.nix 
+        ./program/default.nix
         ./program/linux.nix
         ./service/default.nix
-        ./user/x86_64_linux/fatmonad.nix
+        ./user/linux_x86/fatmonad.nix
       ];
 
-    kirby.user.x86_64_linux.fatmonad.enable = true;
+    kirby.user.linux_x86.fatmonad.enable = true;
   }
   else if home == "/Users/ailrk" then
   {
@@ -20,7 +20,7 @@ in
         ./program/default.nix
         ./program/darwin.nix
         ./service/default.nix
-        ./user/aarch64_darwin/ailrk.nix
+        ./user/darwin_m1/ailrk.nix
       ];
-    kirby.user.aarch64_darwin.ailrk.enable = true;
+    kirby.user.darwin_m1.ailrk.enable = true;
   } else abort "unknown user"
