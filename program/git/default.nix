@@ -64,6 +64,7 @@ in
         "ch" = "checkout";
         "br" = "branch";
         "d" = "diff";
+        "ds" = "diff --stat";
         "dw" = "diff --color-words";
         "dn" = "diff --name-only";
         "f" = "fetch";
