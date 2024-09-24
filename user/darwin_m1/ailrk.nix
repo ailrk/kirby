@@ -7,7 +7,7 @@ with lib;
   };
 
   config = mkIf config.kirby.user.darwin_m1.ailrk.enable {
-    home.stateVersion = "23.11";
+    home.stateVersion = "24.05";
     home.username = "ailrk";
     home.homeDirectory = "/Users/ailrk";
     manual.manpages.enable = false;
@@ -49,6 +49,7 @@ with lib;
         binutils
 
         # cli tools
+        tldr
         w3m
         rsync
         htop

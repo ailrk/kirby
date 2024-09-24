@@ -82,6 +82,7 @@ with lib;
           cabal2nix
 
           # cli tools
+          tldr
           htop
           inetutils
           ripgrep
