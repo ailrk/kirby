@@ -22,5 +22,13 @@ in
         ./service/default.nix
         ./user/darwin_m1/ailrk.nix
       ];
-    kirby.user.darwin_m1.ailrk.enable = true;
+    kirby.user.darwin_m1.ailrk = {
+      enable  = true;
+      core    = true;
+      nix     = true;
+      cli     = true;
+      haskell = false;
+      fonts   = true;
+      extra   = [ pkgs.qemu ];
+    };
   } else abort "unknown user"

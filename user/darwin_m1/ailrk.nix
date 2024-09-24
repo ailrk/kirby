@@ -3,7 +3,17 @@
 with lib;
 {
   options.kirby.user.darwin_m1.ailrk = {
-    enable = mkEnableOption "Set user as a ailrk";
+    enable  = mkEnableOption "Set user as a ailrk";
+    core    = mkEnableOption "Core utilities";
+    cli     = mkEnableOption "Extra cli utilties";
+    haskell = mkEnableOption "Haskell related";
+    nix     = mkEnableOption "Nix related";
+    fonts   = mkEnableOption "Fonts";
+    extra   = lib.mkOption {
+      type = types.listOf types.package;
+      description = "extra packages";
+      default = [];
+    };
   };
 
   config = mkIf config.kirby.user.darwin_m1.ailrk.enable {
@@ -38,37 +48,53 @@ with lib;
     };
 
     # Install packages
-    home.packages = with pkgs;
-      [ tmux
+    home.packages = let
+        ailrk = config.kirby.user.darwin_m1.ailrk;
+        set   = en: ps: if en then ps else [];
 
-        # utils
-        zlib.dev
-        zlib.out
-        gmp
-        cabal2nix
-        binutils
+        core = set ailrk.core [
+          pkgs.tmux
+          pkgs.binutils
+          pkgs.rsync
+          pkgs.htop
+          pkgs.inetutils
+          pkgs.ripgrep
+          pkgs.killall
+          pkgs.expect
+          pkgs.fd
+          pkgs.bat
+          pkgs.fzf
+          pkgs.git-crypt
+          pkgs.gnupg
+          pkgs.zlib.dev
+          pkgs.zlib.out
+        ];
 
-        # cli tools
-        tldr
-        w3m
-        rsync
-        htop
-        inetutils
-        ripgrep
-        killall
-        expect
-        fd
-        bat
-        fzf
-        git-crypt
-        gnupg
+        cli = set ailrk.cli [
+          pkgs.tldr
+          pkgs.w3m
+        ];
 
-        # font
-        fira-code
+        nix = set ailrk.nix [
+          pkgs.any-nix-shell
+        ];
 
-        # nix
-        any-nix-shell
-      ];
+        fonts = set ailrk.fonts [
+          pkgs.fira-code
+        ];
+
+        haskell = set ailrk.haskell [
+          pkgs.cabal2nix
+          pkgs.haskellPackages.ghcup
+          pkgs.ghcid
+        ];
+      in
+      core
+      ++ cli
+      ++ nix
+      ++ fonts
+      ++ haskell
+      ++ ailrk.extra;
 
     # Environment
     home.sessionVariables = {
