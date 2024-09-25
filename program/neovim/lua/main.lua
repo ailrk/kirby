@@ -161,26 +161,26 @@ require'lspconfig'.hls.setup{
 }
 
 -- c/c++
-require'lspconfig'.ccls.setup{
-  on_attach = on_attach,
-  flags = {
-      debounce_text_changes = 150,
-  },
+-- require'lspconfig'.ccls.setup{
+--   on_attach = on_attach,
+--   flags = {
+--       debounce_text_changes = 150,
+--   },
 
-  init_options = {
-    compilationDatabaseDirectory = "build",
-    index = {
-      threads = 0
-    };
-    clang = {
-      excludeArgs = {"-frounding-math"},
-      extraArgs = {"-std=c++2a" }
-    };
-  },
-  filetypes = {
-      "cpp", "objc", "objcpp"
-  }
-}
+--   init_options = {
+--     compilationDatabaseDirectory = "build",
+--     index = {
+--       threads = 0
+--     };
+--     clang = {
+--       excludeArgs = {"-frounding-math"},
+--       extraArgs = {"-std=c++2a" }
+--     };
+--   },
+--   filetypes = {
+--       "c", "cpp", "objc", "objcpp"
+--   }
+-- }
 
 
 require'lspconfig'.clangd.setup{
@@ -189,7 +189,7 @@ require'lspconfig'.clangd.setup{
       debounce_text_changes = 150,
   },
   filetypes = {
-    "c"
+    "c", "cpp", "objc", "objcpp"
   }
 }
 

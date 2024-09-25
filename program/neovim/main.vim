@@ -159,15 +159,18 @@ nnoremap <leader>ig :IndentGuidesToggle<CR>
 " Find files using Telescope command-line sugar.
 nnoremap <C-p> <cmd>Telescope find_files<cr>
 " nnoremap <leader>f <cmd>Telescope file_browser<cr>
-nnoremap <space>g <cmd>Telescope live_grep<cr>
-nnoremap <leader>B <cmd>Telescope buffers<cr>
-nnoremap <leader>H <cmd>Telescope help_tags<cr>
-nnoremap <leader>M <cmd>Telescope marks<cr>
-nnoremap <leader>R <cmd>Telescope registers<cr>
-nnoremap <leader>D <cmd>Telescope lsp_document_symbols<cr>
-nnoremap <leader>A <cmd>Telescope lsp_code_actions<cr>
-nnoremap <space>s <cmd>SessionSearch<cr>
-nnoremap <C-s>     <cmd>SessionSave<cr>
+nnoremap <space>g   <cmd>Telescope live_grep<cr>
+nnoremap <leader>gs <cmd>Telescope git_status<cr>
+nnoremap <leader>gc <cmd>Telescope git_commits<cr>
+nnoremap <leader>gb <cmd>Telescope git_branches<cr>
+nnoremap <leader>B  <cmd>Telescope buffers<cr>
+nnoremap <leader>H  <cmd>Telescope help_tags<cr>
+nnoremap <leader>M  <cmd>Telescope marks<cr>
+nnoremap <leader>R  <cmd>Telescope registers<cr>
+nnoremap <leader>D  <cmd>Telescope lsp_document_symbols<cr>
+nnoremap <leader>A  <cmd>Telescope lsp_code_actions<cr>
+nnoremap <space>s   <cmd>SessionSearch<cr>
+nnoremap <C-s>      <cmd>SessionSave<cr>
 
 
 nmap # <nop>
