@@ -61,9 +61,6 @@ require('packer').startup(function()
     use {'nvim-telescope/telescope.nvim'}
     use {'rmagatti/auto-session'}
     use {'mfussenegger/nvim-dap'}
-    use {'mfussenegger/nvim-dap-ui'}
-    use {'nvim-neotest/nvim-nio'}
-    use {'rcarriga/nvim-dap-ui'}
 
     use {'preservim/nerdtree'}
     use {'jpalardy/vim-slime'}
@@ -352,7 +349,6 @@ vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handle
 -- SETUP DAPS
 
 local dap = require('dap')
-local dapui = require('dapui')
 
 dap.adapters.lldb = {
   type = 'executable',
@@ -367,20 +363,60 @@ vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
 vim.keymap.set('n', '<space>b', function() require('dap').toggle_breakpoint() end)
 vim.keymap.set({'n', 'v'}, '<space>D', function() require('dap.ui.widgets').hover() end)
 
-dapui.setup()
-dap.listeners.before.attach.dapui_config = function()
-  dapui.open()
-end
-dap.listeners.before.launch.dapui_config = function()
-  dapui.open()
-end
-dap.listeners.before.event_terminated.dapui_config = function()
-  dapui.close()
-end
-dap.listeners.before.event_exited.dapui_config = function()
-  dapui.close()
+
+-- Remap K to hover when session is on
+local keymap_restore = {}
+
+local function dap_map_k()
+  for _, buf in pairs(vim.api.nvim_list_bufs()) do
+    local keymaps = vim.api.nvim_buf_get_keymap(buf, 'n')
+    for _, keymap in pairs(keymaps) do
+      if keymap.lhs == "K" then
+        table.insert(keymap_restore, keymap)
+        vim.api.nvim_buf_del_keymap(buf, 'n', 'K')
+      end
+    end
+  end
+  vim.api.nvim_set_keymap(
+    'n', 'K', '<Cmd>lua require("dap.ui.widgets").hover()<CR>', { silent = true })
 end
 
+local function dap_unmap_k()
+  for _, keymap in pairs(keymap_restore) do
+    vim.api.nvim_buf_set_keymap(
+      keymap.buffer,
+      keymap.mode,
+      keymap.lhs,
+      keymap.rhs,
+      { silent = keymap.silent == 1 }
+    )
+  end
+  keymap_restore = {}
+end
+
+local widgets = require('dap.ui.widgets')
+local dap_frames = widgets.sidebar(widgets.frames)
+local dap_scopes = widgets.sidebar(widgets.scopes)
+local dap_threads = widgets.sidebar(widgets.threads)
+
+local function dap_on_event_initialized()
+    dap_map_k()
+    dap_frames.open()
+    dap_scopes.open()
+    dap_threads.open()
+    dap.repl.open({height=15})
+end
+
+local function dap_on_event_terminated()
+    dap_unmap_k()
+    dap_frames.close()
+    dap_scopes.close()
+    dap_threads.close()
+    dap.repl.close()
+end
+
+dap.listeners.after['event_initialized']['me'] = dap_on_event_initialized
+dap.listeners.after['event_terminated']['me'] = dap_on_event_terminated
 
 -------------------------------------------------------------------
 -- auto-session
