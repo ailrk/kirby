@@ -59,9 +59,12 @@ require('packer').startup(function()
     use {'nvim-lua/popup.nvim'}
     use {'nvim-lua/plenary.nvim'}
     use {'nvim-telescope/telescope.nvim'}
-    use {'rmagatti/auto-session',
+    use {'rmagatti/auto-session'}
+    use {'mfussenegger/nvim-dap'}
+    use {'mfussenegger/nvim-dap-ui'}
+    use {'nvim-neotest/nvim-nio'}
+    use {'rcarriga/nvim-dap-ui'}
 
-        }
     use {'preservim/nerdtree'}
     use {'jpalardy/vim-slime'}
     use {'honza/vim-snippets'}
@@ -159,28 +162,6 @@ require'lspconfig'.hls.setup{
     },
   }
 }
-
--- c/c++
--- require'lspconfig'.ccls.setup{
---   on_attach = on_attach,
---   flags = {
---       debounce_text_changes = 150,
---   },
-
---   init_options = {
---     compilationDatabaseDirectory = "build",
---     index = {
---       threads = 0
---     };
---     clang = {
---       excludeArgs = {"-frounding-math"},
---       extraArgs = {"-std=c++2a" }
---     };
---   },
---   filetypes = {
---       "c", "cpp", "objc", "objcpp"
---   }
--- }
 
 
 require'lspconfig'.clangd.setup{
@@ -365,6 +346,40 @@ vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typ
 vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
 vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
 vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+
+
+-------------------------------------------------------------------
+-- SETUP DAPS
+
+local dap = require('dap')
+local dapui = require('dapui')
+
+dap.adapters.lldb = {
+  type = 'executable',
+  command = 'lldb-vscode', -- adjust as needed, must be absolute path
+  name = 'lldb'
+}
+
+vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
+vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
+vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
+vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
+vim.keymap.set('n', '<space>b', function() require('dap').toggle_breakpoint() end)
+vim.keymap.set({'n', 'v'}, '<space>D', function() require('dap.ui.widgets').hover() end)
+
+dapui.setup()
+dap.listeners.before.attach.dapui_config = function()
+  dapui.open()
+end
+dap.listeners.before.launch.dapui_config = function()
+  dapui.open()
+end
+dap.listeners.before.event_terminated.dapui_config = function()
+  dapui.close()
+end
+dap.listeners.before.event_exited.dapui_config = function()
+  dapui.close()
+end
 
 
 -------------------------------------------------------------------

@@ -1,5 +1,4 @@
 { config, pkgs, lib, ... }:
-with lib;
 let
   home = builtins.getEnv "HOME";
 in
@@ -12,7 +11,19 @@ in
         ./user/linux_x86/fatmonad.nix
       ];
 
-    kirby.user.linux_x86.fatmonad.enable = true;
+      kirby.user.linux_x86.fatmonad = {
+        enable  = true;
+        core    = true;
+        cli     = true;
+        libs    = true;
+        gui     = true;
+        nix     = true;
+        fonts   = true;
+        app     = true;
+        langs   = true;
+        lsp     = true;
+        extra   = [];
+      };
   }
   else if home == "/Users/ailrk" then
   {
