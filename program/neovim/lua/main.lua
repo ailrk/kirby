@@ -217,26 +217,35 @@ require'lspconfig'.racket_langserver.setup{
 
 -- lua
 require'lspconfig'.lua_ls.setup {
-  settings = {
-    Lua = {
+  on_init = function(client)
+    if client.workspace_folders then
+      local path = client.workspace_folders[1].name
+      if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
+        return
+      end
+    end
+
+    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
       runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        version = 'LuaJIT',
+        version = 'LuaJIT'
       },
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
-      },
+      -- Make the server aware of Neovim runtime files
       workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = vim.api.nvim_get_runtime_file("", true),
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME,
+          "${3rd}/luv/library",
+          "${3rd}/busted/library",
+        }
+        -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
+        -- library = vim.api.nvim_get_runtime_file("", true)
+      }
+    })
+  end,
+
+  settings = {
+    Lua = {}
+  }
 }
 
 
@@ -349,6 +358,7 @@ vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handle
 -- SETUP DAPS
 
 local dap = require('dap')
+local widgets = require('dap.ui.widgets')
 
 dap.adapters.lldb = {
   type = 'executable',
@@ -365,58 +375,41 @@ vim.keymap.set({'n', 'v'}, '<space>D', function() require('dap.ui.widgets').hove
 
 
 -- Remap K to hover when session is on
-local keymap_restore = {}
+local dapui = {
+    frames = widgets.sidebar(widgets.frames, { width = 50 }),
+    scopes = widgets.sidebar(widgets.scopes, nil, "belowright split"),
+    threads = widgets.sidebar(widgets.threads, nil, "belowright split"),
+    enabled = false
+}
 
-local function dap_map_k()
-  for _, buf in pairs(vim.api.nvim_list_bufs()) do
-    local keymaps = vim.api.nvim_buf_get_keymap(buf, 'n')
-    for _, keymap in pairs(keymaps) do
-      if keymap.lhs == "K" then
-        table.insert(keymap_restore, keymap)
-        vim.api.nvim_buf_del_keymap(buf, 'n', 'K')
-      end
-    end
-  end
-  vim.api.nvim_set_keymap(
-    'n', 'K', '<Cmd>lua require("dap.ui.widgets").hover()<CR>', { silent = true })
-end
-
-local function dap_unmap_k()
-  for _, keymap in pairs(keymap_restore) do
-    vim.api.nvim_buf_set_keymap(
-      keymap.buffer,
-      keymap.mode,
-      keymap.lhs,
-      keymap.rhs,
-      { silent = keymap.silent == 1 }
-    )
-  end
-  keymap_restore = {}
-end
-
-local widgets = require('dap.ui.widgets')
-local dap_frames = widgets.sidebar(widgets.frames)
-local dap_scopes = widgets.sidebar(widgets.scopes)
-local dap_threads = widgets.sidebar(widgets.threads)
-
-local function dap_on_event_initialized()
-    dap_map_k()
-    dap_frames.open()
-    dap_scopes.open()
-    dap_threads.open()
+function dapui:open()
+    self.frames.open()
+    vim.cmd("wincmd l")
+    self.scopes.open()
+    self.threads.open()
+    vim.cmd("wincmd h")
     dap.repl.open({height=15})
+    self.enabled = true
 end
 
-local function dap_on_event_terminated()
-    dap_unmap_k()
-    dap_frames.close()
-    dap_scopes.close()
-    dap_threads.close()
+function dapui:close()
+    self.frames.close()
+    self.scopes.close()
+    self.threads.close()
     dap.repl.close()
+    self.enabled = false
 end
 
-dap.listeners.after['event_initialized']['me'] = dap_on_event_initialized
-dap.listeners.after['event_terminated']['me'] = dap_on_event_terminated
+function dapui:toggle()
+    if self.enabled then
+        dapui:close()
+    else
+        dapui:open()
+    end
+end
+
+vim.keymap.set('n', '<F9>', function() dapui:toggle() end)
+
 
 -------------------------------------------------------------------
 -- auto-session
@@ -427,6 +420,7 @@ require("auto-session").setup {
       "tabdo NERDTreeClose" -- Close NERDTree before saving session
   }
 }
+
 
 -------------------------------------------------------------------
 -- MAPPINGS
