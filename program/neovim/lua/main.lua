@@ -366,6 +366,15 @@ dap.adapters.lldb = {
   name = 'lldb'
 }
 
+dap.adapters.gdb = {
+  type = "executable",
+  command = "gdb",
+  args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
+}
+
+require('dap.ext.vscode').load_launchjs(nil, { gdb = {'c', 'cpp'} })
+
+
 vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
 vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
 vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)

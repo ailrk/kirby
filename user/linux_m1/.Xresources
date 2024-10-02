@@ -1,0 +1,79 @@
+! SHARED COLORS & FONTS
+*.foreground: #ffffff
+*.background: #1c1c1c
+*.pointerColor: white
+*.pointerColorBackground: black
+*.cursorColor: #fc8eac
+*.cursorBlink: true
+
+! !-----------------------------------------------
+! black
+*.color0: #3b4252
+*.color8: #4c566a
+
+! red
+*.color1: #bf616a
+*.color9: #bf616a
+
+! green
+*.color2: #a3be8c
+*.color10: #a3be8c
+
+! yellow
+*.color3: #ebcb8b
+*.color11: #ebcb8b
+
+! blue
+*.color4: #81a1c1
+*.color12: #81a1c1
+
+! magenta
+*.color5: #b48ead
+*.color13: #b48ead
+
+! cyan
+*.color6: #88c0d0
+*.color14: #8FBCBb
+
+! white
+*.color7: #ffffff
+*.color15: #ffffff
+
+*.faceName: PT Mono
+*.faceSize: 18
+
+
+! XTERM
+! !------------------------------------------------
+
+XTerm.termName: xterm-256color
+
+! Allow sixel graphics. (Try: "convert -colors 16 foo.jpg sixel:-").
+xterm*decTerminalID	:	vt340
+! XTERM Window size
+
+XTerm.vt100.geometry: 130x50
+
+! XTerm.vt100.font: 7x13
+*.utf8: 1
+XTerm.vt100.locale: true
+
+! XTERM COPY/PASTE
+! !----------------------------------------------
+
+XTerm.selectToClipboard: true
+XTerm.vt100.TiteInhibit: True
+XTerm.highlightSelection: true
+XTerm.trimSelection: true
+
+! XTERM SCROLLBAR, CURSOR STYLE, BORDER, KEYBINDINGS
+! !------------------------------------------------
+XTerm.vt100.scrollBar: false
+XTerm.scrollTtyOutput: false
+XTerm.saveLines: 30000
+XTerm.vt100.translations: #override \n\
+Ctrl <Key>-: smaller-vt-font() \n\
+Ctrl <Key>+: larger-vt-font() \n\
+Ctrl <Key>0: set-vt-font(d) \n\
+Ctrl Shift <Key>c: copy-selection(CLIPBOARD) \n\
+Ctrl Shift <Key>v: insert-selection(CLIPBOARD)

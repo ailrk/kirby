@@ -42,4 +42,25 @@ in
       fonts   = true;
       extra   = [ pkgs.qemu ];
     };
+  }
+  else if home == "/home/ailrk-asahi" then
+  {
+    imports = [
+        ./program/default.nix
+        ./program/linux.nix
+        ./service/default.nix
+        ./user/linux_m1/ailrk-asahi.nix
+      ];
+    kirby.user.linux_m1.ailrk_asahi = {
+      enable  = true;
+      core    = true;
+      nix     = true;
+      langs   = true;
+      cli     = true;
+      haskell = true;
+      gui     = true;
+      app     = true;
+      fonts   = true;
+      extra   = [ pkgs.qemu pkgs.xterm ];
+    };
   } else abort "unknown user"

@@ -7,10 +7,10 @@ super + Return
     $TERMINAL
 
 ctrl + alt + shift + Return
-    $TERMINAL
+    xterm
 
-super + shift + Return
-    bspc rule -a \* -o state=floating && $TERMINAL
+shift + ctrl + Return
+    $TERMINAL
 
 super + R
     bspc rule -a \* -o state=floating && xterm -e bash -c "nix-shell '<home-manager>' -A install; read -n 1 -p 'echo enter any key: '; bspc wm -r && pkill -USR1 -x sxhkd"

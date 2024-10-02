@@ -6,10 +6,8 @@ unset SSH_ASKPASS
 killDaemons() {
     pkill sxhkd
     pkill dunst
-    pkill picom
     pkill $(pgrep discord)
     pkill polybar
-    pkill -f bspwpm-workspace-preview
 }
 
 # Environment
@@ -20,19 +18,21 @@ setEnv() {
     sleep 0.1
 }
 
-# detect monitors and set
+# detect primary monitors and set
 setMonitor() {
-    bspc monitor DisplayPort-1  -d '|     壹     ' \
-                                   '|     贰     ' \
-                                   '|     叁     ' \
-                                   '|     肆     ' \
-                                   '|     伍     ' \
-                                   '|     陆     ' \
-                                   '|     柒     ' \
-                                   '|     捌     ' \
-                                   '|     玖     ' \
-                                   '|     零     |'
-    xrandr --output DisplayPort-1 --mode 3840x2160 --scale 0.9x0.9 --rate 60
+    MONITOR=$(xrandr | sed -n '2 p' | cut -d' ' -f1)
+    RES=$(xrandr | sed -n '3 p' | cut -d' ' -f4)
+    bspc monitor $MONITOR -d '|     1     ' \
+                             '|     2     ' \
+                             '|     3     ' \
+                             '|     4     ' \
+                             '|     5     ' \
+                             '|     6     ' \
+                             '|     7     ' \
+                             '|     8     ' \
+                             '|     9     ' \
+                             '|     0     |'
+    xrandr --output $MONITOR --mode $RES --scale 1x1 --rate 60
 }
 
 setBSPWMConfigs() {
@@ -66,7 +66,6 @@ spawnDaemon() {
     sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
     $HOME/.config/polybar/start.sh &
     xinput set-prop 11 295 1
-    picom &
     dunst \
         -1b "$WHITE" -1f "$BLACK" -1fr "$BLACK" \
         -nb "$WHITE" -nf "$BLACK" -nfr "$BLACK" \
@@ -92,3 +91,4 @@ setBSPWMConfigs
 setBSPWMRules
 spawnDaemon
 theme
+xrdb $HOME/.Xresources
