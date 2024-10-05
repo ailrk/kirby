@@ -21,20 +21,18 @@ execute 'packadd packer.nvim'
 -------------------------------------------------------------------
 -- PLUGINS
 require('packer').startup(function()
-    use {'tpope/vim-fugitive'}
-
     -- convenient
-    use {'junegunn/goyo.vim'}
+    use {'tpope/vim-fugitive'}
     use {'tpope/vim-commentary'}
     use {'kien/rainbow_parentheses.vim'}
-    use {'liuchengxu/vista.vim'}
-    use {'vim-scripts/DrawIt'}
-    use {'https://github.com/nathanaelkane/vim-indent-guides'}
     use {'voldikss/vim-floaterm'}
     use {'christoomey/vim-system-copy'}
     use {'mtth/scratch.vim'}
-    use {'jummy233/glyphs-vim'}
     use {'junegunn/fzf.vim'}
+    use {'honza/vim-snippets'}
+    use {'SirVer/ultisnips'}
+    use {'triglav/vim-visual-increment'}
+    use {'preservim/nerdtree'}
 
     -- languages
     use {'deoplete-plugins/deoplete-lsp'}
@@ -51,42 +49,26 @@ require('packer').startup(function()
     use {'justin2004/vim-apl'}
     use {'jez/vim-better-sml'}
     use {'Nymphium/vim-koka'}
-    use {'kovisoft/slimv'}
-
     use {'https://github.com/LnL7/vim-nix'}
 
     -- nvim
-    use {'nvim-lua/popup.nvim'}
-    use {'nvim-lua/plenary.nvim'}
     use {'nvim-telescope/telescope.nvim'}
     use {'rmagatti/auto-session'}
-    use {'mfussenegger/nvim-dap'}
-
-    use {'preservim/nerdtree'}
     use {'jpalardy/vim-slime'}
-    use {'honza/vim-snippets'}
-    use {'SirVer/ultisnips'}
-    use {'triglav/vim-visual-increment'}
-
-    use {'nvim-lua/completion-nvim'}
+    use {'nvim-lua/plenary.nvim'}
     use {'neovim/nvim-lspconfig'}
     use {'neovim/nvim-lsp'}
-    use {'echasnovski/mini.nvim'}
     use {'RishabhRD/popfix'}
     use {'RishabhRD/nvim-lsputils'}
-
+    use {'echasnovski/mini.nvim'}
 
     -- color scheme
-    use {'roosta/vim-srcery'}
     use {'ailrk/vim-monochrome-waifu'}
     use {'altercation/vim-colors-solarized'}
     use {'morhetz/gruvbox'}
     use {'pbrisbin/vim-colors-off'}
     use {'aunsira/macvim-light' }
     use {'kristijanhusak/vim-carbon-now-sh'}
-
-    -- llm
-    use { 'nomnivore/ollama.nvim' }
 end)
 
 
@@ -99,16 +81,11 @@ end)
 -- after the language server attaches to the current buffer
 
 
-on_attach = function(client, bufnr)
+local function on_attach(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  --Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc') -- <c-x><c-o>
+  local opts = { noremap=true, silent=true }           -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
@@ -142,13 +119,11 @@ require'lspconfig'.hls.setup{
   flags = {
       debounce_text_changes = 150,
   },
-
   filetypes = {
     "hs",
     "lhs",
     "haskell"
   },
-
   settings = {
     haskell = {
       formattingProvider = "stylish-haskell",
@@ -352,72 +327,6 @@ vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typ
 vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
 vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
 vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
-
-
--------------------------------------------------------------------
--- SETUP DAPS
-
-local dap = require('dap')
-local widgets = require('dap.ui.widgets')
-
-dap.adapters.lldb = {
-  type = 'executable',
-  command = 'lldb-vscode', -- adjust as needed, must be absolute path
-  name = 'lldb'
-}
-
-dap.adapters.gdb = {
-  type = "executable",
-  command = "gdb",
-  args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
-}
-
-require('dap.ext.vscode').load_launchjs(nil, { gdb = {'c', 'cpp'} })
-
-
-vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
-vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
-vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
-vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
-vim.keymap.set('n', '<space>b', function() require('dap').toggle_breakpoint() end)
-vim.keymap.set({'n', 'v'}, '<space>D', function() require('dap.ui.widgets').hover() end)
-
-
--- Remap K to hover when session is on
-local dapui = {
-    frames = widgets.sidebar(widgets.frames, { width = 50 }),
-    scopes = widgets.sidebar(widgets.scopes, nil, "belowright split"),
-    threads = widgets.sidebar(widgets.threads, nil, "belowright split"),
-    enabled = false
-}
-
-function dapui:open()
-    self.frames.open()
-    vim.cmd("wincmd l")
-    self.scopes.open()
-    self.threads.open()
-    vim.cmd("wincmd h")
-    dap.repl.open({height=15})
-    self.enabled = true
-end
-
-function dapui:close()
-    self.frames.close()
-    self.scopes.close()
-    self.threads.close()
-    dap.repl.close()
-    self.enabled = false
-end
-
-function dapui:toggle()
-    if self.enabled then
-        dapui:close()
-    else
-        dapui:open()
-    end
-end
-
-vim.keymap.set('n', '<F9>', function() dapui:toggle() end)
 
 
 -------------------------------------------------------------------
