@@ -100,7 +100,6 @@ with lib;
     home.sessionVariables = {
       EDITOR = "nvim";
       BROWSER = "google-chrome-stable";
-      TERMINAL = "kitty";
     };
 
     nixpkgs.config = {
