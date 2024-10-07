@@ -115,6 +115,8 @@ with lib;
         fonts = set ailrk_asahi.fonts [
           pkgs.fira-code
           pkgs.paratype-pt-mono
+          pkgs.noto-fonts-cjk-sans
+          pkgs.noto-fonts-cjk-serif
         ];
 
         haskell = set ailrk_asahi.haskell [
@@ -182,6 +184,10 @@ with lib;
         executable = true;
         text = builtins.readFile ./.Xresources;
       };
+    };
+
+    xdg.configFile = {
+      "nix/nix.conf".source = ./nix.conf;
     };
 
     # Environment

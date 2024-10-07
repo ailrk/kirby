@@ -140,14 +140,10 @@ super + alt + t
 
 # open browser
 super + B
-    google-chrome-stable
+    $BROWSER
 
 super + alt + B
-    bspc rule -a \* -o state=floating && google-chrome-stable
-
-# open file manager
-super + shift + S
-    bspc rule -a \* -o state=floating && nautilus
+    bspc rule -a \* -o state=floating && $BROWSER
 
 
 super + alt + ctrl + l
