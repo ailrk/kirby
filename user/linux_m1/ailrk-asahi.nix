@@ -32,7 +32,7 @@ with lib;
           userEmail = "jimmy123good@gmail.com";
           userName = "Ailrk";
           signByDefault = true;
-          signKey = "~/.ssh/id_rsa.pub";
+          signKey = "~/.ssh/id_ed25519.pub";
           extraConfig = {
             gpg.format = "ssh";
           };
@@ -85,6 +85,7 @@ with lib;
           pkgs.zlib.dev
           pkgs.zlib.out
           pkgs.texinfo
+          pkgs.texliveSmall
           pkgs.libgcc
         ];
 
@@ -99,6 +100,8 @@ with lib;
           pkgs.racket
           pkgs.valgrind
           pkgs.ocaml
+          pkgs.opam
+          pkgs.ocamlPackages.ocaml-lsp
           pkgs.cmake
           pkgs.rustup
           pkgs.nodejs
