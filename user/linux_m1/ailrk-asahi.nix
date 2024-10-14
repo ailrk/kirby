@@ -194,6 +194,11 @@ with lib;
 
     xdg.configFile = {
       "nix/nix.conf".source = ./nix.conf;
+
+      "bspwm/bspwmrc" = {
+          source = ./bspwmrc;
+          executable = true;
+      };
     };
 
     # Environment

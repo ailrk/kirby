@@ -15,11 +15,7 @@ in
       feh
     ];
 
-    xdg.configFile."bspwm/bspwmrc" = {
-        source = ./bspwmrc;
-        executable = true;
-    };
-
+    xdg.configFile."bspwm/configs.sh".source = ./configs.sh;
     xdg.configFile."bspwm/background".source = ./background;
   };
 }

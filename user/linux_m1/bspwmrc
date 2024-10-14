@@ -1,0 +1,54 @@
+#!/bin/bash
+
+export _JAVA_AWT_WM_NONREPARENTING=1
+unset SSH_ASKPASS
+source "$HOME/.config/bspwm/configs.sh"
+
+kill_daemons() {
+    pkill sxhkd
+    pkill dunst
+    pkill polybar
+}
+
+init_daemons() {
+    init_sxhkd
+    init_polybar
+    init_dunst
+}
+
+setup_monitors() {
+    MONITOR=$(xrandr | sed -n '2 p' | cut -d' ' -f1)
+    RES=$(xrandr | sed -n '3 p' | cut -d' ' -f4)
+    bspc monitor $MONITOR -d '|     1     ' \
+                             '|     2     ' \
+                             '|     3     ' \
+                             '|     4     ' \
+                             '|     5     ' \
+                             '|     6     ' \
+                             '|     7     ' \
+                             '|     8     ' \
+                             '|     9     ' \
+                             '|     0     |'
+    xrandr --output $MONITOR --mode $RES --scale 1x1 --rate 60
+}
+
+theme() {
+    # blurwal -m 1 -b 4 -s 4 &
+    # nohup ~/.config/scripts/bspwpm-workspace-preview &
+    dunstify "Yeepe \(^w^)/"
+    file1="$HOME/.config/bspwm/background/jWTBsU0.jpg"
+    feh --bg-fill $file1
+}
+
+# Start of the script
+
+kill_daemons
+setup_paths
+setup_monitors
+bspwm_configs
+bspwm_rules
+init_daemons
+background
+
+# machine specific setups
+xrdb $HOME/.Xresources

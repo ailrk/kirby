@@ -1,0 +1,46 @@
+#!/bin/bash
+
+export _JAVA_AWT_WM_NONREPARENTING=1
+unset SSH_ASKPASS
+source "$HOME/.config/bspwm/configs.sh"
+
+
+kill_daemons() {
+    pkill sxhkd
+    pkill dunst
+    pkill picom
+    pkill $(pgrep discord)
+    pkill polybar
+}
+
+init_daemons() {
+    init_sxhkd
+    init_polybar
+    init_dunst
+}
+
+setup_monitors() {
+    bspc monitor DisplayPort-1  -d '|     壹     ' \
+                                   '|     贰     ' \
+                                   '|     叁     ' \
+                                   '|     肆     ' \
+                                   '|     伍     ' \
+                                   '|     陆     ' \
+                                   '|     柒     ' \
+                                   '|     捌     ' \
+                                   '|     玖     ' \
+                                   '|     零     |'
+    xrandr --output DisplayPort-1 --mode 3840x2160 --scale 0.9x0.9 --rate 60
+}
+
+kill_daemons
+setup_paths
+setup_monitors
+bspwm_configs
+bspwm_rules
+init_daemons
+background
+
+# machine specific setups
+xinput set-prop 11 295 1
+xrdb $HOME/.Xresources

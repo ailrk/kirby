@@ -230,6 +230,12 @@ with lib;
       };
     };
 
+    xdg.configFile = {
+      "bspwm/bspwmrc" = {
+          source = ./bspwmrc;
+          executable = true;
+      };
+    };
 
     # User specific overlays.
     nixpkgs.overlays = [
