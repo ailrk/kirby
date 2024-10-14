@@ -1,36 +1,6 @@
 #!/usr/bin/env bash
 
-## Author  : Aditya Shakya
-## Mail    : adi1090x@gmail.com
-## Github  : @adi1090x
-## Twitter : @adi1090x
-
-
-dir=""
-rofi_command=""
-
-case  $1 in
-    "android")
-        dir="$HOME/.config/rofi/theme/android"
-        rofi_command="rofi -theme $dir/five.rasi"
-        ;;
-    "applet")
-        case $2 in
-            "circle")
-                dir="$HOME/.config/rofi/theme/applet/circle"
-                ;;
-            "rounded")
-                dir="$HOME/.config/rofi/theme/applet/rounded"
-                ;;
-            "square")
-                dir="$HOME/.config/rofi/theme/applet/square"
-                ;;
-        esac
-        rofi_command="rofi -theme $dir/powermenu.rasi"
-        ;;
-esac
-
-
+rofi_command="rofi -theme $HOME/.config/rofi/theme/powermenu.rasi"
 
 uptime=$(uptime -p | sed -e 's/up //g')
 
@@ -47,18 +17,18 @@ confirm_exit() {
 		-i\
 		-no-fixed-num-lines\
 		-p "Are You Sure? : "\
-		-theme $dir/confirm.rasi
+		-theme $HOME/.config/rofi/theme/confirm.rasi
 }
 
 # Message
 msg() {
-	rofi -theme "$dir/message.rasi" -e "Available Options  -  yes / y / no / n"
+	rofi -theme "$HOME/.config/rofi/theme/message.rasi" -e "Available Options  -  yes / y / no / n"
 }
 
 # Variable passed to rofi
 options="$shutdown\n$reboot\n$lock\n$suspend\n$logout"
 
-chosen="$(echo -e "$options" | $rofi_command -p "Uptime: $uptime" -dmenu -selected-row 2)"
+chosen="$(echo -e "$options" | $rofi_command -p "up $uptime" -dmenu -selected-row 2)"
 case $chosen in
     $shutdown)
 		ans=$(confirm_exit &)

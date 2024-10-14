@@ -1,39 +1,10 @@
 #!/usr/bin/env bash
 
-## Author  : Aditya Shakya
-## Mail    : adi1090x@gmail.com
-## Github  : @adi1090x
-## Twitter : @adi1090x
-
-dir=""
-rofi_command=""
-
-case  $1 in
-    "android")
-       dir="$HOME/.config/rofi/theme/android"
-        rofi_command="rofi -theme $dir/three.rasi"
-        ;;
-    "applet")
-        case $2 in
-            "circle")
-                dir="$HOME/.config/rofi/theme/applet/circle"
-                ;;
-            "rounded")
-                dir="$HOME/.config/rofi/theme/applet/rounded"
-                ;;
-            "square")
-                dir="$HOME/.config/rofi/theme/applet/square"
-                ;;
-        esac
-        rofi_command="rofi -theme $dir/screenshot.rasi"
-        ;;
-esac
-
-
+rofi_command="rofi -theme $HOME/.config/rofi/theme/screenshot.rasi"
 
 # Error msg
 msg() {
-	rofi -theme "$dir/message.rasi" -e "Please install 'scrot' first."
+	rofi -theme "$HOME/.config/rofi/theme/message.rasi" -e "Please install 'scrot' first."
 }
 
 # Options
@@ -60,4 +31,3 @@ if command -v scrot &> /dev/null; then
 else
     msg
 fi
-

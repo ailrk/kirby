@@ -129,14 +129,14 @@ alt + space
 shift + alt + space
     ~/.config/rofi/scripts/launcher.sh drun
 
+super + alt + a
+    ~/.config/rofi/scripts/apps.sh
+
 super + alt + p
-    ~/.config/rofi/scripts/powermenu.sh applet square
+    ~/.config/rofi/scripts/powermenu.sh
 
 super + alt + s
-    ~/.config/rofi/scripts/screenshot.sh applet square
-
-super + alt + t
-    ~/.config/rofi/scripts/time.sh applet square
+    ~/.config/rofi/scripts/screenshot.sh
 
 # open browser
 super + B

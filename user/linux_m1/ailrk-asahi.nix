@@ -207,6 +207,7 @@ with lib;
       BROWSER = "chromium";
       TERMINAL = "nixGLMesa alacritty";
       TERM = "nixGLMesa alacritty";
+      FILES = "nautilus";
     };
 
     nixpkgs.config = {

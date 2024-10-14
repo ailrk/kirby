@@ -227,6 +227,7 @@ with lib;
         BROWSER = "google-chrome-stable";
         TERMINAL = "nixGL alacritty";
         TERM = "nixGL alacritty";
+        FILES = "nautilus";
       };
     };
 

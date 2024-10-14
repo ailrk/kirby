@@ -1,38 +1,9 @@
 #!/usr/bin/env bash
 
-## Author  : Aditya Shakya
-## Mail    : adi1090x@gmail.com
-## Github  : @adi1090x
-## Twitter : @adi1090x
-
-
-dir=""
-rofi_command=""
-
-case  $1 in
-    "applet")
-        case $2 in
-            "circle")
-                dir="$HOME/.config/rofi/theme/applet/circle"
-                ;;
-            "rounded")
-                dir="$HOME/.config/rofi/theme/applet/rounded"
-                ;;
-            "square")
-                dir="$HOME/.config/rofi/theme/applet/square"
-                ;;
-        esac
-        rofi_command="rofi -theme $dir/network.rasi"
-        ;;
-esac
-
-
+rofi_command="rofi -theme $HOME/.config/rofi/theme/network.rasi"
 
 ## Get info
 IFACE="$(nmcli | grep -i interface | awk '/interface/ {print $2}')"
-#SSID="$(iwgetid -r)"
-#LIP="$(nmcli | grep -i server | awk '/server/ {print $2}')"
-#PIP="$(dig +short myip.opendns.com @resolver1.opendns.com )"
 STATUS="$(nmcli radio wifi)"
 
 active=""
@@ -83,4 +54,3 @@ case $chosen in
         nm-connection-editor
         ;;
 esac
-
