@@ -52,10 +52,7 @@ with lib;
         alacritty.enable = true;
         scripts.enable = true;
         xconfig.enable = true;
-        rofi = {
-          enable = true;
-          resolution = "720p";
-        };
+        rofi.enable = true;
         nmap.enable = true;
         zsh.enable = true;
         fish.enable = true;

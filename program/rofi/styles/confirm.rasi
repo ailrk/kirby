@@ -5,7 +5,7 @@
 * {
     background-color:       @background;
     text-color:             @foreground;
-	font:				 	"Comfortaa 12";
+	font:				 	"PT Mono 14";
 }
 
 window {

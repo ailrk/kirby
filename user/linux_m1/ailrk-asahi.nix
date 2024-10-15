@@ -56,10 +56,7 @@ with lib;
         nemo.enable = true;
         taskwarrior.enable = true;
         xconfig.enable = true;
-        rofi = {
-          enable = true;
-          resolution = "720p";
-        };
+        rofi.enable = true;
       };
     };
 
@@ -112,6 +109,8 @@ with lib;
           pkgs.lld
           pkgs.bear
           pkgs.nasm
+          pkgs.lua
+          pkgs.lua-language-server
         ];
 
         nix = set ailrk_asahi.nix [
@@ -141,6 +140,7 @@ with lib;
           pkgs.xdo
           pkgs.pinentry
           pkgs.xclip
+          pkgs.scrot
         ];
 
         app = set ailrk_asahi.app [

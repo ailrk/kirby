@@ -11,7 +11,7 @@
     bg1:     #404040;
     fg0:     #eeffff;
 
-    accent-color:     #f07178;
+    accent-color:     #d75f87;
     urgent-color:     #ffcb6b;
 
     background-color:   transparent;

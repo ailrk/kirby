@@ -7,17 +7,13 @@ in
 {
   options.kirby.program.rofi = {
     enable = mkEnableOption "Enable rofi application launcher";
-
-    resolution = mkOption {
-      type = types.str;
-      description = "The resolution for rofi menu";
-    };
   };
 
   config = mkIf cfg.enable {
       home.packages = [ pkgs.rofi ];
-      xdg.configFile."rofi/".source = ./${cfg.resolution};
-
-      home.file.".fonts/Feather.ttf".source = ./fonts/Feather.ttf;
+      xdg.configFile."rofi/scripts".source = ./scripts;
+      xdg.configFile."rofi/theme".source = ./theme;
+      xdg.configFile."rofi/styles".source = ./styles;
+      xdg.dataFile."fonts/Feather.ttf".source = ./fonts/Feather.ttf;
   };
 }
