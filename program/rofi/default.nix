@@ -19,7 +19,6 @@ in
 
       # link binaries to scripts
       xdg.configFile."scripts/apps.sh".source = link ./scripts/apps.sh;
-      xdg.configFile."scripts/battery.sh".source = link ./scripts/battery.sh;
       xdg.configFile."scripts/launcher.sh".source = link ./scripts/launcher.sh;
       xdg.configFile."scripts/network.sh".source = link ./scripts/network.sh;
       xdg.configFile."scripts/powermenu.sh".source = link ./scripts/powermenu.sh;

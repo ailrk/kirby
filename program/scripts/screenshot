@@ -2,12 +2,11 @@
 ID=2931
 IMG_PATH=$HOME/Pictures/screenshot;
 
-mkdir -p $IMG_PATH
-
 notify() {
     dunstify -t 4000 -r $ID "Full screenshot in $IMG_PATH"
 }
 
+mkdir -p $IMG_PATH
 case $1 in
     full)
         cd $IMG_PATH
