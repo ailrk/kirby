@@ -129,10 +129,7 @@ alt + space
 shift + alt + space
     launcher.sh window
 
-super + alt + a
-    apps.sh
-
-super + alt + p
+alt + p
     powermenu.sh
 
 alt + shift + 3

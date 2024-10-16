@@ -1,118 +1,90 @@
-configuration {
-	font:                      		"PT Mono 15";
-    disable-history:                false;
-    fullscreen:                     false;
-	hide-scrollbar: 				true;
-	sidebar-mode: 					false;
-}
-
-@import "../styles/colors.rasi"
-
-
 * {
-    background-color:               @background;
-    text-color:                     @foreground;
+    font:            "PT Mono 20";
+
+    bg0:              #212121;
+    bg1:              #404040;
+    fg0:              #eeffff;
+
+    accent-color:     #d75f87;
+    urgent-color:     #ffcb6b;
+
+    background-color: transparent;
+    text-color:       @fg0;
+
+    margin:           0;
+    padding:          0;
+    spacing:          0;
 }
 
 window {
-    transparency:                   "real";
-    border-radius:                  0px;
-    location:                       southeast;
-	width:							480px;
-    x-offset:                       -15px;
-    y-offset:                       -45px;
-}
+    location:   center;
+    width:      300;
+    y-offset:   -160;
 
-prompt {
-    enabled: 						true;
-    padding:                        10px;
-	background-color: 				@background-light;
-	text-color: 					@accent;
-    border:                  		2px 2px 2px 2px;
-    border-radius:                  0px;
-    border-color:                  	@accent;
-}
-
-textbox-prompt-colon {
-	expand: 						false;
-	str: 							" System ";
-	background-color: 				@accent;
-	text-color: 					@background;
-    padding:                        12px 10px 0px 10px;
+    background-color:   @bg0;
 }
 
 inputbar {
-	children: 						[ textbox-prompt-colon, prompt ];
-    spacing:                        0px;
-    background-color:               @background;
-    text-color:                     @foreground;
-    expand:                         false;
-    border:                  		0px;
-    border-radius:                  0px;
-    border-color:                  	@accent;
-    margin:                         0px 0px 0px 0px;
-    padding:                        0px;
-    position:                       center;
+    spacing:    8px;
+    padding:    8px;
+
+    background-color:   @bg1;
+}
+
+prompt, entry, element-icon, element-text {
+    vertical-align: 0.5;
+}
+
+prompt {
+    text-color: @accent-color;
+}
+
+textbox {
+    padding:            8px;
+    background-color:   @bg1;
 }
 
 listview {
-    columns:						5;
-    lines:							1;
-    spacing:                        12px;
-    cycle:                          true;
-    dynamic:                        true;
-    layout:                         vertical;
-}
+    padding:    4px 0;
+    lines:      16;
+    columns:    1;
 
-mainbox {
-    background-color:               @background;
-    children:                       [ inputbar, listview ];
-    spacing:                        12px;
-    margin:                         12px;
+    fixed-height:   false;
 }
 
 element {
-    background-color:               @background-light;
-    text-color:                     @foreground;
-    orientation:                    vertical;
-    border-radius:                  0px;
+    padding:    8px;
+    spacing:    8px;
 }
 
-element-text {
-	font:							"feather 20";
-    expand:                         true;
-    horizontal-align:               0.5;
-    vertical-align:                 0;
-    margin:                         5px 10px 30px 10px;
+element normal normal {
+    text-color: @fg0;
 }
 
-element normal.urgent,
-element alternate.urgent {
-    background-color:               @off;
-    text-color:                     @background;
-    border-radius:                  0px;
+element normal urgent {
+    text-color: @urgent-color;
 }
 
-element normal.active,
-element alternate.active {
-    background-color:               @on;
-    text-color:                     @background;
+element normal active {
+    text-color: @accent-color;
 }
 
 element selected {
-    background-color:               @accent;
-    text-color:                     @background;
-    border:                  		0px;
-    border-radius:                  0px;
-    border-color:                  	@border;
+    text-color: @bg0;
 }
 
-element selected.urgent {
-    background-color:               @on;
-    text-color:                     @background;
+element selected normal, element selected active {
+    background-color:   @accent-color;
 }
 
-element selected.active {
-    background-color:               @off;
-    color:                          @background;
+element selected urgent {
+    background-color:   @urgent-color;
+}
+
+element-icon {
+    size:   0.8em;
+}
+
+element-text {
+    text-color: inherit;
 }

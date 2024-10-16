@@ -1,9 +1,3 @@
-/*******************************************************************************
- * ROFI SQUARED THEME USING THE MATERIAL DARKER PALETTE
- * User                 : LR-Tech
- * Theme Repo           : https://github.com/lr-tech/rofi-themes-collection
- *******************************************************************************/
-
 * {
     font:   "PT Mono 20";
 
