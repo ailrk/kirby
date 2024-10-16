@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-FILENAME="$(echo $1 | cut -d. -f1).pdf"
-
-zathura $FILENAME&
-while inotifywait -q -e close $FILENAME;
-  do sleep .1;
-    do pkill -HUP mupdf;
-    done > /dev/null

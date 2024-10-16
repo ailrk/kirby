@@ -11,19 +11,7 @@ in
         ./user/linux_x86/fatmonad.nix
       ];
 
-      kirby.user.linux_x86.fatmonad = {
-        enable  = true;
-        core    = true;
-        cli     = true;
-        libs    = true;
-        gui     = true;
-        nix     = true;
-        fonts   = true;
-        app     = true;
-        langs   = true;
-        lsp     = true;
-        extra   = [];
-      };
+      kirby.user.linux_x86.fatmonad.enable  = true;
   }
   else if home == "/Users/ailrk" then
   {
@@ -51,16 +39,5 @@ in
         ./service/default.nix
         ./user/linux_m1/ailrk-asahi.nix
       ];
-    kirby.user.linux_m1.ailrk_asahi = {
-      enable  = true;
-      core    = true;
-      nix     = true;
-      langs   = true;
-      cli     = true;
-      haskell = true;
-      gui     = true;
-      app     = true;
-      fonts   = true;
-      extra   = [ pkgs.qemu pkgs.xterm ];
-    };
+    kirby.user.linux_m1.ailrk_asahi.enable  = true;
   } else abort "unknown user"

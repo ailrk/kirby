@@ -4,19 +4,6 @@ with lib;
 {
   options.kirby.user.linux_m1.ailrk_asahi = {
     enable  = mkEnableOption "Set user as a ailrk-asahi";
-    core    = mkEnableOption "Core utilities";
-    cli     = mkEnableOption "Extra cli utilties";
-    haskell = mkEnableOption "Haskell related";
-    gui     = mkEnableOption "GUI related";
-    app     = mkEnableOption "GUI applications";
-    langs   = mkEnableOption "Misc language tools";
-    nix     = mkEnableOption "Nix related";
-    fonts   = mkEnableOption "Fonts";
-    extra   = lib.mkOption {
-      type = types.listOf types.package;
-      description = "extra packages";
-      default = [];
-    };
   };
 
   config = mkIf config.kirby.user.linux_m1.ailrk_asahi.enable {
@@ -61,11 +48,7 @@ with lib;
     };
 
     # Install packages
-    home.packages = let
-        ailrk_asahi = config.kirby.user.linux_m1.ailrk_asahi;
-        set = en: ps: if en then ps else [];
-
-        core = set ailrk_asahi.core [
+    home.packages = [
           pkgs.tmux
           pkgs.binutils
           pkgs.rsync
@@ -84,16 +67,15 @@ with lib;
           pkgs.texinfo
           pkgs.texliveSmall
           pkgs.libgcc
-        ];
 
-        cli = set ailrk_asahi.cli [
+          pkgs.qemu
+          pkgs.xterm
+
           pkgs.tldr
           pkgs.w3m
           pkgs.gnupatch
           (with import <nixgl> { enable32bits = false; }; nixGLMesa)
-        ];
 
-        langs = set ailrk_asahi.langs [
           pkgs.racket
           pkgs.valgrind
           pkgs.ocaml
@@ -111,27 +93,19 @@ with lib;
           pkgs.nasm
           pkgs.lua
           pkgs.lua-language-server
-        ];
 
-        nix = set ailrk_asahi.nix [
           pkgs.any-nix-shell
-        ];
 
-        fonts = set ailrk_asahi.fonts [
           pkgs.fira-code
           pkgs.paratype-pt-mono
           pkgs.noto-fonts-cjk-sans
           pkgs.noto-fonts-cjk-serif
-        ];
 
-        haskell = set ailrk_asahi.haskell [
           pkgs.ghc
           pkgs.haskell-language-server
           pkgs.ghciwatch
           pkgs.cabal-install
-        ];
 
-        gui = set ailrk_asahi.gui [
           pkgs.xorg.xset
           pkgs.xorg.xinput
           pkgs.brightnessctl
@@ -141,9 +115,7 @@ with lib;
           pkgs.pinentry
           pkgs.xclip
           pkgs.scrot
-        ];
 
-        app = set ailrk_asahi.app [
           pkgs.ibus
           pkgs.chromium
           pkgs.wireshark-qt
@@ -154,16 +126,6 @@ with lib;
           pkgs.font-manager
         ];
 
-      in
-      core
-      ++ cli
-      ++ nix
-      ++ langs
-      ++ fonts
-      ++ haskell
-      ++ gui
-      ++ app
-      ++ ailrk_asahi.extra;
 
     home.file = {
       ".xinitrc" = {

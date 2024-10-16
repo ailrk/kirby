@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-code_session () {
-    tmux new-session -s CODE -d 'cd ~; zsh -i'
-    tmux rename-window -t CODE "Main"
-}
-
-code_session
-tmux attach-session -d -t CODE

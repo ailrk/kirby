@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+ID=2931
+IMG_PATH=$HOME/Pictures/screenshot;
+
+mkdir -p $IMG_PATH
+
+notify() {
+    dunstify -t 4000 -r $ID "Full screenshot in $IMG_PATH"
+}
+
+case $1 in
+    full)
+        cd $IMG_PATH
+        scrot
+        cd -
+        notify "Full screenshot in $IMG_PATH"
+        ;;
+    win)
+        cd $IMG_PATH
+        scrot -u
+        cd -
+        notify "Current window screenshot in $IMG_PATH"
+        ;;
+    sel)
+        cd $IMG_PATH
+        notify "Please select a region"
+        scrot -s
+        cd -
+        notify "Current selection is in $IMG_PATH"
+        ;;
+    *)
+        notify"Unknown usage for scrot, screenshot aborted"
+esac

@@ -5,33 +5,15 @@ let
   cfg = config.kirby.program.scripts;
 
   scripts = {
-    "brightness" = ./misc/brightness;
-    "build-folders" = ./misc/build-folders;
-    "mknsh" = ./misc/mknsh;
-    "mpc-song" = ./misc/mpc-song;
-    "newnote" = ./misc/newnote;
-    "redshift-toggle" = ./misc/redshift-toggle;
-    "screenshot" = ./misc/screenshot;
-    "unnix" = ./misc/unnix;
-    "switchwifi" = ./misc/switchwifi;
-    "tmux-setup" = ./misc/tmux-setup;
-    "tmux-vim" = ./misc/tmux-vim;
-    "toggle-ibus" = ./misc/toggle-ibus;
-    "toggle-Xcolor" = ./misc/toggle-Xcolor;
-    "transparent" = ./misc/transparent;
-    "vanela" = ./misc/vanela;
-    "vdbconfig" = ./misc/vdbconfig;
-    "volume" = ./misc/volume;
-    "workplace" = ./misc/workplace;
-    "xclips" = ./misc/xclips;
-    "xlsjson" = ./misc/xlsjson;
-    "rofio" = ./misc/rofio;
-    "bin" = ./misc/bin;
+    "brightness" = ./brightness;
+    "screenshot" = ./screenshot;
+    "volume" = ./volume;
+    "unnix" = ./unnix;
+    "vanela" = ./vanela;
+    "xlsjson" = ./xlsjson;
+    "rebuildhm" = ./rebuildhm;
   };
 
-  static = {
-    "static" = ./static;
-  };
 in
 {
   options.kirby.program.scripts = {
@@ -53,6 +35,6 @@ in
         source = v;
         executable = true;
       })
-      (scripts // static // cfg.scriptFiles);
+      (scripts // cfg.scriptFiles);
   };
 }

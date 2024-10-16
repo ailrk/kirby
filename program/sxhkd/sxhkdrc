@@ -13,7 +13,7 @@ shift + ctrl + Return
     $TERMINAL
 
 super + R
-    bspc rule -a \* -o state=floating && xterm -e bash -c "nix-shell '<home-manager>' -A install; read -n 1 -p 'echo enter any key: '; bspc wm -r && pkill -USR1 -x sxhkd"
+    rebuildhm
 
 
 # make sxhkd reload its configuration files:
@@ -124,55 +124,47 @@ alt + shift {h,j,k,l}
 
 # open rofi
 alt + space
-    ~/.config/rofi/scripts/launcher.sh drun
+    launcher.sh drun
 
 shift + alt + space
-    ~/.config/rofi/scripts/launcher.sh window
+    launcher.sh window
 
 super + alt + a
-    ~/.config/rofi/scripts/apps.sh
+    apps.sh
 
 super + alt + p
-    ~/.config/rofi/scripts/powermenu.sh
+    powermenu.sh
 
-super + alt + s
-    ~/.config/rofi/scripts/screenshot.sh
+alt + shift + 3
+    screenshot full
+
+alt + shift + 4
+    screenshot sel
+
+alt + shift + 4 + space
+    screenshot win
 
 # open browser
 super + B
     $BROWSER
 
-super + alt + B
-    bspc rule -a \* -o state=floating && $BROWSER
-
-
 super + alt + ctrl + l
   lock-screen
 
 
-# Mourse
-
-button9
-    ~/.config/rofi/scripts/launcher.sh drun
-
-
-button8
-    ~/.config/rofi/scripts/launcher.sh window
-
-
 # colume control
 XF86AudioLowerVolume
-    ~/.config/scripts/volume down
+    volume down
 
 XF86AudioRaiseVolume
-    ~/.config/scripts/volume up
+    volume up
 
 XF86AudioMute
-    ~/.config/scripts/volume mute
+    volume mute
 
 # brightness control
 XF86MonBrightnessDown
-    ~/.config/scripts/brightness down
+    brightness down
 
 XF86MonBrightnessUp
-    ~/.config/scripts/brightness up
+    brightness up

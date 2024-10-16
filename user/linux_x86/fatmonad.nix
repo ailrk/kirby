@@ -4,20 +4,6 @@ with lib;
 {
   options.kirby.user.linux_x86.fatmonad = {
     enable  = mkEnableOption "Set user as a fatmonad";
-    core    = mkEnableOption "Core utilities";
-    cli     = mkEnableOption "Extra cli utilties";
-    libs    = mkEnableOption "Libraries";
-    gui     = mkEnableOption "GUI related";
-    nix     = mkEnableOption "Nix related";
-    fonts   = mkEnableOption "Fonts";
-    app     = mkEnableOption "GUI applications";
-    langs   = mkEnableOption "Misc language tools";
-    lsp     = mkEnableOption "Lsps";
-    extra   = lib.mkOption {
-      type = types.listOf types.package;
-      description = "extra packages";
-      default = [];
-    };
   };
 
   config = mkIf config.kirby.user.linux_x86.fatmonad.enable {
@@ -83,10 +69,7 @@ with lib;
 
     # Install packages
     home = {
-      packages = let
-        fatmonad = config.kirby.user.linux_x86.fatmonad;
-        set   = en: ps: if en then ps else [];
-        core = set fatmonad.core [
+      packages = [
           pkgs.binutils
           pkgs.rsync
           pkgs.htop
@@ -100,9 +83,7 @@ with lib;
           pkgs.git-crypt
           pkgs.gnupg
           pkgs.lsof
-        ];
 
-        cli = set fatmonad.cli [
           pkgs.tldr
           pkgs.w3m
           pkgs.sshfs
@@ -112,36 +93,26 @@ with lib;
           pkgs.ncmpcpp
           pkgs.lldb
           pkgs.qemu
-        ];
 
-        libs = set fatmonad.libs [
           pkgs.zlib.dev
           pkgs.zlib.out
           pkgs.libGL
           pkgs.libnotify
-        ];
 
-        nix = set fatmonad.nix [
           pkgs.any-nix-shell
-        ];
 
-        fonts = set fatmonad.fonts [
           pkgs.fira-code
           pkgs.paratype-pt-mono
           pkgs.iosevka
           pkgs.meslo-lg
-        ];
 
-        gui = set fatmonad.gui [
           pkgs.brightnessctl
           pkgs.xdotool
           pkgs.xtitle
           pkgs.xdo
           pkgs.pinentry
           pkgs.xclip
-        ];
 
-        app = set fatmonad.app [
           pkgs.ibus
           pkgs.google-chrome
           pkgs.wireshark-qt
@@ -155,9 +126,7 @@ with lib;
           pkgs.tdesktop
           pkgs.discord
           pkgs.zathura
-        ];
 
-        langs = set fatmonad.langs [
           pkgs.smlnj
           pkgs.racket
           pkgs.purescript
@@ -170,25 +139,11 @@ with lib;
           pkgs.rebar3
           pkgs.rustup
           pkgs.nodejs
-        ];
 
-        lsp = set fatmonad.lsp [
           pkgs.nil
           pkgs.nodePackages.bash-language-server
           pkgs.nodePackages.typescript-language-server
         ];
-
-      in
-      core
-      ++ cli
-      ++ libs
-      ++ nix
-      ++ fonts
-      ++ gui
-      ++ app
-      ++ langs
-      ++ lsp
-      ++ fatmonad.extra;
 
 
       file = {
