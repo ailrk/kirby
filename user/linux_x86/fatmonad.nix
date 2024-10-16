@@ -42,7 +42,6 @@ with lib;
         nmap.enable = true;
         zsh.enable = true;
         fish.enable = true;
-        nemo.enable = true;
         taskwarrior.enable = true;
       };
 

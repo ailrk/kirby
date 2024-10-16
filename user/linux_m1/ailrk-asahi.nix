@@ -40,7 +40,6 @@ with lib;
         nmap.enable = true;
         zsh.enable = true;
         fish.enable = true;
-        nemo.enable = true;
         taskwarrior.enable = true;
         xconfig.enable = true;
         rofi.enable = true;
@@ -117,6 +116,7 @@ with lib;
           pkgs.scrot
 
           pkgs.ibus
+          pkgs.gnome.nautilus
           pkgs.chromium
           pkgs.wireshark-qt
           pkgs.xournalpp

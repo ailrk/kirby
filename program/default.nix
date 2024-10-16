@@ -2,7 +2,6 @@
   imports = [
     ./fish/default.nix
     ./git/default.nix
-    ./nemo/default.nix
     ./neovim/default.nix
     ./nmap/default.nix
     ./ranger/default.nix

@@ -22,9 +22,6 @@ bspwm_configs() {
 
 bspwm_rules() {
     bspc rule -r *:* # remove existing rules
-    bspc rule -a urxvt:float state=floating rectangle=500x800+200+50
-    bspc rule -a vimiv state=floating rectangle=700x100+500+50
-    bspc rule -a "lemonbar" layer=above
 }
 
 background() {
