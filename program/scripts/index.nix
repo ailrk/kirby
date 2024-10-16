@@ -9,7 +9,6 @@ let
     "screenshot" = ./screenshot;
     "volume" = ./volume;
     "unnix" = ./unnix;
-    "vanela" = ./vanela;
     "xlsjson" = ./xlsjson;
     "rebuildhm" = ./rebuildhm;
   };
