@@ -1,23 +1,3 @@
-; vim:ft=dosini
-;==========================================================
-;
-;
-;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
-;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
-;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
-;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
-;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
-;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
-;
-;
-;   To learn more about how to configure Polybar
-;   go to https://github.com/jaagr/polybar
-;
-;   The README contains alot of information
-;
-;==========================================================
-
-
 [colors]
 background = #882f343f
 background-alt = #ee2f343f
@@ -53,7 +33,7 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = Roboto:pixelsize=9;1
+font-0 = "PT Mono":pixelsize=9;1"
 font-1 = "FuraCode Nerd Font:style=Solid:pixelsize=9;1"
 font-2 = " WenQuanYi Micro Hei,文泉驛微米黑,文泉驿微米黑:style=Regular"
 font-3 = "Font Awesome:style=Regular:pixelsize=9;1"
@@ -119,25 +99,13 @@ label-mode-background = ${colors.primary}
 ; focused = Active workspace on focused monitor
 label-focused = %name%
 label-focused-background = ${colors.background}
-;label-focused-background = ${module/bspwm.label-focused-background}
 label-focused-underline = ${colors.primary}
 label-focused-padding = 2
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %name%
 label-unfocused-padding = 4
-
-; visible = Active workspace on unfocused monitor
-; label-visible = %index%
-; label-visible-background = ${self.label-focused-background}
-; label-visible-underline = ${self.label-focused-underline}
-; label-visible-padding = ${self.label-focused-padding}
-
 label-separator-padding = 0
-; urgent = Workspace with urgency hint set
-; label-urgent = %index%
-; label-urgent-background = ${module/bspwm.label-urgent-background}
-; label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 [module/cpu]
 type = internal/cpu
@@ -161,14 +129,11 @@ interface = enp0s25
 interval = 3.0
 
 format-connected-underline = #95ffa4
-;format-connected-underline = #62d196
 format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
 
-;format-disconnected =
 format-disconnected = <label-disconnected>
 format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
 label-disconnected = no eth
 label-disconnected-foreground = ${colors.foreground-alt}
 
@@ -178,7 +143,6 @@ interface = wlp2s0
 interval = 3.0
 
 format-connected = <label-connected>
-;label-connected = %local_ip% %upspeed% %downspeed%
 label-connected = %upspeed% %downspeed%
 
 format-disconnected = <label-disconnected>

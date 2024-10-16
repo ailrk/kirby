@@ -1,7 +1,6 @@
 #!/usr/bin/env sh
 
 yabai --load-sa
-
 yabai -m config debug_output on
 yabai -m signal --add event=dock_did_restart action="yabai --load-sa"
 
