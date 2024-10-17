@@ -44,6 +44,7 @@ with lib;
         zsh.enable = true;
         fish.enable = true;
         taskwarrior.enable = true;
+        newsflash.enable = true;
       };
 
       service = {

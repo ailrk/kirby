@@ -7,7 +7,7 @@ source "$HOME/.config/bspwm/configs.sh"
 kill_daemons() {
     pkill sxhkd
     pkill dunst
-    pkill picom
+    pkill compton
     pkill $(pgrep discord)
     pkill polybar
 }
@@ -16,6 +16,7 @@ init_daemons() {
     init_sxhkd
     init_polybar
     init_dunst
+    compton &
 }
 
 setup_monitors() {

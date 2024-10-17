@@ -8,12 +8,14 @@ kill_daemons() {
     pkill sxhkd
     pkill dunst
     pkill polybar
+    pkill compton
 }
 
 init_daemons() {
     init_sxhkd
     init_polybar
     init_dunst
+    compton &
 }
 
 setup_monitors() {

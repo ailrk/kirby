@@ -17,7 +17,7 @@
     cyan1          = ${xrdb:color6}
     cyan2          = ${xrdb:color14}
 
-    background     = #a82f343f
+    background     = #e82f343f
     background-alt = #ee2f343f
     foreground     = ${xrdb:foreground}
     foreground-alt = ${xrdb:foreground}

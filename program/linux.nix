@@ -8,6 +8,7 @@
     ./rofi/default.nix
     ./sxhkd/default.nix
     ./xconfig/default.nix
+    ./newsflash/default.nix
   ];
 }
 
