@@ -298,8 +298,8 @@
 
     ; Use the following command to list batteries and adapters:
     ; $ ls -1 /sys/class/power_supply/
-    battery = BAT0
-    adapter = ADP1
+    battery = ${env:BATTERY:}
+    adapter = ${env:BATTERY_ADAPTOR:}
 
     ; If an inotify event haven't been reported in this many
     ; seconds, manually poll for new values.
@@ -311,6 +311,10 @@
     ;
     ; Default: 5
     poll-interval = 5
+    label-charging =   %percentage%%
+    label-discharging =   %percentage%%
+    label-full =   Full
+
 
 
 [settings]

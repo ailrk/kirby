@@ -176,6 +176,8 @@ with lib;
       TERMINAL = "nixGLMesa alacritty";
       TERM = "nixGLMesa alacritty";
       FILES = "nautilus";
+      BATTERY = "macsmc-battery";
+      BATTERY_ADAPTOR = "macsmc-ac";
     };
 
     nixpkgs.config = {

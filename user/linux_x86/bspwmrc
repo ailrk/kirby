@@ -9,7 +9,6 @@ kill_daemons() {
     pkill dunst
     pkill compton
     pkill $(pgrep discord)
-    pkill polybar
 }
 
 init_daemons() {

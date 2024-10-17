@@ -7,7 +7,6 @@ source "$HOME/.config/bspwm/configs.sh"
 kill_daemons() {
     pkill sxhkd
     pkill dunst
-    pkill polybar
     pkill compton
 }
 

@@ -33,7 +33,7 @@ in
           };
 
           font = {
-            size = 18;
+            size = 21;
             normal.family = "PT Mono";
             bold.family = "PT Mono";
             italic.family = "PT Mono";
