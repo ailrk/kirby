@@ -69,6 +69,7 @@ with lib;
           pkgs.texinfo
           pkgs.texliveSmall
           pkgs.libgcc
+          pkgs.neofetch
 
           pkgs.qemu
           pkgs.xterm
@@ -123,6 +124,7 @@ with lib;
           pkgs.ibus
           pkgs.gnome.nautilus
           pkgs.chromium
+          pkgs.thunderbird
           pkgs.wireshark-qt
           pkgs.xournalpp
           pkgs.blueman
@@ -176,6 +178,7 @@ with lib;
       TERMINAL = "nixGLMesa alacritty";
       TERM = "nixGLMesa alacritty";
       FILES = "nautilus";
+      EMAIL_CLIENT = "thunderbird";
       BATTERY = "macsmc-battery";
       BATTERY_ADAPTOR = "macsmc-ac";
       NIXGL = "nixGLMesa";

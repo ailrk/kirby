@@ -117,6 +117,7 @@ with lib;
 
           pkgs.ibus
           pkgs.google-chrome
+          pkgs.thunderbird
           pkgs.wireshark-qt
           pkgs.muse
           pkgs.blender
@@ -183,6 +184,7 @@ with lib;
         TERM = "nixGL alacritty";
         FILES = "nautilus";
         NIXGL = "nixGL";
+        EMAIL_CLIENT = "thunderbird";
       };
     };
 

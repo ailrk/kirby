@@ -58,10 +58,28 @@
     wm-restack     = bspwm
     modules-left   = bspwm
     modules-center = xwindow
-    modules-right  = memory cpu temperature eth wlan xkeyboard volume battery date ssh files terminal browser apps powermenu
+    modules-right  = memory cpu temperature eth wlan xkeyboard volume battery date email htop ssh files terminal browser apps powermenu
 
     scroll-up = bspc node -f next
     scroll-down = bspc node -f prev
+
+[module/htop]
+    type = custom/text
+    format-background = ${colors.background}
+    format-frontgroud = ${colors.frontgroud}
+    format-padding = 4
+    format-underline = ${colors.secondary}
+    label = H
+    click-left = $TERM -e htop
+
+[module/email]
+    type = custom/text
+    format-background = ${colors.background}
+    format-frontgroud = ${colors.frontgroud}
+    format-padding = 4
+    format-underline = ${colors.secondary}
+    label = 
+    click-left = ${env:EMAIL_CLIENT}
 
 [module/browser]
     type = custom/text
