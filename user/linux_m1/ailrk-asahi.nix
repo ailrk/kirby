@@ -178,6 +178,7 @@ with lib;
       FILES = "nautilus";
       BATTERY = "macsmc-battery";
       BATTERY_ADAPTOR = "macsmc-ac";
+      NIXGL = "nixGLMesa";
     };
 
     nixpkgs.config = {

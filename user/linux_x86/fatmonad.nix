@@ -182,6 +182,7 @@ with lib;
         TERMINAL = "nixGL alacritty";
         TERM = "nixGL alacritty";
         FILES = "nautilus";
+        NIXGL = "nixGL";
       };
     };
 

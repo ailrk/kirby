@@ -3,9 +3,9 @@
 style="$HOME/.config/rofi/theme/launcher.rasi"
 modi=$1
 
-rofi -no-lazy-grab -show "$modi" \
+$NIXGL rofi -no-lazy-grab -show "$modi" \
 -modi ,drun,window,ssh \
 -theme "$style" \
--run-shell-command '{terminal} -e \\" {cmd}; read -n 1 -s"' \
 -terminal alacritty \
+-run-shell-command '{terminal} -e bash -ic "{cmd} && read"' \
 -show-icons
