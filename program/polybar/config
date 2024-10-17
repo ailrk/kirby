@@ -1,8 +1,27 @@
 [colors]
+    red1           = ${xrdb:color1}
+    red2           = ${xrdb:color9}
+
+    green1         = ${xrdb:color2}
+    green2         = ${xrdb:color10}
+
+    yellow1        = ${xrdb:color3}
+    yellow2        = ${xrdb:color11}
+
+    blue1          = ${xrdb:color4}
+    blue2          = ${xrdb:color12}
+
+    magenta1       = ${xrdb:color5}
+    magenta2       = ${xrdb:color13}
+
+    cyan1          = ${xrdb:color6}
+    cyan2          = ${xrdb:color14}
+
     background     = #882f343f
     background-alt = #ee2f343f
-    foreground     = #f3f4f5
-    foreground-alt = #f3f4f5
+    foreground     = ${xrdb:foreground}
+    foreground-alt = ${xrdb:foreground}
+
     primary        = #81a1c1
     secondary      = #d8dee9
     alert          = #bd2c40
@@ -14,7 +33,7 @@
     margin-top = 0
     margin-bottom = 0
     width  = 100%
-    height = 50
+    height = 60
     radius = 6.0
     fixed-center = true
 
@@ -29,53 +48,65 @@
     module-margin-left = 1
     module-margin-right = 0
 
-    font-0 = "PT Mono":pixelsize=15;1"
-    font-1 = "WenQuanYi Micro Hei:style=Regular;1"
-    font-2 = "Font Awesome:style=Regular:pixelsize=15;1"
-    font-3 = "Font Awesome:pixelsize=15;1"
+    font-0 = PT Mono":pixelsize=16;1
+    font-1 = WenQuanYi Micro Hei:style=Regular;1
+    font-2 = Font Awesome:style=Regular:pixelsize=15;1
+    font-3 = Font Awesome 6 Free:pixelsize=15;2
+    font-4 = Font Awesome 6 Free Solid:pixelsize=15;2
+    font-5 = Font Awesome 6 Brands:pixelsize=15;2
 
     wm-restack     = bspwm
     modules-left   = bspwm
     modules-center = xwindow
-    modules-right  = memory cpu temperature eth wlan xkeyboard volume battery date terminal browser apps powermenu
+    modules-right  = memory cpu temperature eth wlan xkeyboard volume battery date files terminal browser apps powermenu
 
     scroll-up = bspc node -f next
     scroll-down = bspc node -f prev
 
 [module/browser]
     type = custom/text
-    format-background = ${colors.background-alt}
+    format-background = ${colors.background}
     format-frontgroud = ${colors.frontgroud}
     format-padding = 4
     format-underline = ${colors.secondary}
     label = 
     click-left = ${env:BROWSER}
-    module-margin-right = -1
 
 [module/apps]
     type = custom/text
-    format-background = ${colors.background-alt}
+    format-background = ${colors.cyan2}
     format-frontgroud = ${colors.frontgroud}
     format-padding = 4
     format-underline = ${colors.secondary}
     label = 
     click-left = launcher.sh drun
-    module-margin-right = -1
 
 [module/terminal]
     type = custom/text
     format = <label>
-    format-background = ${colors.background-alt}
+    format-background = ${colors.background}
     format-frontgroud = ${colors.frontgroud}
     format-padding = 4
     format-underline = ${colors.secondary}
     label = 
     click-left = ${env:TERMINAL}
 
+[module/files]
+    type = custom/text
+    format = <label>
+    format-background = ${colors.background}
+    format-frontgroud = ${colors.frontgroud}
+    format-padding = 4
+    format-underline = ${colors.secondary}
+
+    label = 
+    click-left = ${env:FILES}
+
+
 [module/powermenu]
     type = custom/text
     format = <label>
-    format-background = ${colors.background-alt}
+    format-background = ${colors.red1}
     format-frontgroud = ${colors.frontgroud}
     format-padding = 4
     format-underline = ${colors.secondary}
@@ -127,22 +158,34 @@
     format = <label-state> <label-mode>
     margin-bottom = 0
 
-    label-mode-padding = 4
-    label-mode-foreground = #000
-    label-mode-background = ${colors.primary}
-
     ; focused = Active workspace on focused monitor
     label-focused = %name%
     label-focused-background = ${colors.background-alt}
     label-focused-frontgroud = ${colors.frontgroud-alt}
-    label-focused-underline = ${colors.primary}
-    label-focused-padding = 4
+    label-focused-padding = 6
 
-    ; unfocused = Inactive workspace on any monitor
-    label-unfocused = %name%
-    label-unfocused-padding = 4
+    label-active = %name%
+    label-active-background = ${colors.red1}
+    label-active-foreground = ${colors.frontgroud-alt}
+    label-active-underline = ${colors.primary}
+    label-active-padding = 6
 
-    label-separator-padding = 0
+    label-occupied = %name%
+    label-occupied-background = ${colors.background}
+    label-occupied-foreground = ${colors.frontgroud}
+    label-occupied-padding = 6
+
+    label-urgent = %name%
+    label-urgent-background = ${colors.background-alt}
+    label-urgent-foreground = ${colors.alert}
+    label-urgent-padding = 6
+
+    label-empty = %name%
+    label-empty-background = ${colors.background}
+    label-empty-foreground = ${colors.frontgroud}
+    label-empty-padding = 6
+
+    pin-workspaces = true
 
 [module/cpu]
     type = internal/cpu
@@ -209,6 +252,7 @@
     time = %I:%M %p
     time-alt = %I:%M:%S %p
 
+    format-background = ${colors.red1}
     label =  %date%   %time%
     label-padding = 3
 

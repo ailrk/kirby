@@ -19,7 +19,7 @@ init_daemons() {
 setup_monitors() {
     MONITOR=$(xrandr | sed -n '2 p' | cut -d' ' -f1)
     RES=$(xrandr | sed -n '3 p' | cut -d' ' -f4)
-    bspc monitor $MONITOR -d '壹' '贰' '叁' '肆'
+    bspc monitor $MONITOR -d '壹' '贰' '叁' '肆' '伍'
     xrandr --output $MONITOR --mode $RES --scale 1x1 --rate 60
 }
 

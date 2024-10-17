@@ -99,6 +99,8 @@ with lib;
           pkgs.paratype-pt-mono
           pkgs.noto-fonts-cjk-sans
           pkgs.noto-fonts-cjk-serif
+          pkgs.font-awesome
+          pkgs.wqy_microhei
 
           pkgs.ghc
           pkgs.haskell-language-server

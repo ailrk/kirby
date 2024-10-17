@@ -144,16 +144,6 @@ nmap <localleader>2 <Plug>SlimeParagraphSend
 nmap <localleader>@ :%SlimeSend<CR>
 
 "
-" Indent guide
-"
-let g:indent_guides_enable_on_vim_startup = 0
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=255
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=none
-nnoremap <leader>ig :IndentGuidesToggle<CR>
-
-
-"
 " Telescope
 "
 " Find files using Telescope command-line sugar.

@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 
 rofi_command="rofi -theme $HOME/.config/rofi/theme/powermenu.rasi"
-shutdown="Shutdown";reboot="Reboot";lock="Lock";suspend="Suspend"; logout="Logout"
+shutdown=" Shutdown"
+reboot=" Reboot"
+lock=" Lock"
+suspend=" Suspend"
+logout=" Logout"
+nixbuild=" Nix Build"
+
+# " Nix Build" lock       = " Lock" suspend    = " Suspend" reboot     = " Reboot" shutdown   = " Shutdown" logout     = " Logout"
 
 is_yes() {
     [[ $1 == "yes" || $1 == "y" ]]
@@ -24,7 +31,7 @@ msg() {
 }
 
 # Variable passed to rofi
-options="$shutdown\n$reboot\n$lock\n$suspend\n$logout"
+options="$shutdown\n$reboot\n$lock\n$suspend\n$logout\n$nixbuild"
 
 chosen="$(echo -e "$options" | $rofi_command -p "Power Menu" -dmenu -selected-row 2)"
 case $chosen in
@@ -33,4 +40,5 @@ case $chosen in
     $lock)     dm-tool lock ;;
     $suspend)  ans=$(confirm_exit &); if is_yes $ans; then amixer set Master mute; systemctl suspend; elif is_no $ans; then exit 0; else msg; fi ;;
     $logout)   ans=$(confirm_exit &); if is_yes $ans; then bspc quit; elif is_no $ans; then exit 0; else msg; fi ;;
+    $nixbuild) rebuildhm ;;
 esac

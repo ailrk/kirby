@@ -28,7 +28,7 @@ in
           window = {
             padding.x = 10;
             padding.y = 11;
-            opacity = 0.96;
+            opacity = 0.92;
             decorations = "none";
           };
 

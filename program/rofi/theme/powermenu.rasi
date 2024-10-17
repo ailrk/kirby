@@ -5,8 +5,8 @@
     bg1:              #404040;
     fg0:              #eeffff;
 
-    accent-color:     #d75f87;
-    urgent-color:     #ffcb6b;
+    accent-color:     #BF616A;
+    urgent-color:     #8C484E;
 
     background-color: transparent;
     text-color:       @fg0;
@@ -17,9 +17,10 @@
 }
 
 window {
-    location:   center;
+    location:   northeast;
     width:      300;
-    y-offset:   -160;
+    y-offset:   60;
+    x-offset:   -10;
 
     background-color:   @bg0;
 }

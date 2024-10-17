@@ -13,7 +13,7 @@
 
 ! red
 *.color1: #bf616a
-*.color9: #bf616a
+*.color9: #8c484e
 
 ! green
 *.color2: #a3be8c

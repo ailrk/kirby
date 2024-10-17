@@ -19,7 +19,7 @@ init_daemons() {
 }
 
 setup_monitors() {
-    bspc monitor DisplayPort-1  -d '壹' '贰' '叁' '肆'
+    bspc monitor DisplayPort-1  -d '壹' '贰' '叁' '肆' '伍'
     xrandr --output DisplayPort-1 --mode 3840x2160 --scale 0.9x0.9 --rate 60
 }
 
