@@ -10,6 +10,7 @@ with lib;
     home.stateVersion = "24.05";
     home.username = "fatmonad";
     home.homeDirectory = "/home/fatmonad";
+    programs.home-manager.enable = true;
     manual.manpages.enable = false;
 
     kirby = {
