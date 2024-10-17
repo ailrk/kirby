@@ -104,6 +104,7 @@ with lib;
           pkgs.paratype-pt-mono
           pkgs.iosevka
           pkgs.meslo-lg
+          pkgs.siji
 
           pkgs.brightnessctl
           pkgs.xdotool
