@@ -58,7 +58,7 @@
     wm-restack     = bspwm
     modules-left   = bspwm
     modules-center = xwindow
-    modules-right  = memory cpu temperature eth wlan xkeyboard volume battery date files terminal browser apps powermenu
+    modules-right  = memory cpu temperature eth wlan xkeyboard volume battery date ssh files terminal browser apps powermenu
 
     scroll-up = bspc node -f next
     scroll-down = bspc node -f prev
@@ -71,6 +71,15 @@
     format-underline = ${colors.secondary}
     label = 
     click-left = ${env:BROWSER}
+
+[module/ssh]
+    type = custom/text
+    format-background = ${colors.background}
+    format-frontgroud = ${colors.frontgroud}
+    format-padding = 4
+    format-underline = ${colors.secondary}
+    label = 
+    click-left = launcher.sh ssh
 
 [module/apps]
     type = custom/text
@@ -124,10 +133,8 @@
 
     format-prefix = ""
     format-prefix-foreground = ${colors.foreground-alt}
-    format-prefix-underline = ${colors.secondary}
 
     label-layout =   %layout%
-    label-layout-underline = ${colors.secondary}
     label-layout-padding = 2
 
     label-indicator-padding = 2
@@ -190,18 +197,16 @@
 [module/cpu]
     type = internal/cpu
     interval = 2
-    format-prefix = "CPU: "
+    format-prefix = ""
     format-prefix-foreground = ${colors.foreground}
-    format-underline = ${colors.secondary}
     label = %percentage:2%%
     label-padding = 2
 
 [module/memory]
     type = internal/memory
     interval = 2
-    format-prefix = "MEM:  "
+    format-prefix = ""
     format-prefix-foreground = ${colors.foreground}
-    format-underline = ${colors.secondary}
     label = %percentage_used%%
     label-padding = 2
 
