@@ -3,13 +3,13 @@
     color = "#d5911a"
 
 [urgency_low]
-    background = "#000000"
-    foreground = "#ffffff"
+    background = "#ffffff "
+    foreground = "#000000"
     timeout = 10
 
 [urgency_normal]
-    background = "#212121"
-    foreground = "#ffffff"
+    background = "#ffffff "
+    foreground = "#000000"
     timeout = 10
 
 [urgency_critical]

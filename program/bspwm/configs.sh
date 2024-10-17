@@ -8,10 +8,10 @@ setup_paths() {
 }
 
 bspwm_configs() {
-    bspc config top_padding          0
-    bspc config bottom_padding       0
-    bspc config left_padding         0
-    bspc config right_padding        0
+    bspc config top_padding          70
+    bspc config bottom_padding       10
+    bspc config left_padding         20
+    bspc config right_padding        20
     bspc config border_width         3
     bspc config window_gap           5
     bspc config borderless_monocle   true
@@ -25,7 +25,7 @@ bspwm_rules() {
 }
 
 background() {
-    dunstify "Welcome Home! \(^w^)/"
+    dunstify "(づ｡◕‿◕｡)づ !"
     file1="$HOME/.config/bspwm/background/jWTBsU0.jpg"
     feh --bg-fill $file1
 }
