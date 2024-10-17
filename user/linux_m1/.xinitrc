@@ -4,4 +4,5 @@ fi
 unset HM_XPROFILE_SOURCED
 xset -b
 xinput set-prop 7 "libinput Accel Speed" 0.4
+systemctl --user import-environment DISPLAY
 exec bspwm
