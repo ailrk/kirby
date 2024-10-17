@@ -12,7 +12,7 @@ bspwm_configs() {
     bspc config bottom_padding       10
     bspc config left_padding         20
     bspc config right_padding        20
-    bspc config border_width         3
+    bspc config border_width         2
     bspc config window_gap           5
     bspc config borderless_monocle   true
     bspc config focused_border_color $WHITE
