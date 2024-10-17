@@ -172,7 +172,7 @@ with lib;
     # Environment
     home.sessionVariables = {
       EDITOR = "nvim";
-      BROWSER = "chromium";
+      BROWSER = "chromium --force-device-scale-factor=1.5";
       TERMINAL = "nixGLMesa alacritty";
       TERM = "nixGLMesa alacritty";
       FILES = "nautilus";

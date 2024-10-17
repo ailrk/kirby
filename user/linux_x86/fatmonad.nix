@@ -178,7 +178,7 @@ with lib;
       # Environment
       sessionVariables = {
         EDITOR = "nvim";
-        BROWSER = "google-chrome-stable";
+        BROWSER = "google-chrome-stable --force-device-scale-factor=1.5";
         TERMINAL = "nixGL alacritty";
         TERM = "nixGL alacritty";
         FILES = "nautilus";
