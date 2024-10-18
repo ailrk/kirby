@@ -124,6 +124,7 @@ with lib;
           pkgs.ibus
           pkgs.gnome.nautilus
           pkgs.chromium
+          pkgs.libsForQt5.qt5.qttools
           pkgs.thunderbird
           pkgs.wireshark-qt
           pkgs.xournalpp

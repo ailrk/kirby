@@ -129,6 +129,7 @@ with lib;
           pkgs.tdesktop
           pkgs.discord
           pkgs.zathura
+          pkgs.libsForQt5.qt5.qttools
 
           pkgs.smlnj
           pkgs.racket
