@@ -71,6 +71,7 @@ with lib;
     # Install packages
     home = {
       packages = [
+          # utils
           pkgs.binutils
           pkgs.rsync
           pkgs.htop
@@ -84,7 +85,6 @@ with lib;
           pkgs.git-crypt
           pkgs.gnupg
           pkgs.lsof
-
           pkgs.tldr
           pkgs.w3m
           pkgs.sshfs
@@ -95,19 +95,40 @@ with lib;
           pkgs.lldb
           pkgs.qemu
 
+          # libraries
           pkgs.zlib.dev
           pkgs.zlib.out
           pkgs.libGL
           pkgs.libnotify
 
+          # nix
           pkgs.any-nix-shell
 
+          # langs
+          pkgs.smlnj
+          pkgs.racket
+          pkgs.purescript
+          pkgs.valgrind
+          pkgs.dotnet-sdk
+          pkgs.fsharp
+          pkgs.gnumake
+          pkgs.ocaml
+          pkgs.cmake
+          pkgs.rebar3
+          pkgs.rustup
+          pkgs.nodejs
+          pkgs.nil
+          pkgs.nodePackages.bash-language-server
+          pkgs.nodePackages.typescript-language-server
+
+          # fontsc
           pkgs.fira-code
           pkgs.paratype-pt-mono
           pkgs.iosevka
           pkgs.meslo-lg
           pkgs.siji
 
+          # X
           pkgs.brightnessctl
           pkgs.xdotool
           pkgs.xtitle
@@ -115,6 +136,7 @@ with lib;
           pkgs.pinentry
           pkgs.xclip
 
+          # gui
           pkgs.ibus
           pkgs.google-chrome
           pkgs.thunderbird
@@ -130,23 +152,6 @@ with lib;
           pkgs.discord
           pkgs.zathura
           pkgs.libsForQt5.qt5.qttools
-
-          pkgs.smlnj
-          pkgs.racket
-          pkgs.purescript
-          pkgs.valgrind
-          pkgs.dotnet-sdk
-          pkgs.fsharp
-          pkgs.gnumake
-          pkgs.ocaml
-          pkgs.cmake
-          pkgs.rebar3
-          pkgs.rustup
-          pkgs.nodejs
-
-          pkgs.nil
-          pkgs.nodePackages.bash-language-server
-          pkgs.nodePackages.typescript-language-server
         ];
 
 

@@ -51,6 +51,7 @@ with lib;
 
     # Install packages
     home.packages = [
+          # utils
           pkgs.tmux
           pkgs.binutils
           pkgs.rsync
@@ -64,21 +65,26 @@ with lib;
           pkgs.fzf
           pkgs.git-crypt
           pkgs.gnupg
-          pkgs.zlib.dev
-          pkgs.zlib.out
           pkgs.texinfo
           pkgs.texliveSmall
-          pkgs.libgcc
           pkgs.neofetch
-
           pkgs.qemu
           pkgs.xterm
-
+          pkgs.ntp
           pkgs.tldr
           pkgs.w3m
           pkgs.gnupatch
+          pkgs.direnv
           (with import <nixgl> { enable32bits = false; }; nixGLMesa)
 
+          # libraries
+          pkgs.zlib.dev
+          pkgs.zlib.out
+          pkgs.libGL
+          pkgs.libgcc
+          pkgs.gtk4
+
+          # langs
           pkgs.racket
           pkgs.valgrind
           pkgs.ocaml
@@ -88,6 +94,7 @@ with lib;
           pkgs.rustup
           pkgs.nodejs
           pkgs.gnumake
+          pkgs.meson
           pkgs.gcc
           pkgs.clang-tools
           pkgs.gdb
@@ -96,9 +103,20 @@ with lib;
           pkgs.nasm
           pkgs.lua
           pkgs.lua-language-server
+          pkgs.nil
+          pkgs.nodePackages.bash-language-server
+          pkgs.nodePackages.typescript-language-server
 
+          # hsakell
+          pkgs.ghc
+          pkgs.haskell-language-server
+          pkgs.ghciwatch
+          pkgs.cabal-install
+
+          # nix
           pkgs.any-nix-shell
 
+          # fonts
           pkgs.fira-code
           pkgs.paratype-pt-mono
           pkgs.noto-fonts-cjk-sans
@@ -106,11 +124,7 @@ with lib;
           pkgs.font-awesome
           pkgs.wqy_microhei
 
-          pkgs.ghc
-          pkgs.haskell-language-server
-          pkgs.ghciwatch
-          pkgs.cabal-install
-
+          # X
           pkgs.xorg.xset
           pkgs.xorg.xinput
           pkgs.brightnessctl
@@ -121,6 +135,7 @@ with lib;
           pkgs.xclip
           pkgs.scrot
 
+          # gui
           pkgs.ibus
           pkgs.gnome.nautilus
           pkgs.chromium
