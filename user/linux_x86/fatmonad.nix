@@ -94,6 +94,7 @@ with lib;
           pkgs.ncmpcpp
           pkgs.lldb
           pkgs.qemu
+          pkgs.direnv
 
           # libraries
           pkgs.zlib.dev
