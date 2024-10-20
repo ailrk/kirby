@@ -189,15 +189,14 @@ with lib;
 
     # Environment
     home.sessionVariables = {
+      KIRBY_NIXGL = "nixGLMesa";
       EDITOR = "nvim";
       BROWSER = "chromium --force-device-scale-factor=1.5";
       TERMINAL = "nixGLMesa alacritty";
-      TERM = "nixGLMesa alacritty";
       FILES = "nautilus";
       EMAIL_CLIENT = "thunderbird";
       BATTERY = "macsmc-battery";
       BATTERY_ADAPTOR = "macsmc-ac";
-      NIXGL = "nixGLMesa";
     };
 
     nixpkgs.config = {

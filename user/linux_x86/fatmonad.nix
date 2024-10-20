@@ -185,12 +185,11 @@ with lib;
 
       # Environment
       sessionVariables = {
+        KIRBY_NIXGL = "nixGL";
         EDITOR = "nvim";
         BROWSER = "google-chrome-stable --force-device-scale-factor=1.5";
-        TERMINAL = "nixGL alacritty";
-        TERM = "nixGL alacritty";
+        TERMINAL = "$KIRBY_NIXGL alacritty";
         FILES = "nautilus";
-        NIXGL = "nixGL";
         EMAIL_CLIENT = "thunderbird";
       };
     };
