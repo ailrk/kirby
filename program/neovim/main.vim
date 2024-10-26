@@ -123,11 +123,9 @@ let g:fzf_colors =
 " floatterm
 "
 let g:floaterm_width = 0.8
-let g:floaterm_wdith = 0.8
-nmap <C-n> :FloatermToggle<CR>
-tnoremap <silent> <C-n>   <C-\><C-n>:FloatermToggle<CR>
-nmap <localleader>] :FloatermNew<CR>
-nmap <localleader>9 :FloatermSend<space>
+nmap <C-[> :FloatermToggle<CR>
+tnoremap <silent> <C-[>  <C-\><C-n>:FloatermToggle<CR>
+tnoremap <Esc> <C-\><C-n>
 
 
 "
