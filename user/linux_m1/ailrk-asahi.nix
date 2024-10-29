@@ -98,6 +98,7 @@ with lib;
           pkgs.gcc
           pkgs.clang-tools
           pkgs.gdb
+          pkgs.cgdb
           pkgs.lld
           pkgs.bear
           pkgs.nasm
@@ -106,6 +107,7 @@ with lib;
           pkgs.nil
           pkgs.nodePackages.bash-language-server
           pkgs.nodePackages.typescript-language-server
+          pkgs.python312Packages.ipython
 
           # hsakell
           pkgs.ghc

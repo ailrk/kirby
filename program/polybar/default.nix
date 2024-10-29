@@ -9,7 +9,7 @@ in
     enable = mkEnableOption "Enable polybar";
   };
 
-  config = {
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [
       polybar
     ];
