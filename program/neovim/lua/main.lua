@@ -395,8 +395,6 @@ normal_maps {
     {[[ <C-l>     ]],  [[ gt         ]]},
 }
 
-terminal_maps {{'<Esc>', [[<C-\><C-n>]]}}
-
 
 -- mini
 require('mini.completion').setup()

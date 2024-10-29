@@ -70,7 +70,7 @@
     format-padding = 4
     format-underline = ${colors.secondary}
     label = H
-    click-left = $TERM -e htop
+    click-left = $TERMINAL -e htop
 
 [module/email]
     type = custom/text

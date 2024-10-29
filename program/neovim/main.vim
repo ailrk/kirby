@@ -123,11 +123,9 @@ let g:fzf_colors =
 " floatterm
 "
 let g:floaterm_width = 0.8
-let g:floaterm_wdith = 0.8
-nmap <C-n> :FloatermToggle<CR>
-tnoremap <silent> <C-n>   <C-\><C-n>:FloatermToggle<CR>
-nmap <localleader>] :FloatermNew<CR>
-nmap <localleader>9 :FloatermSend<space>
+nmap <leader>a :FloatermToggle<CR>
+tnoremap <silent> <leader>a  <C-\><C-n>:FloatermToggle<CR>
+tnoremap <Esc> <C-\><C-n>
 
 
 "
@@ -147,7 +145,7 @@ nmap <localleader>@ :%SlimeSend<CR>
 " Telescope
 "
 " Find files using Telescope command-line sugar.
-nnoremap <C-p> <cmd>Telescope find_files<cr>
+nnoremap <space>p <cmd>Telescope find_files<cr>
 " nnoremap <leader>f <cmd>Telescope file_browser<cr>
 nnoremap <space>g   <cmd>Telescope live_grep<cr>
 nnoremap <leader>gs <cmd>Telescope git_status<cr>
