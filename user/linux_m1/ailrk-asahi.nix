@@ -66,7 +66,6 @@ with lib;
           pkgs.git-crypt
           pkgs.gnupg
           pkgs.texinfo
-          pkgs.texliveSmall
           pkgs.neofetch
           pkgs.qemu
           pkgs.xterm
@@ -75,6 +74,7 @@ with lib;
           pkgs.w3m
           pkgs.gnupatch
           pkgs.direnv
+          pkgs.pandoc
           (with import <nixgl> { enable32bits = false; }; nixGLMesa)
 
           # libraries
@@ -108,6 +108,7 @@ with lib;
           pkgs.nodePackages.bash-language-server
           pkgs.nodePackages.typescript-language-server
           pkgs.python312Packages.ipython
+          pkgs.pyright
 
           # hsakell
           pkgs.ghc
@@ -119,8 +120,10 @@ with lib;
           pkgs.any-nix-shell
 
           # fonts
+          pkgs.xdg-desktop-portal
           pkgs.fira-code
           pkgs.paratype-pt-mono
+          pkgs.crimson-pro
           pkgs.noto-fonts-cjk-sans
           pkgs.noto-fonts-cjk-serif
           pkgs.font-awesome

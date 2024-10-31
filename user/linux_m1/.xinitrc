@@ -10,5 +10,5 @@ xset -b
 fcitx5 &
 xinput set-prop 7 "libinput Accel Speed" 0.4
 
-systemctl --user import-environment DISPLAY PATH
+systemctl --user import-environment DISPLAY PATH XDG_DATA_DIRS XDG_RUNTIME_DIRS
 exec bspwm

@@ -1,0 +1,4 @@
+*.py linguist-vendored
+*.sh linguist-vendored
+*.lua linguist-vendored
+*.vim linguist-vendored
