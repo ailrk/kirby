@@ -128,6 +128,7 @@ with lib;
           pkgs.noto-fonts-cjk-serif
           pkgs.font-awesome
           pkgs.wqy_microhei
+          pkgs.liberation_ttf_v1
 
           # X
           pkgs.xorg.xset
