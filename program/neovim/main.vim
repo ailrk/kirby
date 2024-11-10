@@ -223,7 +223,6 @@ command -nargs=0 SynCheckGroup :call SynGroup()<cr>
 
 colorscheme vim-monochrome-waifu
 " colorscheme off
-" colorscheme macvim-light
 
 set background=dark
 
