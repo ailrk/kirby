@@ -96,6 +96,9 @@ with lib;
           pkgs.qemu
           pkgs.direnv
 
+          # cloud
+          pkgs.awscli
+
           # libraries
           pkgs.zlib.dev
           pkgs.zlib.out

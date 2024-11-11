@@ -130,6 +130,9 @@ with lib;
           pkgs.wqy_microhei
           pkgs.liberation_ttf_v1
 
+          # cloud
+          pkgs.awscli
+
           # X
           pkgs.xorg.xset
           pkgs.xorg.xinput
