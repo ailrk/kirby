@@ -132,6 +132,7 @@ with lib;
 
           # cloud
           pkgs.awscli
+          pkgs.opentofu
 
           # X
           pkgs.xorg.xset
