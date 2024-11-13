@@ -95,6 +95,9 @@ with lib;
           pkgs.lldb
           pkgs.qemu
           pkgs.direnv
+          pkgs.just
+          pkgs.sops
+          pkgs.age
 
           # cloud
           pkgs.awscli

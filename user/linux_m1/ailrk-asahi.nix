@@ -76,6 +76,9 @@ with lib;
           pkgs.direnv
           pkgs.pandoc
           (with import <nixgl> { enable32bits = false; }; nixGLMesa)
+          pkgs.just
+          pkgs.sops
+          pkgs.age
 
           # libraries
           pkgs.zlib.dev
