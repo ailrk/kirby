@@ -71,97 +71,17 @@ with lib;
     # Install packages
     home = {
       packages = [
-          # utils
-          pkgs.binutils
-          pkgs.rsync
-          pkgs.htop
-          pkgs.inetutils
-          pkgs.ripgrep
-          pkgs.killall
-          pkgs.expect
-          pkgs.fd
-          pkgs.bat
-          pkgs.fzf
-          pkgs.git-crypt
-          pkgs.gnupg
-          pkgs.lsof
-          pkgs.tldr
-          pkgs.w3m
-          pkgs.sshfs
-          pkgs.fio
-          pkgs.acpi
-          pkgs.scrot
-          pkgs.ncmpcpp
-          pkgs.lldb
-          pkgs.qemu
-          pkgs.direnv
-          pkgs.just
-          pkgs.sops
-          pkgs.age
-          pkgs.graphviz
-          pkgs.ssh-to-age
-
-          # cloud
-          pkgs.awscli
-
-          # libraries
-          pkgs.zlib.dev
-          pkgs.zlib.out
           pkgs.libGL
-          pkgs.libnotify
-
-          # nix
-          pkgs.any-nix-shell
-
-          # langs
-          pkgs.smlnj
           pkgs.racket
-          pkgs.purescript
-          pkgs.valgrind
-          pkgs.dotnet-sdk
-          pkgs.fsharp
-          pkgs.gnumake
-          pkgs.ocaml
-          pkgs.cmake
-          pkgs.rebar3
-          pkgs.rustup
-          pkgs.nodejs
-          pkgs.nil
-          pkgs.nodePackages.bash-language-server
-          pkgs.nodePackages.typescript-language-server
-
-          # fontsc
-          pkgs.fira-code
-          pkgs.paratype-pt-mono
-          pkgs.iosevka
-          pkgs.meslo-lg
-          pkgs.siji
-
-          # X
-          pkgs.brightnessctl
-          pkgs.xdotool
-          pkgs.xtitle
-          pkgs.xdo
-          pkgs.pinentry
-          pkgs.xclip
 
           # gui
-          pkgs.ibus
           pkgs.google-chrome
-          pkgs.thunderbird
-          pkgs.wireshark-qt
           pkgs.muse
           pkgs.blender
-          pkgs.xournalpp
-          pkgs.aseprite
-          pkgs.xfce.thunar
-          pkgs.blueman
-          pkgs.mupdf
           pkgs.tdesktop
           pkgs.discord
-          pkgs.zathura
-          pkgs.libsForQt5.qt5.qttools
-        ];
+          pkgs.aseprite
+        ] ++ pkgs.callPackage ../packages.nix {};
 
 
       file = {

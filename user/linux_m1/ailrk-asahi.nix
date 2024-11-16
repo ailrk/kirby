@@ -51,69 +51,11 @@ with lib;
 
     # Install packages
     home.packages = [
-          # utils
-          pkgs.tmux
-          pkgs.binutils
-          pkgs.rsync
-          pkgs.htop
-          pkgs.inetutils
-          pkgs.ripgrep
-          pkgs.killall
-          pkgs.expect
-          pkgs.fd
-          pkgs.bat
-          pkgs.fzf
-          pkgs.git-crypt
-          pkgs.gnupg
-          pkgs.texinfo
-          pkgs.neofetch
-          pkgs.qemu
-          pkgs.xterm
-          pkgs.ntp
-          pkgs.tldr
-          pkgs.w3m
-          pkgs.gnupatch
-          pkgs.direnv
-          pkgs.pandoc
           (with import <nixgl> { enable32bits = false; }; nixGLMesa)
-          pkgs.just
-          pkgs.sops
-          pkgs.age
-          pkgs.graphviz
-          pkgs.ssh-to-age
-
           # libraries
-          pkgs.zlib.dev
-          pkgs.zlib.out
           pkgs.libGL
           pkgs.libgcc
           pkgs.gtk4
-
-          # langs
-          pkgs.racket
-          pkgs.valgrind
-          pkgs.ocaml
-          pkgs.opam
-          pkgs.ocamlPackages.ocaml-lsp
-          pkgs.cmake
-          pkgs.rustup
-          pkgs.nodejs
-          pkgs.gnumake
-          pkgs.meson
-          pkgs.gcc
-          pkgs.clang-tools
-          pkgs.gdb
-          pkgs.cgdb
-          pkgs.lld
-          pkgs.bear
-          pkgs.nasm
-          pkgs.lua
-          pkgs.lua-language-server
-          pkgs.nil
-          pkgs.nodePackages.bash-language-server
-          pkgs.nodePackages.typescript-language-server
-          pkgs.python312Packages.ipython
-          pkgs.pyright
 
           # hsakell
           pkgs.ghc
@@ -121,49 +63,9 @@ with lib;
           pkgs.ghciwatch
           pkgs.cabal-install
 
-          # nix
-          pkgs.any-nix-shell
-
-          # fonts
           pkgs.xdg-desktop-portal
-          pkgs.fira-code
-          pkgs.paratype-pt-mono
-          pkgs.crimson-pro
-          pkgs.noto-fonts-cjk-sans
-          pkgs.noto-fonts-cjk-serif
-          pkgs.font-awesome
-          pkgs.wqy_microhei
-          pkgs.liberation_ttf_v1
-
-          # cloud
-          pkgs.awscli
-          pkgs.opentofu
-
-          # X
-          pkgs.xorg.xset
-          pkgs.xorg.xinput
-          pkgs.brightnessctl
-          pkgs.xdotool
-          pkgs.xtitle
-          pkgs.xdo
-          pkgs.pinentry
-          pkgs.xclip
-          pkgs.scrot
-
-          # gui
-          pkgs.ibus
-          pkgs.gnome.nautilus
           pkgs.chromium
-          pkgs.libsForQt5.qt5.qttools
-          pkgs.thunderbird
-          pkgs.wireshark-qt
-          pkgs.xournalpp
-          pkgs.blueman
-          pkgs.mupdf
-          pkgs.zathura
-          pkgs.font-manager
-          pkgs.libsForQt5.filelight
-        ];
+        ] ++ pkgs.callPackage ../packages.nixa {};
 
 
     home.file = {
