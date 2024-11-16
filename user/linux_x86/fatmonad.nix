@@ -98,6 +98,8 @@ with lib;
           pkgs.just
           pkgs.sops
           pkgs.age
+          pkgs.graphviz
+          pkgs.ssh-to-age
 
           # cloud
           pkgs.awscli

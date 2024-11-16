@@ -51,6 +51,7 @@ require('packer').startup(function()
     use {'Nymphium/vim-koka'}
     use {'https://github.com/LnL7/vim-nix'}
     use {'hashivim/vim-terraform'}
+    use {'vmchale/just-vim'}
 
     -- nvim
     use {'nvim-telescope/telescope.nvim'}

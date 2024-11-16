@@ -79,6 +79,8 @@ with lib;
           pkgs.just
           pkgs.sops
           pkgs.age
+          pkgs.graphviz
+          pkgs.ssh-to-age
 
           # libraries
           pkgs.zlib.dev
