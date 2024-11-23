@@ -37,9 +37,6 @@ with lib;
         taskwarrior.enable = true;
         newsflash.enable = true;
       };
-      services = {
-        ssh-agent.enable = true;
-      };
     };
 
     nixpkgs.config = {
