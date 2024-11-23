@@ -16,16 +16,7 @@ with lib;
 
     kirby = {
       program = {
-        git = {
-          enable = true;
-          userEmail = "jimmy123good@gmail.com";
-          userName = "Ailrk";
-          signByDefault = true;
-          signKey = "~/.ssh/id_ed25519.pub";
-          extraConfig = {
-            gpg.format = "ssh";
-          };
-        };
+        git.enable = true;
         neovim = {
           enable = true;
           nightly = false;

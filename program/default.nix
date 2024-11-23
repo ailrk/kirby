@@ -9,5 +9,6 @@
     ./taskwarrior/default.nix
     ./tmux/default.nix
     ./zsh/default.nix
+    ./git/default.nix
   ];
 }

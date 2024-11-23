@@ -37,10 +37,3 @@ init_sxhkd() {
 init_polybar() {
     $HOME/.config/polybar/start.sh &
 }
-
-init_dunst() {
-    dunst \
-        -1b "$WHITE" -1f "$BLACK" -1fr "$BLACK" \
-        -nb "$WHITE" -nf "$BLACK" -nfr "$BLACK" \
-        -cb "$WHITE" -cf "$BLACK" -cfr "$BLACK" &
-}
