@@ -65,7 +65,7 @@ with lib;
 
           pkgs.xdg-desktop-portal
           pkgs.chromium
-        ] ++ pkgs.callPackage ../packages.nixa {};
+        ] ++ pkgs.callPackage ../packages.nix {};
 
 
     home.file = {

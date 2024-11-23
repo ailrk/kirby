@@ -31,6 +31,7 @@
     pkgs.pandoc
     pkgs.gnupatch
     pkgs.xterm
+    pkgs.imagemagick
 
     pkgs.any-nix-shell
 
@@ -38,9 +39,7 @@
     pkgs.opentofu
 
     # langs
-    pkgs.purescript
     pkgs.valgrind
-    pkgs.dotnet-sdk
     pkgs.gnumake
     pkgs.nil
     pkgs.nodePackages.bash-language-server

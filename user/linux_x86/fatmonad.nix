@@ -73,6 +73,8 @@ with lib;
       packages = [
           pkgs.libGL
           pkgs.racket
+          pkgs.dotnet-sdk
+          pkgs.purescript
 
           # gui
           pkgs.google-chrome
