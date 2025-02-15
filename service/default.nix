@@ -2,6 +2,5 @@
 
 {
   imports = [
-    ./ssh-agent
   ];
 }

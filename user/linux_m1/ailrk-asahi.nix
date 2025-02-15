@@ -33,7 +33,6 @@ with lib;
         nmap.enable = true;
         zsh.enable = true;
         fish.enable = true;
-        taskwarrior.enable = true;
         newsflash.enable = true;
         xconfig.enable = true;
         rofi.enable = true;
