@@ -7,7 +7,7 @@ with lib;
   };
 
   config = mkIf config.kirby.user.linux_x86.fatmonad.enable {
-    home.stateVersion = "24.05";
+    home.stateVersion = "24.11";
     home.username = "fatmonad";
     home.homeDirectory = "/home/fatmonad";
     programs.home-manager.enable = true;
