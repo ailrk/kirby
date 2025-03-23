@@ -33,7 +33,6 @@ with lib;
         nmap.enable = true;
         zsh.enable = true;
         fish.enable = true;
-        taskwarrior.enable = true;
         newsflash.enable = true;
         xconfig.enable = true;
         rofi.enable = true;
@@ -48,7 +47,7 @@ with lib;
           pkgs.libgcc
           pkgs.gtk4
 
-          # hsakell
+          # haskell
           pkgs.ghc
           pkgs.haskell-language-server
           pkgs.ghciwatch

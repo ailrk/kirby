@@ -32,6 +32,7 @@
     pkgs.gnupatch
     pkgs.xterm
     pkgs.imagemagick
+    pkgs.ntp
 
     pkgs.any-nix-shell
 
