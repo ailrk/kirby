@@ -55,6 +55,7 @@ require('packer').startup(function()
 
     -- nvim
     use {'nvim-telescope/telescope.nvim'}
+    use {'nvim-telescope/telescope-ui-select.nvim' }
     use {'rmagatti/auto-session'}
     use {'jpalardy/vim-slime'}
     use {'nvim-lua/plenary.nvim'}
@@ -405,3 +406,17 @@ require('mini.completion').setup()
   end
   imap_expr('<Tab>',   [[pumvisible() ? "\<C-n>" : "\<Tab>"]])
   imap_expr('<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
+
+
+-- telescope
+-- This is your opts table
+require("telescope").setup {
+  extensions = {
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown {}
+    }
+  }
+}
+-- To get ui-select loaded and working with telescope, you need to call
+-- load_extension, somewhere after setup function:
+require("telescope").load_extension("ui-select")
