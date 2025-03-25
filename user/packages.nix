@@ -46,7 +46,6 @@
     pkgs.nodePackages.bash-language-server
     pkgs.nodePackages.typescript-language-server
     pkgs.cmake
-    pkgs.rustup
     pkgs.nodejs
     pkgs.meson
     pkgs.gcc
@@ -84,7 +83,6 @@
     pkgs.ibus
     pkgs.gnome.nautilus
     pkgs.libsForQt5.qt5.qttools
-    pkgs.thunderbird
     pkgs.wireshark-qt
     pkgs.xournalpp
     pkgs.blueman

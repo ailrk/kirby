@@ -48,10 +48,10 @@ with lib;
           pkgs.gtk4
 
           # haskell
-          pkgs.ghc
-          pkgs.haskell-language-server
-          pkgs.ghciwatch
-          pkgs.cabal-install
+          # pkgs.ghc
+          # pkgs.haskell-language-server
+          # pkgs.ghciwatch
+          # pkgs.cabal-install
 
           pkgs.xdg-desktop-portal
           pkgs.chromium

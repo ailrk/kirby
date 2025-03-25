@@ -72,15 +72,6 @@
     label = H
     click-left = $TERMINAL -e htop
 
-[module/email]
-    type = custom/text
-    format-background = ${colors.background}
-    format-frontgroud = ${colors.frontgroud}
-    format-padding = 4
-    format-underline = ${colors.secondary}
-    label = 
-    click-left = ${env:EMAIL_CLIENT}
-
 [module/browser]
     type = custom/text
     format-background = ${colors.background}

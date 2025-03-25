@@ -102,7 +102,6 @@ with lib;
         BROWSER = "google-chrome-stable --force-device-scale-factor=1.5";
         TERMINAL = "$KIRBY_NIXGL alacritty";
         FILES = "nautilus";
-        EMAIL_CLIENT = "thunderbird";
       };
     };
 
