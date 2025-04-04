@@ -156,6 +156,7 @@ nnoremap <leader>H  <cmd>Telescope help_tags<cr>
 nnoremap <leader>M  <cmd>Telescope marks<cr>
 nnoremap <leader>R  <cmd>Telescope registers<cr>
 nnoremap <leader>D  <cmd>Telescope lsp_document_symbols<cr>
+nnoremap <leader>T  <cmd>Telescope lsp_workspace_symbols<cr>
 nnoremap <leader>A  <cmd>Telescope lsp_code_actions<cr>
 nnoremap <space>s   <cmd>SessionSearch<cr>
 nnoremap <C-s>      <cmd>SessionSave<cr>
