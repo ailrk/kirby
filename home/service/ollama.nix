@@ -11,19 +11,23 @@ let
       ROCM_PATH=/opt/rocm
     '';
   };
+
+  ollama =
+    if cfg.amd
+      then pkgs.ollama-rocm
+      else pkgs.ollama;
 in
 {
 
   options.kirby.service.ollama = {
     enable = mkEnableOption "Enable ollama";
+    amd = mkEnableOption "Use amd GPU";
   };
 
 
   config = mkIf cfg.enable {
     # Add Ollama to your profile
-    home.packages = [
-      pkgs.ollama-rocm
-    ];
+    home.packages = [ ollama ];
 
     # Define a user-level systemd service
     systemd.user.services.ollama = {
@@ -32,7 +36,7 @@ in
         After = [ "network.target" ];
       };
       Service = {
-        ExecStart = "${pkgs.ollama-rocm}/bin/ollama serve";
+        ExecStart = "${ollama}/bin/ollama serve";
         Restart = "on-failure";
         EnvironmentFile = envFileAMDRTX6600;
       };

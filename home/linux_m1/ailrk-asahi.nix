@@ -42,6 +42,9 @@ with lib;
         xconfig.enable = true;
         rofi.enable = true;
       };
+      service = {
+        ollama.enable = true;
+      };
     };
 
     # Install packages
