@@ -3,6 +3,14 @@ with
 lib;
 let
   cfg = config.kirby.service.ollama;
+  # you can't inline multiple environment variables, just use a file here.
+  envFileAMDRTX6600 = pkgs.writeTextFile {
+    name = "ollama-env-vars.env";
+    text = ''
+      HSA_OVERRIDE_GFX_VERSION=10.3.0
+      ROCM_PATH=/opt/rocm
+    '';
+  };
 in
 {
 
@@ -14,7 +22,7 @@ in
   config = mkIf cfg.enable {
     # Add Ollama to your profile
     home.packages = [
-      pkgs.ollama
+      pkgs.ollama-rocm
     ];
 
     # Define a user-level systemd service
@@ -24,9 +32,9 @@ in
         After = [ "network.target" ];
       };
       Service = {
-        ExecStart = "${pkgs.ollama}/bin/ollama serve";
+        ExecStart = "${pkgs.ollama-rocm}/bin/ollama serve";
         Restart = "on-failure";
-        # Optional: set environment, working dir, etc.
+        EnvironmentFile = envFileAMDRTX6600;
       };
       Install = {
         WantedBy = [ "default.target" ];
