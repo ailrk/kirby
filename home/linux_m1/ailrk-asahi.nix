@@ -2,11 +2,16 @@
 { config, lib, pkgs, ... }:
 with lib;
 {
-  options.kirby.user.linux_m1.ailrk_asahi = {
+  imports = [
+    ../program/linux.nix
+    ../service/default.nix
+  ];
+
+  options.kirby.home.linux_m1.ailrk_asahi = {
     enable  = mkEnableOption "Set user as a ailrk-asahi";
   };
 
-  config = mkIf config.kirby.user.linux_m1.ailrk_asahi.enable {
+  config = mkIf config.kirby.home.linux_m1.ailrk_asahi.enable {
     home.stateVersion = "24.05";
     home.username = "ailrk-asahi";
     home.homeDirectory = "/home/ailrk-asahi";

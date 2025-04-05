@@ -1,6 +1,6 @@
-{ ... }:
-
 {
   imports = [
+    ./ollama.nix
   ];
 }
+

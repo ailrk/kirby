@@ -2,21 +2,16 @@
 { config, lib, pkgs, ... }:
 with lib;
 {
-  options.kirby.user.darwin_m1.ailrk = {
+  imports = [
+    ../program/darwin.nix
+    ../service/default.nix
+  ];
+
+  options.kirby.home.darwin_m1.ailrk = {
     enable  = mkEnableOption "Set user as a ailrk";
-    core    = mkEnableOption "Core utilities";
-    cli     = mkEnableOption "Extra cli utilties";
-    haskell = mkEnableOption "Haskell related";
-    nix     = mkEnableOption "Nix related";
-    fonts   = mkEnableOption "Fonts";
-    extra   = lib.mkOption {
-      type = types.listOf types.package;
-      description = "extra packages";
-      default = [];
-    };
   };
 
-  config = mkIf config.kirby.user.darwin_m1.ailrk.enable {
+  config = mkIf config.kirby.home.darwin_m1.ailrk.enable {
     home.stateVersion = "24.05";
     home.username = "ailrk";
     home.homeDirectory = "/Users/ailrk";
@@ -39,11 +34,7 @@ with lib;
     };
 
     # Install packages
-    home.packages = let
-        ailrk = config.kirby.user.darwin_m1.ailrk;
-        set   = en: ps: if en then ps else [];
-
-        core = set ailrk.core [
+    home.packages = [
           pkgs.tmux
           pkgs.binutils
           pkgs.rsync
@@ -59,33 +50,14 @@ with lib;
           pkgs.gnupg
           pkgs.zlib.dev
           pkgs.zlib.out
-        ];
-
-        cli = set ailrk.cli [
           pkgs.tldr
           pkgs.w3m
-        ];
-
-        nix = set ailrk.nix [
           pkgs.any-nix-shell
-        ];
-
-        fonts = set ailrk.fonts [
           pkgs.fira-code
-        ];
-
-        haskell = set ailrk.haskell [
           pkgs.cabal2nix
           pkgs.haskellPackages.ghcup
           pkgs.ghcid
         ];
-      in
-      core
-      ++ cli
-      ++ nix
-      ++ fonts
-      ++ haskell
-      ++ ailrk.extra;
 
     # Environment
     home.sessionVariables = {

@@ -2,11 +2,16 @@
 { config, lib, pkgs, ... }:
 with lib;
 {
-  options.kirby.user.linux_x86.fatmonad = {
+  imports = [
+    ../program/linux.nix
+    ../service/default.nix
+  ];
+
+  options.kirby.home.linux_x86.fatmonad = {
     enable  = mkEnableOption "Set user as a fatmonad";
   };
 
-  config = mkIf config.kirby.user.linux_x86.fatmonad.enable {
+  config = mkIf config.kirby.home.linux_x86.fatmonad.enable {
     home.stateVersion = "24.11";
     home.username = "fatmonad";
     home.homeDirectory = "/home/fatmonad";
@@ -35,6 +40,10 @@ with lib;
         zsh.enable = true;
         fish.enable = true;
         newsflash.enable = true;
+      };
+
+      service = {
+        ollama.enable = true;
       };
     };
 

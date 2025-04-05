@@ -1,5 +1,6 @@
 {
   imports = [
+    ./default.nix
     ./alacritty/default.nix
     ./bspwm/default.nix
     ./compton/default.nix
