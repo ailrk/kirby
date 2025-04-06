@@ -148,9 +148,8 @@ nmap <localleader>@ :%SlimeSend<CR>
 nnoremap <space>p <cmd>Telescope find_files<cr>
 " nnoremap <leader>f <cmd>Telescope file_browser<cr>
 nnoremap <space>g   <cmd>Telescope live_grep<cr>
-nnoremap <leader>gs <cmd>Telescope git_status<cr>
-nnoremap <leader>gc <cmd>Telescope git_commits<cr>
-nnoremap <leader>gb <cmd>Telescope git_branches<cr>
+nnoremap <space>h   <cmd>Telescope oldfiles<cr>
+nnoremap <space>t   <cmd>Telescope<cr>
 nnoremap <leader>B  <cmd>Telescope buffers<cr>
 nnoremap <leader>H  <cmd>Telescope help_tags<cr>
 nnoremap <leader>M  <cmd>Telescope marks<cr>
