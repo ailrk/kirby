@@ -21,4 +21,5 @@ alias qq="exit"
 alias smli="rlwrap -A -p -r smlnj"
 alias ocamli="rlwrap -A -p -r ocaml"
 alias cpwd="pwd | xclip -sel clip"
+alias t="tmux"
 direnv hook fish | source
