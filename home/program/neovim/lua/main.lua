@@ -20,7 +20,7 @@ execute 'packadd packer.nvim'
 
 -------------------------------------------------------------------
 -- PLUGINS
-require('packer').startup(function()
+require('packer').startup(function(use)
     -- convenient
     use {'tpope/vim-fugitive'}
     use {'tpope/vim-commentary'}
@@ -44,6 +44,8 @@ require('packer').startup(function()
     use {'mattn/emmet-vim'}
     use {'purescript-contrib/purescript-vim'}
     use {'neovimhaskell/haskell-vim'}
+    -- use {'psiska/telescope-hoogle.nvim'}
+    use {'~/repo/telescope-hoogle.nvim'}
     use {'pangloss/vim-javascript'}
     use {'plasticboy/vim-markdown'}
     use {'justin2004/vim-apl'}

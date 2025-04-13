@@ -150,6 +150,7 @@ nnoremap <space>p <cmd>Telescope find_files<cr>
 nnoremap <space>g   <cmd>Telescope live_grep<cr>
 nnoremap <space>h   <cmd>Telescope oldfiles<cr>
 nnoremap <space>t   <cmd>Telescope<cr>
+nnoremap <leader>hg <cmd>Telescope hoogle list<cr>
 nnoremap <leader>B  <cmd>Telescope buffers<cr>
 nnoremap <leader>H  <cmd>Telescope help_tags<cr>
 nnoremap <leader>M  <cmd>Telescope marks<cr>
@@ -294,6 +295,9 @@ augroup set_shiftwidth
   autocmd FileType typescriptreact set shiftwidth=2 tabstop=2
   autocmd FileType c set shiftwidth=4 tabstop=4
   autocmd FileType cuda set shiftwidth=4 tabstop=4
+  autocmd FileType lua set shiftwidth=2 tabstop=2
+  autocmd FileType nix set shiftwidth=2 tabstop=2
+  autocmd FileType haskell set shiftwidth=2 tabstop=2
   autocmd FileType markdown set conceallevel=0
   autocmd FileType org set conceallevel=0
 augroup end

@@ -41,28 +41,25 @@ M.pick_links_from_float = function()
       end, links),
     },
     sorter = require("telescope.config").values.generic_sorter({}),
-    attach_mappings = function(_, map)
+    attach_mappings = function(prompt_bufnr, map)
       local actions = require("telescope.actions")
       local action_state = require("telescope.actions.state")
 
-    print(vim.inspect(links))
 
       local opener = vim.fn.has("mac") == 1 and "open" or "xdg-open"
 
       -- Open the link in the browser when the user selects one
       map("i", "<CR>", function()
         local selection = action_state.get_selected_entry()
-        print(vim.inspect(selection))
+        actions.close(prompt_bufnr)
         local text = selection[1]
         local url = vim.tbl_filter(function(entry) return entry.text == text end, links)[1].url
-        print(text, url, opener)
         vim.fn.jobstart({ opener, url }, { detach = true })
-        -- actions.close()
       end)
 
       map("n", "<CR>", function()
         local selection = action_state.get_selected_entry()
-        actions.close()
+        actions.close(prompt_bufnr)
         local text = selection[1]
         local url = vim.tbl_filter(function(entry) return entry.text == text end, links)[1].url
         vim.fn.jobstart({ opener, url }, { detach = true })
