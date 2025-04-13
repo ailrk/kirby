@@ -35,6 +35,7 @@
     pkgs.ntp
 
     pkgs.any-nix-shell
+    pkgs.nixfmt-rfc-style
 
     pkgs.awscli
     pkgs.opentofu
