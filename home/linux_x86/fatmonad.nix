@@ -15,8 +15,10 @@ with lib;
     home.stateVersion = "24.11";
     home.username = "fatmonad";
     home.homeDirectory = "/home/fatmonad";
-    programs.home-manager.enable = true;
     manual.manpages.enable = false;
+    programs = {
+      home-manager.enable = true;
+    };
 
     kirby = {
       program = {
@@ -56,6 +58,28 @@ with lib;
       enabled = "fcitx5";
       fcitx5.addons = with pkgs; with pkgs.fcitx5; [ fcitx5-rime fcitx5-mozc fcitx5-gtk fcitx5-chinese-addons ];
     };
+
+  # Make sure check .local/share/applications/mimeinfo.cache
+  # Sometimes gui program adds entries here and it overwrites
+  # the default setting.
+  xdg.mimeApps = {
+    enable = true;
+
+    defaultApplications = {
+      "x-scheme-handler/tg"="userapp-Telegram Desktop-5ZULP1.desktop";
+      "application/pdf"="google-chrome.desktop";
+      "image/gif"="google-chrome.desktop";
+      "x-scheme-handler/file"="google-chrome.desktop";
+    };
+
+    associations.added = {
+      "x-scheme-handler/tg"="userapp-Telegram Desktop-XX00J1.desktop;userapp-Telegram Desktop-5ZULP1.desktop;";
+      "image/png"="google-chrome.desktop;";
+      "image/jpeg"="google-chrome.desktop;";
+      "application/pdf"="google-chrome.desktop;";
+      "image/gif"="google-chrome.desktop;";
+    };
+  };
 
   fonts.fontconfig.enable = true;
 
