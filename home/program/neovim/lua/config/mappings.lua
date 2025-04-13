@@ -11,7 +11,6 @@ end
 
 local normal_maps = make_maps('n', {noremap = true, silent = true})
 local local_maps = make_maps('i', {noremap = true, silent = true})
-local terminal_maps = make_maps('t', {noremap = true, silent = true})
 
 -- general inop maps
 local_maps {

@@ -77,9 +77,10 @@ require('packer').startup(function(use)
 end)
 
 
-require("config.lsp")
 require("config.auto-session")
+require("config.lsp")
 require("config.mappings")
+require("config.mini")
 require("config.telescope")
 
 
