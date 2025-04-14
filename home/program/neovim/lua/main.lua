@@ -93,3 +93,7 @@ vim.keymap.set("n", "<space>o", require('tools.uri-picker').pick_links_from_floa
 
 -- Message to Buffer
 vim.api.nvim_create_user_command("LiveMessagesToggle", require('tools.live-messages').toggleLiveMessages, { desc = "Show :messages in a scratch buffer"})
+
+
+-- Scratch repl
+vim.api.nvim_create_user_command("ScratchRepl", require('tools.scratch-repl').start, { desc = "Show :messages in a scratch buffer"})
