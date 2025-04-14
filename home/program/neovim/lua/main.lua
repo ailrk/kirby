@@ -89,3 +89,7 @@ require("config.treesitter")
 
 -- URI picker on floating window
 vim.keymap.set("n", "<space>o", require('tools.uri-picker').pick_links_from_float, { desc = "Pick & open link from LSP hover" })
+
+
+-- Message to Buffer
+vim.api.nvim_create_user_command("LiveMessagesToggle", require('tools.live-messages').toggleLiveMessages, { desc = "Show :messages in a scratch buffer"})
