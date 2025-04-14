@@ -54,6 +54,8 @@ require('packer').startup(function(use)
     use {'https://github.com/LnL7/vim-nix'}
     use {'hashivim/vim-terraform'}
     use {'vmchale/just-vim'}
+    use {'nvim-treesitter/nvim-treesitter'}
+    use {'nvim-treesitter/nvim-treesitter-textobjects'}
 
     -- nvim
     use {'nvim-telescope/telescope.nvim'}
@@ -82,6 +84,7 @@ require("config.lsp")
 require("config.mappings")
 require("config.mini")
 require("config.telescope")
+require("config.treesitter")
 
 
 -- URI picker on floating window
