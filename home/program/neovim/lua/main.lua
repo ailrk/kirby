@@ -24,10 +24,8 @@ require('packer').startup(function(use)
     -- convenient
     use {'tpope/vim-fugitive'}
     use {'tpope/vim-commentary'}
-    use {'kien/rainbow_parentheses.vim'}
     use {'voldikss/vim-floaterm'}
     use {'christoomey/vim-system-copy'}
-    use {'mtth/scratch.vim'}
     use {'junegunn/fzf.vim'}
     use {'honza/vim-snippets'}
     use {'SirVer/ultisnips'}
@@ -35,25 +33,19 @@ require('packer').startup(function(use)
     use {'preservim/nerdtree'}
 
     -- languages
-    use {'deoplete-plugins/deoplete-lsp'}
     use {'PhilT/vim-fsharp'}
-    use {'rhysd/vim-llvm'}
     use {'leafgarland/typescript-vim'}
     use {'peitalin/vim-jsx-typescript'}
     use {'lervag/vimtex'}
     use {'mattn/emmet-vim'}
     use {'purescript-contrib/purescript-vim'}
     use {'neovimhaskell/haskell-vim'}
-    -- use {'psiska/telescope-hoogle.nvim'}
     use {'~/repo/telescope-hoogle.nvim'}
-    use {'pangloss/vim-javascript'}
     use {'plasticboy/vim-markdown'}
-    use {'justin2004/vim-apl'}
     use {'jez/vim-better-sml'}
-    use {'Nymphium/vim-koka'}
     use {'https://github.com/LnL7/vim-nix'}
     use {'hashivim/vim-terraform'}
-    use {'vmchale/just-vim'}
+    use {'NoahTheDuke/vim-just'}
     use {'nvim-treesitter/nvim-treesitter'}
     use {'nvim-treesitter/nvim-treesitter-textobjects'}
 
@@ -61,7 +53,6 @@ require('packer').startup(function(use)
     use {'nvim-telescope/telescope.nvim'}
     use {'nvim-telescope/telescope-ui-select.nvim' }
     use {'rmagatti/auto-session'}
-    use {'jpalardy/vim-slime'}
     use {'nvim-lua/plenary.nvim'}
     use {'neovim/nvim-lspconfig'}
     use {'neovim/nvim-lsp'}
@@ -71,10 +62,7 @@ require('packer').startup(function(use)
 
     -- color scheme
     use {'ailrk/vim-monochrome-waifu'}
-    use {'altercation/vim-colors-solarized'}
     use {'morhetz/gruvbox'}
-    use {'pbrisbin/vim-colors-off'}
-    use {'aunsira/macvim-light' }
     use {'kristijanhusak/vim-carbon-now-sh'}
 end)
 
