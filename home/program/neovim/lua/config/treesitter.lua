@@ -13,7 +13,7 @@ require'nvim-treesitter.configs'.setup {
   sync_install = false,
   auto_install = true,
   highlight = {
-    enable = true,
+    enable = false,
     additional_vim_regex_highlighting = false,
   },
   incremental_selection = {
@@ -38,23 +38,6 @@ require'nvim-treesitter.configs'.setup {
         ['ab'] = '@block.outer',
         ['ib'] = '@block.inner',
       },
-    },
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-
-      goto_next_start = {
-        ["f]"] = "@function.outer",
-        ["p]"] = "@parameter.outer",
-        ["b]"] = "@block.outer",
-        ["c]"] = "@class.outer",
-      },
-      goto_previous_start = {
-        ["f["] = "@function.outer",
-        ["p["] = "@parameter.outer",
-        ["b["] = "@block.outer",
-        ["c["] = "@class.outer",
-      }
     },
   },
 }
