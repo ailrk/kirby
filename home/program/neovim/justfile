@@ -1,0 +1,31 @@
+# After home-manager rebuild, $HOME/.config/nvim/lua should be
+# a symlink to the lua folder.
+# The real content of the folder lives in /nix/store, which is not
+# modifiable unless we rebuild again. This makes it difficult to
+# edit nvim configs.
+
+# This command lets you temporarily swap the real lua folder into the
+# position so you can edit easily.
+# Once done editing, run it again to swap it back.
+
+# Toggle edit mode
+switch:
+  #!/usr/bin/env bash
+  CONFIG_LUA="$HOME/.config/nvim/lua"
+  if [ -L $CONFIG_LUA ]; then
+    echo "lua -> $CONFIG_LUA"
+    rm $CONFIG_LUA
+    cp -r lua $CONFIG_LUA
+      echo "Editing mode"
+  else
+    if [ -e $CONFIG_LUA ]; then
+      echo "$CONFIG_LUA -> lua"
+      rm -rf lua
+      cp -r $CONFIG_LUA lua
+      rm -rf $CONFIG_LUA
+      home-manager switch
+      echo "Ok, ready to commit"
+    else
+      echo "Do Nothing"
+    fi
+  fi
