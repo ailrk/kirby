@@ -105,6 +105,7 @@ nnoremap <space>p <cmd>Telescope find_files<cr>
 nnoremap <space>g   <cmd>Telescope live_grep<cr>
 nnoremap <space>h   <cmd>Telescope oldfiles<cr>
 nnoremap <space>t   <cmd>Telescope<cr>
+nnoremap <leader>c  <cmd>Telescope commands<cr>
 nnoremap <leader>hg <cmd>Telescope hoogle list<cr>
 nnoremap <leader>B  <cmd>Telescope buffers<cr>
 nnoremap <leader>H  <cmd>Telescope help_tags<cr>

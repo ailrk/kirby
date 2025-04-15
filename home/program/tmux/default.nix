@@ -16,6 +16,15 @@ in
       set -s escape-time 0
       set-option -g default-shell '${pkgs.fish}/bin/fish'
 
+      set-option -g status-left '#[fg=green,bold] #(whoami)@#H#[default] [#S] '
+      set-option -g status-left-length 50
+
+      set -g status-right-style 'fg=black bg=yellow'
+      set -g status-right ' %Y-%m-%d %H:%M '
+      set -g status-right-length 50
+
+      set-option -g window-status-format ' #I #W '
+      set-option -g window-status-current-format ' #I #W *'
 
       ##prefix
       unbind C-b

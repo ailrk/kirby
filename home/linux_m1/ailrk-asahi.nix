@@ -15,7 +15,9 @@ with lib;
     home.stateVersion = "24.05";
     home.username = "ailrk-asahi";
     home.homeDirectory = "/home/ailrk-asahi";
-    programs.home-manager.enable = true;
+    programs = {
+      home-manager.enable = true;
+    };
 
     manual.manpages.enable = false;
 
