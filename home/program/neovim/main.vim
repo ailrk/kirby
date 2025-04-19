@@ -103,10 +103,10 @@ tnoremap <Esc> <C-\><C-n>
 nnoremap <space>p <cmd>Telescope find_files<cr>
 " nnoremap <leader>f <cmd>Telescope file_browser<cr>
 nnoremap <space>g   <cmd>Telescope live_grep<cr>
+nnoremap <space>d   <cmd>Telescope diagnostics<cr>
 nnoremap <space>h   <cmd>Telescope oldfiles<cr>
 nnoremap <space>t   <cmd>Telescope<cr>
 nnoremap <leader>c  <cmd>Telescope commands<cr>
-nnoremap <leader>hg <cmd>Telescope hoogle list<cr>
 nnoremap <leader>B  <cmd>Telescope buffers<cr>
 nnoremap <leader>H  <cmd>Telescope help_tags<cr>
 nnoremap <leader>M  <cmd>Telescope marks<cr>
