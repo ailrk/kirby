@@ -72,7 +72,7 @@ set updatetime=300
 
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
-set completeopt=menu,noinsert,noselect
+set completeopt=menu,menuone,noinsert,noselect
 
 "
 " NerdTree
