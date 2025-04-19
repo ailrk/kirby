@@ -1,7 +1,3 @@
-" lua require("init")
-
-lua require'main'
-
 " set the runtime path to include Vundle and initialize set rtp+=~/.vim/autoload/plug.vim
 set encoding=utf-8
 set fileencoding=utf-8
@@ -34,6 +30,9 @@ set exrc                            "local setting
 set number
 set mouse=a
 
+" lua require("init")
+
+lua require'main'
 
 
 " Set Editor Font
@@ -121,13 +120,6 @@ nmap # <nop>
 nnoremap # <cmd>Telescope grep_string<cr>
 
 
-"
-" Scratch
-"
-nnoremap <leader>sc <cmd>Scratch<cr>
-vnoremap <leader>sc <cmd>ScratchSelection<cr>
-
-"
 " System copy
 "
 

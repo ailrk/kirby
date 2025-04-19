@@ -31,6 +31,7 @@ require('packer').startup(function(use)
     use {'SirVer/ultisnips'}
     use {'triglav/vim-visual-increment'}
     use {'preservim/nerdtree'}
+    use {'LintaoAmons/scratch.nvim'}
 
     -- languages
     use {'PhilT/vim-fsharp'}
@@ -74,13 +75,14 @@ require("config.telescope")
 require("config.treesitter")
 
 
+-- scratch.nvim
+vim.keymap.set("n", "<leader>ss", "<cmd>Scratch<cr>")
+vim.keymap.set("n", "<leader>sf", "<cmd>ScratchOpenFzf<cr>")
+
+
 -- URI picker on floating window
 vim.keymap.set("n", "<space>o", require('tools.uri-picker').pick_links_from_float, { desc = "Pick & open link from LSP hover" })
 
 
 -- Message to Buffer
 vim.api.nvim_create_user_command("LiveMessagesToggle", require('tools.live-messages').toggleLiveMessages, { desc = "Show :messages in a scratch buffer"})
-
-
--- Scratch repl
-vim.api.nvim_create_user_command("ScratchRepl", require('tools.scratch-repl').start, { desc = "Show :messages in a scratch buffer"})
