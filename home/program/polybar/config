@@ -58,7 +58,7 @@
     wm-restack     = bspwm
     modules-left   = winclose winmax bspwm
     modules-center = xwindow
-    modules-right  = memory cpu temperature eth wlan xkeyboard volume battery date email pavucontrol bluetooth htop systemctl-tui ssh files terminal browser apps powermenu
+    modules-right  = memory cpu temperature eth wlan xkeyboard volume battery date quickaccess powermenu
 
     scroll-up = bspc node -f next
     scroll-down = bspc node -f prev
@@ -81,90 +81,14 @@
     label = 
     click-left = bspc node -t fullscreen
 
-[module/systemctl-tui]
+[module/quickaccess]
     type = custom/text
     format-background = ${colors.background}
     format-frontgroud = ${colors.frontgroud}
     format-padding = 4
     format-underline = ${colors.secondary}
-    label = S
-    click-left = $TERMINAL -e systemctl-tui
-
-[module/htop]
-    type = custom/text
-    format-background = ${colors.background}
-    format-frontgroud = ${colors.frontgroud}
-    format-padding = 4
-    format-underline = ${colors.secondary}
-    label = H
-    click-left = $TERMINAL -e htop
-
-[module/browser]
-    type = custom/text
-    format-background = ${colors.background}
-    format-frontgroud = ${colors.frontgroud}
-    format-padding = 4
-    format-underline = ${colors.secondary}
-    label = 
-    click-left = ${env:BROWSER}
-
-[module/pavucontrol]
-    type = custom/text
-    format-background = ${colors.background}
-    format-frontgroud = ${colors.frontgroud}
-    format-padding = 4
-    format-underline = ${colors.secondary}
-    label = 
-    click-left = pavucontrol
-
-[module/bluetooth]
-    type = custom/text
-    format-background = ${colors.background}
-    format-frontgroud = ${colors.frontgroud}
-    format-padding = 4
-    format-underline = ${colors.secondary}
-    label = 
-    click-left = blueman-manager
-
-[module/ssh]
-    type = custom/text
-    format-background = ${colors.background}
-    format-frontgroud = ${colors.frontgroud}
-    format-padding = 4
-    format-underline = ${colors.secondary}
-    label = 
-    click-left = launcher.sh ssh
-
-[module/apps]
-    type = custom/text
-    format-background = ${colors.cyan2}
-    format-frontgroud = ${colors.frontgroud}
-    format-padding = 4
-    format-underline = ${colors.secondary}
-    label = 
-    click-left = launcher.sh drun
-
-[module/terminal]
-    type = custom/text
-    format = <label>
-    format-background = ${colors.background}
-    format-frontgroud = ${colors.frontgroud}
-    format-padding = 4
-    format-underline = ${colors.secondary}
-    label = 
-    click-left = ${env:TERMINAL}
-
-[module/files]
-    type = custom/text
-    format = <label>
-    format-background = ${colors.background}
-    format-frontgroud = ${colors.frontgroud}
-    format-padding = 4
-    format-underline = ${colors.secondary}
-
-    label = 
-    click-left = ${env:FILES}
-
+    label = 
+    click-left = quickaccess.sh
 
 [module/powermenu]
     type = custom/text
@@ -373,7 +297,6 @@
     label-charging =   %percentage%%
     label-discharging =   %percentage%%
     label-full =   Full
-
 
 
 [settings]

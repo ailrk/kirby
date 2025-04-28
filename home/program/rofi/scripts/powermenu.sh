@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 
-rofi_command="rofi -theme $HOME/.config/rofi/theme/powermenu.rasi"
-shutdown=" Shutdown"
-reboot=" Reboot"
-lock=" Lock"
-suspend=" Suspend"
-logout=" Logout"
-nixbuild=" Nix Build"
+rofi_command="rofi -theme $HOME/.config/rofi/theme/menu.rasi"
+Shutdown=" Shutdown"
+Reboot=" Reboot"
+Lock=" Lock"
+Suspend=" Suspend"
+Logout=" Logout"
 
-# " Nix Build" lock       = " Lock" suspend    = " Suspend" reboot     = " Reboot" shutdown   = " Shutdown" logout     = " Logout"
 
 is_yes() {
     [[ $1 == "yes" || $1 == "y" ]]
@@ -23,7 +21,7 @@ confirm_exit() {
 		-i\
 		-no-fixed-num-lines\
 		-p "Are You Sure? : "\
-		-theme $HOME/.config/rofi/theme/confirm.rasi
+		-theme "$HOME"/.config/rofi/theme/confirm.rasi
 }
 
 msg() {
@@ -31,14 +29,13 @@ msg() {
 }
 
 # Variable passed to rofi
-options="$shutdown\n$reboot\n$lock\n$suspend\n$logout\n$nixbuild"
+options="$Shutdown\n$Reboot\n$Lock\n$Suspend\n$Logout"
 
 chosen="$(echo -e "$options" | $rofi_command -p "Power Menu" -dmenu -selected-row 2)"
 case $chosen in
-    $shutdown) ans=$(confirm_exit &); if is_yes $ans; then systemctl poweroff; elif is_no $ans; then exit 0; else msg; fi ;;
-    $reboot)   ans=$(confirm_exit &); if is_yes $ans; then systemctl reboot;   elif is_no $ans; then exit 0; else msg; fi ;;
-    $lock)     dm-tool lock ;;
-    $suspend)  systemctl suspend ;;
-    $logout)   bspc quit ;;
-    $nixbuild) rebuildhm ;;
+    "$Shutdown") ans=$(confirm_exit &); if is_yes "$ans"; then systemctl poweroff; elif is_no "$ans"; then exit 0; else msg; fi ;;
+    "$Reboot")   ans=$(confirm_exit &); if is_yes "$ans"; then systemctl reboot;   elif is_no "$ans"; then exit 0; else msg; fi ;;
+    "$Lock")     dm-tool lock ;;
+    "$Suspend")  systemctl suspend ;;
+    "$Logout")   bspc quit ;;
 esac

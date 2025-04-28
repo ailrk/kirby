@@ -34,6 +34,9 @@
     pkgs.imagemagick
     pkgs.ntp
     pkgs.systemctl-tui
+    pkgs.bandwhich
+    pkgs.binsider
+    pkgs.nix-inspect
 
     pkgs.any-nix-shell
     pkgs.nixfmt-rfc-style
