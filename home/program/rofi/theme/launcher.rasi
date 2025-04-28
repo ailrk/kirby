@@ -22,7 +22,7 @@ window {
     width:      1560;
     height:     1240;
     y-offset:   -160;
-    background-image: url("~/.config/rofi/img/mount-fuji-pixel.png");
+    background-image: url("~/.config/rofi/img/mount-fuji-pixel1.png");
 }
 
 inputbar {
