@@ -72,10 +72,11 @@ super + bracket{left,right}
 super + shift + bracket{left,right}
     bspc node -f {prev,next}.local
 
-# focus the last node/desktop
-super + {grave,Tab}
-	bspc {node,desktop} -f last; \
-    dunstify $(bspc query -D -d .focused --names) -t 500
+# focus on the next window
+super + {Tab}
+	bspc desktop -f {next}.local
+
+
 
 # focus or send to the given desktop
 super + {_,shift + }{1-9,0}
