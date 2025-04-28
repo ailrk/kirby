@@ -33,6 +33,7 @@
     pkgs.xterm
     pkgs.imagemagick
     pkgs.ntp
+    pkgs.systemctl-tui
 
     pkgs.any-nix-shell
     pkgs.nixfmt-rfc-style
@@ -48,7 +49,6 @@
     pkgs.nodePackages.typescript-language-server
     pkgs.cmake
     pkgs.nodejs
-    pkgs.meson
     pkgs.gcc
     pkgs.clang-tools
     pkgs.gdb
@@ -81,6 +81,7 @@
     pkgs.xclip
     pkgs.scrot
 
+    pkgs.pinta
     pkgs.ibus
     pkgs.gnome.nautilus
     pkgs.libsForQt5.qt5.qttools

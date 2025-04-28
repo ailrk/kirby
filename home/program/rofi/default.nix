@@ -12,6 +12,8 @@ in
 
   config = mkIf cfg.enable {
       home.packages = [ pkgs.rofi ];
+      xdg.configFile."rofi/img".source = ./img;
+
       xdg.configFile."rofi/scripts".source = ./scripts;
       xdg.configFile."rofi/theme".source = ./theme;
       xdg.configFile."rofi/styles".source = ./styles;
