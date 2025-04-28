@@ -38,7 +38,7 @@ case $chosen in
     $shutdown) ans=$(confirm_exit &); if is_yes $ans; then systemctl poweroff; elif is_no $ans; then exit 0; else msg; fi ;;
     $reboot)   ans=$(confirm_exit &); if is_yes $ans; then systemctl reboot;   elif is_no $ans; then exit 0; else msg; fi ;;
     $lock)     dm-tool lock ;;
-    $suspend)  ans=$(confirm_exit &); if is_yes $ans; then amixer set Master mute; systemctl suspend; elif is_no $ans; then exit 0; else msg; fi ;;
-    $logout)   ans=$(confirm_exit &); if is_yes $ans; then bspc quit; elif is_no $ans; then exit 0; else msg; fi ;;
+    $suspend)  systemctl suspend ;;
+    $logout)   bspc quit ;;
     $nixbuild) rebuildhm ;;
 esac

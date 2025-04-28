@@ -56,12 +56,30 @@
     font-5 = Font Awesome 6 Brands:pixelsize=15;2
 
     wm-restack     = bspwm
-    modules-left   = bspwm
+    modules-left   = winclose winmax bspwm
     modules-center = xwindow
     modules-right  = memory cpu temperature eth wlan xkeyboard volume battery date email pavucontrol bluetooth htop systemctl-tui ssh files terminal browser apps powermenu
 
     scroll-up = bspc node -f next
     scroll-down = bspc node -f prev
+
+[module/winclose]
+    type = custom/text
+    format-background = ${colors.background}
+    format-frontgroud = ${colors.frontgroud}
+    format-padding = 4
+    format-underline = ${colors.secondary}
+    label = 
+    click-left = bspc node -c
+
+[module/winmax]
+    type = custom/text
+    format-background = ${colors.background}
+    format-frontgroud = ${colors.frontgroud}
+    format-padding = 4
+    format-underline = ${colors.secondary}
+    label = 
+    click-left = bspc node -t fullscreen
 
 [module/systemctl-tui]
     type = custom/text
