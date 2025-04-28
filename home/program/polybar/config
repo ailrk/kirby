@@ -58,10 +58,19 @@
     wm-restack     = bspwm
     modules-left   = bspwm
     modules-center = xwindow
-    modules-right  = memory cpu temperature eth wlan xkeyboard volume battery date email htop ssh files terminal browser apps powermenu
+    modules-right  = memory cpu temperature eth wlan xkeyboard volume battery date email pavucontrol bluetooth htop systemctl-tui ssh files terminal browser apps powermenu
 
     scroll-up = bspc node -f next
     scroll-down = bspc node -f prev
+
+[module/systemctl-tui]
+    type = custom/text
+    format-background = ${colors.background}
+    format-frontgroud = ${colors.frontgroud}
+    format-padding = 4
+    format-underline = ${colors.secondary}
+    label = S
+    click-left = $TERMINAL -e systemctl-tui
 
 [module/htop]
     type = custom/text
@@ -80,6 +89,24 @@
     format-underline = ${colors.secondary}
     label = 
     click-left = ${env:BROWSER}
+
+[module/pavucontrol]
+    type = custom/text
+    format-background = ${colors.background}
+    format-frontgroud = ${colors.frontgroud}
+    format-padding = 4
+    format-underline = ${colors.secondary}
+    label = 
+    click-left = pavucontrol
+
+[module/bluetooth]
+    type = custom/text
+    format-background = ${colors.background}
+    format-frontgroud = ${colors.frontgroud}
+    format-padding = 4
+    format-underline = ${colors.secondary}
+    label = 
+    click-left = blueman-manager
 
 [module/ssh]
     type = custom/text
