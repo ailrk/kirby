@@ -5,6 +5,8 @@
 -- Key bindings
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
+local lspconfig = require'lspconfig'
+local configs = require 'lspconfig.configs'
 
 local function on_attach(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -32,7 +34,7 @@ local function on_attach(client, bufnr)
 end
 
 
-require'lspconfig'.hls.setup{
+lspconfig.hls.setup{
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
@@ -54,7 +56,7 @@ require'lspconfig'.hls.setup{
 }
 
 
-require'lspconfig'.clangd.setup{
+lspconfig.clangd.setup{
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
@@ -66,11 +68,11 @@ require'lspconfig'.clangd.setup{
 
 
 -- nix
-require'lspconfig'.nil_ls.setup{}
+lspconfig.nil_ls.setup{}
 
 
 -- ocaml
-require'lspconfig'.ocamllsp.setup{
+lspconfig.ocamllsp.setup{
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
@@ -79,7 +81,7 @@ require'lspconfig'.ocamllsp.setup{
 
 
 -- elm
-require'lspconfig'.elmls.setup{
+lspconfig.elmls.setup{
     on_attach = on_attach,
     flags = {
         debounce_text_changes = 150,
@@ -90,7 +92,7 @@ require'lspconfig'.elmls.setup{
 }
 
 
-require'lspconfig'.purescriptls.setup{
+lspconfig.purescriptls.setup{
     on_attach = on_attach,
     flags = {
         debounce_text_changes = 150,
@@ -99,7 +101,7 @@ require'lspconfig'.purescriptls.setup{
 
 
 -- racket
-require'lspconfig'.racket_langserver.setup{
+lspconfig.racket_langserver.setup{
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
@@ -109,7 +111,7 @@ require'lspconfig'.racket_langserver.setup{
 
 
 -- lua
-require'lspconfig'.lua_ls.setup {
+lspconfig.lua_ls.setup {
   on_attach = on_attach,
   on_init = function(client)
     if client.workspace_folders then
@@ -144,7 +146,7 @@ require'lspconfig'.lua_ls.setup {
 
 
 -- python
-require'lspconfig'.pyright.setup{
+lspconfig.pyright.setup{
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
@@ -153,7 +155,7 @@ require'lspconfig'.pyright.setup{
 
 
 -- rust
-require'lspconfig'.rust_analyzer.setup{
+lspconfig.rust_analyzer.setup{
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
@@ -170,11 +172,11 @@ require'lspconfig'.rust_analyzer.setup{
 
 
 -- C#
-require'lspconfig'.csharp_ls.setup{}
+lspconfig.csharp_ls.setup{}
 
 
 -- F#
-require'lspconfig'.fsautocomplete.setup{
+lspconfig.fsautocomplete.setup{
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
@@ -183,7 +185,7 @@ require'lspconfig'.fsautocomplete.setup{
 
 
 -- cmake
-require'lspconfig'.cmake.setup{
+lspconfig.cmake.setup{
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
@@ -192,7 +194,7 @@ require'lspconfig'.cmake.setup{
 
 
 -- erlang
-require'lspconfig'.erlangls.setup{
+lspconfig.erlangls.setup{
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
@@ -201,7 +203,7 @@ require'lspconfig'.erlangls.setup{
 
 
 -- typescript
-require'lspconfig'.ts_ls.setup{
+lspconfig.ts_ls.setup{
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
@@ -210,7 +212,7 @@ require'lspconfig'.ts_ls.setup{
 
 
 -- viml
-require'lspconfig'.vimls.setup{
+lspconfig.vimls.setup{
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
@@ -219,7 +221,7 @@ require'lspconfig'.vimls.setup{
 
 
 -- cmake
-require'lspconfig'.cmake.setup{
+lspconfig.cmake.setup{
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
@@ -228,12 +230,27 @@ require'lspconfig'.cmake.setup{
 
 
 -- bash
-require'lspconfig'.bashls.setup{
+lspconfig.bashls.setup{
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
   }
 }
+
+
+
+
+if not configs.lean4 then
+  configs.lean4 = {
+    default_config = {
+      name = 'lean4',
+      cmd = { 'lean', '--server' },
+      root_dir = lspconfig.util.root_pattern("lean-toolchain", "lakefile.lean", ".git"),
+      filetypes = { 'lean' },
+    },
+  }
+end
+lspconfig.lean4.setup {}
 
 
 -------------------------------------------------------------------
