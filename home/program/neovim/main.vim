@@ -214,6 +214,7 @@ augroup set_shiftwidth
   autocmd FileType nix set shiftwidth=2 tabstop=2
   autocmd FileType haskell set shiftwidth=2 tabstop=2
   autocmd FileType just set shiftwidth=2 tabstop=2
+  autocmd FileType lean set shiftwidth=2 tabstop=2
   autocmd FileType markdown set conceallevel=0
   autocmd FileType org set conceallevel=0
 augroup end

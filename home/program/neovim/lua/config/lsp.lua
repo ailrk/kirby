@@ -250,7 +250,9 @@ if not configs.lean4 then
     },
   }
 end
-lspconfig.lean4.setup {}
+lspconfig.lean4.setup {
+  on_attach = on_attach,
+}
 
 
 -------------------------------------------------------------------
