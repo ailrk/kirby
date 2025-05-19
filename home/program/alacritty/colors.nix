@@ -35,7 +35,7 @@
 
   bright = {
     primary = {
-      background = "0xFFFFFF"; # white background
+      background = "0xF5F5F5"; # white background
       foreground = "0x2E3440"; # dark text
       };
 
