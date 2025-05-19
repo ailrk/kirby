@@ -137,9 +137,9 @@ endfun
 command -nargs=0 SynCheckGroup :call SynGroup()<cr>
 
 colorscheme vim-monochrome-waifu
-" colorscheme off
+" colorscheme wildcharm
 
-set background=dark
+set background=light
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Syntax Modification

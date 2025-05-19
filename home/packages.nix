@@ -66,6 +66,7 @@
 
     pkgs.fira-code
     pkgs.paratype-pt-mono
+    pkgs.apl386
     pkgs.crimson-pro
     pkgs.noto-fonts-cjk-sans
     pkgs.noto-fonts-cjk-serif

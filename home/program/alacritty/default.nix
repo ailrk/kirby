@@ -33,10 +33,11 @@ in
           };
 
           font = {
-            size = 21;
-            normal.family = "PT Mono";
-            bold.family = "PT Mono";
-            italic.family = "PT Mono";
+            offset.x = -1;
+            size = 20;
+            normal.family = "APL386 Unicode";
+            bold.family = "APL386 Unicode";
+            italic.family = "APL386 Unicode";
           };
 
           cursor.style = "Beam";
@@ -45,7 +46,7 @@ in
             program = "fish";
           };
 
-          colors = (import ./colors.nix).dark;
+          colors = (import ./colors.nix).bright;
         })
         cfg.settingOverrides;
     };
