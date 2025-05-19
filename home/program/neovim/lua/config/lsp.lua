@@ -268,4 +268,11 @@ vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handle
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 
 
+-- Set border for diagnostic float
+vim.diagnostic.config({
+  float = {
+    border = "rounded",
+  },
+})
+
 return {}
