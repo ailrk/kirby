@@ -136,10 +136,6 @@ endfun
 " check current syntax group
 command -nargs=0 SynCheckGroup :call SynGroup()<cr>
 
-colorscheme vim-monochrome-waifu
-" colorscheme wildcharm
-
-set background=light
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Syntax Modification

@@ -9,7 +9,7 @@ let
     "screenshot" = ./screenshot;
     "volume" = ./volume;
     "unnix" = ./unnix;
-    "xlsjson" = ./xlsjson;
+    "colormode" = ./colormode;
     "rebuildhm" = ./rebuildhm;
   };
 

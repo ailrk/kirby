@@ -72,6 +72,7 @@ require("config.lsp")
 require("config.mappings")
 require("config.mini")
 require("config.telescope")
+require('config.theme')
 require("config.treesitter")
 
 
@@ -86,3 +87,6 @@ vim.keymap.set("n", "<space>o", require('tools.uri-picker').pick_links_from_floa
 
 -- Message to Buffer
 vim.api.nvim_create_user_command("LiveMessagesToggle", require('tools.live-messages').toggleLiveMessages, { desc = "Show :messages in a scratch buffer"})
+
+
+-- theme

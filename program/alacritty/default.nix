@@ -3,6 +3,8 @@ with
 lib;
 let
   cfg = config.kirby.program.alacritty;
+  colors = import ./colors.nix;
+
 in
 {
   options.kirby.program.alacritty = {
@@ -12,6 +14,10 @@ in
       type = types.attrs;
       default = { };
       description = "Override the kirby default config";
+    };
+
+    colorMode = mkOption {
+      type = types.enum ["dark" "light"];
     };
   };
 
@@ -46,7 +52,10 @@ in
             program = "fish";
           };
 
-          colors = (import ./colors.nix).bright;
+          colors =
+            if cfg.colorMode == "dark"
+            then colors.dark
+            else colors.bright;
         })
         cfg.settingOverrides;
     };

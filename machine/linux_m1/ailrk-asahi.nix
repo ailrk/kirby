@@ -1,14 +1,22 @@
 # ailrk-asahi
 { config, lib, pkgs, ... }:
 with lib;
+let
+  cfg = config.kirby.home.linux_m1.ailrk_asahi;
+in
 {
   imports = [
-    ../program/linux.nix
-    ../service/default.nix
+    ../../program/linux.nix
+    ../../service/default.nix
   ];
 
   options.kirby.home.linux_m1.ailrk_asahi = {
     enable  = mkEnableOption "Set user as a ailrk-asahi";
+    colorMode = mkOption {
+      type = types.enum ["dark" "light"];
+      default = "dark";
+      description = "color mode of the system";
+    };
   };
 
   config = mkIf config.kirby.home.linux_m1.ailrk_asahi.enable {
@@ -34,8 +42,14 @@ with lib;
         compton.enable = true;
         sxhkd.enable = true;
         dunst.enable = true;
-        alacritty.enable = true;
-        polybar.enable = true;
+        alacritty = {
+          enable = true;
+          colorMode = cfg.colorMode;
+        };
+        polybar = {
+          enable = true;
+          colorMode = cfg.colorMode;
+        };
         scripts.enable = true;
         nmap.enable = true;
         zsh.enable = true;
@@ -56,16 +70,9 @@ with lib;
           pkgs.libGL
           pkgs.libgcc
           pkgs.gtk4
-
-          # haskell
-          # pkgs.ghc
-          # pkgs.haskell-language-server
-          # pkgs.ghciwatch
-          # pkgs.cabal-install
-
           pkgs.xdg-desktop-portal
           pkgs.chromium
-        ] ++ pkgs.callPackage ../packages.nix {};
+        ] ++ pkgs.callPackage ../../packages.nix {};
 
 
     home.file = {

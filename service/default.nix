@@ -3,4 +3,3 @@
     ./ollama.nix
   ];
 }
-

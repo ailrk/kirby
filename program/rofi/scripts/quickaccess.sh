@@ -9,12 +9,13 @@ Audio=" audio"
 Htop="H htop"
 Systemd="S systemd"
 Bluetooth=" bluetooth"
-Launcher=" Launcher"
-Nixbuild=" Nix Build"
+Launcher=" launcher"
+ToggleTheme=" toggle theme"
+Nixbuild=" nix Build"
 
 
 # Variable passed to rofi
-options="$Chrome\n$Terminal\n$Filemanager\n$Audio\n$Bluetooth\n$Htop\n$Systemd\n$Launcher\n$Nixbuild"
+options="$Chrome\n$Terminal\n$Filemanager\n$Audio\n$Bluetooth\n$Htop\n$Systemd\n$Launcher\n$ToggleTheme\n$Nixbuild"
 
 chosen="$(echo -e "$options" | $rofi_command -p "Quick Access" -dmenu -selected-row 0)"
 case $chosen in
@@ -33,5 +34,6 @@ case $chosen in
     "$Systemd") $TERMINAL -e systemctl-tui ;;
     "$Bluetooth") blueman-manager ;;
     "$Launcher") launcher.sh drun ;;
+    "$ToggleTheme") colormode ;;
     "$Nixbuild") rebuildhm ;;
 esac

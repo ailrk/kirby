@@ -12,17 +12,17 @@ ismute(){
 case $1 in
     up)
         amixer sset Master 5%+ > /dev/null
-        dunstify -t 1000 -r $ID "Volume: `getvol`"
+        dunstify -t 1000 -r $ID "Volume: $(getvol)"
         ;;
     down)
         amixer sset Master 5%- > /dev/null
-        dunstify -t 1000 -r $ID "Volume: `getvol`"
+        dunstify -t 1000 -r $ID "Volume: $(getvol)"
         ;;
     mute)
         amixer -D pulse set Master 1+ toggle > /dev/null
         if ismute; then
             dunstify -t 1000 -r $ID "Volume: muted"
         else
-            dunstify -t 1000 -r $ID "Volume: `getvol`"
+          dunstify -t 1000 -r $ID "Volume: $(getvol)"
         fi
 esac

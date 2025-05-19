@@ -1,14 +1,22 @@
 # fatmonad
 { config, lib, pkgs, ... }:
 with lib;
+let
+  cfg = config.kirby.home.linux_x86.fatmonad;
+in
 {
   imports = [
-    ../program/linux.nix
-    ../service/default.nix
+    ../../program/linux.nix
+    ../../service/default.nix
   ];
 
   options.kirby.home.linux_x86.fatmonad = {
-    enable  = mkEnableOption "Set user as a fatmonad";
+    enable = mkEnableOption "Set user as a fatmonad";
+    colorMode = mkOption {
+      type = types.enum ["dark" "light"];
+      default = "dark";
+      description = "color mode of the system";
+    };
   };
 
   config = mkIf config.kirby.home.linux_x86.fatmonad.enable {
@@ -31,10 +39,16 @@ with lib;
         tmux.enable = true;
         bspwm.enable = true;
         compton.enable = true;
-        polybar.enable = true;
+        polybar = {
+          enable = true;
+          colorMode = cfg.colorMode;
+        };
         sxhkd.enable = true;
         dunst.enable = true;
-        alacritty.enable = true;
+        alacritty = {
+          enable = true;
+          colorMode = cfg.colorMode;
+        };
         scripts.enable = true;
         xconfig.enable = true;
         rofi.enable = true;
@@ -98,7 +112,7 @@ with lib;
           pkgs.tdesktop
           pkgs.discord
           pkgs.aseprite
-        ] ++ pkgs.callPackage ../packages.nix {};
+        ] ++ pkgs.callPackage ../../packages.nix {};
 
 
       file = {

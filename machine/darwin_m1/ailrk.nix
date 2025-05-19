@@ -3,12 +3,17 @@
 with lib;
 {
   imports = [
-    ../program/darwin.nix
-    ../service/default.nix
+    ../../program/darwin.nix
+    ../../service/default.nix
   ];
 
   options.kirby.home.darwin_m1.ailrk = {
     enable  = mkEnableOption "Set user as a ailrk";
+    colorMode = mkOption {
+      type = types.enum ["dark" "light"];
+      default = "dark";
+      description = "color mode of the system";
+    };
   };
 
   config = mkIf config.kirby.home.darwin_m1.ailrk.enable {

@@ -1,31 +1,4 @@
-[colors]
-    red1           = ${xrdb:color1}
-    red2           = ${xrdb:color9}
-
-    green1         = ${xrdb:color2}
-    green2         = ${xrdb:color10}
-
-    yellow1        = ${xrdb:color3}
-    yellow2        = ${xrdb:color11}
-
-    blue1          = ${xrdb:color4}
-    blue2          = ${xrdb:color12}
-
-    magenta1       = ${xrdb:color5}
-    magenta2       = ${xrdb:color13}
-
-    cyan1          = ${xrdb:color6}
-    cyan2          = ${xrdb:color14}
-
-    background     = #e82f343f
-    background-alt = #ee2f343f
-    foreground     = ${xrdb:foreground}
-    foreground-alt = ${xrdb:foreground}
-
-    primary        = #81a1c1
-    secondary      = #d8dee9
-    alert          = #bd2c40
-    col            = #00f
+include-file = ~/.config/polybar/colors.ini
 
 [bar/main]
     monitor = ${env:MONITOR:}
