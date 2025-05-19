@@ -48,7 +48,7 @@
         black   = "0xD8DEE9"; # light grey
         red     = "0xBF616A"; # soft red
         green   = "0x88A46F"; # soft green
-        yellow  = "0xD08770"; # muted orange
+        yellow  = "0xC4A000"; # muted orange
         blue    = "0x4C6E91"; # soft blue
         magenta = "0xB48EAD"; # soft purple
         cyan    = "0x3A9FBF"; # soft cyan
@@ -59,7 +59,7 @@
         black   = "0xD8DEE9";
         red     = "0xD57780";
         green   = "0xB4D087";
-        yellow  = "0xEBCB8B";
+        yellow  = "0xC4A000";
         blue    = "0x4C6E91";
         magenta = "0xC895BF";
         cyan    = "0x2E8B94";
