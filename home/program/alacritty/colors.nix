@@ -49,20 +49,20 @@
         red     = "0xBF616A"; # soft red
         green   = "0x88A46F"; # soft green
         yellow  = "0xD08770"; # muted orange
-        blue    = "0x5E81AC"; # soft blue
+        blue    = "0x4C6E91"; # soft blue
         magenta = "0xB48EAD"; # soft purple
-        cyan    = "0x88C0D0"; # soft cyan
+        cyan    = "0x3A9FBF"; # soft cyan
         white   = "0x2E3440"; # dark for light themes
       };
 
       bright = {
-        black   = "0xE5E9F0";
+        black   = "0xD8DEE9";
         red     = "0xD57780";
         green   = "0xB4D087";
         yellow  = "0xEBCB8B";
-        blue    = "0x81A1C1";
+        blue    = "0x4C6E91";
         magenta = "0xC895BF";
-        cyan    = "0x8FBCBB";
+        cyan    = "0x2E8B94";
         white   = "0x000000";
       };
     };
