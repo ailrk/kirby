@@ -220,3 +220,4 @@ augroup end
 " Automatically remove trailing space
 "
 autocmd BufWritePre * :%s/\s\+$//e
+autocmd FileType make setlocal noexpandtab tabstop=8 shiftwidth=8 softtabstop=0
