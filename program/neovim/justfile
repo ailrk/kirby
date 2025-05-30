@@ -8,6 +8,10 @@
 # position so you can edit easily.
 # Once done editing, run it again to swap it back.
 
+default:
+  @just --list
+
+
 # Toggle edit mode
 switch:
   #!/usr/bin/env bash

@@ -31,7 +31,6 @@ require('packer').startup(function(use)
     use {'SirVer/ultisnips'}
     use {'triglav/vim-visual-increment'}
     use {'preservim/nerdtree'}
-    use {'LintaoAmons/scratch.nvim'}
 
     -- languages
     use {'PhilT/vim-fsharp'}
@@ -76,9 +75,8 @@ require('config.theme')
 require("config.treesitter")
 
 
--- scratch.nvim
-vim.keymap.set("n", "<leader>ss", "<cmd>Scratch<cr>")
-vim.keymap.set("n", "<leader>sf", "<cmd>ScratchOpenFzf<cr>")
+-- Setup command
+vim.api.nvim_create_user_command("AuditOpen", require('tools.audit').audit_open, {})
 
 
 -- URI picker on floating window
