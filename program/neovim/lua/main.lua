@@ -5,9 +5,7 @@
 local execute = vim.api.nvim_command
 do
     local fn = vim.fn
-    local install_path = fn.stdpath('data') ..
-                             '/site/pack/packer/start/packer.nvim'
-
+    local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
     if fn.empty(fn.glob(install_path)) > 0 then
         fn.system {
             'git', 'clone', 'https://github.com/wbthomason/packer.nvim',
@@ -77,6 +75,7 @@ require("config.treesitter")
 
 -- Setup command
 vim.api.nvim_create_user_command("AuditOpen", require('tools.audit').audit_open, {})
+vim.keymap.set("n", "<space>A", require('tools.audit').audit_open)
 
 
 -- URI picker on floating window
