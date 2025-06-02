@@ -130,17 +130,11 @@ alt + space
 shift + alt + space
     launcher.sh window
 
-alt + p
-    powermenu.sh
-
 alt + shift + 3
     screenshot full
 
 alt + shift + 4
     screenshot sel
-
-alt + shift + 4 + space
-    screenshot win
 
 # open browser
 super + B

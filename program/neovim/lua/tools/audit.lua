@@ -20,20 +20,13 @@ local function get_git_root()
   return result[1]
 end
 
-local function get_git_rev()
-  local result = vim.fn.systemlist("git rev-parse --short HEAD")
-  if vim.v.shell_error ~= 0 then return nil end
-  return result[1]
-end
-
 local function get_today()
   return os.date("%Y-%m-%d")
 end
 
 local function audit_log_path(dir)
   local date = get_today()
-  local rev = get_git_rev()
-  local filename = string.format("%s/%s-%s.log", dir, date, rev)
+  local filename = string.format("%s/%s.log", dir, date)
   return filename
 end
 
