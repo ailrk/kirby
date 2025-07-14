@@ -24,7 +24,7 @@ in
     xdg.configFile."polybar/colors.ini".source =
       if cfg.colorMode == "dark"
       then ./colors-dark.ini
-      else ./colors-light.ini;
+      else ./colors-dark.ini;
     xdg.configFile."polybar/config".source = ./config;
   };
 }
