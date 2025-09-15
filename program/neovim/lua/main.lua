@@ -29,6 +29,7 @@ require('packer').startup(function(use)
     use {'SirVer/ultisnips'}
     use {'triglav/vim-visual-increment'}
     use {'preservim/nerdtree'}
+    use {'godlygeek/tabular'}
 
     -- languages
     use {'PhilT/vim-fsharp'}
@@ -86,4 +87,10 @@ vim.keymap.set("n", "<space>o", require('tools.uri-picker').pick_links_from_floa
 vim.api.nvim_create_user_command("LiveMessagesToggle", require('tools.live-messages').toggleLiveMessages, { desc = "Show :messages in a scratch buffer"})
 
 
--- theme
+-- Tabularize config
+vim.cmd [[
+  AddTabularPattern! 1::   /^[^::]*\zs::
+  AddTabularPattern! 1:    /^[^:]*\zs:
+  AddTabularPattern! 1=    /^[^=]*\zs=
+  AddTabularPattern! 1==   /^[^=]*\zs=/r0c0l0
+]]
