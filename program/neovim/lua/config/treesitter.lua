@@ -7,13 +7,21 @@ require'nvim-treesitter.configs'.setup {
     "query",
     "markdown",
     "markdown_inline",
+    "yaml",
+    "nix",
+    "toml",
+    "html",
     "rust",
+    "haskell",
     "python"
   },
   sync_install = false,
   auto_install = true,
   highlight = {
-    enable = false,
+    enable = true,
+    disable = function(lang, _)
+      return lang ~= "nix"  -- disable for all languages except nix
+    end,
     additional_vim_regex_highlighting = false,
   },
   incremental_selection = {

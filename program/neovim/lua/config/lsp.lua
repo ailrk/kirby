@@ -68,7 +68,16 @@ lspconfig.clangd.setup{
 
 
 -- nix
-lspconfig.nil_ls.setup{}
+lspconfig.nixd.setup{
+  cmd = { 'nixd' },
+  settings = {
+    nixd = {
+      nixpkgs = {
+        expr = "import <nixpkgs> {}",
+      },
+    }
+  }
+}
 
 
 -- ocaml
