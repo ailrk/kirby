@@ -48,7 +48,7 @@
     # langs
     pkgs.valgrind
     pkgs.gnumake
-    pkgs.nil
+    pkgs.nixd
     pkgs.nodePackages.bash-language-server
     pkgs.nodePackages.typescript-language-server
     pkgs.cmake

@@ -112,6 +112,7 @@ in
           pkgs.tdesktop
           pkgs.discord
           pkgs.aseprite
+          pkgs.tiled
         ] ++ pkgs.callPackage ../../packages.nix {};
 
 
