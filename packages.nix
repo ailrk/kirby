@@ -37,6 +37,7 @@
     pkgs.bandwhich
     pkgs.binsider
     pkgs.nix-inspect
+    pkgs.openssl
 
     pkgs.any-nix-shell
     pkgs.nixfmt-rfc-style

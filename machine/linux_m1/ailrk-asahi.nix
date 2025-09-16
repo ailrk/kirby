@@ -72,6 +72,8 @@ in
           pkgs.gtk4
           pkgs.xdg-desktop-portal
           pkgs.chromium
+          pkgs.aseprite
+          pkgs.tiled
         ] ++ pkgs.callPackage ../../packages.nix {};
 
 

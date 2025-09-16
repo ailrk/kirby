@@ -59,7 +59,6 @@ require('packer').startup(function(use)
 
     -- color scheme
     use {'ailrk/vim-monochrome-waifu'}
-    use {'morhetz/gruvbox'}
     use {'kristijanhusak/vim-carbon-now-sh'}
 end)
 
