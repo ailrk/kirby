@@ -29,15 +29,7 @@ require('packer').startup(function(use)
     use {'SirVer/ultisnips'}
     use {'triglav/vim-visual-increment'}
     use {'preservim/nerdtree'}
-    use {
-        'godlygeek/tabular',
-        config = [[
-            AddTabularPattern 1::   /^[^::]*\zs::
-            AddTabularPattern 1:    /^[^:]*\zs:
-            AddTabularPattern 1=    /^[^=]*\zs=
-            AddTabularPattern 1==   /^[^=]*\zs=/r0c0l0
-        ]]
-    }
+    use { 'godlygeek/tabular'}
     -- languages
     use {'PhilT/vim-fsharp'}
     use {'leafgarland/typescript-vim'}
@@ -46,6 +38,7 @@ require('packer').startup(function(use)
     use {'mattn/emmet-vim'}
     use {'purescript-contrib/purescript-vim'}
     use {'neovimhaskell/haskell-vim'}
+    use {'junegunn/goyo.vim'}
     use {'plasticboy/vim-markdown'}
     use {'jez/vim-better-sml'}
     use {'https://github.com/LnL7/vim-nix'}

@@ -63,8 +63,8 @@ in
       #pane resize
       bind -r H resize-pane -L 20
       bind -r L resize-pane -R 20
-      # bind -r C-p resize-pane -D 200
-      # bind -r C-o resize-pane -U 15
+      bind -r J resize-pane -D 10
+      bind -r K resize-pane -U 10
 
       # toggle fuillscreen
       bind -r C-Space resize-pane -Z
