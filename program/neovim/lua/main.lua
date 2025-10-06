@@ -38,6 +38,7 @@ require('packer').startup(function(use)
     use {'mattn/emmet-vim'}
     use {'purescript-contrib/purescript-vim'}
     use {'neovimhaskell/haskell-vim'}
+    use {'zoomlogo/vim-apl'}
     use {'junegunn/goyo.vim'}
     use {'plasticboy/vim-markdown'}
     use {'jez/vim-better-sml'}
