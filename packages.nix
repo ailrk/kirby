@@ -71,6 +71,8 @@
     pkgs.crimson-pro
     pkgs.noto-fonts-cjk-sans
     pkgs.noto-fonts-cjk-serif
+    pkgs.noto-fonts
+    pkgs.noto-fonts-emoji
     pkgs.font-awesome
     pkgs.wqy_microhei
     pkgs.liberation_ttf_v1
