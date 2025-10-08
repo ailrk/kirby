@@ -64,7 +64,6 @@
     pkgs.lua-language-server
     pkgs.python312Packages.ipython
     pkgs.pyright
-    (pkgs.dyalog.override { acceptLicense = true; })
 
     pkgs.fira-code
     pkgs.paratype-pt-mono
