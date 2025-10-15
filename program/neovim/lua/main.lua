@@ -29,7 +29,7 @@ require('packer').startup(function(use)
     use {'SirVer/ultisnips'}
     use {'triglav/vim-visual-increment'}
     use {'preservim/nerdtree'}
-    use { 'godlygeek/tabular'}
+    use {'godlygeek/tabular'}
     -- languages
     use {'PhilT/vim-fsharp'}
     use {'leafgarland/typescript-vim'}
@@ -55,13 +55,13 @@ require('packer').startup(function(use)
     use {'nvim-lua/plenary.nvim'}
     use {'neovim/nvim-lspconfig'}
     use {'neovim/nvim-lsp'}
+    use {'folke/trouble.nvim'}
     use {'RishabhRD/popfix'}
     use {'RishabhRD/nvim-lsputils'}
     use {'echasnovski/mini.nvim'}
 
     -- color scheme
     use {'ailrk/vim-monochrome-waifu'}
-    use {'morhetz/gruvbox'}
     use {'kristijanhusak/vim-carbon-now-sh'}
 end)
 
@@ -73,7 +73,6 @@ require("config.mini")
 require("config.telescope")
 require('config.theme')
 require("config.treesitter")
-
 
 -- Setup command
 vim.api.nvim_create_user_command("AuditOpen", require('tools.audit').audit_open, {})

@@ -37,6 +37,7 @@
     pkgs.bandwhich
     pkgs.binsider
     pkgs.nix-inspect
+    pkgs.openssl
 
     pkgs.any-nix-shell
     pkgs.nixfmt-rfc-style
@@ -63,7 +64,6 @@
     pkgs.lua-language-server
     pkgs.python312Packages.ipython
     pkgs.pyright
-    (pkgs.dyalog.override { acceptLicense = true; })
 
     pkgs.fira-code
     pkgs.paratype-pt-mono
@@ -71,6 +71,8 @@
     pkgs.crimson-pro
     pkgs.noto-fonts-cjk-sans
     pkgs.noto-fonts-cjk-serif
+    pkgs.noto-fonts
+    pkgs.noto-fonts-emoji
     pkgs.font-awesome
     pkgs.wqy_microhei
     pkgs.liberation_ttf_v1
