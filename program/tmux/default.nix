@@ -50,7 +50,7 @@ in
       bind -r C-l select-pane -R
 
       ## # kill pane
-      ## bind "|" kill-pane
+      ## bind "|" killpane
       ## bind "6|" kill-session
 
       ## find session
@@ -79,10 +79,9 @@ in
       setw -g mode-keys vi
       bind z copy-mode
       bind-key -T copy-mode-vi 'v' send -X begin-selection
-      bind-key -T copy-mode-vi 'r' send -X rectangle-tggle
-      bind-key -T copy-mode-vi 'y' send -X copy-pipe-and-cancel
+      bind-key -T copy-mode-vi 'r' send -X rectangle-toggle
+      bind-key -T copy-mode-vi y send-keys -X copy-selection
       unbind-key -T copy-mode-vi MouseDragEnd1Pane
-
 
       # buffers
       bind b list-buffers
