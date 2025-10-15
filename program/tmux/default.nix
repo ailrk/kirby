@@ -81,6 +81,8 @@ in
       bind-key -T copy-mode-vi 'v' send -X begin-selection
       bind-key -T copy-mode-vi 'r' send -X rectangle-tggle
       bind-key -T copy-mode-vi 'y' send -X copy-pipe-and-cancel
+      unbind-key -T copy-mode-vi MouseDragEnd1Pane
+
 
       # buffers
       bind b list-buffers
