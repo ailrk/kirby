@@ -80,7 +80,18 @@ vim.keymap.set("n", "<space>A", require('tools.audit').audit_open)
 
 
 -- URI picker on floating window
-vim.keymap.set("n", "<space>o", require('tools.uri-picker').pick_links_from_float, { desc = "Pick & open link from LSP hover" })
+vim.keymap.set("n", "<space>o", require('tools.picker-uri').picker, { desc = "Pick & open link from LSP hover" })
+
+
+vim.keymap.set("n", "<space>ml", require('tools.picker-md-links').picker, { desc = "Markdown links" })
+
+
+-- vim.keymap.set("n", "<space>ml",
+--   function()
+--     vim.cmd("vimgrep /\\[[^]]\\{-}\\]([^)]\\{-})/ %")
+--     require("telescope.builtin").quickfix({ prompt_title = "Mardown Links", })
+--   end, { desc = "Vimgrep markdown links" }
+-- )
 
 
 -- Message to Buffer

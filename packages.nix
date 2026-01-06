@@ -90,6 +90,7 @@
 
     pkgs.pinta
     pkgs.ibus
+    pkgs.ibus-engines.pinyin
     pkgs.gnome.nautilus
     pkgs.libsForQt5.qt5.qttools
     pkgs.wireshark-qt
