@@ -2,7 +2,6 @@ local M = {}
 
 -- Function to pick and open links from the floating window
 M.picker = function()
-  -- Get the current buffer's content
   local bufnr = vim.api.nvim_get_current_buf()
   local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
 
