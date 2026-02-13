@@ -47,6 +47,7 @@ require('packer').startup(function(use)
     use {'NoahTheDuke/vim-just'}
     use {'nvim-treesitter/nvim-treesitter'}
     use {'nvim-treesitter/nvim-treesitter-textobjects'}
+    use { '~/repo/telescope-context.nvim' }
 
     -- nvim
     use {'nvim-telescope/telescope.nvim'}
@@ -96,3 +97,9 @@ vim.keymap.set("n", "<space>ml", require('tools.picker-md-links').picker, { desc
 
 -- Message to Buffer
 vim.api.nvim_create_user_command("LiveMessagesToggle", require('tools.live-messages').toggleLiveMessages, { desc = "Show :messages in a scratch buffer"})
+
+
+-- CTAGS
+
+vim.opt.tags = "./tags/tags;,tags/tags;,"
+
