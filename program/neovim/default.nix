@@ -23,6 +23,5 @@ in
     xdg.configFile."nvim/lua".source = ./lua;
 
     nixpkgs.overlays = if cfg.nightly then [ nightly ] else [];
-
   };
 }

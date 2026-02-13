@@ -47,13 +47,13 @@ require('packer').startup(function(use)
     use {'NoahTheDuke/vim-just'}
     use {'nvim-treesitter/nvim-treesitter'}
     use {'nvim-treesitter/nvim-treesitter-textobjects'}
-    use {'ailrk/telescope-context.nvim'}
 
     -- nvim
+    use {'nvim-lua/plenary.nvim'}
     use {'nvim-telescope/telescope.nvim'}
     use {'nvim-telescope/telescope-ui-select.nvim' }
+    use {'ailrk/telescope-context.nvim'}
     use {'rmagatti/auto-session'}
-    use {'nvim-lua/plenary.nvim'}
     use {'neovim/nvim-lspconfig'}
     use {'neovim/nvim-lsp'}
     use {'folke/trouble.nvim'}
@@ -85,14 +85,6 @@ vim.keymap.set("n", "<space>o", require('tools.picker-uri').picker, { desc = "Pi
 
 
 vim.keymap.set("n", "<space>ml", require('tools.picker-md-links').picker, { desc = "Markdown links" })
-
-
--- vim.keymap.set("n", "<space>ml",
---   function()
---     vim.cmd("vimgrep /\\[[^]]\\{-}\\]([^)]\\{-})/ %")
---     require("telescope.builtin").quickfix({ prompt_title = "Mardown Links", })
---   end, { desc = "Vimgrep markdown links" }
--- )
 
 
 -- Message to Buffer
