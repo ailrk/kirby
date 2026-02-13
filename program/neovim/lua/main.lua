@@ -96,3 +96,6 @@ vim.keymap.set("n", "<space>ml", require('tools.picker-md-links').picker, { desc
 
 -- Message to Buffer
 vim.api.nvim_create_user_command("LiveMessagesToggle", require('tools.live-messages').toggleLiveMessages, { desc = "Show :messages in a scratch buffer"})
+
+
+vim.opt.tags = "./tags/tags;,tags/tags;,"
