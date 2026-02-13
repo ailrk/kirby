@@ -69,8 +69,9 @@ in
     };
 
     i18n.inputMethod = {
-      enabled = "fcitx5";
-      fcitx5.addons = with pkgs; with pkgs.fcitx5; [ fcitx5-rime fcitx5-mozc fcitx5-gtk fcitx5-chinese-addons ];
+      enable = true;
+      type = "fcitx5";
+      fcitx5.addons = with pkgs; with pkgs.fcitx5; [ fcitx5-rime fcitx5-mozc fcitx5-gtk qt6Packages.fcitx5-chinese-addons ];
     };
 
   # Make sure check .local/share/applications/mimeinfo.cache
@@ -109,7 +110,7 @@ in
           pkgs.google-chrome
           pkgs.muse
           pkgs.blender
-          pkgs.tdesktop
+          pkgs.telegram-desktop
           pkgs.discord
           pkgs.aseprite
           pkgs.tiled

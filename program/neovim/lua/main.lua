@@ -52,10 +52,9 @@ require('packer').startup(function(use)
     use {'nvim-lua/plenary.nvim'}
     use {'nvim-telescope/telescope.nvim'}
     use {'nvim-telescope/telescope-ui-select.nvim' }
+    use {'neovim/nvim-lsp'}
     use {'ailrk/telescope-context.nvim'}
     use {'rmagatti/auto-session'}
-    use {'neovim/nvim-lspconfig'}
-    use {'neovim/nvim-lsp'}
     use {'folke/trouble.nvim'}
     use {'RishabhRD/popfix'}
     use {'RishabhRD/nvim-lsputils'}
@@ -91,5 +90,5 @@ vim.keymap.set("n", "<space>ml", require('tools.picker-md-links').picker, { desc
 vim.api.nvim_create_user_command("LiveMessagesToggle", require('tools.live-messages').toggleLiveMessages, { desc = "Show :messages in a scratch buffer"})
 
 
--- CTAGS
 vim.opt.tags = "./tags/tags;,tags/tags;,"
+vim.o.winborder = 'rounded'

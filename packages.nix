@@ -72,7 +72,7 @@
     pkgs.noto-fonts-cjk-sans
     pkgs.noto-fonts-cjk-serif
     pkgs.noto-fonts
-    pkgs.noto-fonts-emoji
+    pkgs.noto-fonts-color-emoji
     pkgs.font-awesome
     pkgs.wqy_microhei
     pkgs.liberation_ttf_v1
@@ -84,14 +84,14 @@
     pkgs.xdotool
     pkgs.xtitle
     pkgs.xdo
-    pkgs.pinentry
+    pkgs.pinentry-curses
     pkgs.xclip
     pkgs.scrot
 
     pkgs.pinta
     pkgs.ibus
     pkgs.ibus-engines.pinyin
-    pkgs.gnome.nautilus
+    pkgs.nautilus
     pkgs.libsForQt5.qt5.qttools
     pkgs.wireshark-qt
     pkgs.xournalpp
@@ -99,5 +99,4 @@
     pkgs.mupdf
     pkgs.zathura
     pkgs.font-manager
-    pkgs.libsForQt5.filelight
   ]

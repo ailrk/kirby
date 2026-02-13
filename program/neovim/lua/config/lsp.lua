@@ -2,48 +2,45 @@
 -- NVIM LSP
 -- General nvim lsp config
 
--- Key bindings
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local lspconfig = require'lspconfig'
-local configs = require 'lspconfig.configs'
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(ev)
+    local opts = { buffer = ev.buf, noremap = true, silent = true }
 
-local function on_attach(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  -- local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-  -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc') -- <c-x><c-o>
-  local opts = { noremap=true, silent=true }           -- Mappings.
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gn', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts) buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', '[c', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']c', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>cq', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>vim.diagnostic.open_float()<CR>', opts)
-  buf_set_keymap("n", "<space>l", "<cmd>lua vim.lsp.codelens.run()<CR>", opts)
-  buf_set_keymap("n", "<space>cr", "<cmd>lua vim.lsp.codelens.refresh()<CR>", opts)
-end
+    -- Definitions & Navigation
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gn', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
 
+    -- Workspace Folders
+    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    vim.keymap.set('n', '<space>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, opts)
 
-lspconfig.hls.setup{
-  on_attach = on_attach,
-  flags = {
-      debounce_text_changes = 150,
-  },
-  filetypes = {
-    "hs",
-    "lhs",
-    "haskell"
-  },
+    -- Refactoring & Actions
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', '<space>a', vim.lsp.buf.code_action, opts)
+
+    -- Diagnostics
+    vim.keymap.set('n', '[c', vim.diagnostic.goto_prev, opts)
+    vim.keymap.set('n', ']c', vim.diagnostic.goto_next, opts)
+    vim.keymap.set('n', '<space>cq', vim.diagnostic.setloclist, opts)
+    vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+
+    -- Codelens
+    vim.keymap.set("n", "<space>l", vim.lsp.codelens.run, opts)
+    vim.keymap.set("n", "<space>cr", vim.lsp.codelens.refresh, opts)
+  end,
+})
+
+-- Haskell
+vim.lsp.config('hls', {
+  filetypes = { "hs", "lhs", "haskell" },
   settings = {
     haskell = {
       formattingProvider = "stylish-haskell",
@@ -53,236 +50,76 @@ lspconfig.hls.setup{
       formatOnImportOn = true
     },
   }
-}
+})
 
-
-lspconfig.clangd.setup{
-  on_attach = on_attach,
-  flags = {
-      debounce_text_changes = 150,
-  },
-  filetypes = {
-    "c", "cpp", "objc", "objcpp"
-  }
-}
-
-
--- nix
-lspconfig.nixd.setup{
-  cmd = { 'nixd' },
-  settings = {
-    nixd = {
-      nixpkgs = {
-        expr = "import <nixpkgs> {}",
-      },
-    }
-  }
-}
-
-
--- ocaml
-lspconfig.ocamllsp.setup{
-  on_attach = on_attach,
-  flags = {
-      debounce_text_changes = 150,
-  }
-}
-
-
--- elm
-lspconfig.elmls.setup{
-    on_attach = on_attach,
-    flags = {
-        debounce_text_changes = 150,
-    },
-    settings = {
-
-    }
-}
-
-
-lspconfig.purescriptls.setup{
-    on_attach = on_attach,
-    flags = {
-        debounce_text_changes = 150,
-    },
-}
-
-
--- racket
-lspconfig.racket_langserver.setup{
-  on_attach = on_attach,
-  flags = {
-      debounce_text_changes = 150,
-  },
-  cmd = { "racket", "--lib", "racket-langserver" }
-}
-
-
--- lua
-lspconfig.lua_ls.setup {
-  on_attach = on_attach,
-  on_init = function(client)
-    if client.workspace_folders then
-      local path = client.workspace_folders[1].name
-      if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
-        return
-      end
-    end
-
-    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-      runtime = {
-        version = 'LuaJIT'
-      },
-      -- Make the server aware of Neovim runtime files
-      workspace = {
-        checkThirdParty = false,
-        library = {
-          vim.env.VIMRUNTIME,
-          "${3rd}/luv/library",
-          "${3rd}/busted/library",
-        }
-        -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
-        -- library = vim.api.nvim_get_runtime_file("", true)
-      }
-    })
-  end,
-
-  settings = {
-    Lua = {}
-  }
-}
-
-
--- python
-lspconfig.pyright.setup{
-  on_attach = on_attach,
-  flags = {
-      debounce_text_changes = 150,
-  },
-}
-
-
--- rust
-lspconfig.rust_analyzer.setup{
-  on_attach = on_attach,
-  flags = {
-      debounce_text_changes = 150,
-  },
+-- Rust
+vim.lsp.config('rust_analyzer', {
   cmd = {"rust-analyzer"},
   settings = {
     ['rust-analyzer'] = {
-        check = {
-            ignore = { "dead_code" }
-        }
-    },
-  },
-}
-
-
--- C#
-lspconfig.csharp_ls.setup{}
-
-
--- F#
-lspconfig.fsautocomplete.setup{
-  on_attach = on_attach,
-  flags = {
-      debounce_text_changes = 150,
+      check = { ignore = { "dead_code" } }
+    }
   }
-}
-
-
--- cmake
-lspconfig.cmake.setup{
-  on_attach = on_attach,
-  flags = {
-      debounce_text_changes = 150,
-  }
-}
-
-
--- erlang
-lspconfig.erlangls.setup{
-  on_attach = on_attach,
-  flags = {
-      debounce_text_changes = 150,
-  }
-}
-
-
--- typescript
-lspconfig.ts_ls.setup{
-  on_attach = on_attach,
-  flags = {
-      debounce_text_changes = 150,
-  }
-}
-
-
--- viml
-lspconfig.vimls.setup{
-  on_attach = on_attach,
-  flags = {
-      debounce_text_changes = 150,
-  }
-}
-
-
--- cmake
-lspconfig.cmake.setup{
-  on_attach = on_attach,
-  flags = {
-      debounce_text_changes = 150,
-  }
-}
-
-
--- bash
-lspconfig.bashls.setup{
-  on_attach = on_attach,
-  flags = {
-      debounce_text_changes = 150,
-  }
-}
-
-
-
-
-if not configs.lean4 then
-  configs.lean4 = {
-    default_config = {
-      name = 'lean4',
-      cmd = { 'lean', '--server' },
-      root_dir = lspconfig.util.root_pattern("lean-toolchain", "lakefile.lean", ".git"),
-      filetypes = { 'lean' },
-    },
-  }
-end
-lspconfig.lean4.setup {
-  on_attach = on_attach,
-}
-
-
-
--------------------------------------------------------------------
-
-vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
-vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
-vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
-vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
-vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
-vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
-vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-
-
--- Set border for diagnostic float
-vim.diagnostic.config({
-  float = {
-    border = "rounded",
-  },
 })
 
-return {}
+-- Nix
+vim.lsp.config('nixd', {
+  cmd = { 'nixd' },
+  settings = {
+    nixd = { nixpkgs = { expr = "import <nixpkgs> {}" } }
+  }
+})
+
+-- Racket
+vim.lsp.config('racket_langserver', {
+  cmd = { "racket", "--lib", "racket-langserver" }
+})
+
+-- Lua (Preserving your dynamic workspace logic)
+vim.lsp.config('lua_ls', {
+  on_init = function(client)
+    local path = client.workspace_folders and client.workspace_folders[1].name
+    if path and (vim.uv.fs_stat(path..'/.luarc.json') or vim.uv.fs_stat(path..'/.luarc.jsonc')) then
+      return
+    end
+    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+      runtime = { version = 'LuaJIT' },
+      workspace = {
+        checkThirdParty = false,
+        library = { vim.env.VIMRUNTIME, "${3rd}/luv/library", "${3rd}/busted/library" }
+      }
+    })
+  end,
+  settings = { Lua = {} }
+})
+
+-- Lean4
+vim.lsp.config('lean4', {
+  cmd = { 'lean', '--server' },
+  root_dir = vim.fs.root(0, {"lean-toolchain", "lakefile.lean", ".git"}),
+  filetypes = { 'lean' },
+})
+
+-- 4. Enable All Servers
+-- List every server you use here. If no config was defined above,
+-- it will use Neovim's internal defaults.
+vim.lsp.enable({
+  'hls',
+  'clangd',
+  'nixd',
+  'ocamllsp',
+  'elmls',
+  'purescriptls',
+  'racket_langserver',
+  'lua_ls',
+  'pyright',
+  'rust_analyzer',
+  'csharp_ls',
+  'fsautocomplete',
+  'cmake',
+  'erlangls',
+  'ts_ls',
+  'vimls',
+  'bashls',
+  'lean4'
+})
