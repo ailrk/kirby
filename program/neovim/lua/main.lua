@@ -47,7 +47,7 @@ require('packer').startup(function(use)
     use {'NoahTheDuke/vim-just'}
     use {'nvim-treesitter/nvim-treesitter'}
     use {'nvim-treesitter/nvim-treesitter-textobjects'}
-    use { '~/repo/telescope-context.nvim' }
+    use {'ailrk/telescope-context.nvim'}
 
     -- nvim
     use {'nvim-telescope/telescope.nvim'}
