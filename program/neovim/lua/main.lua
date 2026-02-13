@@ -100,6 +100,4 @@ vim.api.nvim_create_user_command("LiveMessagesToggle", require('tools.live-messa
 
 
 -- CTAGS
-
 vim.opt.tags = "./tags/tags;,tags/tags;,"
-
