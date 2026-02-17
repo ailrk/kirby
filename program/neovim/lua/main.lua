@@ -47,6 +47,7 @@ require('packer').startup(function(use)
     use {'NoahTheDuke/vim-just'}
     use {'nvim-treesitter/nvim-treesitter'}
     use {'nvim-treesitter/nvim-treesitter-textobjects'}
+    use {'mtth/scratch.vim'}
 
     -- nvim
     use {'nvim-lua/plenary.nvim'}

@@ -95,6 +95,12 @@ tnoremap <silent> <leader>a  <C-\><C-n>:FloatermToggle<CR>
 tnoremap <Esc> <C-\><C-n>
 
 
+"
+" Scratch Buffer
+
+nmap <leader>sc :Scratch<CR>
+
+
 nmap # <nop>
 nnoremap # <cmd>Telescope grep_string<cr>
 

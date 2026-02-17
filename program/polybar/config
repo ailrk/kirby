@@ -24,9 +24,9 @@ include-file = ~/.config/polybar/colors.ini
     font-0 = PT Mono":pixelsize=16;1
     font-1 = WenQuanYi Micro Hei:style=Regular;1
     font-2 = Font Awesome:style=Regular:pixelsize=15;1
-    font-3 = Font Awesome 6 Free:pixelsize=15;2
-    font-4 = Font Awesome 6 Free Solid:pixelsize=15;2
-    font-5 = Font Awesome 6 Brands:pixelsize=15;2
+    font-3 = Font Awesome 7 Free:pixelsize=15;2
+    font-4 = Font Awesome 7 Free Solid:pixelsize=15;2
+    font-5 = Font Awesome 7 Brands:pixelsize=15;2
 
     wm-restack     = bspwm
     modules-left   = winclose winmax bspwm
