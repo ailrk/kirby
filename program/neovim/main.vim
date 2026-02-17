@@ -96,6 +96,11 @@ tnoremap <Esc> <C-\><C-n>
 
 
 "
+" Scratch Buffer
+
+nmap <leader>sc :Scratch<CR>
+
+"
 " Telescope
 "
 " Find files using Telescope command-line sugar.
