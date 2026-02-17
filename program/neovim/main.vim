@@ -95,27 +95,6 @@ tnoremap <silent> <leader>a  <C-\><C-n>:FloatermToggle<CR>
 tnoremap <Esc> <C-\><C-n>
 
 
-"
-" Telescope
-"
-" Find files using Telescope command-line sugar.
-nnoremap <space>p <cmd>Telescope find_files<cr>
-" nnoremap <leader>f <cmd>Telescope file_browser<cr>
-nnoremap <space>g   <cmd>Telescope live_grep<cr>
-nnoremap <space>d   <cmd>Telescope diagnostics<cr>
-nnoremap <space>h   <cmd>Telescope oldfiles<cr>
-nnoremap <space>t   <cmd>Telescope<cr>
-nnoremap <leader>c  <cmd>Telescope commands<cr>
-nnoremap <leader>B  <cmd>Telescope buffers<cr>
-nnoremap <leader>H  <cmd>Telescope help_tags<cr>
-nnoremap <leader>M  <cmd>Telescope marks<cr>
-nnoremap <leader>R  <cmd>Telescope registers<cr>
-nnoremap <leader>D  <cmd>Telescope lsp_document_symbols<cr>
-nnoremap <leader>T  <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
-nnoremap <space>s   <cmd>SessionSearch<cr>
-nnoremap <C-s>      <cmd>SessionSave<cr>
-
-
 nmap # <nop>
 nnoremap # <cmd>Telescope grep_string<cr>
 

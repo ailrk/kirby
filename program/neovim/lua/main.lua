@@ -91,4 +91,5 @@ vim.api.nvim_create_user_command("LiveMessagesToggle", require('tools.live-messa
 
 
 vim.opt.tags = "./tags/tags;,tags/tags;,"
+vim.opt.pumheight = 8
 vim.o.winborder = 'rounded'

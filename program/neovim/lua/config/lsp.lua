@@ -47,7 +47,16 @@ vim.lsp.config('hls', {
       hlintOn = false,
       maxNumberofProblems = 5,
       completionSnippetsOn = false,
-      formatOnImportOn = true
+      formatOnImportOn = true,
+      plugin = {
+        tactics = { globalOn = false },
+        refactor = { globalOn = false },
+        stan = { globalOn = false },
+        hlint = { codeActionsOn = false },
+        retrie = { globalOn = false },
+        ['ghcide-code-actions-bindings'] = { globalOn = false },
+        ['ghcide-code-actions-fill-holes'] = { globalOn = false }
+      }
     },
   }
 })
