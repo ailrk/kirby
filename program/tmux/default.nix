@@ -69,7 +69,15 @@ in
       # toggle fuillscreen
       bind -r C-Space resize-pane -Z
 
-      ## window navigatoin
+      # toggle layout (V for Vertical/Horizontal flip)
+      bind -r V if-shell "tmux display-message -p '#{window_layout}' | grep -q '{'" \
+        "select-layout even-vertical" \
+        "select-layout even-horizontal"
+
+      # join pane (! to break)
+      bind-key C-J command-prompt -p "Join pane from (e.g. :3 or :1.2):" "join-pane -h -s '%%'"
+
+      ## window navigation
       unbind [
       unbind ]
       bind -r [ previous-window
