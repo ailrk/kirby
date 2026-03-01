@@ -48,7 +48,18 @@ require('packer').startup(function(use)
     use {'nvim-treesitter/nvim-treesitter'}
     use {'nvim-treesitter/nvim-treesitter-textobjects'}
     use {'mtth/scratch.vim'}
-
+    use {
+      "selimacerbas/markdown-preview.nvim",
+      requires = { "selimacerbas/live-server.nvim" },
+      config = function()
+        require("markdown_preview").setup({
+          -- all optional; sane defaults shown
+          port = 8421,
+          open_browser = true,
+          debounce_ms = 300,
+        })
+      end,
+    }
     -- nvim
     use {'nvim-lua/plenary.nvim'}
     use {'nvim-telescope/telescope.nvim'}
