@@ -17,6 +17,7 @@ in
       extraConfig = ''
         source $HOME/.config/nvim/main.vim
       '';
+      package = pkgs.neovim-unwrapped;
     };
 
     xdg.configFile."nvim/main.vim".source = ./main.vim;
