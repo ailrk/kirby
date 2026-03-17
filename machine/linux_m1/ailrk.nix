@@ -1,8 +1,8 @@
-# ailrk-asahi
+# ailrk
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.kirby.home.linux_m1.ailrk_asahi;
+  cfg = config.kirby.home.linux_m1.ailrk;
 in
 {
   imports = [
@@ -10,8 +10,8 @@ in
     ../../service/default.nix
   ];
 
-  options.kirby.home.linux_m1.ailrk_asahi = {
-    enable  = mkEnableOption "Set user as a ailrk-asahi";
+  options.kirby.home.linux_m1.ailrk= {
+    enable  = mkEnableOption "Set user as a ailrk";
     colorMode = mkOption {
       type = types.enum ["dark" "light"];
       default = "dark";
@@ -19,10 +19,10 @@ in
     };
   };
 
-  config = mkIf config.kirby.home.linux_m1.ailrk_asahi.enable {
-    home.stateVersion = "24.05";
-    home.username = "ailrk-asahi";
-    home.homeDirectory = "/home/ailrk-asahi";
+  config = mkIf config.kirby.home.linux_m1.ailrk.enable {
+    home.stateVersion = "25.11";
+    home.username = "ailrk";
+    home.homeDirectory = "/home/ailrk";
     programs = {
       home-manager.enable = true;
     };

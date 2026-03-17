@@ -16,8 +16,8 @@ let
       kirby.home.darwin_m1.ailrk.enable = true;
     };
     "aarch64-linux" = {
-      imports = [ ./machine/linux_m1/ailrk-asahi.nix ];
-      kirby.home.linux_m1.ailrk_asahi = {
+      imports = [ ./machine/linux_m1/ailrk.nix ];
+      kirby.home.linux_m1.ailrk = {
         enable  = true;
         colorMode = colorMode;
       };
