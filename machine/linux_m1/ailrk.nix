@@ -7,7 +7,7 @@ let
 in
 {
   imports = [
-    ../../program/linux.nix
+    ../../program/default.nix
     ../../service/default.nix
   ];
 

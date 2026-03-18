@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
 with
 lib;
 let
@@ -25,6 +25,7 @@ in
   config = mkIf cfg.enable {
     programs.alacritty = {
       enable = true;
+      package = pkgs.alacritty-graphics;
       settings = lib.attrsets.recursiveUpdate
         {
           env = {

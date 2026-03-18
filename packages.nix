@@ -90,13 +90,16 @@
     pkgs.xclip
     pkgs.scrot
 
+
     # wayland
     pkgs.cage
     pkgs.foot
-    pkgs.labwc
     pkgs.swaybg
     pkgs.wlr-randr
-    pkgs.waybar
+
+    pkgs.libsixel
+    pkgs.lsix
+    pkgs.imagemagick
 
     pkgs.pinta
     pkgs.ibus

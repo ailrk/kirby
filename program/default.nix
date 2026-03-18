@@ -1,5 +1,11 @@
 {
   imports = [
+    ./alacritty/default.nix
+    ./compton/default.nix
+    ./dunst/default.nix
+    ./rofi/default.nix
+    ./labwc/default.nix
+    ./waybar/default.nix
     ./fish/default.nix
     ./git/default.nix
     ./neovim/default.nix
@@ -9,5 +15,6 @@
     ./tmux/default.nix
     ./zsh/default.nix
     ./git/default.nix
+    ./ueberzugpp.nix
   ];
 }
