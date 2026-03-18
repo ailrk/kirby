@@ -5,7 +5,7 @@
 * {
     background-color:       @background;
     text-color:             @foreground;
-	font:				 	"PT Mono 15";
+    font:                   "PxPlus IBM VGA 9x16 15";
 }
 
 window {

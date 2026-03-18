@@ -1,5 +1,5 @@
 * {
-    font:            "PT Mono 10";
+    font:             "PxPlus IBM VGA 9x16 15";
 
     bg0:              #212121;
     bg1:              #404040;
@@ -41,7 +41,7 @@ prompt {
 }
 
 textbox {
-    padding:            8px;
+    padding:            2px;
     background-color:   @bg1;
 }
 
@@ -54,7 +54,7 @@ listview {
 }
 
 element {
-    padding:    8px;
+    padding:    2px;
     spacing:    8px;
 }
 

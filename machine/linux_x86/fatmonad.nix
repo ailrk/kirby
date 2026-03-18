@@ -45,12 +45,10 @@ in
           colorMode = cfg.colorMode;
         };
         scripts.enable = true;
-        xconfig.enable = true;
         rofi.enable = true;
         nmap.enable = true;
         zsh.enable = true;
         fish.enable = true;
-        newsflash.enable = true;
       };
 
       service = {
@@ -112,20 +110,15 @@ in
         ] ++ pkgs.callPackage ../../packages.nix {};
 
 
-      file = {
-        ".profile" = {
-          executable = true;
-          text = builtins.readFile ./.profile;
-        };
-      };
-
       # Environment
       sessionVariables = {
-        NIXGL = "nixGL";
-        EDITOR = "nvim";
-        BROWSER = "$NIXGL google-chrome-stable";
+        GUI      = "labwc";
+        NIX_PATH = "$HOME/.nix-defexpr/channels";
+        NIXGL    = "nixGL";
+        EDITOR   = "nvim";
+        BROWSER  = "$NIXGL google-chrome-stable";
         TERMINAL = "$NIXGL alacritty";
-        FILES = "$NIXGL nautilus";
+        FILES    = "$NIXGL nautilus";
       };
     };
 

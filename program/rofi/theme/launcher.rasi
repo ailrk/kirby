@@ -1,5 +1,5 @@
 * {
-    font:   "PT Mono 10";
+    font:   "PxPlus IBM VGA 9x16 15";
 
     bg0:     #212121;
     bg1:     #404040;
@@ -20,14 +20,14 @@
 window {
     location:   center;
     width:      560;
-    height:     340;
+    height:     360;
     y-offset:   -160;
-    background-image: url("~/.config/rofi/img/mount-fuji-pixel1.png");
+    background-color:   @bg0;
 }
 
 inputbar {
     spacing:    8px;
-    padding:    8px;
+    padding:    2px;
 
     background-color:   @bg1;
 }
@@ -46,7 +46,6 @@ textbox {
 }
 
 listview {
-    padding:    4px 0;
     lines:      16;
     columns:    1;
 
@@ -54,7 +53,7 @@ listview {
 }
 
 element {
-    padding:    8px;
+    padding:    2px;
     spacing:    8px;
 }
 

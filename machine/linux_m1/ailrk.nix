@@ -46,16 +46,10 @@ in
           enable = true;
           colorMode = cfg.colorMode;
         };
-        polybar = {
-          enable = true;
-          colorMode = cfg.colorMode;
-        };
         scripts.enable = true;
         nmap.enable = true;
         zsh.enable = true;
         fish.enable = true;
-        newsflash.enable = true;
-        xconfig.enable = true;
         rofi.enable = true;
       };
       service = {
@@ -76,27 +70,22 @@ in
         ] ++ pkgs.callPackage ../../packages.nix {};
 
 
-    home.file = {
-      ".profile" = {
-        executable = true;
-        text = builtins.readFile ./.profile;
-      };
-    };
-
     xdg.configFile = {
       "nix/nix.conf".source = ./nix.conf;
     };
 
     # Environment
     home.sessionVariables = {
-      NIXGL = "nixGLMesa";
-      EDITOR = "nvim";
-      BROWSER = "$NIXGL chromium";
-      TERMINAL = "$NIXGL alacritty";
-      FILES = "nautilus";
-      BATTERY = "macsmc-battery";
+      GUI             = "NIX_REMOTE=daemon labwc";
+      NIX_PATH        = "$HOME/.nix-defexpr/channels";
+      NIX_REMOTE      = "daemon";
+      NIXGL           = "nixGLMesa";
+      EDITOR          = "nvim";
+      BROWSER         = "$NIXGL chromium";
+      TERMINAL        = "$NIXGL alacritty";
+      FILES           = "$NIXGL nautilus";
+      BATTERY         = "macsmc-battery";
       BATTERY_ADAPTOR = "macsmc-ac";
-      NIX_REMOTE = "daemon";
     };
 
     nixpkgs.config = {
