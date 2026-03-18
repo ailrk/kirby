@@ -37,15 +37,8 @@ in
         };
         ranger.enable = true;
         tmux.enable = true;
-        bspwm.enable = true;
         labwc.enable = true;
         waybar.enable = true;
-        compton.enable = true;
-        polybar = {
-          enable = true;
-          colorMode = cfg.colorMode;
-        };
-        sxhkd.enable = true;
         dunst.enable = true;
         alacritty = {
           enable = true;
@@ -120,47 +113,19 @@ in
 
 
       file = {
-        ".xinitrc" = {
-          executable = true;
-          text = builtins.readFile ./.xinitrc;
-        };
-
-        ".xsession" = {
-          executable = true;
-          text = builtins.readFile ./.xsession;
-        };
-
-        ".xprofile" = {
-          executable = true;
-          text = builtins.readFile ./.xprofile;
-        };
-
         ".profile" = {
           executable = true;
           text = builtins.readFile ./.profile;
-        };
-
-        ".Xresources" = {
-          executable = true;
-          text = builtins.readFile ./.Xresources;
         };
       };
 
       # Environment
       sessionVariables = {
-        KIRBY_NIXGL = "nixGL";
+        NIXGL = "nixGL";
         EDITOR = "nvim";
         BROWSER = "google-chrome-stable";
-        TERMINAL = "$KIRBY_NIXGL alacritty";
+        TERMINAL = "$NIXGL alacritty";
         FILES = "nautilus";
-        NIX_REMOTE = "daemon";
-      };
-    };
-
-    xdg.configFile = {
-      "bspwm/bspwmrc" = {
-          source = ./bspwmrc;
-          executable = true;
       };
     };
 
