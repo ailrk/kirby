@@ -3,6 +3,6 @@
 # Set the wallpaper
 swaybg -i kirby/program/bspwm/background/jWTBsU0.jpg &
 
-wlr-randr --output "$(wlr-randr | grep -m 1 '^[^ ]' | cut -d' ' -f1)" --scale 2 &
-
 waybar &
+
+wlr-randr --output "$(wlr-randr | grep -m 1 '^[^ ]' | cut -d' ' -f1)" --scale 1.5 &

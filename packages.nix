@@ -74,8 +74,10 @@
     pkgs.noto-fonts
     pkgs.noto-fonts-color-emoji
     pkgs.font-awesome
+    pkgs.terminus_font_ttf
     pkgs.wqy_microhei
     pkgs.liberation_ttf_v1
+    pkgs.ultimate-oldschool-pc-font-pack
 
     # X
     pkgs.xorg.xset

@@ -4,7 +4,7 @@ lib;
 let
   cfg          = config.kirby.program.alacritty;
   colors       = import ./colors.nix;
-  systemScale  = 2.0;
+  systemScale  = 1.5;
   baseFontSize = 20;
 in
 {
@@ -26,7 +26,7 @@ in
     programs.alacritty = {
       enable = true;
       settings = lib.attrsets.recursiveUpdate
-        ({
+        {
           env = {
             "TERM" = "xterm-256color";
             "WINIT_X11_SCALE_FACTOR"=  "1.0";
@@ -40,11 +40,21 @@ in
           };
 
           font = {
-            offset.x = -1;
+            offset.x = 0;
             size = baseFontSize / systemScale;
-            normal.family = "APL386 Unicode";
-            bold.family = "APL386 Unicode";
-            italic.family = "APL386 Unicode";
+            normal.family = "PxPlus IBM VGA 9x16";
+            normal.style = "Regular";
+
+            bold.family = "PxPlus IBM VGA 9x16";
+            bold.style = "Regular";
+
+            italic.family = "PxPlus IBM VGA 9x16";
+            italic.style = "Regular";
+
+
+            # normal.family = "APL386 Unicode";
+            # bold.family = "APL386 Unicode";
+            # italic.family = "APL386 Unicode";
           };
 
           cursor.style = "Beam";
@@ -57,7 +67,7 @@ in
             if cfg.colorMode == "dark"
             then colors.dark
             else colors.bright;
-        })
+        }
         cfg.settingOverrides;
     };
   };

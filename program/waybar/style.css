@@ -17,21 +17,19 @@
     border: none;
     border-radius: 0;
     font-family: "PT Mono", "WenQuanYi Micro Hei", "Font Awesome 7 Free";
-    font-size: 10px;
+    font-size: 12px;
     min-height: 0;
 }
 
 window#waybar {
     background: @background;
     color: @foreground;
-    border-radius: 6px;
 }
 
 /* Modules Left: Window Controls & Workspaces */
 #custom-winclose, #custom-winmax {
     color: @foreground;
     padding: 0 15px;
-    border-bottom: 4px solid @secondary;
 }
 
 #workspaces button {
@@ -73,7 +71,7 @@ window#waybar {
 #clock, #custom-powermenu, #custom-quickaccess {
     background-color: @red1;
     color: @foreground;
-    padding: 0 15px;
+    padding: 0 10px;
     margin-left: 5px;
 }
 
