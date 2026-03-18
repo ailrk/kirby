@@ -2,7 +2,8 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.kirby.home.linux_x86.fatmonad;
+  cfg   = config.kirby.home.linux_x86.fatmonad;
+  NIXGL = "nixGL";
 in
 {
   imports = [
@@ -112,13 +113,12 @@ in
 
       # Environment
       sessionVariables = {
-        GUI      = "labwc";
         NIX_PATH = "$HOME/.nix-defexpr/channels";
-        NIXGL    = "nixGL";
+        NIXGL    = "${NIXGL}";
         EDITOR   = "nvim";
-        BROWSER  = "$NIXGL google-chrome-stable";
-        TERMINAL = "$NIXGL alacritty";
-        FILES    = "$NIXGL nautilus";
+        BROWSER  = "${NIXGL} google-chrome-stable";
+        TERMINAL = "${NIXGL} alacritty";
+        FILES    = "${NIXGL} nautilus";
       };
     };
 

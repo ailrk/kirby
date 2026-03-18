@@ -2,7 +2,8 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.kirby.home.linux_m1.ailrk;
+  cfg   = config.kirby.home.linux_m1.ailrk;
+  NIXGL = "nixGLMesa";
 in
 {
   imports = [
@@ -76,14 +77,13 @@ in
 
     # Environment
     home.sessionVariables = {
-      GUI             = "NIX_REMOTE=daemon labwc";
       NIX_PATH        = "$HOME/.nix-defexpr/channels";
       NIX_REMOTE      = "daemon";
-      NIXGL           = "nixGLMesa";
+      NIXGL           = "${NIXGL}";
       EDITOR          = "nvim";
-      BROWSER         = "$NIXGL chromium";
-      TERMINAL        = "$NIXGL alacritty";
-      FILES           = "$NIXGL nautilus";
+      BROWSER         = "${NIXGL} chromium";
+      TERMINAL        = "${NIXGL} alacritty";
+      FILES           = "${NIXGL} nautilus";
       BATTERY         = "macsmc-battery";
       BATTERY_ADAPTOR = "macsmc-ac";
     };
