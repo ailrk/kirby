@@ -1,5 +1,5 @@
 * {
-    font:            "PT Mono 20";
+    font:            "PT Mono 10";
 
     bg0:              #212121;
     bg1:              #404040;
@@ -18,9 +18,9 @@
 
 window {
     location:   northeast;
-    width:      360;
-    y-offset:   60;
-    x-offset:   -10;
+    width:      160;
+    y-offset:   0;
+    x-offset:   0;
 
     background-color:   @bg0;
 }

@@ -90,6 +90,11 @@
 
     # wayland
     pkgs.cage
+    pkgs.foot
+    pkgs.labwc
+    pkgs.swaybg
+    pkgs.wlr-randr
+    pkgs.waybar
 
     pkgs.pinta
     pkgs.ibus

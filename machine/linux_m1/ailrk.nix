@@ -38,9 +38,9 @@ in
         };
         ranger.enable = true;
         tmux.enable = true;
-        bspwm.enable = true;
+        labwc.enable = true;
+        waybar.enable = true;
         compton.enable = true;
-        sxhkd.enable = true;
         dunst.enable = true;
         alacritty = {
           enable = true;
@@ -78,49 +78,23 @@ in
 
 
     home.file = {
-      ".xinitrc" = {
-        executable = true;
-        text = builtins.readFile ./.xinitrc;
-      };
-
-      ".xsession" = {
-        executable = true;
-        text = builtins.readFile ./.xsession;
-      };
-
-      ".xprofile" = {
-        executable = true;
-        text = builtins.readFile ./.xprofile;
-      };
-
       ".profile" = {
         executable = true;
         text = builtins.readFile ./.profile;
-      };
-
-      ".Xresources" = {
-        executable = true;
-        text = builtins.readFile ./.Xresources;
       };
     };
 
     xdg.configFile = {
       "nix/nix.conf".source = ./nix.conf;
-
-      "bspwm/bspwmrc" = {
-          source = ./bspwmrc;
-          executable = true;
-      };
     };
 
     # Environment
     home.sessionVariables = {
       KIRBY_NIXGL = "nixGLMesa";
       EDITOR = "nvim";
-      BROWSER = "chromium --force-device-scale-factor=1.5";
+      BROWSER = "chromium";
       TERMINAL = "nixGLMesa alacritty";
       FILES = "nautilus";
-      EMAIL_CLIENT = "thunderbird";
       BATTERY = "macsmc-battery";
       BATTERY_ADAPTOR = "macsmc-ac";
     };

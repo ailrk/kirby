@@ -5,11 +5,11 @@
 * {
     background-color:       @background;
     text-color:             @foreground;
-	font:				 	"PT Mono 15";
+	font:				 	"PT Mono 10";
 }
 
 window {
-    width:      			300px;
+    width:      			100px;
     padding:    			25px;
     border:					0px;
     border-radius:          0px;

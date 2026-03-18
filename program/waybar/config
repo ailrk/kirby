@@ -1,0 +1,98 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "margin-top": 0,
+    "margin-bottom": 0,
+    "spacing": 4,
+
+    "modules-left": ["custom/winclose", "custom/winmax", "wlr/workspaces"],
+    "modules-center": ["wlr/window"],
+    "modules-right": [
+        "memory", "cpu", "temperature",
+        "network#eth", "network#wlan",
+        "keyboard-state", "pulseaudio",
+        "battery", "clock",
+        "custom/quickaccess", "custom/powermenu"
+    ],
+
+    "wlr/workspaces": {
+        "format": "{name}",
+        "on-click": "activate",
+        "sort-by-number": true
+    },
+
+    "wlr/window": {
+        "format": "{}",
+        "max-length": 50,
+        "on-click": "launcher.sh window"
+    },
+
+    "custom/winclose": {
+        "format": "",
+        "on-click": "labwc --close",
+        "tooltip": false
+    },
+
+    "custom/winmax": {
+        "format": "",
+        "on-click": "labwc --toggle-maximize",
+        "tooltip": false
+    },
+
+    "cpu": { "format": " {usage}%" },
+    "memory": { "format": " {}%" },
+
+    "temperature": {
+        "thermal-zone": 0,
+        "critical-threshold": 90,
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": ["TEMP:"]
+    },
+
+    "network#eth": {
+        "interface": "enp0s25",
+        "format-connected": "󰈀 {ipaddr}",
+        "format-disconnected": "no eth"
+    },
+
+    "network#wlan": {
+        "interface": "wlp2s0",
+        "format-connected": " {upspeed} {downspeed}",
+        "format-disconnected": "disconnected"
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": " muted",
+        "format-icons": { "default": ["", "", ""] }
+    },
+
+    "battery": {
+      "states": {
+        "warning": 30,
+        "critical": 15
+      },
+      "format": "{icon} {percentage}%",
+      "format-charging": " {percentage}%",
+      "format-plugged": " {percentage}%",
+      "format-alt": "{icon} {time}",
+      "format-icons": ["", "", "", "", ""]
+    },
+
+    "clock": {
+      "interval": 1,
+      "format": " {:%m-%d %I:%M %p}",
+      "format-alt": " {:%Y-%m-%d %H:%M:%S}"
+    },
+
+    "custom/quickaccess": {
+        "format": "",
+        "on-click": "quickaccess.sh"
+    },
+
+    "custom/powermenu": {
+        "format": "",
+        "on-click": "powermenu.sh"
+    }
+}

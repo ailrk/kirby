@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<labwc_config>
+  <desktops>
+    <number>5</number>
+    <names>
+      <name>1</name>
+      <name>2</name>
+      <name>3</name>
+      <name>4</name>
+      <name>5</name>
+    </names>
+    <margins>
+      <top>30</top>
+    </margins>
+  </desktops>
+
+  <snapping>
+    <range>20</range>
+    <topMaximize>true</topMaximize>
+    <sideTile>true</sideTile>
+  </snapping>
+
+  <keyboard>
+    <keybind key="W-Return">
+      <action name="Execute" command="nixGLMesa alacritty" />
+    </keybind>
+    <keybind key="W-b">
+      <action name="Execute" command="chromium" />
+    </keybind>
+    <keybind key="W-space">
+      <action name="Execute" command="launcher.sh drun" />
+    </keybind>
+    <keybind key="S-W-space">
+      <action name="Execute" command="launcher.sh window" />
+    </keybind>
+
+    <keybind key="W-q">
+      <action name="Close" />
+    </keybind>
+    <keybind key="W-S-q">
+      <action name="Kill" />
+    </keybind>
+    <keybind key="W-A-C-l">
+      <action name="Execute" command="lock-screen" />
+    </keybind>
+
+    <keybind key="W-s">
+      <action name="Unmaximize" />
+      <action name="MoveToCenter" />
+    </keybind>
+    <keybind key="W-f">
+      <action name="ToggleFullscreen" />
+    </keybind>
+    <keybind key="W-m">
+      <action name="ToggleMaximize" /> </keybind>
+    <keybind key="W-t">
+      <action name="ToggleAlwaysOnTop" />
+    </keybind>
+
+    <keybind key="W-h"> <action name="PreviousWindow" /> </keybind>
+    <keybind key="W-l"> <action name="NextWindow" /> </keybind>
+
+    <keybind key="W-S-h"> <action name="SnapToEdge" direction="left" /> </keybind>
+    <keybind key="W-S-j"> <action name="SnapToEdge" direction="down" /> </keybind>
+    <keybind key="W-S-k"> <action name="SnapToEdge" direction="up" /> </keybind>
+    <keybind key="W-S-l"> <action name="SnapToEdge" direction="right" /> </keybind>
+
+    <keybind key="W-bracketleft"> <action name="GoToDesktop" to="left" /> </keybind>
+    <keybind key="W-bracketright"> <action name="GoToDesktop" to="right" /> </keybind>
+    <keybind key="W-Tab"> <action name="NextWindow" /> </keybind>
+
+    <keybind key="W-1"> <action name="GoToDesktop" to="1" /> </keybind>
+    <keybind key="W-2"> <action name="GoToDesktop" to="2" /> </keybind>
+    <keybind key="W-3"> <action name="GoToDesktop" to="3" /> </keybind>
+    <keybind key="W-4"> <action name="GoToDesktop" to="4" /> </keybind>
+    <keybind key="W-5"> <action name="GoToDesktop" to="5" /> </keybind>
+
+    <keybind key="W-S-1"> <action name="SendToDesktop" to="1" /> </keybind>
+    <keybind key="W-S-2"> <action name="SendToDesktop" to="2" /> </keybind>
+    <keybind key="W-S-3"> <action name="SendToDesktop" to="3" /> </keybind>
+    <keybind key="W-S-4"> <action name="SendToDesktop" to="4" /> </keybind>
+    <keybind key="W-S-5"> <action name="SendToDesktop" to="5" /> </keybind>
+
+    <keybind key="XF86AudioLowerVolume"> <action name="Execute" command="volume down" /> </keybind>
+    <keybind key="XF86AudioRaiseVolume"> <action name="Execute" command="volume up" /> </keybind>
+    <keybind key="XF86AudioMute"> <action name="Execute" command="volume mute" /> </keybind>
+    <keybind key="XF86MonBrightnessDown"> <action name="Execute" command="brightness down" /> </keybind>
+    <keybind key="XF86MonBrightnessUp"> <action name="Execute" command="brightness up" /> </keybind>
+
+    <keybind key="A-S-3"> <action name="Execute" command="screenshot full" /> </keybind>
+    <keybind key="A-S-4"> <action name="Execute" command="screenshot sel" /> </keybind>
+  </keyboard>
+
+  <mouse>
+    <context name="Root">
+      <mousebind button="Right" action="Click">
+        <action name="ShowMenu" menu="root-menu" />
+      </mousebind>
+    </context>
+
+    <context name="Client">
+      <mousebind button="W-Left" action="Press">
+        <action name="Raise"/>
+        <action name="Focus"/>
+      </mousebind>
+      <mousebind button="W-Left" action="Drag">
+        <action name="Move"/>
+      </mousebind>
+      <mousebind button="W-Right" action="Drag">
+        <action name="Resize"/>
+      </mousebind>
+    </context>
+
+    <context name="Frame">
+      <mousebind button="W-Left" action="Press">
+        <action name="Raise"/>
+        <action name="Focus"/>
+      </mousebind>
+      <mousebind button="W-Left" action="Drag">
+        <action name="Move"/>
+      </mousebind>
+      <mousebind button="W-Right" action="Drag">
+        <action name="Resize"/>
+      </mousebind>
+    </context>
+
+    <context name="Titlebar">
+      <mousebind button="Left" action="Drag">
+        <action name="Move"/>
+      </mousebind>
+    </context>
+  </mouse>
+</labwc_config>

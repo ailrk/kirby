@@ -10,6 +10,8 @@
     ./sxhkd/default.nix
     ./xconfig/default.nix
     ./newsflash/default.nix
+    ./labwc/default.nix
+    ./waybar/default.nix
   ];
 }
 

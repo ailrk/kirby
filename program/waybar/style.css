@@ -1,0 +1,83 @@
+/* Color Definitions */
+@define-color red1 #BF616A;
+@define-color green1 #A3BE8C;
+@define-color yellow1 #EBCB8B;
+@define-color blue1 #81A1C1;
+@define-color magenta1 #B48EAD;
+@define-color cyan1 #88C0D0;
+@define-color background #2A2426;
+@define-color background-alt #332B2D;
+@define-color foreground #F0E8E6;
+@define-color foreground-alt #CFC7C5;
+@define-color primary #81A1C1;
+@define-color secondary #D8DEE9;
+@define-color alert #BD2C40;
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "PT Mono", "WenQuanYi Micro Hei", "Font Awesome 7 Free";
+    font-size: 10px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: @background;
+    color: @foreground;
+    border-radius: 6px;
+}
+
+/* Modules Left: Window Controls & Workspaces */
+#custom-winclose, #custom-winmax {
+    color: @foreground;
+    padding: 0 15px;
+    border-bottom: 4px solid @secondary;
+}
+
+#workspaces button {
+    padding: 0 12px;
+    color: @foreground;
+    background: @background;
+}
+
+#workspaces button.active {
+    background: @red1;
+    color: @foreground;
+    border-bottom: 4px solid @primary;
+}
+
+#workspaces button.occupied {
+    background: @background;
+    color: @foreground;
+}
+
+/* Modules Center: Window Title */
+#window {
+    color: @foreground;
+    padding: 0 10px;
+}
+
+/* Modules Right: System Info */
+#memory, #cpu, #temperature, #network, #pulseaudio, #battery {
+    padding: 0 8px;
+    color: @foreground;
+}
+
+/* Matching your specific Polybar underlines/colors */
+#cpu { border-bottom: 4px solid @blue1; }
+#memory { border-bottom: 4px solid @magenta1; }
+
+#network.ethernet { border-bottom: 4px solid #95ffa4; } /* From your eth module */
+
+/* The "Red Blocks" (Date and Powermenu) */
+#clock, #custom-powermenu, #custom-quickaccess {
+    background-color: @red1;
+    color: @foreground;
+    padding: 0 15px;
+    margin-left: 5px;
+}
+
+#battery.critical:not(.charging) {
+    background-color: @alert;
+    color: @foreground;
+}

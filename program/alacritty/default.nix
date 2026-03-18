@@ -2,9 +2,10 @@
 with
 lib;
 let
-  cfg = config.kirby.program.alacritty;
-  colors = import ./colors.nix;
-
+  cfg          = config.kirby.program.alacritty;
+  colors       = import ./colors.nix;
+  systemScale  = 2.0;
+  baseFontSize = 20;
 in
 {
   options.kirby.program.alacritty = {
@@ -40,7 +41,7 @@ in
 
           font = {
             offset.x = -1;
-            size = 20;
+            size = baseFontSize / systemScale;
             normal.family = "APL386 Unicode";
             bold.family = "APL386 Unicode";
             italic.family = "APL386 Unicode";

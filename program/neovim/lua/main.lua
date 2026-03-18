@@ -84,7 +84,10 @@ require('packer').startup(function(use)
     use {'folke/trouble.nvim'}
     use {'RishabhRD/popfix'}
     use {'RishabhRD/nvim-lsputils'}
-    use {'echasnovski/mini.nvim'}
+    use {
+      'echasnovski/mini.nvim',
+      commit = 'a995fe9cd4193fb492b5df69175a351a74b3d36b',
+    }
 
     -- color scheme
     use {'ailrk/vim-monochrome-waifu'}
