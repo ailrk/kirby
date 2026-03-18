@@ -45,9 +45,19 @@ require('packer').startup(function(use)
     use {'https://github.com/LnL7/vim-nix'}
     use {'hashivim/vim-terraform'}
     use {'NoahTheDuke/vim-just'}
-    use {'nvim-treesitter/nvim-treesitter'}
-    use {'nvim-treesitter/nvim-treesitter-textobjects'}
+
+    use {
+      'nvim-treesitter/nvim-treesitter',
+      commit = '42fc28ba918343ebfd5565147a42a26580579482',
+    }
+
+    use {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      commit = '4e91b5d0394329a229725b021a8ea217099826ef',
+    }
+
     use {'mtth/scratch.vim'}
+
     use {
       "selimacerbas/markdown-preview.nvim",
       requires = { "selimacerbas/live-server.nvim" },
@@ -60,13 +70,17 @@ require('packer').startup(function(use)
         })
       end,
     }
+
     -- nvim
     use {'nvim-lua/plenary.nvim'}
     use {'nvim-telescope/telescope.nvim'}
     use {'nvim-telescope/telescope-ui-select.nvim' }
     use {'neovim/nvim-lsp'}
     use {'ailrk/telescope-context.nvim'}
-    use {'rmagatti/auto-session'}
+    use {
+      'rmagatti/auto-session',
+      commit = '562fd8f398acb8b24cb1293a3b69fd2a4aa74e7b',
+    }
     use {'folke/trouble.nvim'}
     use {'RishabhRD/popfix'}
     use {'RishabhRD/nvim-lsputils'}
