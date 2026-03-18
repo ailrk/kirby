@@ -61,6 +61,7 @@ in
     # Install packages
     home.packages = [
           (with import <nixgl> { enable32bits = false; }; nixGLMesa)
+          (with import <nixgl> { enable32bits = false; }; nixVulkanMesa)
           # libraries
           pkgs.libGL
           pkgs.libgcc
@@ -81,9 +82,9 @@ in
       NIX_REMOTE      = "daemon";
       NIXGL           = "${NIXGL}";
       EDITOR          = "nvim";
-      BROWSER         = "${NIXGL} chromium";
-      TERMINAL        = "${NIXGL} alacritty";
-      FILES           = "${NIXGL} nautilus";
+      BROWSER         = "chromium";
+      TERMINAL        = "alacritty";
+      FILES           = "nautilus";
       BATTERY         = "macsmc-battery";
       BATTERY_ADAPTOR = "macsmc-ac";
     };
