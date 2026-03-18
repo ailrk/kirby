@@ -3,11 +3,11 @@
 with lib;
 let
   cfg   = config.kirby.home.linux_x86.fatmonad;
-  NIXGL = "nixGL";
+  NIXGL = "nixGLIntel";
 in
 {
   imports = [
-    ../../program/linux.nix
+    ../../program/default.nix
     ../../service/default.nix
   ];
 
@@ -50,6 +50,7 @@ in
         nmap.enable = true;
         zsh.enable = true;
         fish.enable = true;
+        ueberzugpp.enable = true;
       };
 
       service = {
@@ -95,6 +96,8 @@ in
     # Install packages
     home = {
       packages = [
+          (with import <nixgl> { enable32bits = false; }; nixVulkanMesa)
+          (with import <nixgl> { enable32bits = false; }; nixGLIntel)
           pkgs.libGL
           pkgs.racket
           pkgs.dotnet-sdk
@@ -116,9 +119,9 @@ in
         NIX_PATH = "$HOME/.nix-defexpr/channels";
         NIXGL    = "${NIXGL}";
         EDITOR   = "nvim";
-        BROWSER  = "${NIXGL} google-chrome-stable";
-        TERMINAL = "${NIXGL} alacritty";
-        FILES    = "${NIXGL} nautilus";
+        BROWSER  = "google-chrome-stable";
+        TERMINAL = "alacritty";
+        FILES    = "nautilus";
       };
     };
 

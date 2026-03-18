@@ -30,6 +30,12 @@ require('packer').startup(function(use)
     use {'triglav/vim-visual-increment'}
     use {'preservim/nerdtree'}
     use {'godlygeek/tabular'}
+
+    use {
+      '3rd/image.nvim',
+      commit = 'da2be65c153ba15a14a342b05591652a6df70d58'
+    }
+
     -- languages
     use {'PhilT/vim-fsharp'}
     use {'leafgarland/typescript-vim'}
@@ -101,6 +107,7 @@ require("config.mappings")
 require("config.mini")
 require("config.telescope")
 require('config.theme')
+require('config.image')
 require("config.treesitter")
 
 -- Setup command
