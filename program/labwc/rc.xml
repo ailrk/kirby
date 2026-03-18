@@ -95,9 +95,9 @@
     </context>
 
     <context name="Client">
-      <mousebind button="W-Left" action="Press">
-        <action name="Raise"/>
+      <mousebind button="Left" action="Press">
         <action name="Focus"/>
+        <action name="Raise"/>
       </mousebind>
       <mousebind button="W-Left" action="Drag">
         <action name="Move"/>
@@ -108,9 +108,9 @@
     </context>
 
     <context name="Frame">
-      <mousebind button="W-Left" action="Press">
-        <action name="Raise"/>
+      <mousebind button="Left" action="Press">
         <action name="Focus"/>
+        <action name="Raise"/>
       </mousebind>
       <mousebind button="W-Left" action="Drag">
         <action name="Move"/>
