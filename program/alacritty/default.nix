@@ -5,7 +5,7 @@ let
   cfg          = config.kirby.program.alacritty;
   colors       = import ./colors.nix;
   systemScale  = 1.5;
-  baseFontSize = 20;
+  baseFontSize = 25;
 in
 {
   options.kirby.program.alacritty = {
