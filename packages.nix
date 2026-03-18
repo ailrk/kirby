@@ -88,6 +88,9 @@
     pkgs.xclip
     pkgs.scrot
 
+    # wayland
+    pkgs.cage
+
     pkgs.pinta
     pkgs.ibus
     pkgs.ibus-engines.pinyin
