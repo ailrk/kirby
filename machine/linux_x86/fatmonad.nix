@@ -38,6 +38,8 @@ in
         ranger.enable = true;
         tmux.enable = true;
         bspwm.enable = true;
+        labwc.enable = true;
+        waybar.enable = true;
         compton.enable = true;
         polybar = {
           enable = true;
