@@ -123,9 +123,9 @@ in
       sessionVariables = {
         NIXGL = "nixGL";
         EDITOR = "nvim";
-        BROWSER = "google-chrome-stable";
+        BROWSER = "$NIXGL google-chrome-stable";
         TERMINAL = "$NIXGL alacritty";
-        FILES = "nautilus";
+        FILES = "$NIXGL nautilus";
       };
     };
 

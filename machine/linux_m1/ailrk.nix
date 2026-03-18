@@ -70,7 +70,6 @@ in
           pkgs.libGL
           pkgs.libgcc
           pkgs.gtk4
-          pkgs.xdg-desktop-portal
           pkgs.chromium
           pkgs.aseprite
           pkgs.tiled
@@ -90,10 +89,10 @@ in
 
     # Environment
     home.sessionVariables = {
-      KIRBY_NIXGL = "nixGLMesa";
+      NIXGL = "nixGLMesa";
       EDITOR = "nvim";
-      BROWSER = "chromium";
-      TERMINAL = "nixGLMesa alacritty";
+      BROWSER = "$NIXGL chromium";
+      TERMINAL = "$NIXGL alacritty";
       FILES = "nautilus";
       BATTERY = "macsmc-battery";
       BATTERY_ADAPTOR = "macsmc-ac";
