@@ -44,10 +44,6 @@
       <action name="Execute" command="lock-screen" />
     </keybind>
 
-    <keybind key="W-s">
-      <action name="Unmaximize" />
-      <action name="MoveToCenter" />
-    </keybind>
     <keybind key="W-f">
       <action name="ToggleFullscreen" />
     </keybind>

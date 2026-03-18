@@ -2,10 +2,10 @@
 <openbox_menu>
   <menu id="root-menu" label="Labwc">
     <item label="Terminal">
-      <action name="Execute" command="nixGLMesa alacritty" />
+      <action name="Execute" command="sh -c '$TERMINAL'" />
     </item>
     <item label="Web Browser">
-      <action name="Execute" command="chromium" />
+      <action name="Execute" command="sh -c '$BROWSER'" />
     </item>
     <separator />
     <item label="Reconfigure">

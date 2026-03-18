@@ -150,9 +150,10 @@ in
       sessionVariables = {
         KIRBY_NIXGL = "nixGL";
         EDITOR = "nvim";
-        BROWSER = "google-chrome-stable --force-device-scale-factor=1.5";
+        BROWSER = "google-chrome-stable";
         TERMINAL = "$KIRBY_NIXGL alacritty";
         FILES = "nautilus";
+        NIX_REMOTE = "daemon";
       };
     };
 

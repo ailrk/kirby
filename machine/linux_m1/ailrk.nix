@@ -97,6 +97,7 @@ in
       FILES = "nautilus";
       BATTERY = "macsmc-battery";
       BATTERY_ADAPTOR = "macsmc-ac";
+      NIX_REMOTE = "daemon";
     };
 
     nixpkgs.config = {
