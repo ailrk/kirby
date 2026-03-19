@@ -88,9 +88,6 @@
       <action name="ToggleAlwaysOnTop" />
     </keybind>
 
-    <keybind key="W-h"> <action name="PreviousWindow" /> </keybind>
-    <keybind key="W-l"> <action name="NextWindow" /> </keybind>
-
     <keybind key="W-S-h"> <action name="SnapToEdge" direction="left" /> </keybind>
     <keybind key="W-S-j"> <action name="SnapToEdge" direction="down" /> </keybind>
     <keybind key="W-S-k"> <action name="SnapToEdge" direction="up" /> </keybind>
