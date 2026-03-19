@@ -9,10 +9,19 @@
       <name>4</name>
       <name>5</name>
     </names>
+    <!-- margin needs to match the bar margin -->
     <margins>
       <top>30</top>
     </margins>
   </desktops>
+
+  <focus>
+    <followMouse>false</followMouse>
+    <focusNew>true</focusNew>
+    <underMouse>false</underMouse>
+    <focusLast>true</focusLast>
+    <raiseOnFocus>yes</raiseOnFocus>
+  </focus>
 
   <snapping>
     <range>20</range>
@@ -113,7 +122,12 @@
     <keybind key="A-S-4"> <action name="Execute" command="screenshot sel" /> </keybind>
   </keyboard>
 
+  <!-- Some applicatoins with server side deocration will not be focused on click, e.g
+    alacritty. We need to manually set the click event. <default/> avoids labwc hijacks
+    subsequent click events after focused.
+    -->
   <mouse>
+    <default/>
     <context name="Root">
       <mousebind button="Right" action="Click">
         <action name="ShowMenu" menu="root-menu" />
@@ -121,6 +135,10 @@
     </context>
 
     <context name="Client">
+      <mousebind button="Left" action="Press">
+        <action name="Focus"/>
+        <action name="Raise"/>
+      </mousebind>
       <mousebind button="W-Left" action="Drag">
         <action name="Move"/>
       </mousebind>
