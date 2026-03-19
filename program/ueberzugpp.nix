@@ -13,13 +13,5 @@ in
     home.packages = with pkgs; [
       ueberzugpp
     ];
-
-    # xdg.configFile."ueberzugpp/config.json".text = ''
-    # {
-    #   "layer": {
-    #     "output": "wayland"
-    #   }
-    # }
-    # '';
   };
 }

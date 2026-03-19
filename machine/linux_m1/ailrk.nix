@@ -9,6 +9,7 @@ in
   imports = [
     ../../program/default.nix
     ../../service/default.nix
+    ../linux.nix
   ];
 
   options.kirby.home.linux_m1.ailrk= {
@@ -52,6 +53,7 @@ in
         zsh.enable = true;
         fish.enable = true;
         rofi.enable = true;
+        fcitx5.enable = true;
       };
       service = {
         ollama.enable = true;
@@ -93,12 +95,6 @@ in
     nixpkgs.config = {
       allowUnfree = true;
       pulseaudio = true;
-    };
-
-    i18n.inputMethod = {
-      enable = true;
-      type = "fcitx5";
-      fcitx5.addons = with pkgs; with pkgs.fcitx5; [ fcitx5-rime fcitx5-mozc fcitx5-gtk qt6Packages.fcitx5-chinese-addons ];
     };
 
     fonts.fontconfig.enable = true;

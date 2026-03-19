@@ -9,6 +9,7 @@ in
   imports = [
     ../../program/default.nix
     ../../service/default.nix
+    ../linux.nix
   ];
 
   options.kirby.home.linux_x86.fatmonad = {
@@ -51,6 +52,7 @@ in
         zsh.enable = true;
         fish.enable = true;
         ueberzugpp.enable = true;
+        fcitx5.enable = true;
       };
 
       service = {
@@ -63,45 +65,39 @@ in
       pulseaudio = true;
     };
 
-    i18n.inputMethod = {
+    # Make sure check .local/share/applications/mimeinfo.cache
+    # Sometimes gui program adds entries here and it overwrites
+    # the default setting.
+    xdg.mimeApps = {
       enable = true;
-      type = "fcitx5";
-      fcitx5.addons = with pkgs; with pkgs.fcitx5; [ fcitx5-rime fcitx5-mozc fcitx5-gtk qt6Packages.fcitx5-chinese-addons ];
+
+      defaultApplications = {
+        "x-scheme-handler/tg"="userapp-Telegram Desktop-5ZULP1.desktop";
+        "application/pdf"="google-chrome.desktop";
+        "image/gif"="google-chrome.desktop";
+        "x-scheme-handler/file"="google-chrome.desktop";
+      };
+
+      associations.added = {
+        "x-scheme-handler/tg"="userapp-Telegram Desktop-XX00J1.desktop;userapp-Telegram Desktop-5ZULP1.desktop;";
+        "image/png"="google-chrome.desktop;";
+        "image/jpeg"="google-chrome.desktop;";
+        "application/pdf"="google-chrome.desktop;";
+        "image/gif"="google-chrome.desktop;";
+      };
     };
 
-  # Make sure check .local/share/applications/mimeinfo.cache
-  # Sometimes gui program adds entries here and it overwrites
-  # the default setting.
-  xdg.mimeApps = {
-    enable = true;
-
-    defaultApplications = {
-      "x-scheme-handler/tg"="userapp-Telegram Desktop-5ZULP1.desktop";
-      "application/pdf"="google-chrome.desktop";
-      "image/gif"="google-chrome.desktop";
-      "x-scheme-handler/file"="google-chrome.desktop";
-    };
-
-    associations.added = {
-      "x-scheme-handler/tg"="userapp-Telegram Desktop-XX00J1.desktop;userapp-Telegram Desktop-5ZULP1.desktop;";
-      "image/png"="google-chrome.desktop;";
-      "image/jpeg"="google-chrome.desktop;";
-      "application/pdf"="google-chrome.desktop;";
-      "image/gif"="google-chrome.desktop;";
-    };
-  };
-
-  fonts.fontconfig.enable = true;
+    fonts.fontconfig.enable = true;
 
     # Install packages
     home = {
       packages = [
-          (with import <nixgl> { enable32bits = false; }; nixVulkanMesa)
-          (with import <nixgl> { enable32bits = false; }; nixGLIntel)
-          pkgs.libGL
-          pkgs.racket
-          pkgs.dotnet-sdk
-          pkgs.purescript
+        (with import <nixgl> { enable32bits = false; }; nixVulkanMesa)
+        (with import <nixgl> { enable32bits = false; }; nixGLIntel)
+        pkgs.libGL
+        pkgs.racket
+        pkgs.dotnet-sdk
+        pkgs.purescript
 
           # gui
           pkgs.google-chrome

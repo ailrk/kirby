@@ -16,5 +16,6 @@
     ./zsh/default.nix
     ./git/default.nix
     ./ueberzugpp.nix
+    ./fcitx5.nix
   ];
 }

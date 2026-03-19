@@ -78,6 +78,7 @@
     pkgs.wqy_microhei
     pkgs.liberation_ttf_v1
     pkgs.ultimate-oldschool-pc-font-pack
+    pkgs.zpix-pixel-font
 
     # X
     pkgs.xorg.xset

@@ -5,4 +5,6 @@ swaybg -i kirby/program/bspwm/background/jWTBsU0.jpg &
 
 waybar &
 
+fcitx5 &
+
 wlr-randr --output "$(wlr-randr | grep -m 1 '^[^ ]' | cut -d' ' -f1)" --scale 1.5 &
