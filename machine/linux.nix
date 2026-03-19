@@ -1,6 +1,6 @@
 # General configurations for linux machines
 
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 with lib;
 {
   options.kirby.linux = {
@@ -39,11 +39,16 @@ with lib;
       pulseaudio = true;
     };
 
-    fonts.fontconfig.enable = true;
+    nix = {
+    package = pkgs.nix;
 
-    xdg.configFile = {
-      "nix/nix.conf".source = ./nix.conf;
+    settings = {
+      experimental-features = [ "nix-command" "flakes" "pipe-operators" ];
+      warn-dirty = false;
     };
+  };
+
+    fonts.fontconfig.enable = true;
 
     home.sessionVariables = {
       NIX_PATH        = "$HOME/.nix-defexpr/channels";
