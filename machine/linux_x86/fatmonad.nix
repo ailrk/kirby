@@ -116,6 +116,7 @@ in
 
       # Environment
       sessionVariables = {
+        WSTART  = "${NIXGL} labwc";
         NIX_PATH = "$HOME/.nix-defexpr/channels";
         NIXGL    = "${NIXGL}";
         EDITOR   = "nvim";

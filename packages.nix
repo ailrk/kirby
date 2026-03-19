@@ -96,6 +96,8 @@
     pkgs.foot
     pkgs.swaybg
     pkgs.wlr-randr
+    pkgs.grim
+    pkgs.slurp
 
     pkgs.libsixel
     pkgs.lsix

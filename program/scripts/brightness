@@ -8,5 +8,5 @@ case $1 in
         ;;
     down)
         brightnessctl set 10%-
-        dunstify -t 1000 -r $ID "Brightness: donw"
+        dunstify -t 1000 -r $ID "Brightness: down"
 esac
