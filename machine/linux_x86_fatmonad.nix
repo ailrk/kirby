@@ -7,9 +7,9 @@ let
 in
 {
   imports = [
-    ../../program/default.nix
-    ../../service/default.nix
-    ../linux.nix
+    ../program/default.nix
+    ../service/default.nix
+    ./linux.nix
   ];
 
   options.kirby.home.linux_x86.fatmonad = {
@@ -58,11 +58,8 @@ in
       service = {
         ollama.enable = true;
       };
-    };
 
-    nixpkgs.config = {
-      allowUnfree = true;
-      pulseaudio = true;
+      linux.enable = true;
     };
 
     # Make sure check .local/share/applications/mimeinfo.cache
@@ -87,8 +84,6 @@ in
       };
     };
 
-    fonts.fontconfig.enable = true;
-
     # Install packages
     home = {
       packages = [
@@ -99,15 +94,15 @@ in
         pkgs.dotnet-sdk
         pkgs.purescript
 
-          # gui
-          pkgs.google-chrome
-          pkgs.muse
-          pkgs.blender
-          pkgs.telegram-desktop
-          pkgs.discord
-          pkgs.aseprite
-          pkgs.tiled
-        ] ++ pkgs.callPackage ../../packages.nix {};
+        # gui
+        pkgs.google-chrome
+        pkgs.muse
+        pkgs.blender
+        pkgs.telegram-desktop
+        pkgs.discord
+        pkgs.aseprite
+        pkgs.tiled
+      ] ++ pkgs.callPackage ../packages.nix {};
 
 
       # Environment
@@ -121,15 +116,5 @@ in
         FILES    = "nautilus";
       };
     };
-
-    # User specific overlays.
-    nixpkgs.overlays = [
-      # discord
-      (self: super: {
-        discord = super.discord.overrideAttrs (_: {
-          src = builtins.fetchTarball https://discord.com/api/download?platform=linux&format=tar.gz;
-        });
-      })
-    ];
   };
 }

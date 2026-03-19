@@ -7,9 +7,9 @@ let
 in
 {
   imports = [
-    ../../program/default.nix
-    ../../service/default.nix
-    ../linux.nix
+    ../program/default.nix
+    ../service/default.nix
+    ./linux.nix
   ];
 
   options.kirby.home.linux_m1.ailrk= {
@@ -58,6 +58,7 @@ in
       service = {
         ollama.enable = true;
       };
+      linux.enable = true;
     };
 
     # Install packages
@@ -71,33 +72,19 @@ in
           pkgs.chromium
           pkgs.aseprite
           pkgs.tiled
-        ] ++ pkgs.callPackage ../../packages.nix {};
+        ] ++ pkgs.callPackage ../packages.nix {};
 
-
-    xdg.configFile = {
-      "nix/nix.conf".source = ./nix.conf;
-    };
 
     # Environment
     home.sessionVariables = {
-      WSTART          = "${NIXGL} labwc";
-      NIX_PATH        = "$HOME/.nix-defexpr/channels";
-      NIX_REMOTE      = "daemon";
-      NIXGL           = "${NIXGL}";
-      EDITOR          = "nvim";
-      BROWSER         = "chromium";
-      TERMINAL        = "alacritty";
-      FILES           = "nautilus";
-      BATTERY         = "macsmc-battery";
-      BATTERY_ADAPTOR = "macsmc-ac";
+      WSTART     = "${NIXGL} labwc";
+      NIX_REMOTE = "daemon";
+      NIXGL      = "${NIXGL}";
+      FILES      = "nautilus";
+      EDITOR     = "nvim";
+      BROWSER    = "chromium";
+      TERMINAL   = "alacritty";
     };
-
-    nixpkgs.config = {
-      allowUnfree = true;
-      pulseaudio = true;
-    };
-
-    fonts.fontconfig.enable = true;
 
     # User specific overlays.
     nixpkgs.overlays = [

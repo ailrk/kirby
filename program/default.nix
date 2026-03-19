@@ -1,20 +1,19 @@
 {
   imports = [
-    ./alacritty/default.nix
+    ./alacritty.nix
     ./compton/default.nix
     ./dunst/default.nix
     ./rofi/default.nix
     ./labwc/default.nix
     ./waybar/default.nix
     ./fish/default.nix
-    ./git/default.nix
+    ./git.nix
     ./neovim/default.nix
     ./nmap/default.nix
     ./ranger/default.nix
     ./scripts/index.nix
-    ./tmux/default.nix
+    ./tmux.nix
     ./zsh/default.nix
-    ./git/default.nix
     ./ueberzugpp.nix
     ./fcitx5.nix
   ];

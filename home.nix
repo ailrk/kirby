@@ -5,14 +5,14 @@ let
   system = builtins.currentSystem;  # Use currentSystem to detect platform
   machine = {
     "x86_64-linux" = {
-      imports = [ ./machine/linux_x86/fatmonad.nix ];
+      imports = [ ./machine/linux_x86_fatmonad.nix ];
       kirby.home.linux_x86.fatmonad = {
         enable = true;
         colorMode = colorMode;
       };
     };
     "aarch64-linux" = {
-      imports = [ ./machine/linux_m1/ailrk.nix ];
+      imports = [ ./machine/linux_m1_ailrk.nix ];
       kirby.home.linux_m1.ailrk = {
         enable  = true;
         colorMode = colorMode;
