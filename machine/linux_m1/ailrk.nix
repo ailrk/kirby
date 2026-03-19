@@ -78,6 +78,7 @@ in
 
     # Environment
     home.sessionVariables = {
+      WSTART          = "${NIXGL} labwc";
       NIX_PATH        = "$HOME/.nix-defexpr/channels";
       NIX_REMOTE      = "daemon";
       NIXGL           = "${NIXGL}";
