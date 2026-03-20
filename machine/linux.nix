@@ -3,6 +3,7 @@
 { config, lib, pkgs, ... }:
 with lib;
 {
+
   options.kirby.linux = {
     enable  = mkEnableOption "Enable generic linux settings";
   };
@@ -34,6 +35,16 @@ with lib;
     </fontconfig>
     '';
 
+    xdg.dataFile = {
+      "icons/hicolor/32x32/apps/console.png" = {
+        source = ../static/icon/console-32.png;
+      };
+
+      "icons/hicolor/64x64/apps/console.png" = {
+        source = ../static/icon/console-64.png;
+      };
+    };
+
     nixpkgs.config = {
       allowUnfree = true;
       pulseaudio = true;
@@ -50,10 +61,12 @@ with lib;
 
     fonts.fontconfig.enable = true;
 
+    home.activation.updateIconCache = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    $DRY_RUN_CMD ${pkgs.gtk3}/bin/gtk-update-icon-cache $VERBOSE_ARG ~/.local/share/icons/hicolor
+    '';
+
     home.sessionVariables = {
-      NIX_PATH        = "$HOME/.nix-defexpr/channels";
-      BATTERY         = "macsmc-battery";
-      BATTERY_ADAPTOR = "macsmc-ac";
+      NIX_PATH      = "$HOME/.nix-defexpr/channels";
     };
 
     # User specific overlays.
@@ -61,7 +74,7 @@ with lib;
       # discord
       (self: super: {
         discord = super.discord.overrideAttrs (_: {
-          src = builtins.fetchTarball https://discord.com/api/download?platform=linux&format=tar.gz;
+          src = builtins.fetchTarball "https://discord.com/api/download?platform=linux&format=tar.gz";
         });
       })
     ];

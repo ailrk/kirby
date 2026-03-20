@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-rofi_command="rofi -theme $HOME/.config/rofi/theme/menu.rasi"
+rofi_command="rofi -theme $HOME/.config/rofi/theme/menu.rasi -close-on-unfocus"
 Shutdown=" Shutdown"
 Reboot=" Reboot"
 Lock=" Lock"

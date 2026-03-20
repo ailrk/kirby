@@ -77,13 +77,15 @@ in
 
     # Environment
     home.sessionVariables = {
-      WSTART     = "${NIXGL} labwc";
-      NIX_REMOTE = "daemon";
-      NIXGL      = "${NIXGL}";
-      FILES      = "nautilus";
-      EDITOR     = "nvim";
-      BROWSER    = "chromium";
-      TERMINAL   = "alacritty";
+      WSTART          = "${NIXGL} labwc";
+      NIX_REMOTE      = "daemon";
+      NIXGL           = "${NIXGL}";
+      FILES           = "nautilus";
+      EDITOR          = "nvim";
+      BROWSER         = "chromium";
+      TERMINAL        = "alacritty";
+      BATTERY         = "macsmc-battery";
+      BATTERY_ADAPTOR = "macsmc-ac";
     };
 
     # User specific overlays.

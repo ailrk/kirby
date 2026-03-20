@@ -1,4 +1,3 @@
-/* Color Definitions */
 @define-color red1 #BF616A;
 @define-color green1 #A3BE8C;
 @define-color yellow1 #EBCB8B;
@@ -26,12 +25,7 @@ window#waybar {
     color: @foreground;
 }
 
-/* Modules Left: Window Controls & Workspaces */
-#custom-winclose, #custom-winmax {
-    color: @foreground;
-    padding: 0 15px;
-}
-
+/* --- Workspaces --- */
 #workspaces button {
     padding: 0 12px;
     color: @foreground;
@@ -44,38 +38,46 @@ window#waybar {
     border-bottom: 4px solid @primary;
 }
 
-#workspaces button.occupied {
-    background: @background;
-    color: @foreground;
+#workspaces button.urgent {
+    background-color: @alert;
 }
 
-/* Modules Center: Window Title */
-#window {
+/* --- Window & Taskbar --- */
+#window, #taskbar {
     color: @foreground;
     padding: 0 10px;
 }
 
-/* Modules Right: System Info */
-#memory, #cpu, #temperature, #network, #pulseaudio, #battery {
+#taskbar button {
+    padding: 0 8px;
+    min-width: 24px;
+}
+
+#taskbar button.active {
+    background: @background-alt;
+    border-bottom: 2px solid @primary;
+}
+
+/* --- Right Side Modules --- */
+#memory, #cpu, #temperature, #network, #pulseaudio, #custom-battery {
     padding: 0 8px;
     color: @foreground;
 }
 
-/* Matching your specific Polybar underlines/colors */
 #cpu { border-bottom: 4px solid @blue1; }
 #memory { border-bottom: 4px solid @magenta1; }
+#temperature { border-bottom: 4px solid @yellow1; }
 
-#network.ethernet { border-bottom: 4px solid #95ffa4; } /* From your eth module */
+#network.eth { border-bottom: 4px solid #95ffa4; }
+#network.wlan { border-bottom: 4px solid @cyan1; }
 
-/* The "Red Blocks" (Date and Powermenu) */
-#clock, #custom-powermenu, #custom-quickaccess {
-    background-color: @red1;
-    color: @foreground;
-    padding: 0 10px;
-    margin-left: 5px;
+#pulseaudio { border-bottom: 4px solid @green1; }
+
+#custom-battery {
+    border-bottom: 4px solid @yellow1;
 }
 
-#battery.critical:not(.charging) {
-    background-color: @alert;
-    color: @foreground;
+#clock, #custom-powermenu, #custom-quickaccess {
+    padding: 0 8px;
+    background-color: @red1
 }

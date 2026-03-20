@@ -65,6 +65,7 @@
     pkgs.python312Packages.ipython
     pkgs.pyright
 
+    # font
     pkgs.fira-code
     pkgs.paratype-pt-mono
     pkgs.apl386
@@ -80,6 +81,13 @@
     pkgs.ultimate-oldschool-pc-font-pack
     pkgs.zpix-pixel-font
 
+    # nix
+    pkgs.nix-tree
+    pkgs.nix-visualize
+    pkgs.nix-diff
+    pkgs.nvd
+    pkgs.nix-index
+
     # X
     pkgs.xorg.xset
     pkgs.xorg.xinput
@@ -90,7 +98,6 @@
     pkgs.pinentry-curses
     pkgs.xclip
     pkgs.scrot
-
 
     # wayland
     pkgs.cage

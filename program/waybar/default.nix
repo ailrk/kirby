@@ -16,5 +16,7 @@ in
 
     xdg.configFile."waybar/config".source = ./config;
     xdg.configFile."waybar/style.css".source = ./style.css;
+    xdg.configFile."waybar/battery.sh".source = ./battery.sh;
+    xdg.configFile."waybar/im.sh".source = ./im.sh;
   };
 }

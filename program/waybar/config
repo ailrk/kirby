@@ -6,38 +6,41 @@
     "margin-bottom": 0,
     "spacing": 4,
 
-    "modules-left": ["custom/winclose", "custom/winmax", "wlr/workspaces"],
-    "modules-center": ["wlr/window"],
+    "modules-left": ["ext/workspaces"],
+    "modules-center": ["wlr/taskbar"],
     "modules-right": [
         "memory", "cpu", "temperature",
         "network#eth", "network#wlan",
-        "keyboard-state", "pulseaudio",
-        "battery", "clock",
+        "custom/im",
+        "pulseaudio",
+        "custom/battery", "clock",
         "custom/quickaccess", "custom/powermenu"
     ],
 
-    "wlr/workspaces": {
-        "format": "{name}",
-        "on-click": "activate",
-        "sort-by-number": true
+    "ext/workspaces": {
+      "format": "{name} {icon}",
+      "on-click": "activate",
+      "format-icons": {
+        "active": "",
+        "default": ""
+      },
+      "sort-by-id": true
     },
 
-    "wlr/window": {
-        "format": "{}",
-        "max-length": 50,
-        "on-click": "launcher.sh window"
-    },
-
-    "custom/winclose": {
-        "format": "",
-        "on-click": "labwc --close",
-        "tooltip": false
-    },
-
-    "custom/winmax": {
-        "format": "",
-        "on-click": "labwc --toggle-maximize",
-        "tooltip": false
+    "wlr/taskbar": {
+      "format": "{icon}",
+      "icon-size": 18,
+      "tooltip-format": "{title}",
+      "on-click": "activate",
+      "on-click-middle": "close",
+      "app_ids-mapping": {
+        "firefoxdeveloperedition": "firefox-developer-edition",
+        "Alacritty": "terminal",
+        "alacritty": "terminal"
+      },
+      "rewrite": {
+        "Firefox Web Browser": "Firefox",
+      }
     },
 
     "cpu": { "format": " {usage}%" },
@@ -51,48 +54,55 @@
     },
 
     "network#eth": {
-        "interface": "enp0s25",
+        "interface": "e*",
         "format-connected": "󰈀 {ipaddr}",
         "format-disconnected": "no eth"
     },
 
     "network#wlan": {
-        "interface": "wlp2s0",
+        "interface": "w*",
         "format-connected": " {upspeed} {downspeed}",
         "format-disconnected": "disconnected"
+    },
+
+    "custom/im": {
+      "exec": "~/.config/waybar/im.sh",
+      "interval": 1,
+      "format": "  {}",
+      "on-click": "fcitx5-remote -t",
+      "tooltip": false
     },
 
     "pulseaudio": {
         "format": "{icon} {volume}%",
         "format-muted": " muted",
-        "format-icons": { "default": ["", "", ""] }
+        "format-icons": { "default": ["", "", ""] },
+        "on-click": "volume mute"
     },
 
-    "battery": {
-      "states": {
-        "warning": 30,
-        "critical": 15
-      },
-      "format": "{icon} {percentage}%",
-      "format-charging": " {percentage}%",
-      "format-plugged": " {percentage}%",
-      "format-alt": "{icon} {time}",
-      "format-icons": ["", "", "", "", ""]
+    "custom/battery": {
+      "exec": "~/.config/waybar/battery.sh",
+      "interval": 60,
+      "format": "{}",
+      "tooltip": false
     },
 
     "clock": {
       "interval": 1,
       "format": " {:%m-%d %I:%M %p}",
-      "format-alt": " {:%Y-%m-%d %H:%M:%S}"
+      "format-alt": " {:%Y-%m-%d %H:%M:%S}",
+      "tooltip": false
     },
 
     "custom/quickaccess": {
-        "format": "",
-        "on-click": "quickaccess.sh"
+      "format": "",
+      "on-click": "quickaccess.sh",
+      "tooltip": false
     },
 
     "custom/powermenu": {
-        "format": "",
-        "on-click": "powermenu.sh"
+      "format": "",
+      "on-click": "powermenu.sh",
+      "tooltip": false
     }
 }
