@@ -78,7 +78,7 @@ set completeopt=menu,menuone,noinsert,noselect
 "
 nnoremap <C-e> :NERDTreeToggle<CR>
 let NERDTreeRespectWildIgnore=1
-let g:NERDTreeWinSize = 30
+let g:NERDTreeWinSize = 35
 nnoremap <space>n  <cmd>NERDTreeFind<cr>
 
 "

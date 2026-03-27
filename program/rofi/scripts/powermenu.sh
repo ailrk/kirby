@@ -35,7 +35,7 @@ chosen="$(echo -e "$options" | $rofi_command -p "Power Menu" -dmenu -selected-ro
 case $chosen in
     "$Shutdown") ans=$(confirm_exit &); if is_yes "$ans"; then systemctl poweroff; elif is_no "$ans"; then exit 0; else msg; fi ;;
     "$Reboot")   ans=$(confirm_exit &); if is_yes "$ans"; then systemctl reboot;   elif is_no "$ans"; then exit 0; else msg; fi ;;
-    "$Lock")     dm-tool lock ;;
+    "$Lock")     waylock ;;
     "$Suspend")  systemctl suspend ;;
     "$Logout")   bspc quit ;;
 esac
