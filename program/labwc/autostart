@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Set the wallpaper
-swaybg -i "$HOME/.config/home-manager/static/background/jWTBsU0.jpg" &
+swaybg -i "$HOME/.config/home-manager/static/background/moonpx.png" &
 
 waybar &
 
