@@ -103,6 +103,7 @@
     pkgs.cage
     pkgs.foot
     pkgs.swaybg
+    pkgs.mpvpaper
     pkgs.wlr-randr
     pkgs.grim
     pkgs.slurp
