@@ -3,6 +3,13 @@ with
 lib;
 let
   cfg = config.kirby.service.ollama;
+
+  # Pinning unstable specifically for ollama because it's changing every day.
+  unstable = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz") {
+    inherit (pkgs) system;
+    config.allowUnfree = true;
+  };
+
   # you can't inline multiple environment variables, just use a file here.
   envFileAMDRTX6600 = pkgs.writeTextFile {
     name = "ollama-env-vars.env";
@@ -14,8 +21,8 @@ let
 
   ollama =
     if cfg.amd
-      then pkgs.ollama-rocm
-      else pkgs.ollama;
+      then unstable.ollama-rocm
+      else unstable.ollama;
 in
 {
 
