@@ -56,7 +56,10 @@ in
       };
 
       service = {
-        ollama.enable = true;
+        ollama = {
+          enable = true;
+          amd = true;
+        };
       };
 
       linux.enable = true;
