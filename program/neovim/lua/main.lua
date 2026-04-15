@@ -80,7 +80,7 @@ require('packer').startup(function(use)
     -- nvim
     use {'nvim-lua/plenary.nvim'}
     use {'nvim-telescope/telescope.nvim'}
-    use {'nvim-telescope/telescope-ui-select.nvim' }
+    use {'nvim-telescope/telescope-ui-select.nvim'}
     use {'neovim/nvim-lsp'}
     use {'ailrk/telescope-context.nvim'}
     use {

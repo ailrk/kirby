@@ -1,5 +1,6 @@
 -- telescope
 -- This is your opts table
+
 require("telescope").setup {
   extensions = {
     ["ui-select"] = {
@@ -14,13 +15,14 @@ require("telescope").setup {
       cwd_only = true,
       theme = "dropdown", -- Optional: makes it look cleaner
       previewer = true,
+      path_display = { "filename_first" },
       mappings = {
         i = {
           ["<c-d>"] = "delete_buffer",
         }
       }
     }
-  }
+  },
 }
 
 
