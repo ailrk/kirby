@@ -97,6 +97,7 @@ tnoremap <Esc> <C-\><C-n>
 
 "
 " Scratch Buffer
+"
 
 nmap <leader>sc :Scratch<CR>
 let g:scratch_horizontal = 0
@@ -104,6 +105,7 @@ let g:scratch_top = 0
 let g:scratch_height = 30
 let g:scratch_autohide = 0
 let g:scratch_persistence_file = expand('~/.local/state/nvim/scratch')
+
 " Confusingly, only scratch_autohide can write to the scratch.
 " To workaround, we append an extra rule here.
 augroup ScratchPersistence
@@ -117,7 +119,7 @@ augroup END
 nmap # <nop>
 nnoremap # <cmd>Telescope grep_string<cr>
 
-
+"
 " System copy
 "
 
