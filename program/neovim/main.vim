@@ -111,7 +111,7 @@ let g:scratch_persistence_file = expand('~/.local/state/nvim/scratch')
 augroup ScratchPersistence
     autocmd BufHidden __Scratch__ execute 'w! ' . expand(g:scratch_persistence_file)
     autocmd VimLeavePre __Scratch__ execute 'w! ' . expand(g:scratch_persistence_file)
-    autocmd CursorHold,CursorHoldI __Scratch__ silent! execute 'update ' . g:scratch_persistence_file
+    autocmd CursorHold,CursorHoldI __Scratch__ silent! execute 'w! ' . expand(g:scratch_persistence_file)
 augroup END
 
 
