@@ -1,6 +1,6 @@
 -- https://github.com/wbthomason/packer.nvim#notices
 
--------------------------------------------------------------------
+-------------------------------
 -- bootstrapping
 local execute = vim.api.nvim_command
 do
@@ -16,7 +16,7 @@ end
 
 execute 'packadd packer.nvim'
 
--------------------------------------------------------------------
+-------------------------------
 -- PLUGINS
 require('packer').startup(function(use)
     -- convenient
