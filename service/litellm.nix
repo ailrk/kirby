@@ -44,7 +44,7 @@ in
         # Best practice: Load the key from a file outside the Nix store
         # Replace "/home/youruser/.keys/openrouter.txt" with your actual path
         Environment = [
-          "OPENROUTER_API_KEY=${builtins.readFile "~/.keys/openrouter"}"
+          "OPENROUTER_API_KEY=${config.sops.secrets.OPENROUTER_API_KEY.path}"
         ];
       };
       Install = {

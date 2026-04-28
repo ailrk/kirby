@@ -3,7 +3,7 @@
 with lib;
 let
   cfg   = config.kirby.home.linux_m1.ailrk;
-  NIXGL = "nixGLMesa";
+  NIXGL = "nixGLIntel";
 in
 {
   imports = [
@@ -63,8 +63,9 @@ in
 
     # Install packages
     home.packages = [
-          (with import <nixgl> { enable32bits = false; }; nixGLMesa)
-          (with import <nixgl> { enable32bits = false; }; nixVulkanMesa)
+          inputs.nixgl.packages.${pkgs.system}.nixVulkanIntel
+          inputs.nixgl.packages.${pkgs.system}.nixGLIntel
+
           # libraries
           pkgs.libGL
           pkgs.libgcc
@@ -90,13 +91,6 @@ in
 
     # User specific overlays.
     nixpkgs.overlays = [
-
-      # discord
-      (self: super: {
-        discord = super.discord.overrideAttrs (_: {
-          src = builtins.fetchTarball https://discord.com/api/download?platform=linux&format=tar.gz;
-        });
-      })
     ];
   };
 }

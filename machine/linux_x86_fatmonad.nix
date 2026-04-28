@@ -1,5 +1,5 @@
 # fatmonad
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 with lib;
 let
   cfg   = config.kirby.home.linux_x86.fatmonad;
@@ -22,12 +22,20 @@ in
   };
 
   config = mkIf config.kirby.home.linux_x86.fatmonad.enable {
-    home.stateVersion = "24.11";
+    home.stateVersion = "25.11";
     home.username = "fatmonad";
     home.homeDirectory = "/home/fatmonad";
     manual.manpages.enable = false;
     programs = {
       home-manager.enable = true;
+    };
+
+    sops = {
+      age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+      defaultSopsFile = ../../secrets/secrets.yaml;
+      secrets = {
+         OPENROUTER_API_KEY = {};
+      };
     };
 
     kirby = {
@@ -94,8 +102,8 @@ in
     # Install packages
     home = {
       packages = [
-        (with import <nixgl> { enable32bits = false; }; nixVulkanMesa)
-        (with import <nixgl> { enable32bits = false; }; nixGLIntel)
+        inputs.nixgl.packages.${pkgs.system}.nixVulkanIntel
+        inputs.nixgl.packages.${pkgs.system}.nixGLIntel
         pkgs.libGL
         pkgs.racket
         pkgs.dotnet-sdk
