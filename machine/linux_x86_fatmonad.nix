@@ -36,6 +36,11 @@ in
       secrets = {
          OPENROUTER_API_KEY = {};
       };
+      templates = {
+        "litellm-env".content = ''
+          OPENROUTER_API_KEY=${config.sops.placeholder.OPENROUTER_API_KEY}
+        '';
+      };
     };
 
     kirby = {
@@ -70,7 +75,7 @@ in
         };
         litellm = {
           enable = true;
-          model = "openrouter/qwen/qwen-2.5-coder-32b";
+          model = "openrouter/qwen/qwen3-coder-next";
         };
       };
 

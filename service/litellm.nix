@@ -9,6 +9,7 @@ let
         litellm_params:
           model: ${cfg.model}
           api_key: "os.environ/OPENROUTER_API_KEY"
+          max_tokens: 4096
           drop_params: true
 
     litellm_settings:
@@ -21,7 +22,7 @@ in
     enable = mkEnableOption "Enable LiteLLM Bridge";
     model = mkOption {
       type = types.str;
-      default = "openrouter/qwen/qwen-2.5-coder-32b";
+      default = "openrouter/qwen/qwen3-coder-next";
     };
     port = mkOption {
       type = types.str;
@@ -40,12 +41,7 @@ in
       Service = {
         ExecStart = "${pkgs.litellm}/bin/litellm --config ${litellmConfigFile} --port ${cfg.port}";
         Restart = "on-failure";
-
-        # Best practice: Load the key from a file outside the Nix store
-        # Replace "/home/youruser/.keys/openrouter.txt" with your actual path
-        Environment = [
-          "OPENROUTER_API_KEY=${config.sops.secrets.OPENROUTER_API_KEY.path}"
-        ];
+        EnvironmentFile = config.sops.templates."litellm-env".path;
       };
       Install = {
         WantedBy = [ "default.target" ];
