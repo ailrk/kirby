@@ -60,6 +60,10 @@ in
           enable = true;
           amd = true;
         };
+        litellm = {
+          enable = true;
+          model = "openrouter/qwen/qwen-2.5-coder-32b";
+        };
       };
 
       linux.enable = true;
@@ -110,13 +114,13 @@ in
 
       # Environment
       sessionVariables = {
-        WSTART  = "${NIXGL} labwc";
-        NIX_PATH = "$HOME/.nix-defexpr/channels";
-        NIXGL    = "${NIXGL}";
-        EDITOR   = "nvim";
-        BROWSER  = "google-chrome-stable";
-        TERMINAL = "alacritty";
-        FILES    = "nautilus";
+        WSTART             = "${NIXGL} labwc";
+        NIX_PATH           = "$HOME/.nix-defexpr/channels";
+        NIXGL              = "${NIXGL}";
+        EDITOR             = "nvim";
+        BROWSER            = "google-chrome-stable";
+        TERMINAL           = "alacritty";
+        FILES              = "nautilus";
       };
     };
   };

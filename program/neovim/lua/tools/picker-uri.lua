@@ -1,7 +1,5 @@
-local M = {}
-
 -- Function to pick and open links from the floating window
-M.picker = function()
+local function picker()
   local bufnr = vim.api.nvim_get_current_buf()
   local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
 
@@ -69,4 +67,5 @@ M.picker = function()
   }):find()
 end
 
-return M
+
+vim.keymap.set("n", "<space>o", picker, { desc = "Pick & open link from LSP hover" })

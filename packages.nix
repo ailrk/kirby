@@ -45,6 +45,8 @@
     pkgs.awscli
     pkgs.opentofu
 
+    pkgs.litellm
+
     # langs
     pkgs.valgrind
     pkgs.gnumake
@@ -63,6 +65,7 @@
     pkgs.lua
     pkgs.lua-language-server
     pkgs.python312Packages.ipython
+    pkgs.python312Packages.pygls
     pkgs.pyright
 
     # font

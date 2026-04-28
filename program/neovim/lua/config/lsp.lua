@@ -38,6 +38,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
+
 -- Haskell
 vim.lsp.config('hls', {
   filetypes = { "hs", "lhs", "haskell" },
@@ -61,6 +62,7 @@ vim.lsp.config('hls', {
   }
 })
 
+
 -- Rust
 vim.lsp.config('rust_analyzer', {
   cmd = {"rust-analyzer"},
@@ -71,6 +73,7 @@ vim.lsp.config('rust_analyzer', {
   }
 })
 
+
 -- Nix
 vim.lsp.config('nixd', {
   cmd = { 'nixd' },
@@ -79,10 +82,12 @@ vim.lsp.config('nixd', {
   }
 })
 
+
 -- Racket
 vim.lsp.config('racket_langserver', {
   cmd = { "racket", "--lib", "racket-langserver" }
 })
+
 
 -- Lua (Preserving your dynamic workspace logic)
 vim.lsp.config('lua_ls', {
@@ -102,6 +107,7 @@ vim.lsp.config('lua_ls', {
   settings = { Lua = {} }
 })
 
+
 -- Lean4
 vim.lsp.config('lean4', {
   cmd = { 'lean', '--server' },
@@ -109,7 +115,9 @@ vim.lsp.config('lean4', {
   filetypes = { 'lean' },
 })
 
--- 4. Enable All Servers
+
+
+-- Enable All Servers
 -- List every server you use here. If no config was defined above,
 -- it will use Neovim's internal defaults.
 vim.lsp.enable({
@@ -130,5 +138,5 @@ vim.lsp.enable({
   'ts_ls',
   'vimls',
   'bashls',
-  'lean4'
+  'lean4',
 })

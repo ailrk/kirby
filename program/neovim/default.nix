@@ -15,9 +15,14 @@ in
     programs.neovim = {
       enable = true;
       extraConfig = ''
-        source $HOME/.config/nvim/main.vim
+      source $HOME/.config/nvim/main.vim
       '';
       package = pkgs.neovim-unwrapped;
+      withPython3 = true;
+      extraPython3Packages = ps: with ps; [
+        pygls
+        pynvim
+      ];
     };
 
     xdg.configFile."nvim/main.vim".source = ./main.vim;

@@ -1,6 +1,4 @@
 -- Toggle a live buffer that shows outputs from :messages
-local M = {}
-
 
 local messagesBuf = nil
 local autocmdId = nil
@@ -58,6 +56,4 @@ local function toggle()
 end
 
 
-M.toggleLiveMessages = toggle
-
-return M
+vim.api.nvim_create_user_command("LiveMessagesToggle", toggle, { desc = "Show :messages in a scratch buffer"})
