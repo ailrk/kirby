@@ -85,7 +85,7 @@ require('packer').startup(function(use)
       end,
     }
 
-    use { 'github/copilot.vim' }
+    use { 'milanglacier/minuet-ai.nvim' }
 
     -- nvim
     use {'nvim-lua/plenary.nvim'}
@@ -119,7 +119,7 @@ require("config.telescope")
 require('config.theme')
 require('config.image')
 require("config.treesitter")
-require("config.copilot")
+require("config.minuet-ai")
 
 require("tools.picker-uri")
 require("tools.picker-md-links")
