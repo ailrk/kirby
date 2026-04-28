@@ -16,7 +16,7 @@ in
     enable  = mkEnableOption "Set user as a ailrk";
     colorMode = mkOption {
       type = types.enum ["dark" "light"];
-      default = "dark";
+      default = "light";
       description = "color mode of the system";
     };
   };

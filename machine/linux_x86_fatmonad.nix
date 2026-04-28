@@ -16,7 +16,7 @@ in
     enable = mkEnableOption "Set user as a fatmonad";
     colorMode = mkOption {
       type = types.enum ["dark" "light"];
-      default = "dark";
+      default = "light";
       description = "color mode of the system";
     };
   };
@@ -32,7 +32,7 @@ in
 
     sops = {
       age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
-      defaultSopsFile = ../../secrets/secrets.yaml;
+      defaultSopsFile = ../secrets/secret.yaml;
       secrets = {
          OPENROUTER_API_KEY = {};
       };
