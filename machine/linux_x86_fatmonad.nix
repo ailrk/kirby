@@ -77,7 +77,7 @@ in
         };
         litellm = {
           enable = true;
-          model = "gemini/gemini-2.5-flash";
+          model = "gemini/gemini-2.5-flash-lite";
           apiKey = "os.environ/GEMINI_API_KEY";
         };
       };
