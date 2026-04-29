@@ -25,3 +25,8 @@ require('minuet').setup({
     },
   }
 })
+
+vim.keymap.set('n', '<leader>av', '<cmd>Minuet virtualtext toggle<CR>', {
+    desc = 'Toggle Minuet Virtual Text',
+    silent = true
+})
