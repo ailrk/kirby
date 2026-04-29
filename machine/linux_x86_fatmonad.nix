@@ -105,6 +105,9 @@ in
         pkgs.discord
         pkgs.aseprite
         pkgs.tiled
+
+        pkgs.winetricks
+        pkgs.wineWow64Packages.unstable
       ] ++ pkgs.callPackage ../packages.nix {};
 
 

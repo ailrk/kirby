@@ -81,9 +81,6 @@
     pkgs.ultimate-oldschool-pc-font-pack
     pkgs.zpix-pixel-font
 
-    pkgs.winetricks
-    pkgs.wineWow64Packages.unstable
-
     # nix
     pkgs.nix-tree
     pkgs.nix-visualize
