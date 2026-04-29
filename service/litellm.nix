@@ -7,8 +7,8 @@ let
     model_list:
       - model_name: copilot-model
         litellm_params:
-          model: ${cfg.model}
-          api_key: ${cfg.apiKey}
+          model: ${cfg.instances.copilot.model}
+          api_key: ${cfg.instances.copilot.apiKey}
           max_tokens: 4096
           drop_params: true
 
@@ -17,22 +17,26 @@ let
       set_verbose: false
   '';
 in
-{
-  options.kirby.service.litellm = {
-    enable = mkEnableOption "Enable LiteLLM Bridge";
-    model = mkOption {
-      type = types.str;
-      default = "no-model";
+  {
+    options.kirby.service.litellm = {
+      port = mkOption {
+        type = types.str;
+        default = "11435";
+        description = "The port for LiteLLM service";
+      };
+
+      enable = mkEnableOption "Enable LiteLLM service";
+
+      instances = mkOption {
+        type = types.attrsOf (types.submodule {
+          options = {
+            model = mkOption { type = types.str; default = "no-model"; };
+            apiKey = mkOption { type = types.str; default = "no-key"; };
+          };
+        });
+        default = {};
+      };
     };
-    port = mkOption {
-      type = types.str;
-      default = "11435";
-    };
-    apiKey = mkOption {
-      type = types.str;
-      default = "no-key";
-    };
-  };
   config = mkIf cfg.enable {
     home.packages = [ pkgs.litellm ];
 

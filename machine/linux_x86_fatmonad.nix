@@ -62,8 +62,12 @@ in
         };
         litellm = {
           enable = true;
-          model = "gemini/gemini-2.5-flash-lite";
-          apiKey = "os.environ/GEMINI_API_KEY";
+          instances = {
+            copilot = {
+              model = "mistral/codestral-latest";
+              apiKey = "os.environ/MISTRAL_API_KEY";
+            };
+          };
         };
       };
 

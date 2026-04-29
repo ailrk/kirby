@@ -9,18 +9,19 @@ with lib;
   };
 
   config = mkIf config.kirby.linux.enable {
-
     sops = {
       age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
       defaultSopsFile = ../secrets/secret.yaml;
       secrets = {
          OPENROUTER_API_KEY = {};
          GEMINI_API_KEY = {};
+         MISTRAL_API_KEY = {};
       };
       templates = {
         "litellm-env".content = ''
           OPENROUTER_API_KEY=${config.sops.placeholder.OPENROUTER_API_KEY}
           GEMINI_API_KEY=${config.sops.placeholder.GEMINI_API_KEY}
+          MISTRAL_API_KEY=${config.sops.placeholder.MISTRAL_API_KEY}
         '';
       };
     };
