@@ -1,7 +1,6 @@
 -- Capture markdown links like this: [text](link)
 -- If the link is a file in the current directory, preview will show
 -- the file.
-local M = {}
 
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
@@ -9,7 +8,7 @@ local previewers = require("telescope.previewers")
 local conf = require("telescope.config").values
 
 
-M.picker = function ()
+local function picker ()
   local bufnr = vim.api.nvim_get_current_buf()
   local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
   local results = {}
@@ -71,4 +70,4 @@ M.picker = function ()
   }):find()
 end
 
-return M
+vim.keymap.set("n", "<space>ml", picker, { desc = "Markdown links" })

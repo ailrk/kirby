@@ -3,7 +3,7 @@
 with lib;
 let
   cfg   = config.kirby.home.linux_m1.ailrk;
-  NIXGL = "nixGLMesa";
+  NIXGL = "nixGLIntel";
 in
 {
   imports = [
@@ -16,7 +16,7 @@ in
     enable  = mkEnableOption "Set user as a ailrk";
     colorMode = mkOption {
       type = types.enum ["dark" "light"];
-      default = "dark";
+      default = "light";
       description = "color mode of the system";
     };
   };
@@ -63,8 +63,9 @@ in
 
     # Install packages
     home.packages = [
-          (with import <nixgl> { enable32bits = false; }; nixGLMesa)
-          (with import <nixgl> { enable32bits = false; }; nixVulkanMesa)
+          inputs.nixgl.packages.${pkgs.system}.nixVulkanIntel
+          inputs.nixgl.packages.${pkgs.system}.nixGLIntel
+
           # libraries
           pkgs.libGL
           pkgs.libgcc
@@ -77,26 +78,19 @@ in
 
     # Environment
     home.sessionVariables = {
-      WSTART          = "${NIXGL} labwc";
-      NIX_REMOTE      = "daemon";
-      NIXGL           = "${NIXGL}";
-      FILES           = "nautilus";
-      EDITOR          = "nvim";
-      BROWSER         = "chromium";
-      TERMINAL        = "alacritty";
-      BATTERY         = "macsmc-battery";
-      BATTERY_ADAPTOR = "macsmc-ac";
+      WSTART             = "${NIXGL} labwc";
+      NIX_REMOTE         = "daemon";
+      NIXGL              = "${NIXGL}";
+      FILES              = "nautilus";
+      EDITOR             = "nvim";
+      BROWSER            = "chromium";
+      TERMINAL           = "alacritty";
+      BATTERY            = "macsmc-battery";
+      BATTERY_ADAPTOR    = "macsmc-ac";
     };
 
     # User specific overlays.
     nixpkgs.overlays = [
-
-      # discord
-      (self: super: {
-        discord = super.discord.overrideAttrs (_: {
-          src = builtins.fetchTarball https://discord.com/api/download?platform=linux&format=tar.gz;
-        });
-      })
     ];
   };
 }

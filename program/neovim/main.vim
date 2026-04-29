@@ -104,16 +104,6 @@ let g:scratch_horizontal = 0
 let g:scratch_top = 0
 let g:scratch_height = 30
 let g:scratch_autohide = 0
-let g:scratch_persistence_file = expand('~/.local/state/nvim/scratch')
-
-" Confusingly, only scratch_autohide can write to the scratch.
-" To workaround, we append an extra rule here.
-augroup ScratchPersistence
-    autocmd BufHidden __Scratch__ execute 'w! ' . expand(g:scratch_persistence_file)
-    autocmd VimLeavePre __Scratch__ execute 'w! ' . expand(g:scratch_persistence_file)
-    autocmd CursorHold,CursorHoldI __Scratch__ silent! execute 'w! ' . expand(g:scratch_persistence_file)
-augroup END
-
 
 
 nmap # <nop>

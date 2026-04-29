@@ -16,6 +16,14 @@ end
 
 execute 'packadd packer.nvim'
 
+
+-------------------------------
+-- Vim
+vim.opt.tags = "./tags/tags;,tags/tags;,"
+vim.opt.pumheight = 8
+vim.o.winborder = 'rounded'
+
+
 -------------------------------
 -- PLUGINS
 require('packer').startup(function(use)
@@ -77,6 +85,8 @@ require('packer').startup(function(use)
       end,
     }
 
+    use { 'milanglacier/minuet-ai.nvim' }
+
     -- nvim
     use {'nvim-lua/plenary.nvim'}
     use {'nvim-telescope/telescope.nvim'}
@@ -109,23 +119,8 @@ require("config.telescope")
 require('config.theme')
 require('config.image')
 require("config.treesitter")
+require("config.minuet-ai")
 
--- Setup command
-vim.api.nvim_create_user_command("AuditOpen", require('tools.audit').audit_open, {})
-vim.keymap.set("n", "<space>A", require('tools.audit').audit_open)
-
-
--- URI picker on floating window
-vim.keymap.set("n", "<space>o", require('tools.picker-uri').picker, { desc = "Pick & open link from LSP hover" })
-
-
-vim.keymap.set("n", "<space>ml", require('tools.picker-md-links').picker, { desc = "Markdown links" })
-
-
--- Message to Buffer
-vim.api.nvim_create_user_command("LiveMessagesToggle", require('tools.live-messages').toggleLiveMessages, { desc = "Show :messages in a scratch buffer"})
-
-
-vim.opt.tags = "./tags/tags;,tags/tags;,"
-vim.opt.pumheight = 8
-vim.o.winborder = 'rounded'
+require("tools.picker-uri")
+require("tools.picker-md-links")
+require("tools.live-messages")
