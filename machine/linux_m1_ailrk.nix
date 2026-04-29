@@ -1,5 +1,5 @@
 # ailrk
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 with lib;
 let
   cfg   = config.kirby.home.linux_m1.ailrk;
@@ -57,6 +57,11 @@ in
       };
       service = {
         ollama.enable = true;
+        litellm = {
+          enable = true;
+          model = "gemini/gemini-2.5-flash";
+          apiKey = "os.environ/GEMINI_API_KEY";
+        };
       };
       linux.enable = true;
     };

@@ -5,6 +5,7 @@ require('minuet').setup({
       model = 'copilot-model',
       end_point = 'http://localhost:11435/v1/chat/completions',
       name = 'LiteLLM',
+      api_key = 'TERM', -- dummy value, we don't need it
       stream = true,
       optional = {
         max_tokens = 512,
