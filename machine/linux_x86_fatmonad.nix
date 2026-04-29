@@ -35,10 +35,12 @@ in
       defaultSopsFile = ../secrets/secret.yaml;
       secrets = {
          OPENROUTER_API_KEY = {};
+         GEMINI_API_KEY = {};
       };
       templates = {
         "litellm-env".content = ''
           OPENROUTER_API_KEY=${config.sops.placeholder.OPENROUTER_API_KEY}
+          GEMINI_API_KEY=${config.sops.placeholder.GEMINI_API_KEY}
         '';
       };
     };
@@ -75,7 +77,8 @@ in
         };
         litellm = {
           enable = true;
-          model = "openrouter/qwen/qwen3-coder-next";
+          model = "gemini/gemini-2.5-flash";
+          apiKey = "os.environ/GEMINI_API_KEY";
         };
       };
 

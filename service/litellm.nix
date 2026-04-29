@@ -8,7 +8,7 @@ let
       - model_name: copilot-model
         litellm_params:
           model: ${cfg.model}
-          api_key: "os.environ/OPENROUTER_API_KEY"
+          api_key: ${cfg.apiKey}
           max_tokens: 4096
           drop_params: true
 
@@ -22,14 +22,17 @@ in
     enable = mkEnableOption "Enable LiteLLM Bridge";
     model = mkOption {
       type = types.str;
-      default = "openrouter/qwen/qwen3-coder-next";
+      default = "no-model";
     };
     port = mkOption {
       type = types.str;
       default = "11435";
     };
+    apiKey = mkOption {
+      type = types.str;
+      default = "no-key";
+    };
   };
-
   config = mkIf cfg.enable {
     home.packages = [ pkgs.litellm ];
 

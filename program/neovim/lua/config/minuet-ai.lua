@@ -13,12 +13,14 @@ require('minuet').setup({
     }
   },
   virtualtext = {
-    auto_trigger_ft = { '*' },
+    auto_trigger_ft = {},
     keymap = {
-      accept = '<C-y>',
-      next = '<C-0>',
-      prev = '<C-9>',
-      dismiss = '<C-Y>',
+      accept = '<A-A>',
+      accept_line = '<A-a>',
+      accept_n_lines = '<A-z>',
+      prev = '<A-[>',
+      next = '<A-]>',
+      dismiss = '<A-e>',
     },
-  },
+  }
 })
