@@ -5,6 +5,7 @@ require('minuet').setup({
       model = 'copilot-model',
       end_point = 'http://localhost:11435/v1/chat/completions',
       name = 'LiteLLM',
+      api_key = 'TERM', -- dummy value, we don't need it
       stream = true,
       optional = {
         max_tokens = 512,
@@ -23,4 +24,9 @@ require('minuet').setup({
       dismiss = '<A-e>',
     },
   }
+})
+
+vim.keymap.set('n', '<leader>vv', '<cmd>Minuet virtualtext toggle<CR>', {
+    desc = 'Toggle Minuet Virtual Text',
+    silent = true
 })
