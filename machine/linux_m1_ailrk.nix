@@ -59,8 +59,12 @@ in
         ollama.enable = true;
         litellm = {
           enable = true;
-          model = "gemini/gemini-2.5-flash";
-          apiKey = "os.environ/GEMINI_API_KEY";
+          instances = {
+            copilot = {
+              model = "mistral/codestral-latest";
+              apiKey = "os.environ/MISTRAL_API_KEY";
+            };
+          };
         };
       };
       linux.enable = true;
