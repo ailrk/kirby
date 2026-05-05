@@ -5,7 +5,7 @@ let
 
   litellmConfigFile = pkgs.writeText "litellm-config.yaml" /* yaml */ ''
     model_list:
-      - model_name: copilot-model
+      - model_name: copilot
         litellm_params:
           model: ${cfg.instances.copilot.model}
           api_key: ${cfg.instances.copilot.apiKey}

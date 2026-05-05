@@ -2,7 +2,7 @@ require('minuet').setup({
   provider = 'openai_compatible',
   provider_options = {
     openai_compatible = {
-      model = 'copilot-model',
+      model = 'copilot',
       end_point = 'http://localhost:11435/v1/chat/completions',
       name = 'LiteLLM',
       api_key = 'TERM', -- dummy value, we don't need it

@@ -74,27 +74,6 @@ in
       linux.enable = true;
     };
 
-    # Make sure check .local/share/applications/mimeinfo.cache
-    # Sometimes gui program adds entries here and it overwrites
-    # the default setting.
-    xdg.mimeApps = {
-      enable = true;
-
-      defaultApplications = {
-        "x-scheme-handler/tg"="userapp-Telegram Desktop-5ZULP1.desktop";
-        "application/pdf"="google-chrome.desktop";
-        "image/gif"="google-chrome.desktop";
-        "x-scheme-handler/file"="google-chrome.desktop";
-      };
-
-      associations.added = {
-        "x-scheme-handler/tg"="userapp-Telegram Desktop-XX00J1.desktop;userapp-Telegram Desktop-5ZULP1.desktop;";
-        "image/png"="google-chrome.desktop;";
-        "image/jpeg"="google-chrome.desktop;";
-        "application/pdf"="google-chrome.desktop;";
-        "image/gif"="google-chrome.desktop;";
-      };
-    };
 
     # Install packages
     home = {
@@ -108,6 +87,7 @@ in
 
         # gui
         pkgs.google-chrome
+        pkgs.chromium
         pkgs.muse
         pkgs.blender
         pkgs.telegram-desktop
@@ -126,7 +106,7 @@ in
         NIX_PATH           = "$HOME/.nix-defexpr/channels";
         NIXGL              = "${NIXGL}";
         EDITOR             = "nvim";
-        BROWSER            = "google-chrome-stable";
+        BROWSER            = "firefox";
         TERMINAL           = "alacritty";
         FILES              = "nautilus";
       };
