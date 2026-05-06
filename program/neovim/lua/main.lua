@@ -23,6 +23,15 @@ vim.opt.tags = "./tags/tags;,tags/tags;,"
 vim.opt.pumheight = 8
 vim.o.winborder = 'rounded'
 
+vim.filetype.add({
+  pattern = {
+    -- Match any file ending with .dump-simpl, .dump-stg, etc.
+    [".*%.dump%-simpl.*"] = "haskell",
+    [".*%.dump%-stg.*"] = "haskell",
+    [".*%.dump%-cmm.*"] = "haskell",
+    [".*%.dump%-asm.*"] = "asm",
+  },
+})
 
 -------------------------------
 -- PLUGINS
