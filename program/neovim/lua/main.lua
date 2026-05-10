@@ -21,6 +21,7 @@ execute 'packadd packer.nvim'
 -- Vim
 vim.opt.tags = "./tags/tags;,tags/tags;,"
 vim.opt.pumheight = 8
+vim.opt.formatoptions:append("m")
 vim.o.winborder = 'rounded'
 
 

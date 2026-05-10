@@ -74,6 +74,15 @@ vim.lsp.config('rust_analyzer', {
 })
 
 
+-- Clangd: Stop it from sending "const char *restrict format" snippets
+local clangd_caps = vim.lsp.protocol.make_client_capabilities()
+clangd_caps.textDocument.completion.completionItem.snippetSupport = false
+vim.lsp.config('clangd', {
+  capabilities = clangd_caps,
+  cmd = { "clangd", "--header-insertion=never" },
+})
+
+
 -- Nix
 vim.lsp.config('nixd', {
   cmd = { 'nixd' },
