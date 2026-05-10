@@ -24,6 +24,15 @@ vim.opt.pumheight = 8
 vim.opt.formatoptions:append("m")
 vim.o.winborder = 'rounded'
 
+vim.filetype.add({
+  pattern = {
+    -- Match any file ending with .dump-simpl, .dump-stg, etc.
+    [".*%.dump%-simpl.*"] = "haskell",
+    [".*%.dump%-stg.*"] = "haskell",
+    [".*%.dump%-cmm.*"] = "haskell",
+    [".*%.dump%-asm.*"] = "asm",
+  },
+})
 
 -------------------------------
 -- PLUGINS
