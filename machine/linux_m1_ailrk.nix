@@ -3,7 +3,11 @@
 with lib;
 let
   cfg   = config.kirby.home.linux_m1.ailrk;
-  NIXGL = "nixGLIntel";
+  nixGL = import inputs.nixgl.outPath {
+    enable32bits = false;
+    pkgs = pkgs;
+  };
+  NIXGL = "nixGLMesa";
 in
 {
   imports = [
@@ -72,14 +76,15 @@ in
 
     # Install packages
     home.packages = [
-          inputs.nixgl.packages.${pkgs.system}.nixVulkanIntel
-          inputs.nixgl.packages.${pkgs.system}.nixGLIntel
+          nixGL.nixGLMesa
+          nixGL.nixVulkanMesa
 
           # libraries
           pkgs.libGL
           pkgs.libgcc
           pkgs.gtk4
           pkgs.chromium
+          pkgs.firefox
           pkgs.aseprite
           pkgs.tiled
         ] ++ pkgs.callPackage ../packages.nix {};
@@ -92,7 +97,7 @@ in
       NIXGL              = "${NIXGL}";
       FILES              = "nautilus";
       EDITOR             = "nvim";
-      BROWSER            = "chromium";
+      BROWSER            = "firefox";
       TERMINAL           = "alacritty";
       BATTERY            = "macsmc-battery";
       BATTERY_ADAPTOR    = "macsmc-ac";
