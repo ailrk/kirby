@@ -12,17 +12,13 @@ require'nvim-treesitter.configs'.setup {
     "toml",
     "html",
     "rust",
-    "haskell",
     "python"
   },
   sync_install = false,
   auto_install = true,
   highlight = {
     enable = true,
-    disable = function(lang, _)
-      return lang ~= "nix"  -- disable for all languages except nix
-    end,
-    additional_vim_regex_highlighting = false,
+    additional_vim_regex_highlighting = true, -- fallback to default vim highlight
   },
   incremental_selection = {
     enable = true,
@@ -49,3 +45,36 @@ require'nvim-treesitter.configs'.setup {
     },
   },
 }
+
+
+------------------------------
+-- Highlight important functions
+
+vim.treesitter.query.set(
+  "haskell",
+  "highlights",
+  [[
+    ((_) @haskell.bold
+     (#any-of? @haskell.bold
+      "for_" "forM_" "for" "forM" "forConcurrently" "forConcurrently_" "mapConcurrently" "mapConcurrently_"
+      "traverse" "mapM_" "mapM" "fmap" "map" "foldr" "foldl" "foldl'" "foldM"
+      "<$>" "<|>" "<*>" "<&>" ">>=" ">>" "<<" "=<<"
+      "throwIO" "throw" "throwSTM" "catchIO" "catch" "cathSTM" "try" "tryIO"
+      "newMVar" "newEmptyMVar" "takeMVar" "putMVar" "readMVar" "swapMVar" "tryTakeMVar" "tryPutMVar"
+      "withMVar" "withMVarMasked" "modifyMVar_" "modifyMVar" "modifyMVarMasked_" "modifyMVarMasked"
+      "mkWeakMVar" "addMVarFinializer"
+      "newTVar" "newTVarIO" "readTVar" "readTVarIO" "writeTVar"
+      "modifyTVar" "modifyTVar'" "stateTVar" "swapTVar" "registerTVar" "mkWeakTVar"
+      "newTBQueue" "newTBQueueIO" "readTBQueue" "tryReadTBQueue" "flushTBQueue" "peekTBQueue" "tryPeekTBQueue"
+      "writeTBQueue"
+      "newTQueue" "newTQueueIO" "readTQueue" "tryReadTQueue" "flushTQueue" "peekTQueue" "tryPeekTQueue"
+      "writeTQueue"
+      "newIORef" "readIORef" "writeIORef" "modifyIORef" "modifyIORef'" "atomicModifyIORef" "atomicModifyIORef'"
+      "atomicModifyIORef" "mkWeakIORef"
+      "newSTRef" "readSTRef" "writeSTRef" "modifySTRef" "modifySTRef'"
+    ))
+  ]]
+)
+
+
+vim.api.nvim_set_hl(0, "@haskell.bold", { bold = true, link = "@keyword" })
