@@ -15,7 +15,7 @@ require'nvim-treesitter.configs'.setup {
     "python"
   },
   sync_install = false,
-  auto_install = true,
+  auto_install = false,
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = true, -- fallback to default vim highlight
@@ -50,16 +50,17 @@ require'nvim-treesitter.configs'.setup {
 ------------------------------
 -- Highlight important functions
 
+
 vim.treesitter.query.set(
   "haskell",
   "highlights",
   [[
-    ((_) @haskell.bold
+    ((variable) @haskell.bold
      (#any-of? @haskell.bold
       "for_" "forM_" "for" "forM" "forConcurrently" "forConcurrently_" "mapConcurrently" "mapConcurrently_"
       "traverse" "mapM_" "mapM" "fmap" "map" "foldr" "foldl" "foldl'" "foldM"
       "<$>" "<|>" "<*>" "<&>" ">>=" ">>" "<<" "=<<"
-      "throwIO" "throw" "throwSTM" "catchIO" "catch" "cathSTM" "try" "tryIO"
+      "throwIO" "throw" "throwSTM" "catchIO" "catch" "cathSTM" "try" "tryIO" "onException" "finally" "bracket" "bracket_"
       "newMVar" "newEmptyMVar" "takeMVar" "putMVar" "readMVar" "swapMVar" "tryTakeMVar" "tryPutMVar"
       "withMVar" "withMVarMasked" "modifyMVar_" "modifyMVar" "modifyMVarMasked_" "modifyMVarMasked"
       "mkWeakMVar" "addMVarFinializer"
