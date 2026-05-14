@@ -84,6 +84,8 @@ with lib;
 
     home.sessionVariables = {
       NIX_PATH      = "$HOME/.nix-defexpr/channels";
+      # Select a character set
+      LESSCHARSET   = "utf-8";
     };
 
     # User specific overlays.

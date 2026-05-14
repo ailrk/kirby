@@ -33,6 +33,9 @@ in
           "ln" = "log -n"; # follow with a number to show n logs
           "lon" = "log --oneline -n"; # follow with a number to show n logs
         };
+        core = {
+          quotepath = false;
+        };
       };
       signing = {
         signByDefault = true;
