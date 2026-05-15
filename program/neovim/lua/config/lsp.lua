@@ -125,6 +125,19 @@ vim.lsp.config('lean4', {
 })
 
 
+-- Erlang
+vim.lsp.config('erlangls', {
+  cmd = { "erlang_ls" },
+  filetypes = { "erlang" },
+  root_dir = vim.fs.root(0, { "rebar.config", "erlang.mk", ".git" }),
+  settings = {
+    erlang_ls = {
+      -- You can disable specific features here if they get noisy
+      include_dirs = { "include" },
+    }
+  }
+})
+
 
 -- Enable All Servers
 -- List every server you use here. If no config was defined above,
