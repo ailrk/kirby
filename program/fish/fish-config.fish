@@ -1,5 +1,3 @@
-set -x TERM xterm
-set -gx LESSCHARSET utf-8
 set PATH $PATH $HOME/Opt/bin/
 set PATH $PATH $HOME/Opt/Discord/
 set PATH $PATH $HOME/Opt/cross/bin/
@@ -25,3 +23,5 @@ alias ocamli="rlwrap -A -p -r ocaml"
 alias cpwd="pwd | xclip -sel clip"
 alias t="tmux"
 direnv hook fish | source
+
+

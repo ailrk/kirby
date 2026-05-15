@@ -98,7 +98,7 @@ in
         settings = lib.attrsets.recursiveUpdate
         {
           env = {
-            "TERM" = "xterm-256color";
+            "TERM" = "alacritty";
             "WINIT_X11_SCALE_FACTOR"=  "1.0";
           };
 

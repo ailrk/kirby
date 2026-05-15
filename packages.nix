@@ -47,6 +47,10 @@
 
     pkgs.litellm
 
+    # So many issues are caused because the host glibc has a different version
+    pkgs.glibcLocales
+    pkgs.coreutils
+
     # langs
     pkgs.valgrind
     pkgs.gnumake

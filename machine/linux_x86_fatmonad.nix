@@ -88,6 +88,7 @@ in
         # gui
         pkgs.google-chrome
         pkgs.chromium
+        pkgs.firefox
         pkgs.muse
         pkgs.blender
         pkgs.telegram-desktop
