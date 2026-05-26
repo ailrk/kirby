@@ -88,7 +88,6 @@ with lib;
       LESSCHARSET    = "utf-8";
       LANG           = "en_US.UTF-8";
       LANGUAGE       = "en_US.UTF-8";
-      LC_ALL         = "en_US.UTF-8";
       LC_CTYPE       = "en_US.UTF-8";
       QUOTING_STYLE  = "literal";
       LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
