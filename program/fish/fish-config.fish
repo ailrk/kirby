@@ -14,6 +14,7 @@ set PATH $PATH $HOME/Opt/Dyalog/opt/mdyalog/18.0/64/unicode
 # alias
 alias vim="nvim"
 alias g="git"
+alias ls="eza --header --git"
 alias ssrsa="bass eval '$(ssh-agent -s)' && ssh-add -k ~/.ssh/id_rsa"
 alias ssid25519="bass eval '$(ssh-agent -s)' && ssh-add -k ~/.ssh/id_ed25519"
 alias fh="cat ~/.local/share/fish/fish_history"

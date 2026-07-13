@@ -9,65 +9,65 @@ local conf = require("telescope.config").values
 
 
 local function picker ()
-  local bufnr = vim.api.nvim_get_current_buf()
-  local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-  local results = {}
+    local bufnr = vim.api.nvim_get_current_buf()
+    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+    local results = {}
 
-  for lnum, line in ipairs(lines) do
-    local text, link = line:match("^[^!]*%[(.-)%]%((.-)%)")
-    if link then
-      table.insert(results, {
-        lnum = lnum,
-        text = text,
-        link = link,
-      })
+    for lnum, line in ipairs(lines) do
+        local text, link = line:match("^[^!]*%[(.-)%]%((.-)%)")
+        if link then
+            table.insert(results, {
+                lnum = lnum,
+                text = text,
+                link = link,
+            })
+        end
     end
-  end
 
-  pickers.new({}, {
-    prompt_title = "Markdown Links",
-    finder = finders.new_table({
-      results = results,
-      entry_maker = function(entry)
-        local cwd = vim.fn.expand("%:p:h")
-        local path = nil
-        if not entry.link:match("^https?://") then
-          path = vim.fs.joinpath(cwd, entry.link)
-          path = vim.fs.normalize(path)
-        end
-        return {
-          value = entry,
-          display = string.format("[%s](%s)", entry.text, entry.link),
-          ordinal = entry.text .. " " .. entry.link,
-          path = path,
-          lnum = entry.lnum,
-        }
-      end,
-    }),
+    pickers.new({}, {
+        prompt_title = "Markdown Links",
+        finder = finders.new_table({
+            results = results,
+            entry_maker = function(entry)
+                local cwd = vim.fn.expand("%:p:h")
+                local path = nil
+                if not entry.link:match("^https?://") then
+                    path = vim.fs.joinpath(cwd, entry.link)
+                    path = vim.fs.normalize(path)
+                end
+                return {
+                    value = entry,
+                    display = string.format("[%s](%s)", entry.text, entry.link),
+                    ordinal = entry.text .. " " .. entry.link,
+                    path = path,
+                    lnum = entry.lnum,
+                }
+            end,
+        }),
 
-    previewer = previewers.new_buffer_previewer({
-      define_preview = function(self, entry)
-        local buf_lines
-        if entry.path and vim.fn.filereadable(entry.path) == 1 then
-          -- file eixsts
-          buf_lines = vim.fn.readfile(entry.path)
-          -- set filetype
-          local ft = vim.filetype.match({ filename = entry.path })
-          if ft then
-            vim.bo[self.state.bufnr].filetype = ft
-          end
-        else
-          -- fallback
-          buf_lines = {
-            "Cannot preview link target",
-          }
-        end
-        vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, buf_lines)
-      end,
-    }),
+        previewer = previewers.new_buffer_previewer({
+            define_preview = function(self, entry)
+                local buf_lines
+                if entry.path and vim.fn.filereadable(entry.path) == 1 then
+                    -- file eixsts
+                    buf_lines = vim.fn.readfile(entry.path)
+                    -- set filetype
+                    local ft = vim.filetype.match({ filename = entry.path })
+                    if ft then
+                        vim.bo[self.state.bufnr].filetype = ft
+                    end
+                else
+                    -- fallback
+                    buf_lines = {
+                        "Cannot preview link target",
+                    }
+                end
+                vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, buf_lines)
+            end,
+        }),
 
-    sorter = conf.generic_sorter({}),
-  }):find()
+        sorter = conf.generic_sorter({}),
+    }):find()
 end
 
 vim.keymap.set("n", "<space>ml", picker, { desc = "Markdown links" })

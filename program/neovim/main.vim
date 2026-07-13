@@ -189,14 +189,14 @@ hi Normal guibg=none ctermbg=none
 
 augroup set_shiftwidth
   autocmd! set_shiftwidth
-  autocmd FileType javascript set shiftwidth=2 tabstop=2
-  autocmd FileType json set shiftwidth=2 tabstop=2
+  autocmd FileType javascript set shiftwidth=4 tabstop=4
+  autocmd FileType json set shiftwidth=4 tabstop=4
   autocmd FileType koka set shiftwidth=2 tabstop=2
-  autocmd FileType typescript set shiftwidth=2 tabstop=2
-  autocmd FileType typescriptreact set shiftwidth=2 tabstop=2
+  autocmd FileType typescript set shiftwidth=4 tabstop=4
+  autocmd FileType typescriptreact set shiftwidth=4 tabstop=4
   autocmd FileType c set shiftwidth=4 tabstop=4
   autocmd FileType cuda set shiftwidth=4 tabstop=4
-  autocmd FileType lua set shiftwidth=2 tabstop=2
+  autocmd FileType lua set shiftwidth=4 tabstop=4
   autocmd FileType nix set shiftwidth=2 tabstop=2
   autocmd FileType haskell set shiftwidth=2 tabstop=2
   autocmd FileType just set shiftwidth=2 tabstop=2

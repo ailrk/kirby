@@ -2,27 +2,27 @@
 -- This is your opts table
 
 require("telescope").setup {
-  extensions = {
-    ["ui-select"] = {
-      require("telescope.themes").get_dropdown {}
+    extensions = {
+        ["ui-select"] = {
+            require("telescope.themes").get_dropdown {}
+        },
     },
-  },
-  pickers = {
-    buffers = {
-      show_all_buffers = true,
-      sort_lastused = true,
-      sort_mru = true;
-      cwd_only = true,
-      theme = "dropdown", -- Optional: makes it look cleaner
-      previewer = true,
-      path_display = { "filename_first" },
-      mappings = {
-        i = {
-          ["<c-d>"] = "delete_buffer",
+    pickers = {
+        buffers = {
+            show_all_buffers = true,
+            sort_lastused = true,
+            sort_mru = true;
+            cwd_only = true,
+            theme = "dropdown", -- Optional: makes it look cleaner
+            previewer = true,
+            path_display = { "filename_first" },
+            mappings = {
+                i = {
+                    ["<c-d>"] = "delete_buffer",
+                }
+            }
         }
-      }
-    }
-  },
+    },
 }
 
 

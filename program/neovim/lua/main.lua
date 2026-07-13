@@ -83,14 +83,13 @@ require('packer').startup(function(use)
     use {'mtth/scratch.vim'}
 
     use {
-      "selimacerbas/markdown-preview.nvim",
-      requires = { "selimacerbas/live-server.nvim" },
+      "/home/fatmonad/repo/markdown-preview.nvim",
       config = function()
         require("markdown_preview").setup({
-          -- all optional; sane defaults shown
           port = 8421,
           open_browser = true,
           debounce_ms = 300,
+          default_theme = "light"
         })
       end,
     }

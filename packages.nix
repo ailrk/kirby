@@ -38,6 +38,7 @@
     pkgs.binsider
     pkgs.nix-inspect
     pkgs.openssl
+    pkgs.eza
 
     pkgs.any-nix-shell
     pkgs.nixfmt-rfc-style
@@ -46,10 +47,6 @@
     pkgs.opentofu
 
     pkgs.litellm
-
-    # So many issues are caused because the host glibc has a different version
-    pkgs.glibcLocales
-    pkgs.coreutils
 
     # langs
     pkgs.valgrind
