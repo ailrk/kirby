@@ -113,6 +113,10 @@ require('packer').startup(function(use)
       'echasnovski/mini.nvim',
       commit = 'a995fe9cd4193fb492b5df69175a351a74b3d36b',
     }
+    use {
+        'rafcamlet/nvim-luapad',
+        commit = '918c60ae919d96df1dc201cbf69eb09090148cdd'
+    }
 
     -- color scheme
     use {'ailrk/vim-monochrome-waifu'}
