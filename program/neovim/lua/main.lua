@@ -83,9 +83,9 @@ require('packer').startup(function(use)
     use {'mtth/scratch.vim'}
 
     use {
-      vim.fn.expand("$HOME/repo/markdown-preview.nvim"),
+      vim.fn.expand("$HOME/repo/live-preview.nvim"),
       config = function()
-        require("markdown_preview").setup({
+        require("live_preview").setup({
           port = 8421,
           open_browser = true,
           debounce_ms = 300,
