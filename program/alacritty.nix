@@ -106,7 +106,7 @@ in
             padding.x = 10;
             padding.y = 11;
             opacity = 0.97;
-            decorations = "none";
+            decorations = "full";
           };
 
           font = {
