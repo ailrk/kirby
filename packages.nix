@@ -48,12 +48,14 @@
 
     pkgs.litellm
 
+    pkgs.bottles
+
     # langs
     pkgs.valgrind
     pkgs.gnumake
     pkgs.nixd
-    pkgs.nodePackages.bash-language-server
-    pkgs.nodePackages.typescript-language-server
+    pkgs.bash-language-server
+    pkgs.typescript-language-server
     pkgs.cmake
     pkgs.nodejs
     pkgs.gcc
@@ -84,6 +86,7 @@
     pkgs.liberation_ttf_v1
     pkgs.ultimate-oldschool-pc-font-pack
     pkgs.zpix-pixel-font
+    pkgs.corefonts
 
     # nix
     pkgs.nix-tree

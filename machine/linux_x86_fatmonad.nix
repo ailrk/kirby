@@ -22,7 +22,7 @@ in
   };
 
   config = mkIf config.kirby.home.linux_x86.fatmonad.enable {
-    home.stateVersion = "25.11";
+    home.stateVersion = "26.05";
     home.username = "fatmonad";
     home.homeDirectory = "/home/fatmonad";
     manual.manpages.enable = false;
@@ -77,7 +77,8 @@ in
 
     # Install packages
     home = {
-      packages = [
+      packages =
+        [
         inputs.nixgl.packages.${pkgs.system}.nixVulkanIntel
         inputs.nixgl.packages.${pkgs.system}.nixGLIntel
         pkgs.libGL
@@ -95,9 +96,10 @@ in
         pkgs.discord
         pkgs.aseprite
         pkgs.tiled
+        pkgs.quickemu
 
         pkgs.winetricks
-        pkgs.wineWow64Packages.unstable
+        pkgs.wineWow64Packages.staging
       ] ++ pkgs.callPackage ../packages.nix {};
 
 

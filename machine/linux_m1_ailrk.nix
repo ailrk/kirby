@@ -26,7 +26,7 @@ in
   };
 
   config = mkIf config.kirby.home.linux_m1.ailrk.enable {
-    home.stateVersion = "25.11";
+    home.stateVersion = "26.05";
     home.username = "ailrk";
     home.homeDirectory = "/home/ailrk";
     programs = {
