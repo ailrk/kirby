@@ -1,38 +1,78 @@
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = {
-        "haskell",
-        "c",
-        "lua",
-        "vim",
-        "query",
-        "markdown",
-        "markdown_inline",
-        "yaml",
-        "nix",
-        "toml",
-        "html",
-        "rust",
-        "python"
-    },
-    sync_install = false,
-    auto_install = false,
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = true, -- fallback to default vim highlight
-    },
-    incremental_selection = {
-        enable = true,
-        keymaps = {
-            init_selection = '<c-space>',
-            node_incremental = '<c-space>',
-        },
-    },
-    textobjects = {
+-- =============================================================================
+-- MAIN TREE-SITTER INITIALIZATION & AUTOMATIC PARSER INSTALLATION
+-- =============================================================================
+
+-- Safely initialize the plugin runtime
+local status_ts, ts = pcall(require, 'nvim-treesitter')
+if status_ts then
+    ts.setup()
+
+    -- Core alternative to 'ensure_installed': Diff and install missing parsers
+    local required_parsers = {
+        "haskell", "c", "lua", "vim", "query", "markdown",
+        "markdown_inline", "yaml", "nix", "toml", "html", "rust", "python"
+    }
+
+    local status_config, ts_config = pcall(require, 'nvim-treesitter.config')
+    if status_config then
+        local installed_parsers = ts_config.get_installed()
+        local to_install = {}
+
+        for _, parser in ipairs(required_parsers) do
+            if not vim.tbl_contains(installed_parsers, parser) then
+                table.insert(to_install, parser)
+            end
+        end
+
+        if #to_install > 0 then
+            -- Safely trigger parser generation without hard-crashing
+            pcall(ts.install, to_install)
+        end
+    end
+end
+
+-- Core modern alternative to legacy 'highlight = { enable = true }'
+vim.api.nvim_create_autocmd("FileType", {
+    callback = function(args)
+        -- Skip special buffers like terminal or popups
+        if vim.bo[args.buf].buftype ~= "" then return end
+
+        local lang = vim.treesitter.language.get_lang(vim.bo[args.buf].filetype)
+        if lang and vim.treesitter.language.add(lang) then
+            vim.treesitter.start(args.buf, lang)
+        end
+    end,
+})
+
+
+-- =============================================================================
+-- NATIVE INCREMENTAL SELECTION KEYMAPS
+-- =============================================================================
+
+-- Core alternative mapping to the legacy incremental_selection configuration block
+vim.keymap.set("n", "<c-space>", function()
+    local ok, inc = pcall(require, 'nvim-treesitter.incremental_selection')
+    if ok then inc.init_selection() end
+end, { desc = "TS Init Selection" })
+
+vim.keymap.set("x", "<c-space>", function()
+    local ok, inc = pcall(require, 'nvim-treesitter.incremental_selection')
+    if ok then inc.node_incremental() end
+end, { desc = "TS Increment Selection" })
+
+
+-- =============================================================================
+-- TREESITTER TEXTOBJECTS SETUP
+-- =============================================================================
+
+-- Configured inside its own isolated, standalone module namespace
+local status_to, to = pcall(require, 'nvim-treesitter-textobjects')
+if status_to then
+    to.setup({
         select = {
             enable = true,
-            lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+            lookahead = true, -- Automatically jump forward to matching text objects
             keymaps = {
-                -- You can use the capture groups defined in textobjects.scm
                 ['aa'] = '@parameter.outer',
                 ['ia'] = '@parameter.inner',
                 ['af'] = '@function.outer',
@@ -43,39 +83,5 @@ require'nvim-treesitter.configs'.setup {
                 ['ib'] = '@block.inner',
             },
         },
-    },
-}
-
-
-------------------------------
--- Highlight important functions
-
-
-vim.treesitter.query.set(
-    "haskell",
-    "highlights",
-    [[
-    ((variable) @haskell.bold
-    (#any-of? @haskell.bold
-    "for_" "forM_" "for" "forM" "forConcurrently" "forConcurrently_" "mapConcurrently" "mapConcurrently_"
-    "traverse" "mapM_" "mapM" "fmap" "map" "foldr" "foldl" "foldl'" "foldM"
-    "<$>" "<|>" "<*>" "<&>" ">>=" ">>" "<<" "=<<"
-    "throwIO" "throw" "throwSTM" "catchIO" "catch" "cathSTM" "try" "tryIO" "onException" "finally" "bracket" "bracket_"
-    "newMVar" "newEmptyMVar" "takeMVar" "putMVar" "readMVar" "swapMVar" "tryTakeMVar" "tryPutMVar"
-    "withMVar" "withMVarMasked" "modifyMVar_" "modifyMVar" "modifyMVarMasked_" "modifyMVarMasked"
-    "mkWeakMVar" "addMVarFinializer"
-    "newTVar" "newTVarIO" "readTVar" "readTVarIO" "writeTVar"
-    "modifyTVar" "modifyTVar'" "stateTVar" "swapTVar" "registerTVar" "mkWeakTVar"
-    "newTBQueue" "newTBQueueIO" "readTBQueue" "tryReadTBQueue" "flushTBQueue" "peekTBQueue" "tryPeekTBQueue"
-    "writeTBQueue"
-    "newTQueue" "newTQueueIO" "readTQueue" "tryReadTQueue" "flushTQueue" "peekTQueue" "tryPeekTQueue"
-    "writeTQueue"
-    "newIORef" "readIORef" "writeIORef" "modifyIORef" "modifyIORef'" "atomicModifyIORef" "atomicModifyIORef'"
-    "atomicModifyIORef" "mkWeakIORef"
-    "newSTRef" "readSTRef" "writeSTRef" "modifySTRef" "modifySTRef'"
-))
-]]
-)
-
-
-vim.api.nvim_set_hl(0, "@haskell.bold", { bold = true, link = "@keyword" })
+    })
+end

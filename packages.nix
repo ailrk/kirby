@@ -49,6 +49,7 @@
     pkgs.litellm
 
     pkgs.bottles
+    pkgs.tree-sitter
 
     # langs
     pkgs.valgrind

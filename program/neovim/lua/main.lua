@@ -72,12 +72,12 @@ require('packer').startup(function(use)
 
     use {
       'nvim-treesitter/nvim-treesitter',
-      commit = '42fc28ba918343ebfd5565147a42a26580579482',
+      branch = 'main', -- CRITICAL: Forces Packer to clone the main branch instead of master
     }
 
     use {
       'nvim-treesitter/nvim-treesitter-textobjects',
-      commit = '4e91b5d0394329a229725b021a8ea217099826ef',
+      branch = 'main',
     }
 
     use {'mtth/scratch.vim'}
