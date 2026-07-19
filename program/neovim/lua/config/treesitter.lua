@@ -16,7 +16,7 @@ if status_ts then
     local required_parsers = {
         "haskell", "c", "lua", "vim", "query", "markdown",
         "markdown_inline", "yaml", "nix", "toml", "html", "rust", "python",
-        "javascript", "typescript"
+        "javascript", "typescript", "ocaml", "lean"
     }
 
     local status_config, ts_config = pcall(require, 'nvim-treesitter.config')
