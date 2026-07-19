@@ -1,7 +1,7 @@
 -------------------------------------------------------------------
 -- NVIM LSP
 -- General nvim lsp config
-
+vim.lsp.log.set_level("OFF")
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(ev)
         local opts = { buffer = ev.buf, noremap = true, silent = true }
