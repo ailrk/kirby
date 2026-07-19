@@ -5,7 +5,6 @@ set fileencoding=utf-8
 let mapleader=","
 
 " independent setting
-""syntax off
 set display+=lastline               "show all wrapped lines.
 set tabstop=4
 set shiftwidth=4
@@ -57,7 +56,7 @@ if exists('g:GuiScrollBar')
 endif
 
 " ignore binaries
-set wildignore+=*.pyc,*.o,*.obj,*.svn,*.swp,*.class,*.hg,*.DS_Store,*.min.*,*.fasl,*.bci,*.bin,*.com,*.hi,*.cmo,*.cmi,*.agdai
+set wildignore+=*.pyc,*.o,*.obj,*.svn,*.swp,*.class,*.hg,*.DS_Store,*.fasl,*.bci,*.bin,*.com,*.hi,*.cmo,*.cmi,*.agdai
 
 " if hidden is not set, TextEdit might fail.
 set hidden

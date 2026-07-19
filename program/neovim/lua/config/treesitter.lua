@@ -10,7 +10,8 @@ if status_ts then
     -- Core alternative to 'ensure_installed': Diff and install missing parsers
     local required_parsers = {
         "haskell", "c", "lua", "vim", "query", "markdown",
-        "markdown_inline", "yaml", "nix", "toml", "html", "rust", "python"
+        "markdown_inline", "yaml", "nix", "toml", "html", "rust", "python",
+        "javascript", "typescript"
     }
 
     local status_config, ts_config = pcall(require, 'nvim-treesitter.config')
@@ -31,14 +32,17 @@ if status_ts then
     end
 end
 
--- Core modern alternative to legacy 'highlight = { enable = true }'
+
+vim.cmd("syntax enable")
+
 vim.api.nvim_create_autocmd("FileType", {
     callback = function(args)
-        -- Skip special buffers like terminal or popups
         if vim.bo[args.buf].buftype ~= "" then return end
-
         local lang = vim.treesitter.language.get_lang(vim.bo[args.buf].filetype)
-        if lang and vim.treesitter.language.add(lang) then
+        if not lang then return end
+
+        local ok = pcall(vim.treesitter.language.add, lang)
+        if ok then
             vim.treesitter.start(args.buf, lang)
         end
     end,
