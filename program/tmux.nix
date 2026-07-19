@@ -42,7 +42,6 @@ in
       unbind Left
       unbind Right
 
-
       # pane navigation
       bind -r C-h select-pane -L
       bind -r C-j select-pane -D
@@ -84,11 +83,16 @@ in
       bind -r ] next-window
 
       # copy-mode
+      # Ctrl-z enter the copy mode where you can select a region.
+      # Right click to copy the selected text.
+      # Ctrl-v toggle the rectangle mode
+      set -g mouse on
       setw -g mode-keys vi
       bind z copy-mode
       bind-key -T copy-mode-vi 'v' send -X begin-selection
       bind-key -T copy-mode-vi 'r' send -X rectangle-toggle
-      bind-key -T copy-mode-vi y send-keys -X copy-selection
+      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "wl-copy"
+      bind-key -T copy-mode-vi MouseDown3Pane send-keys -X copy-pipe-and-cancel "wl-copy"
       unbind-key -T copy-mode-vi MouseDragEnd1Pane
 
       # buffers
