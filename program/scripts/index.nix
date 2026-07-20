@@ -10,6 +10,7 @@ let
     "volume" = ./volume;
     "unnix" = ./unnix;
     "colormode" = ./colormode;
+    "tmux-switch" = ./tmux-switch;
   };
 
 in

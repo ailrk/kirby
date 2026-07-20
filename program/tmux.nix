@@ -116,8 +116,10 @@ in
         # scroll
         bind -r C-u copy-mode -u
 
-        # resiez
+        # resize
         setw -g aggressive-resize on
+
+        bind-key p display-popup -E "~/.config/scripts/tmux-switch"
       '';
     };
   };
