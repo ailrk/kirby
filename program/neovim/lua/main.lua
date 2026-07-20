@@ -34,6 +34,7 @@ vim.filetype.add({
   },
 })
 
+
 -------------------------------
 -- PLUGINS
 require('packer').startup(function(use)

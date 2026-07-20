@@ -39,15 +39,15 @@
     pkgs.nix-inspect
     pkgs.openssl
     pkgs.eza
+    pkgs.btop
 
     pkgs.any-nix-shell
     pkgs.nixfmt-rfc-style
 
+    # apps
     pkgs.awscli
     pkgs.opentofu
-
     pkgs.litellm
-
     pkgs.bottles
     pkgs.tree-sitter
 
