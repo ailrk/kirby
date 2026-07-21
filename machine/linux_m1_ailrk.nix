@@ -85,7 +85,6 @@ in
           pkgs.gtk4
           pkgs.chromium
           pkgs.firefox
-          pkgs.aseprite
           pkgs.tiled
         ] ++ pkgs.callPackage ../packages.nix {};
 

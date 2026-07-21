@@ -115,7 +115,6 @@
     pkgs.wlr-randr
     pkgs.grim
     pkgs.slurp
-    pkgs.waylock
 
     pkgs.libsixel
     pkgs.lsix
