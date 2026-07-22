@@ -16,7 +16,7 @@ if status_ts then
     local required_parsers = {
         "haskell", "c", "lua", "vim", "query", "markdown",
         "markdown_inline", "yaml", "nix", "toml", "html", "rust", "python",
-        "javascript", "typescript", "ocaml", "lean", "bash", "fish"
+        "javascript", "typescript", "ocaml", "lean", "bash", "fish", "css",
     }
 
     local status_config, ts_config = pcall(require, 'nvim-treesitter.config')
@@ -43,12 +43,14 @@ vim.cmd("syntax enable")
 vim.api.nvim_create_autocmd("FileType", {
     callback = function(args)
         if vim.bo[args.buf].buftype ~= "" then return end
+
         local lang = vim.treesitter.language.get_lang(vim.bo[args.buf].filetype)
         if not lang then return end
 
         local ok = pcall(vim.treesitter.language.add, lang)
         if ok then
-            vim.treesitter.start(args.buf, lang)
+            -- capture the error if we don't have the parser.
+            pcall(vim.treesitter.start, args.buf, lang)
         end
     end,
 })
