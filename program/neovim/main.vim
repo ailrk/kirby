@@ -134,18 +134,29 @@ command -nargs=0 SynCheckGroup :call SynGroup()<cr>
 " gutter
 "
 hi SignColumn ctermbg=none ctermfg=none
-hi SyntasticErrorSign ctermbg=none  ctermfg=3
-hi SyntasticWarningSign ctermbg=none ctermfg=3
 hi htmlBold ctermbg=none ctermfg=none
 hi ColorColumn ctermbg=white
+if &background ==# 'light'
+  hi SyntasticErrorSign ctermbg=none  ctermfg=3
+  hi SyntasticWarningSign ctermbg=none ctermfg=3
+else
+  hi SyntasticErrorSign ctermbg=none  ctermfg=1
+  hi SyntasticWarningSign ctermbg=none ctermfg=1
+endif
 
 "
 " hight search
-"
-hi Search ctermfg=232 ctermbg=243
-"hi CursorLine cterm=none ctermbg=252
-hi Visual ctermfg=255 ctermbg=250
-hi CursorLineNr  cterm=none ctermfg=none gui=none guifg=none
+if &background ==# 'light'
+    " Settings for light background
+    hi Search ctermfg=232 ctermbg=243
+    " hi CursorLine cterm=none ctermbg=252
+    hi Visual ctermfg=255 ctermbg=250
+  else
+    " Settings for dark background (adjust values as desired)
+    hi Search ctermfg=255 ctermbg=238
+    " hi CursorLine cterm=none ctermbg=236
+    hi Visual ctermfg=232 ctermbg=242
+  endif
 
 "
 " trivial stuffs.

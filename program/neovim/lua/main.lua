@@ -22,6 +22,9 @@ execute 'packadd packer.nvim'
 vim.opt.tags = "./tags/tags;,tags/tags;,"
 vim.opt.pumheight = 8
 vim.opt.formatoptions:append("m")
+vim.opt.foldmethod = "expr"                             -- Tell Neovim to use an expression to calculate folds
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"    -- Use Neovim's built-in Treesitter fold expression
+vim.opt.foldlevelstart = 99                             -- Prevent all folds from closing automatically when opening a file
 vim.o.winborder = 'rounded'
 
 vim.filetype.add({
