@@ -95,6 +95,10 @@ require('packer').startup(function(use)
       end,
     }
 
+    use {
+      vim.fn.expand("$HOME/repo/excalidraw.nvim"),
+    }
+
     use { 'milanglacier/minuet-ai.nvim' }
 
     -- nvim
