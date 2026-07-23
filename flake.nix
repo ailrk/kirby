@@ -46,7 +46,7 @@
           {
             kirby.home.linux_m1.ailrk = {
               enable = true;
-              colorMode = "light";
+              colorMode = "dark";
             };
           }
         ];

@@ -25,6 +25,7 @@ vim.opt.formatoptions:append("m")
 vim.opt.foldmethod = "expr"                             -- Tell Neovim to use an expression to calculate folds
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"    -- Use Neovim's built-in Treesitter fold expression
 vim.opt.foldlevelstart = 99                             -- Prevent all folds from closing automatically when opening a file
+vim.opt.termguicolors = true
 vim.o.winborder = 'rounded'
 
 vim.filetype.add({
@@ -110,10 +111,6 @@ require('packer').startup(function(use)
         end
     }
 
-    use {
-      vim.fn.expand("$HOME/repo/excalidraw.nvim"),
-    }
-
     use { 'milanglacier/minuet-ai.nvim' }
 
     -- nvim
@@ -129,13 +126,30 @@ require('packer').startup(function(use)
     use {'folke/trouble.nvim'}
     use {'RishabhRD/popfix'}
     use {'RishabhRD/nvim-lsputils'}
+
     use {
         'echasnovski/mini.nvim',
         commit = 'a995fe9cd4193fb492b5df69175a351a74b3d36b',
     }
+
     use {
         'rafcamlet/nvim-luapad',
         commit = '918c60ae919d96df1dc201cbf69eb09090148cdd'
+    }
+
+    use {
+        'brenoprata10/nvim-highlight-colors',
+        config = function ()
+            require('nvim-highlight-colors').setup({
+                render = 'background',
+                enable_hex = true,
+                enable_short_hex = true,
+                enable_rgb = true,
+                enable_hsl = true,
+                enable_ansi = true,
+                enable_xterm256 = true,
+            })
+        end
     }
 
     -- color scheme

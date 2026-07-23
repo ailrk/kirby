@@ -26,6 +26,11 @@ in
     home.username = "fatmonad";
     home.homeDirectory = "/home/fatmonad";
     manual.manpages.enable = false;
+
+    xdg.configFile = {
+      "kirby/color-mode".text = cfg.colorMode;
+    };
+
     programs = {
       home-manager.enable = true;
     };

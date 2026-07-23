@@ -35,6 +35,10 @@ in
 
     manual.manpages.enable = false;
 
+    xdg.configFile = {
+      "kirby/color-mode".text = cfg.colorMode;
+    };
+
     kirby = {
       program = {
         git.enable = true;

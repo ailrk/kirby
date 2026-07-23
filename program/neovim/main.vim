@@ -129,61 +129,12 @@ command -nargs=0 SynCheckGroup :call SynGroup()<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Syntax Modification
 
-
-"
-" gutter
-"
-hi SignColumn ctermbg=none ctermfg=none
-hi htmlBold ctermbg=none ctermfg=none
-hi ColorColumn ctermbg=white
-hi NormalFloat guibg=none
-if &background ==# 'light'
-  hi Search ctermfg=232 ctermbg=243
-  hi Visual ctermfg=255 ctermbg=250
-  hi SyntasticErrorSign ctermbg=none  ctermfg=3
-  hi SyntasticWarningSign ctermbg=none ctermfg=3
-  hi FloatBorder ctermfg=240 ctermbg=none
-else
-  hi Search ctermfg=255 ctermbg=238
-  hi Visual ctermfg=232 ctermbg=242
-  hi SyntasticErrorSign ctermbg=none  ctermfg=1
-  hi SyntasticWarningSign ctermbg=none ctermfg=1
-  hi FloatBorder ctermfg=232 ctermbg=none
-endif
-"
-"
-" trivial stuffs.
-"
-hi htmlUnderline ctermbg=none ctermfg=none
-hi htmlUnderlineItalic ctermbg=none ctermfg=none
-hi Vertsplit cterm=none
-
-"
-"
-" Telescope
-"
-hi link TelescopePreviewLine Search
-hi link TelescopeSelection Search
-
-"
-" nvim LSP
-"
-hi link LspDiagnosticsDefaultHint NonText
-hi link LspDiagnosticsDefaultInformation NonText
-hi link LspDiagnosticsDefaultWarning NonText
-hi link LspDiagnosticsDefaultError ErrorMsg
-hi link LspCodeLens NonText
-
-"
-" NERDTree
-"
-hi! link Directory Type
-
-" Never wnat a split bar styling
-""hi VerSplit cterm=None
-
-" Transparent background
-hi Normal guibg=none ctermbg=none
+" Create an augroup so these rules don't duplicate on reload
+augroup CustomHighlights
+  autocmd!
+  autocmd ColorScheme * highlight! link Directory Type
+augroup END
+doautocmd ColorScheme
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
