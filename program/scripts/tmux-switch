@@ -1,5 +1,22 @@
 #!/usr/bin/env bash
-session=$(tmux list-sessions -F '#S' | fzf --prompt="Switch to session: ")
-if [ -n "$session" ]; then
-  tmux switch-client -t "$session"
+
+build_line() {
+  local session="$1" windows="$2"
+  local modified=""
+
+  if tmux list-panes -s -t "$session" -F '#{pane_title}' 2>/dev/null | grep -q '\[+\]'; then
+    modified="⚠️ (unsaved)"
+  fi
+
+  printf "%s\t%-20s %2s %s\n" "$session" "$session" "$windows" "$modified"
+}
+export -f build_line
+
+selected=$(tmux list-sessions -F $'#{session_name}\t#{session_windows}' |
+  while IFS=$'\t' read -r s w; do build_line "$s" "$w"; done            |
+  fzf --prompt="Switch to session: " --delimiter='\t' --with-nth=2..    |
+  cut -f1)
+
+if [ -n "$selected" ]; then
+  tmux switch-client -t "$selected"
 fi

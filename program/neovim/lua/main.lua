@@ -28,6 +28,9 @@ vim.opt.foldlevelstart = 99                             -- Prevent all folds fro
 vim.opt.termguicolors = true
 vim.o.winborder = 'rounded'
 
+vim.opt.title = true
+vim.opt.titlestring = "%{expand('%:t')}%( %m%)"         -- Show editing state on title
+
 vim.filetype.add({
     pattern = {
         -- Match any file ending with .dump-simpl, .dump-stg, etc.

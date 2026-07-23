@@ -1,3 +1,5 @@
+fish_config theme choose default
+
 set PATH $PATH $HOME/Opt/bin/
 set PATH $PATH $HOME/Opt/Discord/
 set PATH $PATH $HOME/Opt/cross/bin/
@@ -9,7 +11,6 @@ set PATH $PATH $HOME/.config/scripts/
 
 # temporary
 set PATH $PATH $HOME/Opt/Dyalog/opt/mdyalog/18.0/64/unicode
-
 
 # alias
 alias vim="nvim"

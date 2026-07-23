@@ -6,7 +6,7 @@ let
   colors = {
     dark = {
       primary = {
-        background = "0x1C1C1C";
+        background = "#363030";
         foreground  = "0xffffff";
       };
 
@@ -73,8 +73,8 @@ let
     };
   };
 
-  systemScale  = 1.5;
-  baseFontSize = 22;
+  systemScale  = 1;
+  baseFontSize = 15;
 in
   {
     options.kirby.program.alacritty = {
@@ -104,18 +104,20 @@ in
 
           window = {
             padding.x = 0;
-            padding.y = 1;
-            opacity = 0.97;
-            decorations = "full";
+            padding.y = 0;
+            dynamic_padding = true;
+            resize_increments = true;
+            opacity = 0.90;
+            decorations = "none";
           };
 
           font = {
             offset.x = 0;
+            offset.y = 1;
             size = baseFontSize / systemScale;
             # normal.family = "PxPlus IBM VGA 9x16";
             # bold.family = "PxPlus IBM VGA 9x16";
             # italic.family = "PxPlus IBM VGA 9x16";
-
 
             normal.family = "APL386 Unicode";
             bold.family = "APL386 Unicode";
