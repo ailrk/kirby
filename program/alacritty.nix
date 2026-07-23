@@ -103,8 +103,8 @@ in
           };
 
           window = {
-            padding.x = 10;
-            padding.y = 11;
+            padding.x = 0;
+            padding.y = 1;
             opacity = 0.97;
             decorations = "full";
           };
