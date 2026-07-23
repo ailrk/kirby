@@ -1,6 +1,8 @@
 -- telescope
 -- This is your opts table
 
+local sorters = require('telescope.sorters')
+
 require("telescope").setup {
     extensions = {
         ["ui-select"] = {
@@ -21,7 +23,7 @@ require("telescope").setup {
                     ["<c-d>"] = "delete_buffer",
                 }
             }
-        }
+        },
     },
 }
 

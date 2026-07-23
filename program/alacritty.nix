@@ -74,7 +74,7 @@ let
   };
 
   systemScale  = 1.5;
-  baseFontSize = 25;
+  baseFontSize = 22;
 in
   {
     options.kirby.program.alacritty = {
@@ -112,19 +112,14 @@ in
           font = {
             offset.x = 0;
             size = baseFontSize / systemScale;
-            normal.family = "PxPlus IBM VGA 9x16";
-            normal.style = "Regular";
-
-            bold.family = "PxPlus IBM VGA 9x16";
-            bold.style = "Regular";
-
-            italic.family = "PxPlus IBM VGA 9x16";
-            italic.style = "Regular";
+            # normal.family = "PxPlus IBM VGA 9x16";
+            # bold.family = "PxPlus IBM VGA 9x16";
+            # italic.family = "PxPlus IBM VGA 9x16";
 
 
-            # normal.family = "APL386 Unicode";
-            # bold.family = "APL386 Unicode";
-            # italic.family = "APL386 Unicode";
+            normal.family = "APL386 Unicode";
+            bold.family = "APL386 Unicode";
+            italic.family = "APL386 Unicode";
           };
 
           cursor.style = "Beam";

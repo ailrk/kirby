@@ -31,7 +31,7 @@
           {
             kirby.home.linux_x86.fatmonad = {
               enable = true;
-              colorMode = "light";
+              colorMode = "dark";
             };
           }
         ];

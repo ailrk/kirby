@@ -68,4 +68,4 @@ local function picker()
 end
 
 
-vim.keymap.set("n", "<space>o", picker, { desc = "Pick & open link from LSP hover" })
+vim.keymap.set("n", "<space>ol", picker, { desc = "Pick & open link from LSP hover" })

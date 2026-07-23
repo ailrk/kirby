@@ -22,16 +22,19 @@ execute 'packadd packer.nvim'
 vim.opt.tags = "./tags/tags;,tags/tags;,"
 vim.opt.pumheight = 8
 vim.opt.formatoptions:append("m")
+vim.opt.foldmethod = "expr"                             -- Tell Neovim to use an expression to calculate folds
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"    -- Use Neovim's built-in Treesitter fold expression
+vim.opt.foldlevelstart = 99                             -- Prevent all folds from closing automatically when opening a file
 vim.o.winborder = 'rounded'
 
 vim.filetype.add({
-  pattern = {
-    -- Match any file ending with .dump-simpl, .dump-stg, etc.
-    [".*%.dump%-simpl.*"] = "haskell",
-    [".*%.dump%-stg.*"] = "haskell",
-    [".*%.dump%-cmm.*"] = "haskell",
-    [".*%.dump%-asm.*"] = "asm",
-  },
+    pattern = {
+        -- Match any file ending with .dump-simpl, .dump-stg, etc.
+        [".*%.dump%-simpl.*"] = "haskell",
+        [".*%.dump%-stg.*"] = "haskell",
+        [".*%.dump%-cmm.*"] = "haskell",
+        [".*%.dump%-asm.*"] = "asm",
+    },
 })
 
 
@@ -51,8 +54,8 @@ require('packer').startup(function(use)
     use {'godlygeek/tabular'}
 
     use {
-      '3rd/image.nvim',
-      commit = 'da2be65c153ba15a14a342b05591652a6df70d58'
+        '3rd/image.nvim',
+        commit = 'da2be65c153ba15a14a342b05591652a6df70d58'
     }
 
     -- languages
@@ -72,27 +75,39 @@ require('packer').startup(function(use)
     use {'NoahTheDuke/vim-just'}
 
     use {
-      'nvim-treesitter/nvim-treesitter',
-      branch = 'main', -- CRITICAL: Forces Packer to clone the main branch instead of master
+        'nvim-treesitter/nvim-treesitter',
+        branch = 'main', -- CRITICAL: Forces Packer to clone the main branch instead of master
     }
 
     use {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-      branch = 'main',
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        branch = 'main',
     }
 
     use {'mtth/scratch.vim'}
 
     use {
-      vim.fn.expand("$HOME/repo/live-preview.nvim"),
-      config = function()
-        require("live_preview").setup({
-          port = 8421,
-          open_browser = true,
-          debounce_ms = 300,
-          default_theme = "light"
-        })
-      end,
+        vim.fn.expand("$HOME/repo/live-preview.nvim"),
+        config = function()
+            require("live_preview").setup({
+                port = 8421,
+                open_browser = true,
+                debounce_ms = 300,
+                default_theme = "light"
+            })
+        end,
+    }
+
+    use {
+        vim.fn.expand("$HOME/repo/excalidraw.nvim"),
+    }
+
+    use {
+        'hedyhli/outline.nvim',
+        config = function()
+            vim.keymap.set("n", "<space>o", "<cmd>Outline<CR>", { desc = "Toggle Outline" })
+            require("outline").setup {}
+        end
     }
 
     use {
@@ -108,15 +123,15 @@ require('packer').startup(function(use)
     use {'neovim/nvim-lsp'}
     use {'ailrk/telescope-context.nvim'}
     use {
-      'rmagatti/auto-session',
-      commit = '562fd8f398acb8b24cb1293a3b69fd2a4aa74e7b',
+        'rmagatti/auto-session',
+        commit = '562fd8f398acb8b24cb1293a3b69fd2a4aa74e7b',
     }
     use {'folke/trouble.nvim'}
     use {'RishabhRD/popfix'}
     use {'RishabhRD/nvim-lsputils'}
     use {
-      'echasnovski/mini.nvim',
-      commit = 'a995fe9cd4193fb492b5df69175a351a74b3d36b',
+        'echasnovski/mini.nvim',
+        commit = 'a995fe9cd4193fb492b5df69175a351a74b3d36b',
     }
     use {
         'rafcamlet/nvim-luapad',
