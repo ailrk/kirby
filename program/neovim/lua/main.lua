@@ -106,6 +106,9 @@ require('packer').startup(function(use)
         vim.fn.expand("$HOME/repo/excalidraw.nvim"),
     }
 
+
+    use { 'ailrk/random-word-picker.nvim' }
+
     use {
         'hedyhli/outline.nvim',
         config = function()

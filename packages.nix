@@ -68,8 +68,11 @@
     pkgs.nasm
     pkgs.lua
     pkgs.lua-language-server
-    pkgs.python312Packages.ipython
-    pkgs.python312Packages.pygls
+    (pkgs.python312.withPackages (ps: [
+      ps.ipython
+      ps.pygls
+      ps.jieba
+    ]))
     pkgs.pyright
 
     # font
