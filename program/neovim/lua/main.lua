@@ -41,7 +41,6 @@ vim.filetype.add({
     },
 })
 
-
 -------------------------------
 -- PLUGINS
 require('packer').startup(function(use)
@@ -103,6 +102,10 @@ require('packer').startup(function(use)
     }
 
     use {
+        'ailrk/random-word-picker.nvim'
+    }
+
+    use {
         vim.fn.expand("$HOME/repo/excalidraw.nvim"),
     }
 
@@ -129,6 +132,19 @@ require('packer').startup(function(use)
     use {'folke/trouble.nvim'}
     use {'RishabhRD/popfix'}
     use {'RishabhRD/nvim-lsputils'}
+
+    use {
+        'kelly-lin/ranger.nvim',
+        config = function()
+            require("ranger-nvim").setup({ replace_netrw = true })
+            vim.api.nvim_set_keymap("n", "<leader>ef", "", {
+                noremap = true,
+                callback = function()
+                    require("ranger-nvim").open(true)
+                end,
+            })
+        end,
+    }
 
     use {
         'echasnovski/mini.nvim',
