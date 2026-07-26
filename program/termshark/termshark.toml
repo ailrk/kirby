@@ -1,0 +1,6 @@
+[main]
+# Choose from built-in themes: default, dracula, solarized, base16
+theme = "default"
+
+# Optional: customize packet list columns if desired
+# col-format = "%Cun %<w.src> %<w.dst> %s %t"

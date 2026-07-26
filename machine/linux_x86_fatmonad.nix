@@ -46,12 +46,12 @@ in
         tmux.enable = true;
         labwc.enable = true;
         waybar.enable = true;
-        dunst.enable = true;
         alacritty = {
           enable = true;
           colorMode = cfg.colorMode;
         };
         scripts.enable = true;
+        termshark.enable = true;
         rofi.enable = true;
         nmap.enable = true;
         zsh.enable = true;
@@ -61,6 +61,7 @@ in
       };
 
       service = {
+        dunst.enable = true;
         ollama = {
           enable = true;
           amd = true;

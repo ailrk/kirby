@@ -106,6 +106,13 @@ require('packer').startup(function(use)
     }
 
     use {
+        'oysandvik94/curl.nvim',
+        config = function ()
+            require"curl".setup()
+        end
+    }
+
+    use {
         vim.fn.expand("$HOME/repo/excalidraw.nvim"),
     }
 
@@ -128,10 +135,21 @@ require('packer').startup(function(use)
     use {'nvim-telescope/telescope-ui-select.nvim'}
     use {'neovim/nvim-lsp'}
     use {'ailrk/telescope-context.nvim'}
+
     use {
         'rmagatti/auto-session',
         commit = '562fd8f398acb8b24cb1293a3b69fd2a4aa74e7b',
+        config = function ()
+            require("auto-session").setup {
+                suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
+                cwd_change_handling = true,
+                pre_cwd_changed_cmds = {
+                    "tabdo NERDTreeClose" -- Close NERDTree before saving session
+                }
+            }
+        end
     }
+
     use {'folke/trouble.nvim'}
     use {'RishabhRD/popfix'}
     use {'RishabhRD/nvim-lsputils'}

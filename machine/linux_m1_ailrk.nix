@@ -51,12 +51,12 @@ in
         labwc.enable = true;
         waybar.enable = true;
         compton.enable = true;
-        dunst.enable = true;
         alacritty = {
           enable = true;
           colorMode = cfg.colorMode;
         };
         scripts.enable = true;
+        termshark.enable = true;
         nmap.enable = true;
         zsh.enable = true;
         fish.enable = true;
@@ -64,6 +64,7 @@ in
         fcitx5.enable = true;
       };
       service = {
+        dunst.enable = true;
         ollama.enable = true;
         litellm = {
           enable = true;

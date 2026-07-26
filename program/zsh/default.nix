@@ -9,7 +9,7 @@ in
   config = lib.mkIf cfg.enable {
     programs.zsh = {
       enable = true;
-      initExtra = ''
+      initContent = ''
         any-nix-shell zsh --info-right | source /dev/stdin
       '';
     };

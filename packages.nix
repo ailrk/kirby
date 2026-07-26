@@ -42,7 +42,7 @@
     pkgs.btop
 
     pkgs.any-nix-shell
-    pkgs.nixfmt-rfc-style
+    pkgs.nixfmt
 
     # apps
     pkgs.awscli
@@ -100,8 +100,8 @@
     pkgs.nix-index
 
     # X
-    pkgs.xorg.xset
-    pkgs.xorg.xinput
+    pkgs.xset
+    pkgs.xinput
     pkgs.brightnessctl
     pkgs.xdotool
     pkgs.xtitle
@@ -128,7 +128,6 @@
     pkgs.ibus-engines.pinyin
     pkgs.nautilus
     pkgs.libsForQt5.qt5.qttools
-    pkgs.wireshark-qt
     pkgs.xournalpp
     pkgs.blueman
     pkgs.mupdf

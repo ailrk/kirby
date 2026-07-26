@@ -2,7 +2,6 @@
   imports = [
     ./alacritty.nix
     ./compton/default.nix
-    ./dunst/default.nix
     ./rofi/default.nix
     ./labwc/default.nix
     ./waybar/default.nix
@@ -12,6 +11,7 @@
     ./nmap/default.nix
     ./ranger/default.nix
     ./scripts/index.nix
+    ./termshark/default.nix
     ./tmux.nix
     ./zsh/default.nix
     ./ueberzugpp.nix

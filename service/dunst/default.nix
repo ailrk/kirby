@@ -1,18 +1,14 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 with lib;
 let
-  cfg = config.kirby.program.dunst;
+  cfg = config.kirby.service.dunst;
 in
 {
-  options.kirby.program.dunst = {
+  options.kirby.service.dunst = {
     enable = mkEnableOption "Enable dunst notification daemon";
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      dunst
-    ];
-
     services.dunst.enable = true;
 
     xdg.configFile."dunst/dunstrc".source = ./dunstrc;
