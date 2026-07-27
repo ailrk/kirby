@@ -2,6 +2,7 @@
   imports = [
     ./alacritty.nix
     ./compton/default.nix
+    ./cbb/default.nix
     ./rofi/default.nix
     ./labwc/default.nix
     ./waybar/default.nix

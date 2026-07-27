@@ -2,15 +2,8 @@
 { pkgs, ... }:
   [
     pkgs.binutils
-    pkgs.rsync
-    pkgs.htop
-    pkgs.inetutils
-    pkgs.ripgrep
-    pkgs.killall
-    pkgs.expect
-    pkgs.fd
-    pkgs.bat
-    pkgs.fzf
+
+    # classic
     pkgs.git-crypt
     pkgs.gnupg
     pkgs.lsof
@@ -23,7 +16,6 @@
     pkgs.lldb
     pkgs.qemu
     pkgs.direnv
-    pkgs.just
     pkgs.sops
     pkgs.age
     pkgs.graphviz
@@ -33,14 +25,36 @@
     pkgs.xterm
     pkgs.imagemagick
     pkgs.ntp
-    pkgs.systemctl-tui
     pkgs.bandwhich
     pkgs.binsider
-    pkgs.nix-inspect
     pkgs.openssl
-    pkgs.eza
-    pkgs.btop
+    pkgs.yq
+    pkgs.jq
 
+    # new core
+    pkgs.rsync
+    pkgs.eza
+    pkgs.sd
+    pkgs.pv
+    pkgs.htop
+    pkgs.inetutils
+    pkgs.ripgrep
+    pkgs.btop
+    pkgs.killall
+    pkgs.expect
+    pkgs.fd
+    pkgs.choose
+    pkgs.bat
+    pkgs.fzf
+    pkgs.just
+
+    # tui
+    pkgs.regex-tui
+    pkgs.systemctl-tui
+    pkgs.nix-inspect
+    pkgs.cgdb
+
+    # nix
     pkgs.any-nix-shell
     pkgs.nixfmt
 
@@ -50,6 +64,7 @@
     pkgs.litellm
     pkgs.bottles
     pkgs.tree-sitter
+    pkgs.upscayl
 
     # langs
     pkgs.valgrind
@@ -62,7 +77,6 @@
     pkgs.gcc
     pkgs.clang-tools
     pkgs.gdb
-    pkgs.cgdb
     pkgs.lld
     pkgs.bear
     pkgs.nasm

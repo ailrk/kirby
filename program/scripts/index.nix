@@ -11,6 +11,7 @@ let
     "unnix" = ./unnix;
     "colormode" = ./colormode;
     "tmux-switch" = ./tmux-switch;
+    "tui" = ./tui;
   };
 
 in

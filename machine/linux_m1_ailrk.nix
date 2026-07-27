@@ -47,6 +47,7 @@ in
           nightly = false;
         };
         ranger.enable = true;
+        cbb.enable = true;
         tmux.enable = true;
         labwc.enable = true;
         waybar.enable = true;
