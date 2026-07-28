@@ -17,6 +17,7 @@ function cbb
     end
 end
 
+
 # Set path
 set PATH $PATH $HOME/Opt/bin/
 set PATH $PATH $HOME/Opt/Discord/
@@ -35,7 +36,8 @@ alias g="git"
 alias ls="eza --header --git"
 alias ssrsa="bass eval '$(ssh-agent -s)' && ssh-add -k ~/.ssh/id_rsa"
 alias ssid25519="bass eval '$(ssh-agent -s)' && ssh-add -k ~/.ssh/id_ed25519"
-alias fh="cat ~/.local/share/fish/fish_history"
 alias qq="exit"
 alias t="tmux"
+alias hfz="find $HOME | fzf --header='Find from $HOME'"
+alias ffz="find . | fzf --header='Find from .'"
 direnv hook fish | source

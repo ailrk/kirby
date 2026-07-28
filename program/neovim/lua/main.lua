@@ -127,14 +127,45 @@ require('packer').startup(function(use)
         end
     }
 
-    use { 'milanglacier/minuet-ai.nvim' }
+    use {
+        'milanglacier/minuet-ai.nvim' ,
+        config = function ()
+            require('minuet').setup({
+                provider = 'openai_compatible',
+                provider_options = {
+                    openai_compatible = {
+                        model = 'copilot',
+                        end_point = 'http://localhost:11435/v1/chat/completions',
+                        name = 'LiteLLM',
+                        api_key = 'TERM', -- dummy value, we don't need it
+                        stream = true,
+                        optional = {
+                            max_tokens = 512,
+                            stop = { "\n\n" },
+                        }
+                    }
+                },
+                virtualtext = {
+                    auto_trigger_ft = {},
+                    keymap = {
+                        accept = '<A-A>',
+                        accept_line = '<A-a>',
+                        accept_n_lines = '<A-z>',
+                        prev = '<A-[>',
+                        next = '<A-]>',
+                        dismiss = '<A-e>',
+                    },
+                }
+            })
+        end
+    }
 
     -- nvim
     use {'nvim-lua/plenary.nvim'}
     use {'nvim-telescope/telescope.nvim'}
     use {'nvim-telescope/telescope-ui-select.nvim'}
-    use {'neovim/nvim-lsp'}
     use {'ailrk/telescope-context.nvim'}
+    use {'neovim/nvim-lsp'}
 
     use {
         'rmagatti/auto-session',
@@ -170,6 +201,14 @@ require('packer').startup(function(use)
     use {
         'echasnovski/mini.nvim',
         commit = 'a995fe9cd4193fb492b5df69175a351a74b3d36b',
+        config = function ()
+            require('mini.completion').setup()
+            local imap_expr = function(lhs, rhs)
+                vim.keymap.set('i', lhs, rhs, { expr = true })
+            end
+            imap_expr('<Tab>',   [[pumvisible() ? "\<C-n>" : "\<Tab>"]])
+            imap_expr('<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
+        end
     }
 
     use {
@@ -200,12 +239,10 @@ end)
 
 require("config.lsp")
 require("config.mappings")
-require("config.mini")
 require("config.telescope")
 require('config.theme')
 require('config.image')
 require("config.treesitter")
-require("config.minuet-ai")
 
 require("tools.picker-uri")
 require("tools.picker-md-links")

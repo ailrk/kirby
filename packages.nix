@@ -3,7 +3,7 @@
   [
     pkgs.binutils
 
-    # classic
+    # tools
     pkgs.git-crypt
     pkgs.gnupg
     pkgs.lsof
@@ -30,6 +30,7 @@
     pkgs.openssl
     pkgs.yq
     pkgs.jq
+    pkgs.bcc
 
     # new core
     pkgs.rsync
