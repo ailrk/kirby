@@ -81,6 +81,9 @@ in
       linux.enable = true;
     };
 
+    services = {
+      ssh-agent.enable = true;
+    };
 
     # Install packages
     home = {

@@ -32,6 +32,8 @@
     pkgs.jq
     pkgs.bcc
     pkgs.gum
+    pkgs.glow
+    pkgs.skate
 
     # new core
     pkgs.rsync
