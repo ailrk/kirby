@@ -2,8 +2,20 @@ fish_config theme choose default
 
 # Use vim binding. We need to restore Ctl-R for command history
 fish_vi_key_bindings
-bind -M insert \cr history-pager
-bind -M default \cr history-pager
+
+function fish_user_key_bindings
+    bind -M insert \cr history-pager
+    bind -M default \cr history-pager
+
+    # History search (from previous fix)
+    bind -M insert \cp up-or-search
+    bind -M insert \cn down-or-search
+    bind -M default \cp up-or-search
+    bind -M default \cn down-or-search
+
+    # Accept autosuggestion with Ctrl + Space
+    bind -M insert ctrl-space accept-autosuggestion
+end
 
 
 # Binding for command bible.
