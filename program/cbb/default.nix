@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }:
+{ lib, config, ... }:
 with
 lib;
 let
@@ -11,7 +11,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    xdg.configFile."scripts/cbb".source = ./cbb;
+    xdg.configFile."cbb/cbb".source = ./cbb;
     xdg.configFile."cbb/cbb.yaml".source = ./cbb.yaml;
   };
 }

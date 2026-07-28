@@ -105,6 +105,7 @@ in
         pkgs.tiled
         pkgs.quickemu
 
+        pkgs.upscayl
         pkgs.winetricks
         pkgs.wineWow64Packages.staging
       ] ++ pkgs.callPackage ../packages.nix {};

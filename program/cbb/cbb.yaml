@@ -13,7 +13,7 @@ Reverse shell (Target):
 Find large files in . (>100MB):
   description:
   commands:
-    - find . -type f -size +100M 2>/dev/null
+    - find . -type f -size +100M 2>/dev/null | fzf
 
 Extract tar.gz archive:
   description:

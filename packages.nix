@@ -64,7 +64,6 @@
     pkgs.litellm
     pkgs.bottles
     pkgs.tree-sitter
-    pkgs.upscayl
 
     # langs
     pkgs.valgrind

@@ -5,6 +5,19 @@ fish_vi_key_bindings
 bind -M insert \cr history-pager
 bind -M default \cr history-pager
 
+
+# Binding for command bible.
+function run_cbb
+    set -l chosen_cmd (~/.config/cbb/cbb)
+
+    # If a command was selected, inject it into the command line buffer
+    if test -n "$chosen_cmd"
+        commandline -r "$chosen_cmd"
+        commandline -f repaint
+    end
+end
+
+# Set path
 set PATH $PATH $HOME/Opt/bin/
 set PATH $PATH $HOME/Opt/Discord/
 set PATH $PATH $HOME/Opt/cross/bin/
@@ -13,6 +26,8 @@ set PATH $PATH $HOME/.cargo/bin/
 set PATH $PATH $HOME/.cabal/bin/
 set PATH $PATH $HOME/.ghcup/bin/
 set PATH $PATH $HOME/.config/scripts/
+
+set -gx FZF_DEFAULT_OPTS "--height 40% --layout=reverse --border"
 
 # alias
 alias vim="nvim"
