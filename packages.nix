@@ -31,6 +31,7 @@
     pkgs.yq
     pkgs.jq
     pkgs.bcc
+    pkgs.gum
 
     # new core
     pkgs.rsync

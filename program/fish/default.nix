@@ -23,6 +23,24 @@ in
     programs.fish = {
       enable = true;
 
+      functions = {
+        fish_prompt = {
+          body = ''
+          set -l last_status $status
+
+          echo -s (set_color cyan) "[" (date "+%H:%M") "]" (set_color normal) \
+                " " \
+                (set_color green) $USER (set_color normal) \
+                "@" \
+                (set_color yellow) $hostname (set_color normal) \
+                " " \
+                (set_color blue) (prompt_pwd) (set_color normal)
+
+          echo -n -s "> "
+          '';
+        };
+      };
+
       interactiveShellInit = ''
         any-nix-shell fish --info-right | source
       '';

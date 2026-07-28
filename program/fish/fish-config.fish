@@ -40,7 +40,7 @@ set PATH $PATH $HOME/.cabal/bin/
 set PATH $PATH $HOME/.ghcup/bin/
 set PATH $PATH $HOME/.config/scripts/
 
-set -gx FZF_DEFAULT_OPTS "--height 40% --layout=reverse --border"
+set -gx FZF_DEFAULT_OPTS "--height 50% --layout=reverse --border"
 
 # alias
 alias vim="nvim"
@@ -50,6 +50,6 @@ alias ssrsa="bass eval '$(ssh-agent -s)' && ssh-add -k ~/.ssh/id_rsa"
 alias ssid25519="bass eval '$(ssh-agent -s)' && ssh-add -k ~/.ssh/id_ed25519"
 alias qq="exit"
 alias t="tmux"
-alias hf="find $HOME | fzf --header='Find from $HOME'"
-alias ff="find . | fzf --header='Find from .'"
+alias hf="find $HOME | fzf --header='Search from $HOME'"
+alias ff="find . | fzf --header='Search from .'"
 direnv hook fish | source
