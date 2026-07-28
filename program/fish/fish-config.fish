@@ -7,7 +7,7 @@ bind -M default \cr history-pager
 
 
 # Binding for command bible.
-function run_cbb
+function cbb
     set -l chosen_cmd (~/.config/cbb/cbb)
 
     # If a command was selected, inject it into the command line buffer
