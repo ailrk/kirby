@@ -34,6 +34,11 @@
     pkgs.gum
     pkgs.glow
     pkgs.skate
+    pkgs.nap
+    pkgs.slides
+    pkgs.chafa
+    pkgs.graph-easy
+    pkgs.confetty
 
     # new core
     pkgs.rsync
