@@ -6,6 +6,7 @@ local entry_display = require('telescope.pickers.entry_display')
 local conf = require('telescope.config').values
 
 local UNICODES = {
+    { symbol = '―', name = 'BAR' },
     { symbol = '⊢', name = 'RIGHT TACK' },
     { symbol = '⊣', name = 'LEFT TACK' },
     { symbol = '⊤', name = 'DOWN TACK' },

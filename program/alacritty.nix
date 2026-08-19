@@ -74,7 +74,7 @@ let
   };
 
   systemScale  = 1;
-  baseFontSize = 15;
+  baseFontSize = 14;
 in
   {
     options.kirby.program.alacritty = {
