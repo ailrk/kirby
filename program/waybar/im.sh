@@ -7,5 +7,6 @@ case "$current" in
     "keyboard-us") echo "EN" ;;
     "mozc")        echo "JP" ;;
     "pinyin")      echo "CN" ;;
+    "wubi")        echo "CN" ;;
     *)             echo "$current" ;; # Fallback to raw name
 esac
