@@ -131,6 +131,7 @@
     pkgs.pinentry-curses
     pkgs.xclip
     pkgs.scrot
+    pkgs.xscreenruler
 
     # wayland
     pkgs.cage
