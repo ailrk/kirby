@@ -6,7 +6,7 @@ current=$(fcitx5-remote -n)
 case "$current" in
     "keyboard-us") echo "EN" ;;
     "mozc")        echo "JP" ;;
-    "pinyin")      echo "CN" ;;
-    "wubi")        echo "CN" ;;
+    "pinyin")      echo "拼" ;;
+    "wubi")        echo "五" ;;
     *)             echo "$current" ;; # Fallback to raw name
 esac
