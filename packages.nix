@@ -39,6 +39,7 @@
     pkgs.chafa
     pkgs.graph-easy
     pkgs.confetty
+    pkgs.p7zip
 
     # new core
     pkgs.rsync
