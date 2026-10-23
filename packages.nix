@@ -113,13 +113,14 @@ in
       ps.ipython
       ps.pygls
       ps.jieba
+      ps.relic-tool-sga
     ]))
-    (pypiTool {
-      name = "relic-tool-sga";
-      version = "2.0.1";
-      format = "wheel";
-      sha = "sha256-ufp+Gu1wXedQ3eBiinOUbZXEFfo8RbhBvNUcCzaS64k=";
-    })
+    # (pypiTool {
+    #   name = "relic-tool-sga";
+    #   version = "2.0.1";
+    #   format = "wheel";
+    #   sha = "sha256-ufp+Gu1wXedQ3eBiinOUbZXEFfo8RbhBvNUcCzaS64k=";
+    # })
 
     # font
     pkgs.fira-code
