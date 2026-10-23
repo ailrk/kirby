@@ -1,7 +1,24 @@
 # common packages
 { pkgs, ... }:
-  [
-    pkgs.binutils
+let
+  # Helper function to declare a PyPI package
+  # format: setuptools|pyproject|wheel
+  pypiTool = { name, version, format ? "setuptools", sha }:
+  let
+    src = pkgs.fetchurl {
+      # Use the exact files.pythonhosted.org URL,
+      # or point directly to the GitHub release/tag tarball:
+      url = "https://files.pythonhosted.org/packages/source/${builtins.substring 0 1 name}/${name}/${builtins.replaceStrings ["-"] ["_"] name}-${version}.tar.gz";
+      hash = sha;
+    };
+  in
+    pkgs.python3Packages.buildPythonPackage {
+      inherit version format src;
+      pname = name;
+    };
+in
+[
+  pkgs.binutils
 
     # tools
     pkgs.git-crypt
@@ -97,6 +114,12 @@
       ps.pygls
       ps.jieba
     ]))
+    (pypiTool {
+      name = "relic-tool-sga";
+      version = "2.0.1";
+      format = "wheel";
+      sha = "sha256-ufp+Gu1wXedQ3eBiinOUbZXEFfo8RbhBvNUcCzaS64k=";
+    })
 
     # font
     pkgs.fira-code
