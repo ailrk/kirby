@@ -95,7 +95,7 @@ require('packer').startup(function(use)
             require("live_preview").setup({
                 port = 8421,
                 open_browser = true,
-                debounce_ms = 300,
+                debounce_ms = 50,
                 default_theme = "light"
             })
         end,
