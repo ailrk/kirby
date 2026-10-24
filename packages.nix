@@ -164,4 +164,7 @@
   pkgs.mupdf
   pkgs.zathura
   pkgs.font-manager
+
+  # Mine
+  (pkgs.callPackage ./pkgs/sgaunpack.nix {})
 ]
