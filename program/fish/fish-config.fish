@@ -39,6 +39,7 @@ set PATH $PATH $HOME/.cargo/bin/
 set PATH $PATH $HOME/.cabal/bin/
 set PATH $PATH $HOME/.ghcup/bin/
 set PATH $PATH $HOME/.config/scripts/
+set PATH $PATH $HOME/.config/rofi/scripts/
 
 set -gx FZF_DEFAULT_OPTS "--height 50% --layout=reverse --border"
 
