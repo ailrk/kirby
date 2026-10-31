@@ -3,6 +3,8 @@ with
 lib;
 let
   cfg = config.kirby.program.labwc;
+  symlink = config.lib.file.mkOutOfStoreSymlink;
+  home = config.home.homeDirectory;
 in
 {
   options.kirby.program.labwc = {
@@ -19,8 +21,13 @@ in
       executable = true;
     };
 
-    xdg.configFile."labwc/environment".source = ./environment;
-    xdg.configFile."labwc/menu.xml".source = ./menu.xml;
-    xdg.configFile."labwc/rc.xml".source = ./rc.xml;
+    xdg.configFile."labwc/environment".source =
+      symlink "${home}/program/labwc/environment";
+
+    xdg.configFile."labwc/menu.xml".source =
+      symlink "${home}/program/labwc/menu.xml";
+
+    xdg.configFile."labwc/rc.xml".source =
+      symlink "${home}/program/labwc/rc.xml";
   };
 }

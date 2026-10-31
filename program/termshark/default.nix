@@ -3,6 +3,8 @@ with
 lib;
 let
   cfg = config.kirby.program.termshark;
+  symlink = config.lib.file.mkOutOfStoreSymlink;
+  home = config.home.homeDirectory;
 in
 {
 
@@ -16,6 +18,9 @@ in
       tshark
     ];
 
-    xdg.configFile."termshark/termshark.toml".source = ./termshark.toml;
+    xdg.configFile = {
+      "termshark/termshark.toml".source =
+        symlink "${home}/kirby/program/termshark/termshark.toml";
+    };
   };
 }

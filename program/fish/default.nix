@@ -2,6 +2,9 @@
 with lib;
 let
   cfg = config.kirby.program.fish;
+  symlink = config.lib.file.mkOutOfStoreSymlink;
+  home = config.home.homeDirectory;
+
 in
 {
   options.kirby.program.fish = {
@@ -58,7 +61,7 @@ in
 
     xdg.configFile = {
       "fish/fish-config.fish" = {
-        source = ./fish-config.fish;
+        source = symlink "${home}/kirby/program/fish/fish-config.fish";
       };
     };
   };
