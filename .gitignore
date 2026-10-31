@@ -1,0 +1,5 @@
+.mypy_cache/
+.ccls-cache/
+*.fasl
+*.pyc
+.DS_Store

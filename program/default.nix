@@ -1,0 +1,22 @@
+{
+  imports = [
+    ./alacritty.nix
+    ./compton/default.nix
+    ./cbb/default.nix
+    ./rofi/default.nix
+    ./labwc/default.nix
+    ./waybar/default.nix
+    ./fish/default.nix
+    ./git.nix
+    ./neovim/default.nix
+    ./nmap/default.nix
+    ./ranger/default.nix
+    ./scripts/index.nix
+    ./termshark/default.nix
+    ./tmux.nix
+    ./zsh/default.nix
+    ./ueberzugpp.nix
+    ./fcitx5.nix
+    ./delta.nix
+  ];
+}

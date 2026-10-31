@@ -1,0 +1,1444 @@
+#!/usr/bin/env bash
+# nixg — a gum-powered interface for Nix
+#
+# Interactive:   nixg
+# Scriptable:    nixg <command> [args]      (run `nixg --help`)
+#
+# Required:  nix, jq        Interactive UI: gum
+# Optional:  fzf (preview panes), curl + git (older versions, channels, caches),
+#            nix-index/nix-locate (file search), cachix, vulnix, home-manager
+#
+# Try without installing:  nix shell nixpkgs#gum nixpkgs#jq nixpkgs#fzf -c ./nixg
+
+set -uo pipefail
+
+NIXG_VERSION="2.0.0"
+ASSUME_YES=0
+PICKS=()
+
+# --- state & config ---
+
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/nixg"
+CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/nixg"
+CONFIG_FILE="$STATE_DIR/config"
+HISTORY_FILE="$STATE_DIR/history"
+FAVS_FILE="$STATE_DIR/favorites"
+mkdir -p "$STATE_DIR" "$CACHE_DIR"
+touch "$HISTORY_FILE" "$FAVS_FILE"
+if [[ $(wc -l < "$HISTORY_FILE") -gt 600 ]]; then
+  tail -n 500 "$HISTORY_FILE" > "$HISTORY_FILE.tmp" && mv "$HISTORY_FILE.tmp" "$HISTORY_FILE"
+fi
+
+NIXPKGS_REF="${NIXG_NIXPKGS:-}"
+if [[ -z $NIXPKGS_REF && -f $CONFIG_FILE ]]; then
+  NIXPKGS_REF=$(sed -n 's/^NIXPKGS_REF=//p' "$CONFIG_FILE" | tail -n 1)
+fi
+NIXPKGS_REF="${NIXPKGS_REF:-nixpkgs}"
+
+save_config() { printf 'NIXPKGS_REF=%s\n' "$NIXPKGS_REF" > "$CONFIG_FILE"; }
+
+die() { echo "nixg: $*" >&2; exit 1; }
+
+for dep in nix jq; do
+  command -v "$dep" >/dev/null 2>&1 || die "missing dependency '$dep' (try: nix shell nixpkgs#$dep)"
+done
+
+HAVE_GUM=0
+command -v gum >/dev/null 2>&1 && HAVE_GUM=1
+require_gum() {
+  [[ $HAVE_GUM == 1 ]] || die "the interactive UI needs gum (try: nix shell nixpkgs#gum -c nixg)"
+  [[ -t 0 && -t 1 ]] || die "the interactive UI needs a terminal; see 'nixg --help' for scriptable commands"
+}
+
+export NIX_CONFIG="${NIX_CONFIG:-}"$'\n'"experimental-features = nix-command flakes"
+
+SUDO=()
+[[ ${EUID:-$(id -u)} -ne 0 ]] && SUDO=(sudo)
+
+ACCENT=63
+MUTED=245
+
+# --- ui helpers ---
+
+paint() {
+  local color=$1; shift
+  if [[ $HAVE_GUM == 1 && -t 1 ]]; then gum style --foreground "$color" "$*"; else printf '%s\n' "$*"; fi
+}
+ok()   { paint 42  "✓ $*"; }
+warn() { paint 214 "! $*" >&2; }
+bad()  { paint 196 "✗ $*" >&2; }
+dim()  { paint "$MUTED" "$*"; }
+
+banner() {
+  clear
+  gum style --border rounded --border-foreground "$ACCENT" --padding "0 2" --bold \
+    "❄  nixg $NIXG_VERSION" \
+    "$(gum style --foreground "$MUTED" "channel: $NIXPKGS_REF")"
+}
+
+pause() {
+  [[ $ASSUME_YES == 1 || ! -t 0 ]] && return 0
+  read -r -s -n1 -p $'\npress any key to continue…'; echo
+}
+
+confirm() {
+  [[ $ASSUME_YES == 1 ]] && return 0
+  if [[ $HAVE_GUM == 1 && -t 1 ]]; then
+    gum confirm "$1"
+  else
+    local a; read -r -p "$1 [y/N] " a; [[ $a == [yY]* ]]
+  fi
+}
+
+ask() { gum input --prompt "$1 ▸ " --placeholder "${2:-}" --value "${3:-}" --width 80; }
+
+pager() { if [[ $HAVE_GUM == 1 && -t 1 ]]; then gum pager; else cat; fi; }
+
+# pick MULTI HEADER [PREVIEW_CMD] < lines   → selected lines on stdout
+# Uses fzf (with a preview pane) when available, gum filter otherwise.
+pick() {
+  local multi=$1 header=$2 preview=${3:-}
+  if command -v fzf >/dev/null 2>&1; then
+    local args=(--reverse --height=85% --border --header "$header")
+    [[ $multi == 1 ]] && args+=(--multi)
+    [[ -n $preview ]] && args+=(--preview "$preview" --preview-window 'right,50%,wrap')
+    fzf "${args[@]}"
+  else
+    local g=(--height 20 --header "$header" --placeholder "filter…")
+    [[ $multi == 1 ]] && g+=(--no-limit)
+    gum filter "${g[@]}"
+  fi
+}
+
+record() { printf '%s\t%s\n' "$(date +%s)" "$1" >> "$HISTORY_FILE"; }
+
+# print the command, log it to history, then run it
+run() {
+  dim "\$ $*" >&2
+  record "$(printf '%q ' "$@")"
+  "$@"
+  local rc=$?
+  [[ $rc -ne 0 ]] && bad "exited with status $rc"
+  return $rc
+}
+
+cur_system() {
+  local a o
+  a=$(uname -m); [[ $a == arm64 ]] && a=aarch64
+  o=$(uname -s | tr '[:upper:]' '[:lower:]')
+  echo "$a-$o"
+}
+
+to_ref() { [[ $1 == *"#"* ]] && echo "$1" || echo "${NIXPKGS_REF}#$1"; }
+
+nixconf() {
+  nix config show "$1" 2>/dev/null || nix show-config 2>/dev/null | sed -n "s/^$1 = //p"
+}
+
+export AWK_HUMAN='function human(n,  u, i) { split("B K M G T", u, " "); i = 1; while (n >= 1024 && i < 5) { n /= 1024; i++ } return (i == 1) ? sprintf("%d%s", n, u[i]) : sprintf("%.1f%s", n, u[i]) }'
+humanize_field1() { awk -F'\t' -v OFS='\t' "$AWK_HUMAN"' { $1 = human($1); print }'; }
+human_bytes()     { awk "$AWK_HUMAN"' BEGIN { print human(ARGV[1]) }' "$1"; }
+
+# --- favorites ---
+
+fav_add() { local p; for p in "$@"; do grep -qxF -- "$p" "$FAVS_FILE" || echo "$p" >> "$FAVS_FILE"; done; }
+fav_rm()  { local p; for p in "$@"; do grep -vxF -- "$p" "$FAVS_FILE" > "$FAVS_FILE.tmp"; mv "$FAVS_FILE.tmp" "$FAVS_FILE"; done; }
+
+# --- package search ---
+
+SEARCH_PREVIEW_FILTER='to_entries[] | select((.key | split(".")[2:] | join(".")) == $n) | .value | "\(.pname // "") \(.version // "")\n\n\(.description // "")"'
+
+search_tsv() {
+  jq -r 'to_entries | sort_by(.key)[]
+    | [ (.key | split(".")[2:] | join(".")),
+        (.value.version // ""),
+        ((.value.description // "") | gsub("[\n\t]"; " ")) ] | @tsv'
+}
+search_format() { search_tsv | awk -F'\t' '{ printf "%-34s %-14s %s\n", $1, $2, $3 }'; }
+
+# Interactive search → PICKS
+search_packages() {
+  local query json lines prev picked
+  query=$(ask "🔍 search" "e.g. ripgrep   (channel: $NIXPKGS_REF)") || return 1
+  [[ -n $query ]] || return 1
+
+  json=$(mktemp); lines=$(mktemp)
+  gum spin --spinner dot --title "Searching $NIXPKGS_REF for '$query'…" -- \
+    bash -c 'nix search "$1" "$2" --json 2>/dev/null > "$3"' _ "$NIXPKGS_REF" "$query" "$json"
+  search_format < "$json" > "$lines"
+
+  if [[ ! -s $lines ]]; then
+    warn "no results for '$query'"
+    rm -f "$json" "$lines"; pause
+    return 1
+  fi
+
+  printf -v prev 'jq -r --arg n {1} %q %q' "$SEARCH_PREVIEW_FILTER" "$json"
+  picked=$(pick 1 "tab: multi-select · enter: confirm" "$prev" < "$lines")
+  rm -f "$json" "$lines"
+
+  PICKS=()
+  [[ -n $picked ]] && mapfile -t PICKS < <(awk '{ print $1 }' <<< "$picked")
+  [[ ${#PICKS[@]} -gt 0 ]]
+}
+
+package_info() {
+  local p ref
+  for p in "${PICKS[@]}"; do
+    ref=$(to_ref "$p")
+    gum style --bold --foreground "$ACCENT" "$p"
+    nix eval --json "$ref.meta" 2>/dev/null | jq -r '
+      "  description  \(.description // "-")",
+      "  homepage     \(.homepage // "-")",
+      "  main program \(.mainProgram // "-")",
+      "  license      \(
+          if (.license|type) == "array" then (.license | map(.spdxId // .shortName // "?") | join(", "))
+          else (.license.spdxId // .license.shortName // "-") end )"
+    ' || warn "could not evaluate meta for $p"
+    echo
+  done
+}
+
+package_actions() {
+  local act refs p args
+  local -a argv
+  while true; do
+    refs=()
+    for p in "${PICKS[@]}"; do refs+=("$(to_ref "$p")"); done
+
+    banner
+    act=$(gum choose --header "Selected: ${PICKS[*]}" \
+      "Temporary shell" "Run" "Install to profile" "Show info" \
+      "Closure size" "Is it in the binary cache?" "Find an older version" \
+      "Add to favorites" "Search again" "Back") || return
+
+    case $act in
+      "Temporary shell")
+        warn "entering a shell with: ${PICKS[*]}  (exit to return)"
+        run nix shell "${refs[@]}"
+        ;;
+      "Run")
+        args=$(ask "arguments" "for ${PICKS[0]} (optional)") || continue
+        read -r -a argv <<< "$args"
+        run nix run "${refs[0]}" -- "${argv[@]}"
+        pause
+        ;;
+      "Install to profile")
+        if confirm "Install ${PICKS[*]} to your profile?"; then
+          run nix profile install "${refs[@]}" && ok "installed"
+          pause
+        fi
+        ;;
+      "Show info")  package_info | pager ;;
+      "Closure size")
+        closure_report "${refs[0]}" | pager
+        ;;
+      "Is it in the binary cache?")
+        cached_report "${refs[0]}"; pause
+        ;;
+      "Find an older version")
+        old_version_pick "${PICKS[0]}" || pause
+        ;;
+      "Add to favorites")
+        fav_add "${PICKS[@]}"; ok "added ${PICKS[*]}"; pause
+        ;;
+      "Search again") search_packages || return ;;
+      "Back") return ;;
+    esac
+  done
+}
+
+# --- find by file (nix-locate) ---
+
+LOCATE_DB="${XDG_CACHE_HOME:-$HOME/.cache}/nix-index/files"
+
+locate_cmd() {
+  if command -v nix-locate >/dev/null 2>&1; then nix-locate "$@"
+  else nix shell "${NIXPKGS_REF}#nix-index" -c nix-locate "$@"; fi
+}
+
+locate_update() {
+  command -v curl >/dev/null 2>&1 || { bad "curl is required"; return 1; }
+  local arch os file dir
+  arch=$(uname -m); [[ $arch == arm64 ]] && arch=aarch64
+  os=$(uname -s | tr '[:upper:]' '[:lower:]')
+  file="index-$arch-$os"
+  dir=$(dirname "$LOCATE_DB")
+  mkdir -p "$dir"
+  dim "downloading prebuilt index from nix-community/nix-index-database…"
+  curl -fL --progress-bar -o "$dir/$file" \
+    "https://github.com/nix-community/nix-index-database/releases/latest/download/$file" &&
+    ln -f "$dir/$file" "$LOCATE_DB" && ok "index updated"
+}
+
+# locate_lines MODE PATTERN → "attr<TAB>path"
+locate_lines() {
+  local mode=$1 pat=$2 flags=(--top-level)
+  [[ $mode == exact ]] && flags+=(-w)
+  locate_cmd "${flags[@]}" "$pat" 2>/dev/null | awk '{ printf "%s\t%s\n", $1, $NF }'
+}
+
+strip_output() { sed -E 's/\.(out|bin|dev|lib|doc|man|info|static|devdoc|debug|data)$//'; }
+
+menu_locate() {
+  if [[ ! -f $LOCATE_DB ]]; then
+    warn "no nix-index database found"
+    confirm "Download the prebuilt database (~50 MB)?" && locate_update || { pause; return; }
+  fi
+  local pat mode lines picked
+  pat=$(ask "file" "e.g. bin/rg, libssl.so, pkg-config") || return
+  [[ -n $pat ]] || return
+  mode=$(gum choose --header "match" "exact file name" "regex on full path") || return
+  lines=$(locate_lines "${mode%% *}" "$pat" | awk -F'\t' '{ printf "%-40s %s\n", $1, $2 }')
+  if [[ -z $lines ]]; then warn "nothing provides '$pat'"; pause; return; fi
+
+  picked=$(pick 1 "which package? (tab: multi-select)" "" <<< "$lines")
+  [[ -n $picked ]] || return
+  mapfile -t PICKS < <(awk '{ print $1 }' <<< "$picked" | strip_output | sort -u)
+  package_actions
+}
+
+# --- older versions (nixhub) ---
+
+NIXHUB_API="https://search.devbox.sh/v2"
+
+# Sets PICKS to a pinned flake ref for the chosen version. Returns 1 on failure.
+old_version_pick() {
+  command -v curl >/dev/null 2>&1 || { bad "curl is required"; return 1; }
+  local name=${1:-} versions ver resolved ref attr
+  name=${name##*#}
+  [[ -n $name ]] || name=$(ask "package" "attribute name, e.g. nodejs") || return 1
+  [[ -n $name ]] || return 1
+
+  versions=$(curl -fsSG -m 20 --data-urlencode "name=$name" "$NIXHUB_API/pkg" 2>/dev/null |
+    jq -r '(.releases // [])[] | .version')
+  if [[ -z $versions ]]; then
+    warn "no version history for '$name' on nixhub (or the service is unreachable)"
+    return 1
+  fi
+  ver=$(pick 0 "versions of $name (newest first)" "" <<< "$versions")
+  [[ -n $ver ]] || return 1
+
+  resolved=$(curl -fsSG -m 20 --data-urlencode "name=$name" --data-urlencode "version=$ver" \
+      "$NIXHUB_API/resolve" 2>/dev/null |
+    jq -r --arg s "$(cur_system)" '.systems[$s].flake_installable // empty
+      | "\(.ref.owner)/\(.ref.repo)/\(.ref.rev)\t\(.attr_path)"')
+  if [[ -z $resolved ]]; then
+    warn "$name $ver is not available for $(cur_system)"
+    return 1
+  fi
+  ref="github:${resolved%%$'\t'*}"; attr=${resolved#*$'\t'}
+  PICKS=("$ref#$attr")
+  ok "pinned: ${PICKS[0]}"
+  return 0
+}
+
+menu_old_versions() {
+  old_version_pick "" && package_actions
+}
+
+# --- favorites & history ---
+
+menu_favorites() {
+  local act line
+  local -a sel
+  while true; do
+    banner
+    act=$(gum choose --header "Favorites & history" \
+      "Browse favorites" "Remove favorites" "Command history" "Re-run a command" "Clear history" "Back") || return
+    case $act in
+      "Browse favorites")
+        if [[ ! -s $FAVS_FILE ]]; then warn "no favorites yet — add some from a package's menu"; pause; continue; fi
+        mapfile -t PICKS < <(pick 1 "tab: multi-select" "" < "$FAVS_FILE")
+        [[ ${#PICKS[@]} -gt 0 ]] && package_actions
+        ;;
+      "Remove favorites")
+        [[ -s $FAVS_FILE ]] || { warn "no favorites"; pause; continue; }
+        mapfile -t sel < <(pick 1 "select favorites to remove" "" < "$FAVS_FILE")
+        [[ ${#sel[@]} -gt 0 ]] && fav_rm "${sel[@]}" && ok "removed"
+        ;;
+      "Command history")
+        history_lines | pager
+        ;;
+      "Re-run a command")
+        line=$(history_lines | pick 0 "pick a command to run again") || continue
+        [[ -n $line ]] || continue
+        line=${line#*  }
+        gum style --foreground "$MUTED" "\$ $line"
+        confirm "Run it?" && { record "$line"; bash -c "$line"; pause; }
+        ;;
+      "Clear history")
+        confirm "Clear command history?" && : > "$HISTORY_FILE"
+        ;;
+      "Back") return ;;
+    esac
+  done
+}
+
+history_lines() {
+  local ts cmd
+  { tac "$HISTORY_FILE" 2>/dev/null || tail -r "$HISTORY_FILE"; } | while IFS=$'\t' read -r ts cmd; do
+    printf '%s  %s\n' "$(date -d "@$ts" '+%F %R' 2>/dev/null || date -r "$ts" '+%F %R' 2>/dev/null || echo "$ts")" "$cmd"
+  done
+}
+
+# --- profile ---
+
+profile_entries() {
+  nix profile list --json 2>/dev/null | jq -r '
+    .elements | to_entries[]
+    | "\(.key)\t\(.value.attrPath // .value.originalUrl // .value.url // "?")"'
+}
+
+align() { if command -v column >/dev/null 2>&1; then column -t -s $'\t'; else cat; fi; }
+
+menu_profile() {
+  local act sel
+  while true; do
+    banner
+    act=$(gum choose --header "Profile" \
+      "List installed" "Remove packages" "Upgrade all" "History" "Diff two generations" "Rollback" "Back") || return
+    case $act in
+      "List installed")
+        { gum style --bold "Installed in profile:"; profile_entries | align; } | pager
+        ;;
+      "Remove packages")
+        mapfile -t sel < <(profile_entries | align |
+          gum choose --no-limit --header "select packages to remove" | awk '{ print $1 }')
+        if [[ ${#sel[@]} -gt 0 ]] && confirm "Remove ${sel[*]}?"; then
+          run nix profile remove "${sel[@]}"
+          pause
+        fi
+        ;;
+      "Upgrade all")
+        run nix profile upgrade '.*' || run nix profile upgrade --all
+        pause
+        ;;
+      "History") nix profile history 2>&1 | pager ;;
+      "Diff two generations") menu_diff ;;
+      "Rollback")
+        confirm "Roll back to the previous profile generation?" && { run nix profile rollback; pause; }
+        ;;
+      "Back") return ;;
+    esac
+  done
+}
+
+# --- closures, dependencies, diffs ---
+
+# Store path(s) for an installable or an existing path/symlink
+resolve_target() {
+  local t=$1
+  if [[ -L $t || $t == /nix/store/* ]]; then readlink -f "$t"
+  else nix build --no-link --print-out-paths "$t" 2>/dev/null; fi
+}
+
+closure_json_lines() {
+  jq -r 'if type == "array" then .[] else (to_entries[] | .value + {path: .key}) end
+         | [.narSize, .path] | @tsv'
+}
+
+closure_report() {
+  local target=$1 tmp n total
+  local -a paths
+  mapfile -t paths < <(resolve_target "$target")
+  if [[ ${#paths[@]} -eq 0 ]]; then bad "could not resolve '$target'"; return 1; fi
+  tmp=$(mktemp)
+  nix path-info -r --json "${paths[@]}" 2>/dev/null | closure_json_lines |
+    sort -t$'\t' -k1,1nr > "$tmp"
+  if [[ ! -s $tmp ]]; then bad "could not read the closure of '$target'"; rm -f "$tmp"; return 1; fi
+  read -r n total < <(awk -F'\t' '{ t += $1; n++ } END { print n, t }' "$tmp")
+  printf 'Closure of %s — %s paths, %s total\n\n' "$target" "$n" "$(human_bytes "$total")"
+  humanize_field1 < "$tmp" | awk -F'\t' '{ printf "%8s  %s\n", $1, $2 }'
+  rm -f "$tmp"
+}
+
+ask_target() {
+  local items=() c n
+  [[ -e /run/current-system ]] && items+=("Current system (/run/current-system)")
+  [[ -e $HOME/.nix-profile ]]  && items+=("My profile (~/.nix-profile)")
+  items+=("A nixpkgs package…" "Any installable or store path…")
+  c=$(gum choose --header "$1" "${items[@]}") || return 1
+  case $c in
+    Current*)      echo /run/current-system ;;
+    "My profile"*) echo "$HOME/.nix-profile" ;;
+    "A nixpkgs"*)  n=$(ask "package" "attribute, e.g. glibc") || return 1; echo "${NIXPKGS_REF}#$n" ;;
+    *)             ask "installable / path" "e.g. .#foo, /nix/store/…, ./result" ;;
+  esac
+}
+
+menu_closure() {
+  local t
+  t=$(ask_target "Closure of…") || return
+  [[ -n $t ]] || return
+  dim "reading closure (this may build or download the target)…"
+  closure_report "$t" | pager
+}
+
+menu_why() {
+  local a b mode flags=()
+  a=$(ask_target "Which package or system do you want to inspect?") || return
+  b=$(ask "depends on" "e.g. nixpkgs#glibc") || return
+  [[ -n $a && -n $b ]] || return
+  [[ $b == */* || $b == *#* ]] || b="${NIXPKGS_REF}#$b"
+  mode=$(gum choose "shortest path" "all paths") || return
+  [[ $mode == all* ]] && flags+=(--all)
+  run nix why-depends "${flags[@]}" "$a" "$b"
+  pause
+}
+
+# profile_links BASE → "N<TAB>date<TAB>link", oldest first
+profile_links() {
+  local base=$1 l n d
+  for l in "$base"-*-link; do
+    [[ -e $l ]] || continue
+    n=${l#"$base"-}; n=${n%-link}
+    d=$(date -r "$l" '+%F %R' 2>/dev/null || true)
+    printf '%s\t%s\t%s\n' "$n" "$d" "$l"
+  done | sort -n
+}
+
+user_profile_base() {
+  local l
+  l=$(readlink "$HOME/.nix-profile" 2>/dev/null) || return 1
+  [[ $l == /* ]] || l="$HOME/$l"
+  echo "$l"
+}
+
+# sets GEN_A / GEN_B (older, newer)
+pick_generations() {
+  local labels=() c base sel
+  local -a arr
+  [[ -e /nix/var/nix/profiles/system ]] && labels+=("System")
+  user_profile_base >/dev/null 2>&1 && labels+=("My profile")
+  [[ -e $HOME/.local/state/nix/profiles/home-manager ]] && labels+=("Home Manager")
+  [[ ${#labels[@]} -gt 0 ]] || { warn "no profiles with generations found"; return 1; }
+  c=$(gum choose --header "Which profile?" "${labels[@]}") || return 1
+  case $c in
+    System)        base=/nix/var/nix/profiles/system ;;
+    "My profile")  base=$(user_profile_base) ;;
+    "Home Manager") base=$HOME/.local/state/nix/profiles/home-manager ;;
+  esac
+  mapfile -t arr < <(profile_links "$base" | awk -F'\t' '{ printf "#%-5s %-17s %s\n", $1, $2, $3 }')
+  [[ ${#arr[@]} -ge 2 ]] || { warn "need at least two generations"; return 1; }
+  sel=$(gum choose --limit 2 --header "select two generations" "${arr[@]}") || return 1
+  mapfile -t arr < <(sort -V <<< "$sel")
+  [[ ${#arr[@]} -eq 2 ]] || { warn "select exactly two"; return 1; }
+  GEN_A=$(awk '{ print $NF }' <<< "${arr[0]}")
+  GEN_B=$(awk '{ print $NF }' <<< "${arr[1]}")
+}
+
+menu_diff() {
+  local c a b
+  c=$(gum choose --header "Diff closures" \
+    "Between two generations of a profile" "Between any two targets") || return
+  if [[ $c == Between\ two\ gen* ]]; then
+    pick_generations || { pause; return; }
+    a=$GEN_A; b=$GEN_B
+  else
+    a=$(ask_target "before / older") || return
+    b=$(ask_target "after / newer") || return
+  fi
+  { run nix store diff-closures "$a" "$b"; } 2>&1 | pager
+}
+
+menu_buildlog() {
+  local ref
+  ref=$(ask "installable" "e.g. nixpkgs#hello or .#foo") || return
+  [[ -n $ref ]] || return
+  nix log "$ref" 2>&1 | pager
+}
+
+menu_derivation() {
+  local ref
+  ref=$(ask "installable" "e.g. nixpkgs#hello or .#foo") || return
+  [[ -n $ref ]] || return
+  { nix derivation show "$ref" 2>/dev/null || nix show-derivation "$ref" 2>&1; } | jq . 2>/dev/null | pager
+}
+
+menu_build_debug() {
+  local ref o
+  local -a opts=(--no-link)
+  ref=$(ask "installable" "e.g. .#foo or nixpkgs#hello" ".#") || return
+  [[ -n $ref ]] || return
+  while read -r o; do
+    case $o in
+      "-L "*)          opts+=(-L) ;;
+      "--keep-failed"*) opts+=(--keep-failed) ;;
+      "--check"*)      opts+=(--check) ;;
+      "--show-trace"*) opts+=(--show-trace) ;;
+      "--impure"*)     opts+=(--impure) ;;
+    esac
+  done < <(gum choose --no-limit --header "build options (space to toggle)" \
+    "-L  stream build logs" \
+    "--keep-failed  keep the build directory when it fails" \
+    "--check  rebuild & compare against the existing result (reproducibility)" \
+    "--show-trace" "--impure")
+  run nix build "$ref" "${opts[@]}"
+  pause
+}
+
+menu_repl() {
+  local c d
+  c=$(gum choose --header "nix repl" \
+    "Plain repl" "With nixpkgs in scope" "Load a flake directory") || return
+  case $c in
+    Plain*) run nix repl ;;
+    "With nixpkgs"*)
+      run nix repl --expr "import (builtins.getFlake \"$NIXPKGS_REF\") {}"
+      ;;
+    "Load a flake"*)
+      d=$(ask "flake dir" "" "$PWD") || return
+      d=$(cd "${d/#\~/$HOME}" 2>/dev/null && pwd) || { warn "no such directory"; pause; return; }
+      run nix repl --expr "builtins.getFlake \"$d\""
+      ;;
+  esac
+}
+
+menu_store_health() {
+  local c
+  c=$(gum choose --header "Store health" \
+    "Verify store contents" "Repair store (sudo)" "nix doctor" "Show nix config") || return
+  case $c in
+    Verify*) run nix store verify --all --no-trust ;;
+    Repair*) confirm "Run a full check-contents repair? This can take a long time." &&
+               run "${SUDO[@]}" nix-store --verify --check-contents --repair ;;
+    "nix doctor") run nix doctor ;;
+    "Show nix config") { nix config show 2>/dev/null || nix show-config; } | pager; return ;;
+  esac
+  pause
+}
+
+menu_vulnix() {
+  local c ref out
+  if ! command -v vulnix >/dev/null 2>&1; then
+    warn "vulnix isn't installed — using it via: nix shell ${NIXPKGS_REF}#vulnix"
+  fi
+  vx() { if command -v vulnix >/dev/null 2>&1; then vulnix "$@"; else nix shell "${NIXPKGS_REF}#vulnix" -c vulnix "$@"; fi; }
+  c=$(gum choose --header "Scan for known vulnerabilities (CVEs)" \
+    "Running system" "My profile" "All GC roots" "A package or path…") || return
+  warn "the first run downloads the NVD database and can take a while"
+  case $c in
+    "Running system") vx -S ;;
+    "My profile")     vx "$(readlink -f "$HOME/.nix-profile")" ;;
+    "All GC roots")   vx -G ;;
+    *)
+      ref=$(ask "installable / path" "e.g. nixpkgs#openssl") || return
+      out=$(resolve_target "$ref") || return
+      # shellcheck disable=SC2086
+      vx $out
+      ;;
+  esac
+  pause
+}
+
+menu_inspect() {
+  local act
+  while true; do
+    banner
+    act=$(gum choose --header "Inspect & debug" \
+      "Closure sizes" "Why does X depend on Y?" "Diff closures / generations" \
+      "Build log" "Show derivation" "Debug a build…" "nix repl" \
+      "Store health" "Vulnerability scan (vulnix)" "Back") || return
+    case $act in
+      "Closure sizes")           menu_closure ;;
+      "Why does"*)               menu_why ;;
+      "Diff closures"*)          menu_diff ;;
+      "Build log")               menu_buildlog ;;
+      "Show derivation")         menu_derivation ;;
+      "Debug a build"*)          menu_build_debug ;;
+      "nix repl")                menu_repl ;;
+      "Store health")            menu_store_health ;;
+      "Vulnerability scan"*)     menu_vulnix ;;
+      "Back") return ;;
+    esac
+  done
+}
+
+# --- option search (NixOS / Home Manager) ---
+
+OPT_DETAIL_FILTER='.[$k] as $o
+  | def txt: if type == "object" then (.text // tojson) elif type == "null" then "-" else tostring end;
+  "\($k)\n  type:     \($o.type // "-")\n  default:  \($o.default | txt)\n  example:  \($o.example | txt)\n\n\($o.description | txt)\n\ndeclared in:\n\(($o.declarations // []) | map(if type == "object" then (.name // .url) else . end) | map("  " + .) | join("\n"))"'
+
+NIXOS_OPTIONS_EXPR='{ ref }:
+let
+  flake  = builtins.getFlake ref;
+  system = builtins.currentSystem;
+  pkgs   = import flake { inherit system; };
+  eval   = flake.lib.nixosSystem {
+    inherit system;
+    modules = [ { fileSystems."/".device = "none"; boot.loader.grub.enable = false; system.stateVersion = "24.11"; } ];
+  };
+in (pkgs.nixosOptionsDoc { options = eval.options; warningsAreErrors = false; }).optionsJSON'
+
+NIXOS_OPTIONS_EXPR_FALLBACK='{ ref }:
+let
+  flake  = builtins.getFlake ref;
+  system = builtins.currentSystem;
+  eval   = flake.lib.nixosSystem {
+    inherit system;
+    modules = [ { fileSystems."/".device = "none"; boot.loader.grub.enable = false; system.stateVersion = "24.11"; } ];
+  };
+in eval.config.system.build.manual.optionsJSON'
+
+# options_json nixos|hm → echoes path of a cached options.json (building it if needed)
+options_json() {
+  local kind=$1 flake rev key cache out found
+  case $kind in
+    nixos) flake=$NIXPKGS_REF ;;
+    hm)    flake=github:nix-community/home-manager ;;
+    *)     bad "unknown option set '$kind'"; return 1 ;;
+  esac
+  rev=$(nix flake metadata --json "$flake" 2>/dev/null | jq -r '.locked.rev // .locked.narHash // empty')
+  if [[ -z $rev ]]; then bad "could not resolve $flake" >&2; return 1; fi
+  key="$kind-${rev//[^A-Za-z0-9]/_}"
+  cache="$CACHE_DIR/options-$key.json"
+  if [[ -s $cache ]]; then echo "$cache"; return 0; fi
+
+  dim "building the $kind option index for $flake (first run only; cached afterwards)…" >&2
+  if [[ $kind == nixos ]]; then
+    out=$(nix build --no-link --print-out-paths --impure --argstr ref "$flake" --expr "$NIXOS_OPTIONS_EXPR") ||
+    out=$(nix build --no-link --print-out-paths --impure --argstr ref "$flake" --expr "$NIXOS_OPTIONS_EXPR_FALLBACK") ||
+      { bad "could not build the NixOS option index" >&2; return 1; }
+  else
+    out=$(nix build --no-link --print-out-paths "$flake#docs-json") ||
+      { bad "could not build the Home Manager option index" >&2; return 1; }
+  fi
+  found=$(find "$out" -name options.json 2>/dev/null | head -n 1)
+  [[ -n $found ]] || { bad "options.json not found in $out" >&2; return 1; }
+  cp "$found" "$cache" && chmod u+w "$cache"
+  echo "$cache"
+}
+
+option_detail() { jq -r --arg k "$2" "$OPT_DETAIL_FILTER" "$1"; }
+
+menu_options() {
+  local kind json prev name
+  kind=$(gum choose --header "Option set" "NixOS" "Home Manager") || return
+  [[ $kind == NixOS ]] && kind=nixos || kind=hm
+  json=$(options_json "$kind") || { pause; return; }
+
+  printf -v prev 'jq -r --arg k {1} %q %q' "$OPT_DETAIL_FILTER" "$json"
+  while true; do
+    name=$(jq -r 'to_entries[] | "\(.key)\t\(.value.type // "")"' "$json" |
+      awk -F'\t' '{ printf "%-64s %s\n", $1, $2 }' |
+      pick 0 "search $kind options · enter: details · esc: back" "$prev" | awk '{ print $1 }')
+    [[ -n $name ]] || return
+    option_detail "$json" "$name" | pager
+  done
+}
+
+# --- flakes ---
+
+# flake_outputs DIR → "attr<TAB>type" for outputs relevant to this system
+flake_outputs() {
+  nix flake show --json "$1" 2>/dev/null | jq -r '
+      . as $root
+      | path(.. | select(type == "object" and ((.type? // null) | type == "string")))
+      | . as $p
+      | [($p | map(tostring) | join(".")), ($root | getpath($p) | .type)] | @tsv' |
+    awk -F'\t' -v sys="$(cur_system)" '{
+      split($1, p, ".")
+      if (p[2] ~ /^[a-z0-9_]+-(linux|darwin)$/ && p[2] != sys) next
+      print
+    }'
+}
+
+flake_output_actions() {
+  local dir=$1 attr=$2 ref="$1#$2" top act args host
+  local -a acts argv
+  top=${attr%%.*}
+  case $top in
+    packages|legacyPackages|checks|formatter|defaultPackage)
+      acts=("Build" "Run" "Show derivation" "Closure size" "Build log") ;;
+    apps)                acts=("Run") ;;
+    devShells|devShell)  acts=("Enter shell (nix develop)" "Build") ;;
+    nixosConfigurations) acts=("Build toplevel" "Build & diff vs running system" "Switch (nixos-rebuild)" "Open in repl") ;;
+    templates)           acts=("New project from this template") ;;
+    *)                   acts=("Evaluate (JSON)") ;;
+  esac
+  act=$(gum choose --header "$attr" "${acts[@]}" "Back") || return
+  case $act in
+    Build)                      run nix build "$ref" ;;
+    Run)
+      args=$(ask "arguments" "optional") || return
+      read -r -a argv <<< "$args"
+      run nix run "$ref" -- "${argv[@]}"
+      ;;
+    "Show derivation")          { nix derivation show "$ref" 2>/dev/null || nix show-derivation "$ref"; } | jq . | pager; return ;;
+    "Closure size")             closure_report "$ref" | pager; return ;;
+    "Build log")                nix log "$ref" 2>&1 | pager; return ;;
+    "Enter shell"*)             run nix develop "$ref" ;;
+    "Build toplevel")           run nix build "$dir#nixosConfigurations.${attr#nixosConfigurations.}.config.system.build.toplevel" ;;
+    "Build & diff"*)
+      nixos_build_diff "$dir#${attr#nixosConfigurations.}"; return ;;
+    "Switch"*)
+      host=${attr#nixosConfigurations.}
+      confirm "sudo nixos-rebuild switch --flake $dir#$host ?" && run "${SUDO[@]}" nixos-rebuild switch --flake "$dir#$host"
+      ;;
+    "Open in repl")             run nix repl --expr "(builtins.getFlake \"$dir\").$attr" ;;
+    "New project"*)
+      args=$(ask "destination" "" "./my-project") || return
+      run nix flake new "$args" -t "$ref"
+      ;;
+    "Evaluate"*)                { nix eval --json "$ref" 2>&1 | jq . 2>/dev/null || nix eval "$ref" 2>&1; } | pager; return ;;
+    Back) return ;;
+  esac
+  pause
+}
+
+flake_pick_output() {
+  local dir=$1 tmp lines prev sel attr
+  tmp=$(mktemp); lines=$(mktemp)
+  gum spin --spinner dot --title "Evaluating flake outputs…" -- \
+    bash -c 'nix flake show --json "$1" > "$2" 2>/dev/null' _ "$dir" "$tmp"
+  flake_outputs "$dir" | awk -F'\t' '{ printf "%-56s %s\n", $1, $2 }' > "$lines"
+  if [[ ! -s $lines ]]; then warn "no outputs found (does the flake evaluate?)"; rm -f "$tmp" "$lines"; pause; return; fi
+  printf -v prev "jq -r --arg a {1} %q %q" \
+    'getpath($a | split(".")) | to_entries | map("\(.key): \(.value)") | join("\n")' "$tmp"
+  while true; do
+    sel=$(pick 0 "flake outputs for this system · enter: actions · esc: back" "$prev" < "$lines")
+    attr=$(awk '{ print $1 }' <<< "$sel")
+    [[ -n $attr ]] || break
+    flake_output_actions "$dir" "$attr"
+  done
+  rm -f "$tmp" "$lines"
+}
+
+flake_override() {
+  local dir=$1 input val cmd
+  local -a sub
+  input=$(cd "$dir" && nix flake metadata --json 2>/dev/null |
+    jq -r '.locks.nodes.root.inputs | keys[]' | pick 0 "input to override")
+  [[ -n $input ]] || return
+  val=$(ask "override $input with" "e.g. path:/home/me/nixpkgs  or  github:NixOS/nixpkgs/nixos-unstable") || return
+  [[ -n $val ]] || return
+  cmd=$(gum choose --header "then run…" "develop" "build" "run" "check") || return
+  case $cmd in check) sub=(flake check) ;; *) sub=("$cmd") ;; esac
+  (cd "$dir" && run nix "${sub[@]}" --override-input "$input" "$val")
+  pause
+}
+
+menu_templates() {
+  local src lines sel name dest
+  src=$(ask "template flake" "" "templates") || return
+  lines=$(nix flake show --json "$src" 2>/dev/null |
+    jq -r '.templates // {} | to_entries[] | [.key, (.value.description // "")] | @tsv' |
+    awk -F'\t' '{ printf "%-26s %s\n", $1, $2 }')
+  if [[ -z $lines ]]; then warn "no templates in '$src'"; pause; return; fi
+  sel=$(pick 0 "templates from $src" "" <<< "$lines")
+  name=$(awk '{ print $1 }' <<< "$sel")
+  [[ -n $name ]] || return
+  dest=$(ask "destination" "" "./my-project") || return
+  run nix flake new "$dest" -t "$src#$name"
+  pause
+}
+
+menu_flake() {
+  local dir act input
+  dir=$(ask "flake dir" "path to a flake" "$PWD") || return
+  dir=${dir/#\~/$HOME}
+  dir=$(cd "$dir" 2>/dev/null && pwd) || { warn "no such directory"; pause; return; }
+  if [[ ! -f $dir/flake.nix ]]; then
+    warn "no flake.nix in $dir"
+    if confirm "Create one from the default template?"; then (cd "$dir" && run nix flake init); fi
+    pause
+    return
+  fi
+
+  while true; do
+    banner
+    act=$(gum choose --header "Flake: $dir" \
+      "Pick an output…" "Dev shell (nix develop)" "Build default" "Run default" "Check" \
+      "Format (nix fmt)" "Show output tree" "Update all inputs" "Update one input" \
+      "Override an input…" "Templates (new project)" "Back") || return
+    case $act in
+      "Pick an output"*)   flake_pick_output "$dir" ;;
+      "Dev shell"*)        (cd "$dir" && run nix develop) ;;
+      "Build default")     (cd "$dir" && run nix build) && ok "result → $dir/result"; pause ;;
+      "Run default")       (cd "$dir" && run nix run); pause ;;
+      "Check")             (cd "$dir" && run nix flake check); pause ;;
+      "Format"*)           (cd "$dir" && run nix fmt); pause ;;
+      "Show output tree")  (cd "$dir" && nix flake show 2>&1) | pager ;;
+      "Update all inputs") (cd "$dir" && run nix flake update); pause ;;
+      "Update one input")
+        input=$(cd "$dir" && nix flake metadata --json 2>/dev/null |
+          jq -r '.locks.nodes.root.inputs | keys[]' | pick 0 "pick an input")
+        if [[ -n $input ]]; then
+          (cd "$dir" && { run nix flake update "$input" || run nix flake lock --update-input "$input"; })
+          pause
+        fi
+        ;;
+      "Override an input"*) flake_override "$dir" ;;
+      "Templates"*)         menu_templates ;;
+      "Back") return ;;
+    esac
+  done
+}
+
+# --- channels & registry ---
+
+set_channel() {
+  NIXPKGS_REF=$1
+  save_config
+  ok "nixg now uses '$NIXPKGS_REF' for search, shells and installs"
+}
+
+menu_channels() {
+  local act branch id val
+  while true; do
+    banner
+    act=$(gum choose --header "Channels & registry   (current: $NIXPKGS_REF)" \
+      "Pick a nixpkgs branch (live from GitHub)" "Use the registry's nixpkgs (default)" \
+      "Use a custom ref…" "Pin registry nixpkgs to its current revision" \
+      "Point the registry's nixpkgs at nixg's channel" \
+      "List registry" "Add registry entry" "Remove registry entry" "Prefetch a flake" "Back") || return
+    case $act in
+      "Pick a nixpkgs branch"*)
+        command -v git >/dev/null 2>&1 || { warn "git is required"; pause; continue; }
+        branch=$(gum spin --spinner dot --title "Fetching branches…" --show-output -- \
+            git ls-remote --heads https://github.com/NixOS/nixpkgs 'refs/heads/nixos-*' 'refs/heads/nixpkgs-*' |
+          awk '{ sub("refs/heads/", "", $2); print $2 }' | sort -r | pick 0 "nixpkgs branch")
+        [[ -n $branch ]] && set_channel "github:NixOS/nixpkgs/$branch"
+        pause
+        ;;
+      "Use the registry's"*) set_channel nixpkgs; pause ;;
+      "Use a custom ref"*)
+        val=$(ask "flake ref" "e.g. github:NixOS/nixpkgs/nixos-unstable") || continue
+        [[ -n $val ]] && set_channel "$val"
+        pause
+        ;;
+      "Pin registry"*)  run nix registry pin nixpkgs; pause ;;
+      "Point the registry"*)
+        run nix registry add nixpkgs "$NIXPKGS_REF"; pause ;;
+      "List registry")  nix registry list 2>&1 | pager ;;
+      "Add registry entry")
+        id=$(ask "id" "e.g. nixpkgs") || continue
+        val=$(ask "points to" "e.g. github:NixOS/nixpkgs/nixos-unstable") || continue
+        [[ -n $id && -n $val ]] && run nix registry add "$id" "$val"
+        pause
+        ;;
+      "Remove registry entry")
+        id=$(nix registry list 2>/dev/null | awk '$1 == "user" { print $2 }' | sed 's/^flake://' | pick 0 "user registry entries")
+        [[ -n $id ]] && confirm "Remove '$id' from the user registry?" && run nix registry remove "$id"
+        pause
+        ;;
+      "Prefetch a flake")
+        val=$(ask "flake ref" "e.g. github:NixOS/nixpkgs/nixos-unstable") || continue
+        [[ -n $val ]] && run nix flake prefetch "$val"
+        pause
+        ;;
+      "Back") return ;;
+    esac
+  done
+}
+
+# --- maintenance & gc ---
+
+# roots_lines → "closureBytes<TAB>root<TAB>storepath", biggest first
+roots_lines() {
+  local roots sizes
+  roots=$(mktemp); sizes=$(mktemp)
+  printf 'none\t0\n' > "$sizes"
+  nix-store --gc --print-roots 2>/dev/null |
+    awk -F' -> ' '$1 !~ /^\{/ && $1 !~ /^\/proc\// { print $1 "\t" $2 }' > "$roots"
+  if [[ -s $roots ]]; then
+    # shellcheck disable=SC2046
+    nix path-info -S $(cut -f2 "$roots" | sort -u) 2>/dev/null | tr -s ' \t' '\t\t' >> "$sizes"
+  fi
+  awk -F'\t' 'NR == FNR { size[$1] = $NF; next } { printf "%s\t%s\t%s\n", (($2 in size) ? size[$2] : 0), $1, $2 }' \
+    "$sizes" "$roots" | sort -t$'\t' -k1,1nr
+  rm -f "$roots" "$sizes"
+}
+
+roots_format() {
+  roots_lines | humanize_field1 | awk -F'\t' '{ printf "%8s  %s  ->  %s\n", $1, $2, $3 }'
+}
+
+menu_gc_roots() {
+  local sel r
+  local -a del=()
+  sel=$(gum spin --spinner dot --title "Finding GC roots…" --show-output -- bash -c "$(declare -f roots_lines roots_format humanize_field1); roots_format" |
+    pick 1 "what's keeping store paths alive (biggest first) · tab: select to delete")
+  [[ -n $sel ]] || return
+  while IFS= read -r r; do
+    r=$(sed -E 's/^ *[^ ]+ +//; s/  ->  .*$//' <<< "$r")
+    if [[ -L $r && $r != /nix/var/nix/profiles/* && $r != /run/* && $r != /proc/* ]]; then
+      del+=("$r")
+    else
+      warn "skipping '$r' (not a removable symlink root — profiles and system roots are managed by nix)"
+    fi
+  done <<< "$sel"
+  [[ ${#del[@]} -gt 0 ]] || { pause; return; }
+  printf '  %s\n' "${del[@]}"
+  if confirm "Delete these ${#del[@]} root symlink(s)? The store paths become collectable."; then
+    run rm -- "${del[@]}" && ok "removed — run a garbage collection to reclaim space"
+  fi
+  pause
+}
+
+gc_older_than() {
+  local scope age
+  scope=$(gum choose --header "Which profiles?" "Mine (no sudo)" "System + all users (sudo)") || return
+  age=$(gum choose --header "Delete generations older than…" "1d" "7d" "14d" "30d" "90d" "custom…") || return
+  if [[ $age == custom* ]]; then age=$(ask "age" "e.g. 21d") || return; fi
+  [[ -n $age ]] || return
+  if confirm "Delete generations older than $age ($scope) and collect garbage?"; then
+    if [[ $scope == Mine* ]]; then run nix-collect-garbage --delete-older-than "$age"
+    else run "${SUDO[@]}" nix-collect-garbage --delete-older-than "$age"; fi
+    pause
+  fi
+}
+
+menu_maintenance() {
+  local act age
+  while true; do
+    banner
+    act=$(gum choose --header "Maintenance & garbage collection" \
+      "Store size" "GC dry run" "Garbage collect" \
+      "GC + delete old generations (all)" "GC + delete generations older than…" \
+      "Wipe profile history older than…" "GC roots browser" "Optimise store (dedupe)" "Back") || return
+    case $act in
+      "Store size")
+        gum spin --spinner dot --title "Measuring /nix/store…" --show-output -- du -sh /nix/store
+        pause
+        ;;
+      "GC dry run") nix-collect-garbage --dry-run 2>&1 | pager ;;
+      "Garbage collect")
+        confirm "Delete unreachable store paths?" && { run nix-collect-garbage; pause; }
+        ;;
+      "GC + delete old generations (all)")
+        confirm "Delete ALL old generations and unreachable paths? This cannot be undone." &&
+          { run nix-collect-garbage -d; pause; }
+        ;;
+      "GC + delete generations older than"*) gc_older_than ;;
+      "Wipe profile history"*)
+        age=$(gum choose --header "Older than…" "7d" "14d" "30d" "90d") || continue
+        run nix profile wipe-history --older-than "$age"
+        pause
+        ;;
+      "GC roots browser") menu_gc_roots ;;
+      "Optimise store"*) run nix store optimise; pause ;;
+      "Back") return ;;
+    esac
+  done
+}
+
+# --- caches & remote ---
+
+substituter_report() {
+  local s code prio
+  for s in $(nixconf substituters); do
+    if [[ $s == http* ]]; then
+      code=$(curl -s -o /dev/null -m 6 -w '%{http_code}' "$s/nix-cache-info" 2>/dev/null)
+      prio=$(curl -s -m 6 "$s/nix-cache-info" 2>/dev/null | sed -n 's/^Priority: *//p')
+      if [[ $code == 200 ]]; then printf '✓ %-44s priority %s\n' "$s" "${prio:--}"
+      else printf '✗ %-44s HTTP %s\n' "$s" "$code"; fi
+    else
+      printf '– %-44s (not HTTP; skipped)\n' "$s"
+    fi
+  done
+  echo; echo "trusted public keys:"
+  nixconf trusted-public-keys | tr ' ' '\n' | sed 's/^/  /'
+}
+
+cached_report() {
+  local ref=$1 out h s code
+  out=$(nix eval --raw "$ref.outPath" 2>/dev/null) || { bad "could not evaluate '$ref'"; return 1; }
+  h=${out#/nix/store/}; h=${h%%-*}
+  echo "$out"
+  nix path-info "$out" >/dev/null 2>&1 && ok "already in your local store"
+  for s in $(nixconf substituters); do
+    [[ $s == http* ]] || continue
+    code=$(curl -s -o /dev/null -m 8 -w '%{http_code}' "$s/$h.narinfo" 2>/dev/null)
+    if [[ $code == 200 ]]; then ok "cached on $s"; else warn "not on $s (HTTP $code) — it would be built locally"; fi
+  done
+}
+
+cachix_run() {
+  if command -v cachix >/dev/null 2>&1; then cachix "$@"
+  else nix shell "${NIXPKGS_REF}#cachix" -c cachix "$@"; fi
+}
+
+menu_caches() {
+  local act dir uri ref name paths
+  local -a flags
+  while true; do
+    banner
+    act=$(gum choose --header "Caches & remote builders" \
+      "Substituter status" "Is a package cached?" "nix copy to/from another store" \
+      "Cachix: push a build" "Cachix: use a cache" "Remote builders" "Test a builder connection" "Back") || return
+    case $act in
+      "Substituter status") substituter_report | pager ;;
+      "Is a package cached?")
+        ref=$(ask "installable" "e.g. nixpkgs#hello" "${NIXPKGS_REF}#") || continue
+        [[ -n $ref ]] && cached_report "$ref"
+        pause
+        ;;
+      "nix copy"*)
+        dir=$(gum choose "to" "from") || continue
+        uri=$(ask "store URI" "e.g. ssh-ng://user@host or file:///mnt/usb") || continue
+        ref=$(ask "installable / path" "e.g. nixpkgs#hello or /run/current-system") || continue
+        [[ -n $uri && -n $ref ]] || continue
+        flags=()
+        confirm "Skip signature checks? (needed for unsigned local builds)" && flags+=(--no-check-sigs)
+        run nix copy "--$dir" "$uri" "${flags[@]}" "$ref"
+        pause
+        ;;
+      "Cachix: push"*)
+        name=$(ask "cachix cache" "name of your cache") || continue
+        ref=$(ask "installable" "e.g. .#default") || continue
+        [[ -n $name && -n $ref ]] || continue
+        paths=$(nix build --no-link --print-out-paths "$ref") || { pause; continue; }
+        record "nix build --no-link --print-out-paths $ref | cachix push $name"
+        printf '%s\n' "$paths" | cachix_run push "$name"
+        pause
+        ;;
+      "Cachix: use"*)
+        name=$(ask "cachix cache" "e.g. nix-community") || continue
+        [[ -n $name ]] && { record "cachix use $name"; cachix_run use "$name"; }
+        pause
+        ;;
+      "Remote builders")
+        {
+          echo "builders = $(nixconf builders)"
+          echo
+          if [[ -f /etc/nix/machines ]]; then echo "/etc/nix/machines:"; cat /etc/nix/machines; fi
+        } | pager
+        ;;
+      "Test a builder"*)
+        uri=$(ask "builder store URI" "e.g. ssh-ng://user@builder") || continue
+        [[ -n $uri ]] && { run nix store info --store "$uri" || run nix store ping --store "$uri"; }
+        pause
+        ;;
+      "Back") return ;;
+    esac
+  done
+}
+
+# --- NixOS / Home Manager / nix-darwin ---
+
+nixos_build_diff() {
+  local flake=${1:-} base host out tmp
+  if [[ -z $flake ]]; then
+    flake=$(ask "flake ref" "e.g. /etc/nixos#host  (blank = channel config)") || return
+  fi
+  if [[ -n $flake ]]; then
+    base=${flake%%#*}
+    if [[ $flake == *"#"* ]]; then host=${flake#*#}; else host=$(hostname); fi
+    record "nix build --no-link --print-out-paths $base#nixosConfigurations.$host.config.system.build.toplevel"
+    out=$(nix build --no-link --print-out-paths "$base#nixosConfigurations.$host.config.system.build.toplevel") ||
+      { pause; return; }
+  else
+    tmp=$(mktemp -d)
+    (cd "$tmp" && run nixos-rebuild build) || { pause; return; }
+    out=$(readlink -f "$tmp/result")
+  fi
+  { echo "changes vs. the running system:"; echo; nix store diff-closures /run/current-system "$out"; } 2>&1 | pager
+  if confirm "Activate it now with 'nixos-rebuild switch'?"; then
+    if [[ -n $flake ]]; then run "${SUDO[@]}" nixos-rebuild switch --flake "$flake"
+    else run "${SUDO[@]}" nixos-rebuild switch; fi
+  fi
+  pause
+}
+
+nixos_specialisations() {
+  local s act
+  local -a list=()
+  if [[ -d /run/current-system/specialisation ]]; then
+    mapfile -t list < <(ls /run/current-system/specialisation 2>/dev/null)
+  fi
+  act=$(gum choose --header "Specialisations" "Activate one" "Return to the base configuration") || return
+  case $act in
+    "Activate one")
+      [[ ${#list[@]} -gt 0 ]] || { warn "no specialisations in the running system"; pause; return; }
+      s=$(gum choose --header "specialisation" "${list[@]}") || return
+      run "${SUDO[@]}" "/run/current-system/specialisation/$s/bin/switch-to-configuration" test
+      ;;
+    Return*)
+      run "${SUDO[@]}" /nix/var/nix/profiles/system/bin/switch-to-configuration test
+      ;;
+  esac
+  pause
+}
+
+menu_nixos() {
+  command -v nixos-rebuild >/dev/null 2>&1 || { warn "this doesn't look like NixOS"; pause; return; }
+  local act flake
+  local -a args
+  while true; do
+    banner
+    act=$(gum choose --header "NixOS" \
+      "switch" "test" "boot" "build" "dry-activate" "Build & diff vs running system" \
+      "List generations" "Diff two generations" "Specialisations" "Rollback" "Back") || return
+    case $act in
+      "Back") return ;;
+      "Build & diff"*) nixos_build_diff ;;
+      "List generations")
+        { nixos-rebuild list-generations 2>/dev/null ||
+          nix-env -p /nix/var/nix/profiles/system --list-generations; } 2>&1 | pager
+        ;;
+      "Diff two generations")
+        pick_generations || { pause; continue; }
+        { run nix store diff-closures "$GEN_A" "$GEN_B"; } 2>&1 | pager
+        ;;
+      "Specialisations") nixos_specialisations ;;
+      "Rollback")
+        confirm "Switch to the previous system generation?" &&
+          { run "${SUDO[@]}" nixos-rebuild switch --rollback; pause; }
+        ;;
+      *)
+        flake=$(ask "flake ref" "e.g. /etc/nixos#host  (blank = channel config)") || continue
+        args=("$act")
+        [[ -n $flake ]] && args+=(--flake "$flake")
+        confirm "Run: sudo nixos-rebuild ${args[*]} ?" && { run "${SUDO[@]}" nixos-rebuild "${args[@]}"; pause; }
+        ;;
+    esac
+  done
+}
+
+menu_home_manager() {
+  command -v home-manager >/dev/null 2>&1 || { warn "home-manager is not installed"; pause; return; }
+  local act flake age
+  local -a args
+  while true; do
+    banner
+    act=$(gum choose --header "Home Manager" \
+      "switch" "build" "Generations" "Diff two generations" "Expire generations" "Installed packages" "News" "Back") || return
+    case $act in
+      "Back") return ;;
+      switch|build)
+        flake=$(ask "flake ref" "e.g. ~/dotfiles#me  (blank = ~/.config/home-manager)") || continue
+        args=("$act"); [[ -n $flake ]] && args+=(--flake "$flake")
+        run home-manager "${args[@]}"; pause
+        ;;
+      Generations)              home-manager generations 2>&1 | pager ;;
+      "Diff two generations")
+        pick_generations || { pause; continue; }
+        { run nix store diff-closures "$GEN_A" "$GEN_B"; } 2>&1 | pager
+        ;;
+      "Expire generations")
+        age=$(gum choose --header "Expire generations older than…" "-7 days" "-14 days" "-30 days" "-90 days") || continue
+        confirm "Expire home-manager generations older than ${age#-}?" &&
+          { run home-manager expire-generations "$age"; pause; }
+        ;;
+      "Installed packages")     home-manager packages 2>&1 | pager ;;
+      News)                     home-manager news 2>&1 | pager ;;
+    esac
+  done
+}
+
+menu_darwin() {
+  command -v darwin-rebuild >/dev/null 2>&1 || { warn "darwin-rebuild is not installed"; pause; return; }
+  local act flake
+  local -a args
+  while true; do
+    banner
+    act=$(gum choose --header "nix-darwin" \
+      "switch" "build" "check" "List generations" "Rollback" "Back") || return
+    case $act in
+      "Back") return ;;
+      "List generations") darwin-rebuild --list-generations 2>&1 | pager ;;
+      "Rollback") confirm "Roll back nix-darwin?" && { run "${SUDO[@]}" darwin-rebuild switch --rollback; pause; } ;;
+      *)
+        flake=$(ask "flake ref" "e.g. ~/dotfiles#mac  (blank = default config)") || continue
+        args=("$act"); [[ -n $flake ]] && args+=(--flake "$flake")
+        if [[ $act == switch ]]; then run "${SUDO[@]}" darwin-rebuild "${args[@]}"; else run darwin-rebuild "${args[@]}"; fi
+        pause
+        ;;
+    esac
+  done
+}
+
+# --- packages menu ---
+
+menu_packages() {
+  local act
+  banner
+  act=$(gum choose --header "Packages" \
+    "Search nixpkgs" "Find a package by file (nix-locate)" "Find an older version (nixhub)" \
+    "Update the file index" "Back") || return
+  case $act in
+    "Search nixpkgs") search_packages && package_actions ;;
+    "Find a package by"*) menu_locate ;;
+    "Find an older"*) menu_old_versions ;;
+    "Update the file index") locate_update; pause ;;
+  esac
+}
+
+# --- main menu ---
+
+main_menu() {
+  require_gum
+  local choice
+  while true; do
+    banner
+    local items=("📦 Packages" "⭐ Favorites & history" "👤 Profile" "🧊 Flakes" "🔎 Inspect & debug" "📖 Option search"
+                 "🧹 Maintenance & GC" "🌐 Caches & remote" "📡 Channels & registry")
+    command -v nixos-rebuild  >/dev/null 2>&1 && items+=("🖥  NixOS")
+    command -v home-manager   >/dev/null 2>&1 && items+=("🏠 Home Manager")
+    command -v darwin-rebuild >/dev/null 2>&1 && items+=("🍎 nix-darwin")
+    items+=("Quit")
+
+    choice=$(gum choose --height 16 --header "What would you like to do?" "${items[@]}") || exit 0
+    case $choice in
+      *Packages*)    menu_packages ;;
+      *Favorites*)   menu_favorites ;;
+      *Profile*)     menu_profile ;;
+      *Flakes*)      menu_flake ;;
+      *Inspect*)     menu_inspect ;;
+      *Option*)      menu_options ;;
+      *Maintenance*) menu_maintenance ;;
+      *Caches*)      menu_caches ;;
+      *Channels*)    menu_channels ;;
+      *NixOS*)       menu_nixos ;;
+      *Home*)        menu_home_manager ;;
+      *darwin*)      menu_darwin ;;
+      Quit)          exit 0 ;;
+    esac
+  done
+}
+
+# --- scriptable commands ---
+
+usage() {
+  cat <<EOF
+nixg $NIXG_VERSION — a gum-powered interface for Nix
+
+Interactive:
+  nixg                          full menu
+  nixg packages|profile|flake|inspect|options|maintenance|caches|channels|nixos|home|darwin|favorites
+
+Scriptable (no gum needed):
+  nixg search [--json] QUERY…         search the active channel (TSV: attr, version, description)
+  nixg shell PKG…                     nix shell with packages from the active channel
+  nixg run PKG [-- ARGS…]             nix run a package
+  nixg install PKG…                   nix profile install
+  nixg closure TARGET                 closure size report (installable, path, or /run/current-system)
+  nixg why A B                        nix why-depends A B
+  nixg diff A B                       nix store diff-closures A B
+  nixg options nixos|hm REGEX         search option names (TSV: name, type)
+  nixg locate FILE [--regex]          which package provides FILE (needs nix-index)
+  nixg cached INSTALLABLE             is it in the binary caches?
+  nixg old PKG [VERSION]              versions of PKG on nixhub, or the pinned flake ref for VERSION
+  nixg outputs [DIR]                  flake outputs for this system (TSV: attr, type)
+  nixg roots                          GC roots with closure sizes
+  nixg gc [--all | --older-than AGE] [--dry-run]
+  nixg channel [get | set REF]        show or set the nixpkgs ref nixg uses
+  nixg favs [add|rm PKG…]             list or edit favorites
+  nixg history                        show command history
+
+Global flags:  -y/--yes (assume yes)   --channel REF (use REF for this invocation)
+
+State lives in: $STATE_DIR
+EOF
+}
+
+cli() {
+  local cmd=${1:-}; shift || true
+  case $cmd in
+    search)
+      local json_out=0 args=()
+      for a in "$@"; do [[ $a == --json ]] && json_out=1 || args+=("$a"); done
+      [[ ${#args[@]} -gt 0 ]] || die "usage: nixg search [--json] QUERY…"
+      if [[ $json_out == 1 ]]; then nix search "$NIXPKGS_REF" "${args[@]}" --json 2>/dev/null
+      else nix search "$NIXPKGS_REF" "${args[@]}" --json 2>/dev/null | search_tsv; fi
+      ;;
+    shell)   [[ $# -gt 0 ]] || die "usage: nixg shell PKG…"
+             local r=(); for p in "$@"; do r+=("$(to_ref "$p")"); done; run nix shell "${r[@]}" ;;
+    run)     [[ $# -gt 0 ]] || die "usage: nixg run PKG [-- ARGS…]"
+             local p=$1; shift; [[ ${1:-} == -- ]] && shift; run nix run "$(to_ref "$p")" -- "$@" ;;
+    install) [[ $# -gt 0 ]] || die "usage: nixg install PKG…"
+             local r=(); for p in "$@"; do r+=("$(to_ref "$p")"); done; run nix profile install "${r[@]}" ;;
+    closure) [[ $# -eq 1 ]] || die "usage: nixg closure TARGET"; closure_report "$1" ;;
+    why)     [[ $# -eq 2 ]] || die "usage: nixg why A B"; run nix why-depends "$1" "$2" ;;
+    diff)    [[ $# -eq 2 ]] || die "usage: nixg diff A B"; run nix store diff-closures "$1" "$2" ;;
+    options)
+      [[ $# -ge 2 ]] || die "usage: nixg options nixos|hm REGEX"
+      local json; json=$(options_json "$1") || exit 1
+      jq -r --arg q "$2" 'to_entries[] | select(.key | test($q; "i")) | "\(.key)\t\(.value.type // "")"' "$json"
+      ;;
+    locate)
+      [[ $# -ge 1 ]] || die "usage: nixg locate FILE [--regex]"
+      [[ -f $LOCATE_DB ]] || die "no nix-index database; run: nixg packages (Update the file index)"
+      local mode=exact; [[ ${2:-} == --regex ]] && mode=regex
+      locate_lines "$mode" "$1" ;;
+    cached)  [[ $# -eq 1 ]] || die "usage: nixg cached INSTALLABLE"; cached_report "$(to_ref "$1")" ;;
+    old)
+      [[ $# -ge 1 ]] || die "usage: nixg old PKG [VERSION]"
+      if [[ -z ${2:-} ]]; then
+        curl -fsSG -m 20 --data-urlencode "name=$1" "$NIXHUB_API/pkg" | jq -r '(.releases // [])[] | .version'
+      else
+        curl -fsSG -m 20 --data-urlencode "name=$1" --data-urlencode "version=$2" "$NIXHUB_API/resolve" |
+          jq -r --arg s "$(cur_system)" '.systems[$s].flake_installable // empty
+            | "github:\(.ref.owner)/\(.ref.repo)/\(.ref.rev)#\(.attr_path)"'
+      fi ;;
+    outputs) local d=${1:-.}; flake_outputs "$d" ;;
+    roots)   roots_format ;;
+    gc)
+      local mode=plain dry=0 age=""
+      while [[ $# -gt 0 ]]; do
+        case $1 in
+          --all) mode=all ;;
+          --older-than) mode=age; age=${2:-}; shift ;;
+          --dry-run) dry=1 ;;
+          *) die "unknown gc option '$1'" ;;
+        esac; shift
+      done
+      if [[ $dry == 1 ]]; then nix-collect-garbage --dry-run
+      else
+        confirm "Run garbage collection ($mode)?" || exit 1
+        case $mode in
+          plain) run nix-collect-garbage ;;
+          all)   run nix-collect-garbage -d ;;
+          age)   [[ -n $age ]] || die "--older-than needs an age like 14d"; run nix-collect-garbage --delete-older-than "$age" ;;
+        esac
+      fi ;;
+    channel)
+      case ${1:-get} in
+        get) echo "$NIXPKGS_REF" ;;
+        set) [[ -n ${2:-} ]] || die "usage: nixg channel set REF"; set_channel "$2" ;;
+        *)   die "usage: nixg channel [get | set REF]" ;;
+      esac ;;
+    favs)
+      case ${1:-list} in
+        list) cat "$FAVS_FILE" ;;
+        add)  shift; fav_add "$@" ;;
+        rm)   shift; fav_rm "$@" ;;
+        *)    die "usage: nixg favs [add|rm PKG…]" ;;
+      esac ;;
+    history) history_lines ;;
+    *) die "unknown command '$cmd' (see nixg --help)" ;;
+  esac
+}
+
+# --- entry point ---
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -y|--yes)   ASSUME_YES=1; shift ;;
+    --channel)  [[ -n ${2:-} ]] || die "--channel needs a ref"; NIXPKGS_REF=$2; shift 2 ;;
+    -h|--help)  usage; exit 0 ;;
+    -V|--version) echo "nixg $NIXG_VERSION"; exit 0 ;;
+    *) break ;;
+  esac
+done
+
+case "${1:-}" in
+  "")              main_menu ;;
+  packages)        require_gum; menu_packages ;;
+  profile)         require_gum; menu_profile ;;
+  flake)           require_gum; menu_flake ;;
+  inspect)         require_gum; menu_inspect ;;
+  options)
+    if [[ -t 0 && -t 1 && $# -eq 1 ]]; then require_gum; menu_options; else cli "$@"; fi ;;
+  maintenance)     require_gum; menu_maintenance ;;
+  caches)          require_gum; menu_caches ;;
+  channels)        require_gum; menu_channels ;;
+  nixos)           require_gum; menu_nixos ;;
+  home)            require_gum; menu_home_manager ;;
+  darwin)          require_gum; menu_darwin ;;
+  favorites)       require_gum; menu_favorites ;;
+  *)               cli "$@" ;;
+esac

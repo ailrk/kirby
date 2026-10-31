@@ -1,0 +1,108 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "margin-top": 0,
+    "margin-bottom": 0,
+    "spacing": 4,
+
+    "modules-left": ["ext/workspaces"],
+    "modules-center": ["wlr/taskbar"],
+    "modules-right": [
+        "memory", "cpu", "temperature",
+        "network#eth", "network#wlan",
+        "custom/im",
+        "pulseaudio",
+        "custom/battery", "clock",
+        "custom/quickaccess", "custom/powermenu"
+    ],
+
+    "ext/workspaces": {
+      "format": "{name} {icon}",
+      "on-click": "activate",
+      "format-icons": {
+        "active": "",
+        "default": ""
+      },
+      "sort-by-id": true
+    },
+
+    "wlr/taskbar": {
+      "format": "{icon}",
+      "icon-size": 18,
+      "tooltip-format": "{title}",
+      "on-click": "activate",
+      "on-click-middle": "close",
+      "app_ids-mapping": {
+        "firefoxdeveloperedition": "firefox-developer-edition",
+        "Alacritty": "terminal",
+        "alacritty": "terminal"
+      },
+      "rewrite": {
+        "Firefox Web Browser": "Firefox",
+      }
+    },
+
+    "cpu": { "format": " {usage}%" },
+    "memory": { "format": " {}%" },
+
+    "temperature": {
+        "thermal-zone": 0,
+        "critical-threshold": 90,
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": ["TEMP:"]
+    },
+
+    "network#eth": {
+        "interface": "e*",
+        "format-connected": "󰈀 {ipaddr}",
+        "format-disconnected": "no eth"
+    },
+
+    "network#wlan": {
+        "interface": "w*",
+        "format-connected": " {upspeed} {downspeed}",
+        "format-disconnected": "disconnected"
+    },
+
+    "custom/im": {
+      "exec": "~/.config/waybar/im.sh",
+      "interval": 1,
+      "format": "  {}",
+      "on-click": "fcitx5-remote -t",
+      "tooltip": false
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": " muted",
+        "format-icons": { "default": ["", "", ""] },
+        "on-click": "volume mute"
+    },
+
+    "custom/battery": {
+      "exec": "~/.config/waybar/battery.sh",
+      "interval": 60,
+      "format": "{}",
+      "tooltip": false
+    },
+
+    "clock": {
+      "interval": 1,
+      "format": " {:%m-%d %I:%M %p}",
+      "format-alt": " {:%Y-%m-%d %H:%M:%S}",
+      "tooltip": false
+    },
+
+    "custom/quickaccess": {
+      "format": "",
+      "on-click": "quickaccess.sh",
+      "tooltip": false
+    },
+
+    "custom/powermenu": {
+      "format": "",
+      "on-click": "powermenu.sh",
+      "tooltip": false
+    }
+}

@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+ID=2931
+# Ensure the directory exists
+IMG_DIR="$HOME/Pictures/Screenshots"
+mkdir -p "$IMG_DIR"
+
+# Generate a timestamped filename
+FILE_NAME="screenshot_$(date +%Y%m%d_%H%M%S).png"
+IMG_PATH="$IMG_DIR/$FILE_NAME"
+
+notify() {
+    # $1 is the message passed to the function
+    dunstify -t 4000 -r $ID "Screenshot" "$1" -i camera-photo
+}
+
+case $1 in
+    full)
+        # Grim takes the full screen by default
+        grim "$IMG_PATH"
+        notify "Full screen saved to $IMG_DIR"
+        ;;
+    win)
+        # Wayland doesn't have a simple 'current window' flag like scrot -u
+        # This uses slurp to let you click a window, or you can use 'grimshot' if available
+        notify "Click the window you want to capture"
+        grim -g "$(slurp -p)" "$IMG_PATH"
+        notify "Window captured to $IMG_DIR"
+        ;;
+    sel)
+        notify "Select a region with your mouse"
+        # Slurp allows you to draw a box
+        grim -g "$(slurp)" "$IMG_PATH"
+        notify "Selection saved to $IMG_DIR"
+        ;;
+    *)
+        dunstify -t 2000 -r $ID "Screenshot" "Usage: screenshot [full|win|sel]"
+        exit 1
+        ;;
+esac

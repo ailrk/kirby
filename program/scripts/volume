@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+ID=2319
+# We use @DEFAULT_AUDIO_SINK@ for speakers/headphones
+# Use @DEFAULT_AUDIO_SOURCE@ if you actually intended to control the Microphone
+TARGET="@DEFAULT_AUDIO_SINK@"
+
+getvol(){
+    # Grabs the decimal, multiplies by 100, and removes any trailing decimals
+    wpctl get-volume "$TARGET" | awk '{printf "%.0f%%", $2 * 100}'
+}
+
+ismute(){
+    wpctl get-volume "$TARGET" | grep -q "\[MUTED\]"
+}
+
+case $1 in
+    up)
+        # Increases volume by 5%, capped at 100% (1.0)
+        wpctl set-volume -l 1.0 "$TARGET" 5%+
+        dunstify -t 1000 -r $ID "Volume: $(getvol)"
+        ;;
+    down)
+        # Decreases volume by 5%
+        wpctl set-volume "$TARGET" 5%-
+        dunstify -t 1000 -r $ID "Volume: $(getvol)"
+        ;;
+    mute)
+        # Toggles mute status
+        wpctl set-mute "$TARGET" toggle
+        if ismute; then
+            dunstify -t 1000 -r $ID "Volume: Muted" -i audio-volume-muted
+        else
+            dunstify -t 1000 -r $ID "Volume: $(getvol)" -i audio-volume-high
+        fi
+        ;;
+esac

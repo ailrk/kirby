@@ -1,0 +1,600 @@
+#!/usr/bin/env bash
+#
+# ggit - a friendly git interface built on gum
+#        https://github.com/charmbracelet/gum
+#
+# Requirements: git, gum, less
+# Usage:        run `ggit` from anywhere inside a git repository.
+#
+set -u
+
+ACCENT=212
+GOOD=42
+BAD=196
+WARN=214
+
+# --- setup ---
+
+for dep in git gum less; do
+  command -v "$dep" >/dev/null 2>&1 || {
+    echo "ggit: '$dep' is required but not installed." >&2
+    exit 1
+  }
+done
+
+git rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
+  echo "ggit: not inside a git repository." >&2
+  exit 1
+}
+cd "$(git rev-parse --show-toplevel)" || exit 1
+
+# Theme gum's components (unknown vars are simply ignored by older gum versions)
+export GUM_CHOOSE_CURSOR_FOREGROUND=$ACCENT
+export GUM_CHOOSE_SELECTED_FOREGROUND=$ACCENT
+export GUM_CHOOSE_HEADER_FOREGROUND=241
+export GUM_FILTER_INDICATOR_FOREGROUND=$ACCENT
+export GUM_FILTER_MATCH_FOREGROUND=$ACCENT
+export GUM_INPUT_CURSOR_FOREGROUND=$ACCENT
+export GUM_INPUT_PROMPT_FOREGROUND=$ACCENT
+export GUM_CONFIRM_SELECTED_BACKGROUND=$ACCENT
+
+# --- helpers ---
+
+say()  { gum style --foreground "$1" "${@:2}"; }
+ok()   { say "$GOOD" "✓ $*"; }
+err()  { say "$BAD"  "✗ $*"; }
+warn() { say "$WARN" "! $*"; }
+
+g() { git -c core.quotepath=false "$@"; }
+
+pause() {
+  echo
+  gum style --faint "press any key to continue…"
+  read -r -s -n 1 </dev/tty
+}
+
+flash() { ok "$1"; sleep 0.7; }
+
+pager() { less -R; }
+
+cur_branch() {
+  git symbolic-ref --short -q HEAD || echo "detached@$(git rev-parse --short HEAD 2>/dev/null)"
+}
+
+has_upstream() { git rev-parse --abbrev-ref --symbolic-full-name '@{u}' >/dev/null 2>&1; }
+
+# Run a command with its output visible, then wait for a keypress.
+run_visible() {
+  gum style --faint "\$ $*"
+  "$@"
+  local rc=$?
+  echo
+  if ((rc == 0)); then ok "Done."; else err "Failed (exit $rc)."; fi
+  pause
+  return $rc
+}
+
+# Run a command behind a spinner; output is only shown if it fails.
+spin() {
+  local title=$1 out rc
+  shift
+  out=$(mktemp)
+  gum spin --spinner dot --title "$title" -- bash -c '"$@" >"$0" 2>&1' "$out" "$@"
+  rc=$?
+  if ((rc != 0)); then
+    err "$title failed"
+    cat "$out"
+    pause
+  fi
+  rm -f "$out"
+  return $rc
+}
+
+N_STAGED=0
+N_UNSTAGED=0
+N_UNTRACKED=0
+
+banner() {
+  local branch up behind ahead sync
+  branch=$(cur_branch)
+  sync="no upstream"
+  if up=$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null); then
+    read -r behind ahead < <(git rev-list --left-right --count "${up}...HEAD" 2>/dev/null)
+    sync="${up}   ↑${ahead:-0} ahead   ↓${behind:-0} behind"
+  fi
+
+  N_STAGED=$(g diff --cached --name-only | wc -l | tr -d ' ')
+  N_UNSTAGED=$(g diff --name-only | wc -l | tr -d ' ')
+  N_UNTRACKED=$(g ls-files --others --exclude-standard | wc -l | tr -d ' ')
+
+  clear
+  gum style --border rounded --border-foreground "$ACCENT" --padding "0 2" \
+    "$(gum style --bold --foreground "$ACCENT" "⎇  $branch")" \
+    "$(gum style --faint "$sync")" \
+    "$(gum style --foreground "$GOOD" "● $N_STAGED staged")   $(gum style --foreground "$WARN" "● $N_UNSTAGED modified")   $(gum style --foreground "$BAD" "● $N_UNTRACKED untracked")"
+}
+
+# --- status / staging ---
+
+status_flow() {
+  clear
+  git -c color.status=always status
+  pause
+}
+
+stage_flow() {
+  local list sel f files=()
+  list=$({ g diff --name-only; g ls-files --others --exclude-standard; } | sort -u)
+  if [[ -z $list ]]; then
+    warn "Nothing to stage."
+    pause
+    return
+  fi
+  sel=$(echo "$list" | gum choose --no-limit --height 16 \
+    --header "Stage files  (space: toggle · ctrl+a: all · enter: confirm)") || return
+  [[ -z $sel ]] && return
+  while IFS= read -r f; do files+=("$f"); done <<<"$sel"
+  if git add -- "${files[@]}"; then
+    flash "Staged ${#files[@]} file(s)."
+  else
+    pause
+  fi
+}
+
+unstage_flow() {
+  local list sel f files=()
+  list=$(g diff --cached --name-only)
+  if [[ -z $list ]]; then
+    warn "Nothing is staged."
+    pause
+    return
+  fi
+  sel=$(echo "$list" | gum choose --no-limit --height 16 \
+    --header "Unstage files  (space: toggle · ctrl+a: all · enter: confirm)") || return
+  [[ -z $sel ]] && return
+  while IFS= read -r f; do files+=("$f"); done <<<"$sel"
+  if git reset -q -- "${files[@]}"; then
+    flash "Unstaged ${#files[@]} file(s)."
+  else
+    pause
+  fi
+}
+
+discard_flow() {
+  local list sel f files=() tracked=() untracked=()
+  list=$({ g diff --name-only; g ls-files --others --exclude-standard; } | sort -u)
+  if [[ -z $list ]]; then
+    warn "No unstaged changes to discard."
+    pause
+    return
+  fi
+  sel=$(echo "$list" | gum choose --no-limit --height 16 \
+    --header "Discard changes  (space: toggle · enter: confirm)") || return
+  [[ -z $sel ]] && return
+  while IFS= read -r f; do files+=("$f"); done <<<"$sel"
+
+  gum confirm --default=false "Permanently discard changes to ${#files[@]} file(s)? This cannot be undone." || return
+
+  for f in "${files[@]}"; do
+    if git ls-files --error-unmatch -- "$f" >/dev/null 2>&1; then
+      tracked+=("$f")
+    else
+      untracked+=("$f")
+    fi
+  done
+  if ((${#tracked[@]} > 0)); then
+    git restore -- "${tracked[@]}" || { pause; return; }
+  fi
+  if ((${#untracked[@]} > 0)); then
+    git clean -f -q -- "${untracked[@]}" || { pause; return; }
+  fi
+  flash "Discarded changes."
+}
+
+diff_flow() {
+  local mode list flag="" f
+  mode=$(gum choose --header "Diff" "Unstaged" "Staged" "Back") || return
+  case $mode in
+    Unstaged) list=$(g diff --name-only) ;;
+    Staged)   list=$(g diff --cached --name-only); flag="--cached" ;;
+    *)        return ;;
+  esac
+  if [[ -z $list ]]; then
+    warn "No $mode changes."
+    pause
+    return
+  fi
+  f=$({ echo "(all files)"; echo "$list"; } | gum filter --height 16 --placeholder "pick a file…") || return
+  if [[ $f == "(all files)" ]]; then
+    # shellcheck disable=SC2086
+    g diff --color=always $flag | pager
+  else
+    # shellcheck disable=SC2086
+    g diff --color=always $flag -- "$f" | pager
+  fi
+}
+
+# --- commit ---
+
+commit_flow() {
+  local type scope summary body msg
+  local msgargs=()
+
+  if [[ -z $(g diff --cached --name-only) ]]; then
+    if [[ -z $(g status --porcelain) ]]; then
+      warn "Nothing to commit."
+      pause
+      return
+    fi
+    warn "Nothing is staged."
+    if gum confirm "Stage all changes?"; then
+      git add -A
+    else
+      return
+    fi
+  fi
+
+  clear
+  say "$ACCENT" "Staged changes:"
+  git -c color.ui=always diff --cached --stat
+  echo
+
+  type=$(gum choose --height 13 --header "Commit type" \
+    "none" feat fix docs style refactor perf test build ci chore revert) || return
+  [[ $type == "none" ]] && type=""
+
+  scope=""
+  if [[ -n $type ]]; then
+    scope=$(gum input --placeholder "scope (optional)" --prompt "($type) scope: ") || return
+  fi
+  summary=$(gum input --placeholder "Summary of changes" --prompt "summary: " \
+    --char-limit 72 --width 72) || return
+  if [[ -z $summary ]]; then
+    warn "Empty summary, aborting."
+    pause
+    return
+  fi
+  body=$(gum write --placeholder "Details (optional) · ctrl+d to finish · esc to cancel" \
+    --width 72 --height 8) || return
+
+  if [[ -n $type ]]; then
+    msg="$type"
+    [[ -n $scope ]] && msg+="($scope)"
+    if gum confirm --default=false "Breaking change?"; then
+      msg+="!"
+    fi
+    msg+=": $summary"
+  else
+    msg="$summary"
+  fi
+
+  msgargs=(-m "$msg")
+  [[ -n $body ]] && msgargs+=(-m "$body")
+
+  echo
+  gum style --border normal --border-foreground 241 --padding "0 1" "$msg" ${body:+"" "$body"}
+  gum confirm "Commit?" || return
+  run_visible git commit "${msgargs[@]}"
+}
+
+amend_flow() {
+  local c msg
+  if ! git rev-parse --verify -q HEAD >/dev/null; then
+    warn "No commits yet."
+    pause
+    return
+  fi
+  c=$(gum choose --header "Amend last commit: $(git log -1 --pretty=%s)" \
+    "Edit message" "Add staged changes (keep message)" "Back") || return
+  case $c in
+    "Edit message")
+      msg=$(gum write --width 72 --height 8 --value "$(git log -1 --pretty=%B)") || return
+      [[ -z $msg ]] && return
+      run_visible git commit --amend -m "$msg"
+      ;;
+    "Add staged"*)
+      if [[ -z $(g diff --cached --name-only) ]]; then
+        warn "Nothing is staged."
+        pause
+        return
+      fi
+      run_visible git commit --amend --no-edit
+      ;;
+  esac
+}
+
+undo_commit_flow() {
+  local c
+  if ! git rev-parse --verify -q HEAD~1 >/dev/null; then
+    warn "There is no previous commit to go back to."
+    pause
+    return
+  fi
+  c=$(gum choose --header "Undo last commit: $(git log -1 --pretty=%s)" \
+    "Soft  - keep changes staged" \
+    "Mixed - keep changes, unstaged" \
+    "Hard  - discard changes" \
+    "Back") || return
+  case $c in
+    Soft*)  git reset --soft HEAD~1  && flash "Commit undone (changes staged)." ;;
+    Mixed*) git reset --mixed HEAD~1 && flash "Commit undone (changes unstaged)." ;;
+    Hard*)
+      gum confirm --default=false "Discard the last commit AND its changes?" || return
+      git reset --hard HEAD~1 && flash "Commit and changes discarded."
+      ;;
+  esac
+}
+
+# --- remotes ---
+
+fetch_flow() { spin "Fetching…" git fetch --all --prune && flash "Fetched."; }
+
+pull_flow() {
+  local c
+  c=$(gum choose --header "Pull" "Merge" "Rebase" "Fast-forward only" "Back") || return
+  case $c in
+    Merge)  run_visible git pull ;;
+    Rebase) run_visible git pull --rebase ;;
+    Fast*)  run_visible git pull --ff-only ;;
+  esac
+}
+
+push_flow() {
+  local c
+  c=$(gum choose --header "Push" "Push" "Force push (with lease)" "Back") || return
+  case $c in
+    Push)
+      if has_upstream; then
+        run_visible git push
+      else
+        gum confirm "No upstream set. Push and track origin/$(cur_branch)?" &&
+          run_visible git push -u origin HEAD
+      fi
+      ;;
+    Force*)
+      gum confirm --default=false "Force push (with lease) to the remote?" || return
+      run_visible git push --force-with-lease
+      ;;
+  esac
+}
+
+# --- branches ---
+
+# local branches + remote-only branches (remote prefix stripped), minus current
+branch_candidates() {
+  {
+    git for-each-ref --format='%(refname:short)' refs/heads
+    git for-each-ref --format='%(refname)' refs/remotes |
+      grep -v '/HEAD$' | sed -E 's#^refs/remotes/[^/]+/##'
+  } | sort -u | grep -vxF "$(cur_branch)"
+}
+
+branch_menu() {
+  local c b name list sel
+  while true; do
+    clear
+    c=$(gum choose --header "Branches (on $(cur_branch))" \
+      "Switch" "New branch" "Merge into current" "Rename current" "Delete" "Back") || return
+    case $c in
+      Switch)
+        list=$(branch_candidates)
+        [[ -z $list ]] && { warn "No other branches."; pause; continue; }
+        b=$(echo "$list" | gum filter --height 16 --placeholder "switch to…") || continue
+        git switch "$b" 2>&1 | cat
+        [[ ${PIPESTATUS[0]} -eq 0 ]] && flash "Switched to $b." || pause
+        ;;
+      "New branch")
+        name=$(gum input --placeholder "feature/my-branch" --prompt "new branch: ") || continue
+        [[ -z $name ]] && continue
+        git switch -c "$name" && flash "Created and switched to $name." || pause
+        ;;
+      Merge*)
+        list=$(branch_candidates)
+        [[ -z $list ]] && { warn "No other branches."; pause; continue; }
+        b=$(echo "$list" | gum filter --height 16 --placeholder "merge which branch?") || continue
+        gum confirm "Merge '$b' into '$(cur_branch)'?" || continue
+        run_visible git merge "$b"
+        ;;
+      Rename*)
+        name=$(gum input --value "$(cur_branch)" --prompt "rename to: ") || continue
+        [[ -z $name ]] && continue
+        git branch -m "$name" && flash "Renamed to $name." || pause
+        ;;
+      Delete)
+        list=$(git for-each-ref --format='%(refname:short)' refs/heads | grep -vxF "$(cur_branch)")
+        [[ -z $list ]] && { warn "No other local branches."; pause; continue; }
+        sel=$(echo "$list" | gum choose --no-limit --height 16 \
+          --header "Delete branches (space: toggle)") || continue
+        [[ -z $sel ]] && continue
+        gum confirm --default=false "Delete: $(echo "$sel" | tr '\n' ' ')?" || continue
+        while IFS= read -r b; do
+          if ! git branch -d "$b" 2>/dev/null; then
+            if gum confirm --default=false "'$b' is not fully merged. Force delete?"; then
+              git branch -D "$b"
+            fi
+          fi
+        done <<<"$sel"
+        pause
+        ;;
+      *) return ;;
+    esac
+  done
+}
+
+# --- history ---
+
+copy_to_clipboard() {
+  if command -v pbcopy >/dev/null 2>&1; then printf '%s' "$1" | pbcopy
+  elif command -v wl-copy >/dev/null 2>&1; then printf '%s' "$1" | wl-copy
+  elif command -v xclip >/dev/null 2>&1; then printf '%s' "$1" | xclip -selection clipboard
+  elif command -v xsel >/dev/null 2>&1; then printf '%s' "$1" | xsel --clipboard --input
+  else return 1
+  fi
+}
+
+commit_actions() {
+  local hash=$1 c mode
+  while true; do
+    clear
+    gum style --foreground "$ACCENT" "$(git log -1 --pretty='%h  %s' "$hash")"
+    c=$(gum choose --header "Commit $hash" \
+      "Show" "Checkout (detached)" "Cherry-pick" "Revert" "Reset current branch here…" "Copy hash" "Back") || return
+    case $c in
+      Show)
+        g show --color=always "$hash" | pager
+        ;;
+      Checkout*)
+        run_visible git checkout "$hash"
+        ;;
+      Cherry-pick)
+        run_visible git cherry-pick "$hash"
+        ;;
+      Revert)
+        run_visible git revert --no-edit "$hash"
+        ;;
+      Reset*)
+        mode=$(gum choose --header "Reset $(cur_branch) to $hash" \
+          "soft" "mixed" "hard" "Back") || continue
+        [[ $mode == Back ]] && continue
+        if [[ $mode == hard ]]; then
+          gum confirm --default=false "Hard reset discards uncommitted changes. Continue?" || continue
+        fi
+        run_visible git reset "--$mode" "$hash"
+        ;;
+      "Copy hash")
+        if copy_to_clipboard "$hash"; then flash "Copied $hash."; else warn "No clipboard tool found: $hash"; pause; fi
+        ;;
+      *) return ;;
+    esac
+  done
+}
+
+log_menu() {
+  local c line hash
+  while true; do
+    clear
+    c=$(gum choose --header "History" "Browse commits" "Graph view (all branches)" "Back") || return
+    case $c in
+      Browse*)
+        if ! git rev-parse --verify -q HEAD >/dev/null; then
+          warn "No commits yet."; pause; continue
+        fi
+        line=$(g log -n 500 --pretty=format:'%h  %<(16,trunc)%an  %<(14)%ar  %s' |
+          gum filter --height 20 --placeholder "search commits…") || continue
+        hash=${line%% *}
+        [[ -n $hash ]] && commit_actions "$hash"
+        ;;
+      Graph*)
+        g log --graph --all --decorate --color=always \
+          --pretty=format:'%C(yellow)%h%Creset %C(green)(%ar)%Creset %s %C(blue)<%an>%Creset%C(auto)%d%Creset' |
+          pager
+        ;;
+      *) return ;;
+    esac
+  done
+}
+
+# --- stash ---
+
+pick_stash() {
+  local list line
+  list=$(git stash list)
+  if [[ -z $list ]]; then
+    warn "No stashes."
+    pause
+    return 1
+  fi
+  line=$(echo "$list" | gum filter --height 12 --placeholder "pick a stash…") || return 1
+  echo "${line%%:*}"
+}
+
+stash_menu() {
+  local c msg ref
+  while true; do
+    clear
+    c=$(gum choose --header "Stash ($(git stash list | wc -l | tr -d ' ') saved)" \
+      "Stash changes" "Pop latest" "Apply…" "View…" "Drop…" "Back") || return
+    case $c in
+      "Stash changes")
+        if [[ -z $(g status --porcelain) ]]; then
+          warn "Nothing to stash."; pause; continue
+        fi
+        msg=$(gum input --placeholder "message (optional)" --prompt "stash: ") || continue
+        local args=(push)
+        if [[ -n $(g ls-files --others --exclude-standard) ]] && gum confirm "Include untracked files?"; then
+          args+=(-u)
+        fi
+        [[ -n $msg ]] && args+=(-m "$msg")
+        spin "Stashing…" git stash "${args[@]}" && flash "Stashed."
+        ;;
+      "Pop latest")
+        run_visible git stash pop
+        ;;
+      Apply*)
+        ref=$(pick_stash) || continue
+        run_visible git stash apply "$ref"
+        ;;
+      View*)
+        ref=$(pick_stash) || continue
+        g stash show -p --color=always "$ref" | pager
+        ;;
+      Drop*)
+        ref=$(pick_stash) || continue
+        gum confirm --default=false "Drop $ref?" || continue
+        git stash drop "$ref" && flash "Dropped $ref." || pause
+        ;;
+      *) return ;;
+    esac
+  done
+}
+
+# --- main loop ---
+
+main() {
+  local c changes items
+
+  while true; do
+    banner
+    changes=$((N_UNSTAGED + N_UNTRACKED))
+
+    items=("Status")
+    if ((changes > 0)); then items+=("Stage files ($changes)"); else items+=("Stage files"); fi
+    if ((N_STAGED > 0)); then items+=("Unstage files ($N_STAGED)"); else items+=("Unstage files"); fi
+    items+=("Diff")
+    if ((N_STAGED > 0)); then items+=("Commit ($N_STAGED staged)"); else items+=("Commit"); fi
+    items+=(
+      "Amend last commit"
+      "Push"
+      "Pull"
+      "Fetch"
+      "Branches"
+      "History"
+      "Stash"
+      "Discard changes"
+      "Undo last commit"
+      "Quit"
+    )
+
+    c=$(gum choose --height 18 --cursor "▸ " --header "What next?" "${items[@]}") || exit 0
+
+    case $c in
+      Status*)           status_flow ;;
+      "Stage files"*)    stage_flow ;;
+      "Unstage files"*)  unstage_flow ;;
+      Diff)              diff_flow ;;
+      Commit*)           commit_flow ;;
+      "Amend last"*)     amend_flow ;;
+      Push)              push_flow ;;
+      Pull)              pull_flow ;;
+      Fetch)             fetch_flow ;;
+      Branches)          branch_menu ;;
+      History)           log_menu ;;
+      Stash)             stash_menu ;;
+      "Discard changes") discard_flow ;;
+      "Undo last"*)      undo_commit_flow ;;
+      Quit)              clear; exit 0 ;;
+    esac
+  done
+}
+
+main

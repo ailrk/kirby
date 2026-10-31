@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#random number
+ID=3421
+case $1 in
+    up)
+        brightnessctl set 10%+
+        dunstify -t 1000 -r $ID "Brightness: up"
+        ;;
+    down)
+        brightnessctl set 10%-
+        dunstify -t 1000 -r $ID "Brightness: down"
+esac

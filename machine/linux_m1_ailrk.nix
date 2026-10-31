@@ -1,0 +1,120 @@
+# ailrk
+{ config, lib, pkgs, inputs, ... }:
+with lib;
+let
+  cfg   = config.kirby.home.linux_m1.ailrk;
+  nixGL = import inputs.nixgl.outPath {
+    enable32bits = false;
+    pkgs = pkgs;
+  };
+  NIXGL = "nixGLMesa";
+in
+{
+  imports = [
+    ../program/default.nix
+    ../service/default.nix
+    ./linux.nix
+  ];
+
+  options.kirby.home.linux_m1.ailrk= {
+    enable  = mkEnableOption "Set user as a ailrk";
+    colorMode = mkOption {
+      type = types.enum ["dark" "light"];
+      default = "light";
+      description = "color mode of the system";
+    };
+  };
+
+  config = mkIf config.kirby.home.linux_m1.ailrk.enable {
+    home.stateVersion = "26.05";
+    home.username = "ailrk";
+    home.homeDirectory = "/home/ailrk";
+    programs = {
+      home-manager.enable = true;
+    };
+
+    manual.manpages.enable = false;
+
+    xdg.configFile = {
+      "kirby/color-mode".text = cfg.colorMode;
+    };
+
+    kirby = {
+      program = {
+        git.enable = true;
+        delta.enable = true;
+        neovim = {
+          enable = true;
+          nightly = false;
+        };
+        ranger.enable = true;
+        cbb.enable = true;
+        tmux.enable = true;
+        labwc.enable = true;
+        waybar.enable = true;
+        compton.enable = true;
+        alacritty = {
+          enable = true;
+          colorMode = cfg.colorMode;
+        };
+        scripts.enable = true;
+        termshark.enable = true;
+        nmap.enable = true;
+        zsh.enable = true;
+        fish.enable = true;
+        rofi.enable = true;
+        fcitx5.enable = true;
+      };
+      service = {
+        dunst.enable = true;
+        ollama.enable = true;
+        litellm = {
+          enable = true;
+          instances = {
+            copilot = {
+              model = "mistral/codestral-latest";
+              apiKey = "os.environ/MISTRAL_API_KEY";
+            };
+          };
+        };
+      };
+      linux.enable = true;
+    };
+
+    services = {
+      ssh-agent.enable = true;
+    };
+
+    # Install packages
+    home.packages = [
+          nixGL.nixGLMesa
+          nixGL.nixVulkanMesa
+
+          # libraries
+          pkgs.libGL
+          pkgs.libgcc
+          pkgs.gtk4
+          pkgs.chromium
+          pkgs.firefox
+          pkgs.tiled
+        ] ++ pkgs.callPackage ../packages.nix {};
+
+
+    # Environment
+    home.sessionVariables = {
+      WSTART             = "${NIXGL} labwc";
+      NIX_REMOTE         = "daemon";
+      NIXGL              = "${NIXGL}";
+      FILES              = "nautilus";
+      EDITOR             = "nvim";
+      BROWSER            = "firefox";
+      TERMINAL           = "alacritty";
+      BATTERY            = "macsmc-battery";
+      BATTERY_ADAPTOR    = "macsmc-ac";
+    };
+
+    # User specific overlays.
+    nixpkgs.overlays = [
+    ];
+  };
+}

@@ -1,0 +1,254 @@
+#!/usr/bin/env bash
+
+# Capture the exact directory from which script-mgr was launched
+LAUNCH_DIR="$(pwd)"
+
+# Directory configuration
+BASE_DIR="${SCRIPT_MGR_DIR:-$HOME/.config/script-mgr}"
+SCRIPTS_DIR="$BASE_DIR/scripts"
+LOGS_DIR="$BASE_DIR/logs"
+META_DIR="$BASE_DIR/meta"
+
+# Ensure directories exist
+mkdir -p "$SCRIPTS_DIR" "$LOGS_DIR" "$META_DIR"
+
+# Ensure dependencies are installed
+if ! command -v gum &> /dev/null; then
+    echo "Error: 'gum' is not installed. Please install it first (https://github.com/charmbracelet/gum)."
+    exit 1
+fi
+
+pause_key() {
+    echo ""
+    gum style --foreground 240 "Press any key to return to menu..."
+    read -n 1 -s -r
+}
+
+# Function to create a new script
+create_script() {
+    gum style --foreground 212 --bold "Create a New Script"
+
+    # Ask for filename
+    local filename
+    filename=$(gum input --placeholder "script_name.py or script_name.sh")
+    if [[ -z "$filename" ]]; then
+        gum style --foreground 196 "Operation cancelled (no filename provided)."
+        pause_key
+        return
+    fi
+
+    local filepath="$SCRIPTS_DIR/$filename"
+    local meta_file="$META_DIR/${filename}.meta"
+
+    # Ask if execution location matters
+    gum style --foreground 212 "Does the execution location matter for this script?"
+    if gum confirm "Always execute in creation directory ($LAUNCH_DIR)?"; then
+        echo "WORK_DIR=\"$LAUNCH_DIR\"" > "$meta_file"
+        gum style --foreground 212 "Bound script execution directory to: $LAUNCH_DIR"
+    else
+        echo "WORK_DIR=\"\"" > "$meta_file"
+        gum style --foreground 240 "Script will execute wherever script-mgr is launched from."
+    fi
+
+    # Add default shebang if file doesn't exist
+    if [[ ! -f "$filepath" ]]; then
+        case "$filename" in
+            *.py)
+                echo "#!/usr/bin/env python3" > "$filepath"
+                ;;
+            *.sh|*.bash)
+                echo "#!/usr/bin/env bash" > "$filepath"
+                ;;
+            *.rb)
+                echo "#!/usr/bin/env ruby" > "$filepath"
+                ;;
+            *.js)
+                echo "#!/usr/bin/env node" > "$filepath"
+                ;;
+        esac
+        chmod +x "$filepath"
+    fi
+
+    # Spawn nvim
+    nvim "$filepath"
+    gum style --foreground 46 "Saved script to $filepath"
+    pause_key
+}
+
+# Function to run an existing script
+run_script() {
+    local scripts=("$SCRIPTS_DIR"/*)
+    if [[ ! -e "${scripts[0]}" ]]; then
+        gum style --foreground 214 "No scripts found. Create one first!"
+        pause_key
+        return
+    fi
+
+    # Select script using gum choose
+    local selected_file
+    selected_file=$(ls "$SCRIPTS_DIR" | gum choose --header "Select script to run:")
+    if [[ -z "$selected_file" ]]; then
+        return
+    fi
+
+    local filepath="$SCRIPTS_DIR/$selected_file"
+    local meta_file="$META_DIR/${selected_file}.meta"
+
+    # Optional CLI arguments input
+    local args
+    args=$(gum input --placeholder "Optional CLI arguments (e.g. --verbose input.txt)")
+
+    # Read bound target directory if recorded
+    local WORK_DIR=""
+    if [[ -f "$meta_file" ]]; then
+        source "$meta_file"
+    fi
+
+    # Determine execution directory: bound directory vs current launch directory
+    local exec_dir="$LAUNCH_DIR"
+    if [[ -n "$WORK_DIR" ]]; then
+        if [[ -d "$WORK_DIR" ]]; then
+            exec_dir="$WORK_DIR"
+            gum style --foreground 212 "Changing directory to bound location: $exec_dir"
+        else
+            gum style --foreground 196 "Warning: Bound directory '$WORK_DIR' no longer exists. Running in launch directory: $LAUNCH_DIR"
+        fi
+    fi
+
+    # Execute script & log output
+    local timestamp
+    timestamp=$(date +"%Y%m%d_%H%M%S")
+    local logfile="$LOGS_DIR/${selected_file}_${timestamp}.log"
+
+    gum style --foreground 212 "Executing: $selected_file $args"
+    echo "=== Execution log for $selected_file $args ===" > "$logfile"
+    echo "=== Executed in: $exec_dir ===" >> "$logfile"
+    echo "=== Date: $(date) ===" >> "$logfile"
+    echo "===============================================" >> "$logfile"
+    echo "" >> "$logfile"
+
+    # Execute script inside the target directory
+    (
+        cd "$exec_dir" || exit 1
+        eval "\"$filepath\" $args"
+    ) 2>&1 | tee -a "$logfile"
+
+    local exit_code=${PIPESTATUS[0]}
+
+    echo "" >> "$logfile"
+    echo "=== Finished with exit code: $exit_code ===" >> "$logfile"
+
+    echo ""
+    if [[ $exit_code -eq 0 ]]; then
+        gum style --foreground 46 "Script executed successfully! Log saved to $logfile"
+    else
+        gum style --foreground 196 "Script failed (Exit Code: $exit_code). Log saved to $logfile"
+    fi
+
+    pause_key
+}
+
+# Function to edit an existing script
+edit_script() {
+    local scripts=("$SCRIPTS_DIR"/*)
+    if [[ ! -e "${scripts[0]}" ]]; then
+        gum style --foreground 214 "No scripts found."
+        pause_key
+        return
+    fi
+
+    local selected_file
+    selected_file=$(ls "$SCRIPTS_DIR" | gum choose --header "Select script to edit:")
+    if [[ -n "$selected_file" ]]; then
+        nvim "$SCRIPTS_DIR/$selected_file"
+    fi
+}
+
+# Function to delete a script and its logs
+delete_script() {
+    local scripts=("$SCRIPTS_DIR"/*)
+    if [[ ! -e "${scripts[0]}" ]]; then
+        gum style --foreground 214 "No scripts found to delete."
+        pause_key
+        return
+    fi
+
+    local selected_file
+    selected_file=$(ls "$SCRIPTS_DIR" | gum choose --header "Select script to delete:")
+    if [[ -z "$selected_file" ]]; then
+        return
+    fi
+
+    gum style --foreground 196 --bold "Are you sure you want to delete '$selected_file'?"
+    if gum confirm "This will remove the script, its directory metadata, and associated execution logs."; then
+        rm -f "$SCRIPTS_DIR/$selected_file"
+        rm -f "$META_DIR/${selected_file}.meta"
+        rm -f "$LOGS_DIR/${selected_file}_"*.log
+        gum style --foreground 46 "Successfully deleted $selected_file and its associated logs."
+    else
+        gum style --foreground 240 "Deletion cancelled."
+    fi
+    pause_key
+}
+
+# Function to view past execution logs
+view_logs() {
+    local logs=("$LOGS_DIR"/*)
+    if [[ ! -e "${logs[0]}" ]]; then
+        gum style --foreground 214 "No log history found."
+        pause_key
+        return
+    fi
+
+    local selected_log
+    # List newest log files first
+    selected_log=$(ls -1t "$LOGS_DIR" | gum choose --header "Select an execution log to view:")
+    if [[ -n "$selected_log" ]]; then
+        gum pager < "$LOGS_DIR/$selected_log"
+    fi
+}
+
+# Main Interactive Menu
+main_menu() {
+    while true; do
+        clear
+        gum style \
+            --border double \
+            --margin "1 2" \
+            --padding "1 2" \
+            --border-foreground 212 \
+            "🛠️  One-Off Script Manager"
+
+        ACTION=$(gum choose \
+            "🚀 Run Script" \
+            "📝 Create New Script" \
+            "✏️  Edit Existing Script" \
+            "🗑️  Delete Script" \
+            "📜 View Past Output Logs" \
+            "❌ Exit")
+
+        case "$ACTION" in
+            "🚀 Run Script")
+                run_script
+                ;;
+            "📝 Create New Script")
+                create_script
+                ;;
+            "✏️  Edit Existing Script")
+                edit_script
+                ;;
+            "🗑️  Delete Script")
+                delete_script
+                ;;
+            "📜 View Past Output Logs")
+                view_logs
+                ;;
+            "❌ Exit"|"")
+                gum style --foreground 212 "Goodbye!"
+                exit 0
+                ;;
+        esac
+    done
+}
+
+main_menu

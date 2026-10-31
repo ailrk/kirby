@@ -1,0 +1,83 @@
+@define-color red1 #BF616A;
+@define-color green1 #A3BE8C;
+@define-color yellow1 #EBCB8B;
+@define-color blue1 #81A1C1;
+@define-color magenta1 #B48EAD;
+@define-color cyan1 #88C0D0;
+@define-color background #2A2426;
+@define-color background-alt #332B2D;
+@define-color foreground #F0E8E6;
+@define-color foreground-alt #CFC7C5;
+@define-color primary #81A1C1;
+@define-color secondary #D8DEE9;
+@define-color alert #BD2C40;
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "PxPlus IBM VGA 9x16", "WenQuanYi Micro Hei", "Font Awesome 7 Free";
+    font-size: 15px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: @background;
+    color: @foreground;
+}
+
+/* --- Workspaces --- */
+#workspaces button {
+    padding: 0 12px;
+    color: @foreground;
+    background: @background;
+}
+
+#workspaces button.active {
+    background: @red1;
+    color: @foreground;
+    border-bottom: 4px solid @primary;
+}
+
+#workspaces button.urgent {
+    background-color: @alert;
+}
+
+/* --- Window & Taskbar --- */
+#window, #taskbar {
+    color: @foreground;
+    padding: 0 10px;
+}
+
+#taskbar button {
+    padding: 0 8px;
+    min-width: 24px;
+}
+
+#taskbar button.active {
+    background: @background-alt;
+    border-bottom: 2px solid @primary;
+}
+
+/* --- Right Side Modules --- */
+#memory, #cpu, #temperature, #network, #pulseaudio, #custom-battery {
+    padding: 0 8px;
+    color: @foreground;
+}
+
+#cpu { border-bottom: 4px solid @blue1; }
+#memory { border-bottom: 4px solid @magenta1; }
+#temperature { border-bottom: 4px solid @yellow1; }
+
+#network.eth { border-bottom: 4px solid #95ffa4; }
+#network.wlan { border-bottom: 4px solid @cyan1; }
+
+#pulseaudio { border-bottom: 4px solid @green1; }
+
+#custom-battery {
+    border-bottom: 4px solid @yellow1;
+}
+
+#clock, #custom-powermenu, #custom-quickaccess {
+    padding: 0 8px;
+    background-color: @red1
+}

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# TUI picker. In case you forget what's there.
+
+selection=$(printf "\
+btop
+systemctl-tui
+regex-tui
+nix-inspect
+ranger
+cgdb\
+" | fzf --prompt="Launch TUI > " | choose 0)
+
+# If something was selected, run it
+if [ -n "$selection" ]; then
+    eval "$selection"
+fi

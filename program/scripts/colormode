@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+ID=9883
+
+MODE_FILE="$HOME/.config/kirby/color-mode"
+CURRENT_MODE=$(<"$MODE_FILE")
+NEW_MODE="dark"
+
+if [ "$CURRENT_MODE" = "dark" ]; then
+  NEW_MODE="light"
+fi
+
+echo "$NEW_MODE" > "$MODE_FILE"
+
+
+if home-manager switch; then
+  dunstify -t 2000 -r $ID "Successfully switched to $NEW_MODE mode."
+else
+  dunstify -t 4000 -r $ID "Error: Failed to switch to $NEW_MODE mode!"
+fi
+
+bspc wm -r && pkill -USR1 -x sxhkd
