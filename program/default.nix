@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   imports = [
     ./alacritty.nix
@@ -19,4 +20,10 @@
     ./fcitx5.nix
     ./delta.nix
   ];
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    config.whitelist.prefix = [ "${config.home.homeDirectory}/kirby" ];
+  };
 }
