@@ -24,6 +24,6 @@
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
-    config.whitelist.prefix = [ "${config.home.homeDirectory}/kirby" ];
+    config.whitelist.prefix = [];
   };
 }
