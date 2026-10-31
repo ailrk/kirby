@@ -91,6 +91,22 @@ require("lazy").setup({
     {
         'nvim-treesitter/nvim-treesitter-textobjects',
         branch = 'main',
+        config = function ()
+            require("nvim-treesitter-textobjects").setup {
+                selection_modes = {
+                    ['@parameter.outer'] = 'v', -- charwise
+                    ['@function.outer'] = 'V', -- linewise
+                },
+                move = {
+                    set_jumps = true,
+                },
+            }
+            -- incremental selection
+            vim.keymap.set('n', '<C-Space>', ':normal van<CR>', { silent = true, desc = "Init incremental selection" })
+            vim.keymap.set('v', '<C-Space>', function()
+                vim.api.nvim_feedkeys('an', 'v', false)
+            end, { silent = true, desc = "Expand incremental selection" })
+        end
     },
 
     { 'mtth/scratch.vim' },

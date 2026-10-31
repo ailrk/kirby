@@ -3,3 +3,4 @@
 *.fasl
 *.pyc
 .DS_Store
+result
