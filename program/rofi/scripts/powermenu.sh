@@ -1,41 +1,56 @@
 #!/usr/bin/env bash
 
-rofi_command="rofi -theme $HOME/.config/rofi/theme/menu.rasi -close-on-unfocus"
-Shutdown=" Shutdown"
-Reboot=" Reboot"
-Lock=" Lock"
-Suspend=" Suspend"
-Logout=" Logout"
+# Rofi theme configurations
+DIR="$HOME/.config/rofi/theme"
+ROFI_CMD="rofi -theme $DIR/menu.rasi -close-on-unfocus"
+CONFIRM_CMD="rofi -theme $DIR/confirm.rasi -dmenu -i -p"
 
+# Menu Options
+Shutdown="⏻ Shutdown"
+Reboot="🔄 Reboot"
+Lock="🔒 Lock"
+Suspend="🌙 Suspend"
+Logout="🚪 Logout"
 
-is_yes() {
-    [[ $1 == "yes" || $1 == "y" ]]
+# Confirmation Menu (Rofi dmenu selection instead of text typing)
+confirm_cmd() {
+    local action="$1"
+    printf " Yes\n No" | $CONFIRM_CMD "Confirm $action?"
 }
 
-is_no() {
-    [[ $1 == "no" || $1 == "n" ]]
+# Run execution with confirmation check
+confirm_run() {
+    local action="$1"
+    local command="$2"
+
+    selected="$(confirm_cmd "$action")"
+    if [[ "$selected" == " Yes" ]]; then
+        eval "$command"
+    fi
 }
 
-confirm_exit() {
-	rofi -dmenu\
-		-i\
-		-no-fixed-num-lines\
-		-p "Are You Sure? : "\
-		-theme "$HOME"/.config/rofi/theme/confirm.rasi
-}
-
-msg() {
-    rofi -theme "$HOME/.config/rofi/theme/message.rasi" -e "Available Options  -  yes / y / no / n"
-}
-
-# Variable passed to rofi
+# Variable passed to main rofi menu
 options="$Shutdown\n$Reboot\n$Lock\n$Suspend\n$Logout"
 
-chosen="$(echo -e "$options" | $rofi_command -p "Power Menu" -dmenu -selected-row 2)"
-case $chosen in
-    "$Shutdown") ans=$(confirm_exit &); if is_yes "$ans"; then systemctl poweroff; elif is_no "$ans"; then exit 0; else msg; fi ;;
-    "$Reboot")   ans=$(confirm_exit &); if is_yes "$ans"; then systemctl reboot;   elif is_no "$ans"; then exit 0; else msg; fi ;;
-    "$Lock")     waylock ;;
-    "$Suspend")  systemctl suspend ;;
-    "$Logout")   bspc quit ;;
+# Main selection
+chosen="$(printf "%b" "$options" | $ROFI_CMD -p "Power Menu" -dmenu -selected-row 2)"
+
+case "$chosen" in
+    "$Shutdown")
+        confirm_run "Shutdown" "systemctl poweroff"
+        ;;
+    "$Reboot")
+        confirm_run "Reboot" "systemctl reboot"
+        ;;
+    "$Lock")
+        waylock
+        ;;
+    "$Suspend")
+        # Optional: Lock screen before suspending if using waylock
+        # waylock & systemctl suspend
+        systemctl suspend
+        ;;
+    "$Logout")
+        confirm_run "Logout" "bspc quit"
+        ;;
 esac

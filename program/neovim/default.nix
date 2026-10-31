@@ -1,6 +1,8 @@
 { config, lib, pkgs, inputs, ... }:
 let
   cfg = config.kirby.program.neovim;
+  symlink = config.lib.file.mkOutOfStoreSymlink;
+  home = config.home.homeDirectory;
 in
 {
   options.kirby.program.neovim = {
@@ -23,8 +25,10 @@ in
       ];
     };
 
-    xdg.configFile."nvim/main.vim".source = ./main.vim;
-    xdg.configFile."nvim/lua".source = ./lua;
+    xdg.configFile = {
+      "nvim/main.vim".source = symlink "${home}/kirby/program/neovim/main.vim";
+      "nvim/lua".source = symlink "${home}/kirby/program/neovim/lua";
+    };
 
     nixpkgs.overlays =
       if cfg.nightly
