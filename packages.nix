@@ -91,6 +91,7 @@
   pkgs.lua
   pkgs.lua-language-server
   pkgs.microhs
+  pkgs.haskell-language-server
   pkgs.pyright
 
   # python deps
