@@ -22,12 +22,12 @@ in
     };
 
     xdg.configFile."labwc/environment".source =
-      symlink "${home}/program/labwc/environment";
+      symlink "${home}/kirby/program/labwc/environment";
 
     xdg.configFile."labwc/menu.xml".source =
-      symlink "${home}/program/labwc/menu.xml";
+      symlink "${home}/kirby/program/labwc/menu.xml";
 
     xdg.configFile."labwc/rc.xml".source =
-      symlink "${home}/program/labwc/rc.xml";
+      symlink "${home}/kirby/program/labwc/rc.xml";
   };
 }

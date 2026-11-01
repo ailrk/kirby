@@ -17,15 +17,15 @@ in
     ];
 
     xdg.configFile."waybar/config".source =
-      symlink "${home}/program/waybar/config";
+      symlink "${home}/kirby/program/waybar/config";
 
     xdg.configFile."waybar/style.css".source =
-      symlink "${home}/program/waybar/style.css";
+      symlink "${home}/kirby/program/waybar/style.css";
 
     xdg.configFile."waybar/battery.sh".source =
-      symlink "${home}/program/waybar/battery.sh";
+      symlink "${home}/kirby/program/waybar/battery.sh";
 
     xdg.configFile."waybar/im.sh".source =
-      symlink "${home}/program/waybar/im.sh";
+      symlink "${home}/kirby/program/waybar/im.sh";
   };
 }

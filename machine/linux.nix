@@ -100,6 +100,7 @@ with lib;
   home.sessionVariables = {
     NIX_PATH       = "$HOME/.nix-defexpr/channels";
     LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
+    LANG = "C.UTF-8";
   };
 
     # User specific overlays.

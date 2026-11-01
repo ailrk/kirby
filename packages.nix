@@ -91,9 +91,6 @@
   pkgs.lua
   pkgs.lua-language-server
   pkgs.microhs
-  pkgs.haskell-language-server
-  pkgs.ghc
-  pkgs.cabal-install
   pkgs.pyright
 
   # python deps
