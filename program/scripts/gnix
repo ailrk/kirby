@@ -478,9 +478,10 @@ menu_closure() {
 menu_why() {
   local a b mode flags=()
   a=$(ask_target "Which package or system do you want to inspect?") || return
-  b=$(ask "depends on" "e.g. nixpkgs#glibc") || return
-  [[ -n $a && -n $b ]] || return
-  [[ $b == */* || $b == *#* ]] || b="${NIXPKGS_REF}#$b"
+  [[ -n $a ]] || return
+  dim "reading the closure of $a…"
+  b=$(closure_candidates "$a" | pick_or_type "why is this in $a? (type to filter)") || return
+  b=$(normalize_target "$b")
   mode=$(gum choose "shortest path" "all paths") || return
   [[ $mode == all* ]] && flags+=(--all)
   run nix why-depends "${flags[@]}" "$a" "$b"
@@ -544,30 +545,31 @@ menu_diff() {
 
 menu_buildlog() {
   local ref
-  ref=$(ask "installable" "e.g. nixpkgs#hello or .#foo") || return
-  [[ -n $ref ]] || return
+  ref=$(store_candidates out | pick_or_type "build log of… (or type an installable, e.g. nixpkgs#hello)") || return
+  ref=$(normalize_target "$ref")
   nix log "$ref" 2>&1 | pager
 }
 
 menu_derivation() {
   local ref
-  ref=$(ask "installable" "e.g. nixpkgs#hello or .#foo") || return
-  [[ -n $ref ]] || return
+  ref=$(store_candidates all | pick_or_type "show derivation of… (or type an installable, e.g. .#foo)") || return
+  ref=$(normalize_target "$ref")
   { nix derivation show "$ref" 2>/dev/null || nix show-derivation "$ref" 2>&1; } | jq . 2>/dev/null | pager
 }
 
 menu_build_debug() {
   local ref o
   local -a opts=(--no-link)
-  ref=$(ask "installable" "e.g. .#foo or nixpkgs#hello" ".#") || return
-  [[ -n $ref ]] || return
+  ref=$(store_candidates out | pick_or_type "rebuild/debug… (or type .#foo / nixpkgs#hello)") || return
+  ref=$(normalize_target "$ref")
+  ref=$(to_build_target "$ref")
   while read -r o; do
     case $o in
-      "-L "*)          opts+=(-L) ;;
+      "-L "*)           opts+=(-L) ;;
       "--keep-failed"*) opts+=(--keep-failed) ;;
-      "--check"*)      opts+=(--check) ;;
-      "--show-trace"*) opts+=(--show-trace) ;;
-      "--impure"*)     opts+=(--impure) ;;
+      "--check"*)       opts+=(--check) ;;
+      "--show-trace"*)  opts+=(--show-trace) ;;
+      "--impure"*)      opts+=(--impure) ;;
     esac
   done < <(gum choose --no-limit --header "build options (space to toggle)" \
     "-L  stream build logs" \
@@ -1264,6 +1266,76 @@ menu_packages() {
     "Find a package by"*) menu_locate ;;
     "Find an older"*) menu_old_versions ;;
     "Update the file index") locate_update; pause ;;
+  esac
+}
+
+# --- store pickers ---
+
+# full store paths on stdin → "name   /nix/store/hash-name" lines, sorted by name
+format_store_paths() {
+  grep -E '^/nix/store/[0-9a-z]{32}-' |
+    sed -E 's|^/nix/store/[0-9a-z]{32}-(.*)$|\1\t&|' |
+    awk -F'\t' '{ printf "%-52s %s\n", $1, $2 }' | sort -f
+}
+
+# store_candidates all|out|drv → everything in /nix/store (optionally only outputs / only .drv)
+store_candidates() {
+  local mode=${1:-all}
+  ls -1 /nix/store 2>/dev/null |
+    grep -E '^[0-9a-z]{32}-' | grep -vE '\.(lock|chroot|check)$' |
+    case $mode in
+      drv) grep -E '\.drv$' ;;
+      out) grep -vE '\.drv$' ;;
+      *)   cat ;;
+    esac | sed 's|^|/nix/store/|' | format_store_paths
+}
+
+# closure_candidates TARGET → every path in TARGET's closure
+closure_candidates() {
+  local -a paths
+  mapfile -t paths < <(resolve_target "$1")
+  [[ ${#paths[@]} -gt 0 ]] || return 1
+  nix path-info -r "${paths[@]}" 2>/dev/null | format_store_paths
+}
+
+# pick_or_type HEADER < candidate lines
+# Filter-as-you-type list. Enter on a match → its store path.
+# Nothing matches → whatever you typed (so it "just runs").
+# fzf only: ctrl-t forces the typed text even when something partially matches.
+pick_or_type() {
+  local header=$1 out rc sel
+  local -a res
+  if command -v fzf >/dev/null 2>&1; then
+    out=$(fzf --reverse --height=85% --border --print-query --expect=ctrl-t \
+              --header "$header · ctrl-t: use typed text as-is")
+    rc=$?
+    [[ $rc -eq 130 || $rc -eq 2 ]] && return 1
+    mapfile -t res <<< "$out"          # [0]=query  [1]=key  [2]=selection
+    if [[ ${res[1]:-} == ctrl-t || -z ${res[2]:-} ]]; then sel=${res[0]:-}; else sel=${res[2]}; fi
+  else
+    sel=$(gum filter --no-strict --height 20 --header "$header" --placeholder "filter…") || return 1
+  fi
+  [[ $sel =~ ^.+[[:space:]]+(/nix/store/[^[:space:]]+)$ ]] && sel=${BASH_REMATCH[1]}
+  [[ -n $sel ]] || return 1
+  echo "$sel"
+}
+
+# bare names become nixpkgs#name; paths, flake refs and .#foo are left alone
+normalize_target() {
+  case $1 in
+    /*|.*|*#*|*:*) echo "$1" ;;
+    *)             to_ref "$1" ;;
+  esac
+}
+
+# for rebuilds: turn an output path into its derivation (drv^*)
+to_build_target() {
+  local p=$1 d
+  case $p in
+    *.drv)        echo "$p^*" ;;
+    /nix/store/*) d=$(nix path-info --derivation "$p" 2>/dev/null)
+                  if [[ -n $d && $d != unknown-deriver ]]; then echo "$d^*"; else echo "$p"; fi ;;
+    *)            echo "$p" ;;
   esac
 }
 
