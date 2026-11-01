@@ -90,6 +90,7 @@
   pkgs.nasm
   pkgs.lua
   pkgs.lua-language-server
+  pkgs.microhs
   pkgs.pyright
 
   # python deps
