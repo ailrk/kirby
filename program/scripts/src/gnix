@@ -12,7 +12,7 @@
 
 set -uo pipefail
 
-NIXG_VERSION="2.0.0"
+NIXG_VERSION="2.1.0"
 ASSUME_YES=0
 PICKS=()
 
@@ -1274,47 +1274,48 @@ menu_packages() {
 # full store paths on stdin → "name   /nix/store/hash-name" lines, sorted by name
 format_store_paths() {
   grep -E '^/nix/store/[0-9a-z]{32}-' |
-    sed -E 's|^/nix/store/[0-9a-z]{32}-(.*)$|\1\t&|' |
-    awk -F'\t' '{ printf "%-52s %s\n", $1, $2 }' | sort -f
+    awk '{ p = $0; n = p; sub(/^\/nix\/store\/[0-9a-z]+-/, "", n); printf "%-52s %s\n", n, p }' |
+    sort -f
 }
 
 # store_candidates all|out|drv → everything in /nix/store (optionally only outputs / only .drv)
 store_candidates() {
-  local mode=${1:-all}
-  ls -1 /nix/store 2>/dev/null |
-    grep -E '^[0-9a-z]{32}-' | grep -vE '\.(lock|chroot|check)$' |
-    case $mode in
-      drv) grep -E '\.drv$' ;;
-      out) grep -vE '\.drv$' ;;
-      *)   cat ;;
-    esac | sed 's|^|/nix/store/|' | format_store_paths
+  local mode=${1:-all} names
+  names=$(ls -1 /nix/store 2>/dev/null |
+    grep -E '^[0-9a-z]{32}-' | grep -vE '\.(lock|chroot|check)$')
+  [[ -n $names ]] || return 0
+  case $mode in
+    drv) grep -E '\.drv$'  <<< "$names" ;;
+    out) grep -vE '\.drv$' <<< "$names" ;;
+    *)   printf '%s\n' "$names" ;;
+  esac | awk '{ print "/nix/store/" $0 }' | format_store_paths
 }
 
 # closure_candidates TARGET → every path in TARGET's closure
 closure_candidates() {
   local -a paths
   mapfile -t paths < <(resolve_target "$1")
-  [[ ${#paths[@]} -gt 0 ]] || return 1
-  nix path-info -r "${paths[@]}" 2>/dev/null | format_store_paths
+  if [[ ${#paths[@]} -eq 0 ]]; then bad "could not resolve '$1'"; return 1; fi
+  nix path-info -r "${paths[@]}" | format_store_paths
 }
 
 # pick_or_type HEADER < candidate lines
-# Filter-as-you-type list. Enter on a match → its store path.
-# Nothing matches → whatever you typed (so it "just runs").
-# fzf only: ctrl-t forces the typed text even when something partially matches.
+# Filter-as-you-type list; Enter on a match → its store path.
+# No match (or an empty list) → whatever you typed (gum filter --no-strict).
 pick_or_type() {
-  local header=$1 out rc sel
-  local -a res
-  if command -v fzf >/dev/null 2>&1; then
-    out=$(fzf --reverse --height=85% --border --print-query --expect=ctrl-t \
-              --header "$header · ctrl-t: use typed text as-is")
-    rc=$?
-    [[ $rc -eq 130 || $rc -eq 2 ]] && return 1
-    mapfile -t res <<< "$out"          # [0]=query  [1]=key  [2]=selection
-    if [[ ${res[1]:-} == ctrl-t || -z ${res[2]:-} ]]; then sel=${res[0]:-}; else sel=${res[2]}; fi
+  local header=$1 tmp sel
+  tmp=$(mktemp); cat > "$tmp"
+
+  if [[ ! -s $tmp ]]; then
+    warn "no candidates found — type a target instead"
+    sleep 3
+    rm -f "$tmp"
+    sel=$(ask "target" "e.g. nixpkgs#hello, .#foo, /nix/store/…") || return 1
   else
-    sel=$(gum filter --no-strict --height 20 --header "$header" --placeholder "filter…") || return 1
+    sel=$(gum filter --no-strict --height 20 --header "$header" --placeholder "type to filter, or type a target…" < "$tmp") || { rm -f "$tmp"; return 1; }
+    rm -f "$tmp"
   fi
+
   [[ $sel =~ ^.+[[:space:]]+(/nix/store/[^[:space:]]+)$ ]] && sel=${BASH_REMATCH[1]}
   [[ -n $sel ]] || return 1
   echo "$sel"
