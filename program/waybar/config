@@ -96,13 +96,13 @@
 
     "custom/quickaccess": {
       "format": "",
-      "on-click": "quickaccess.sh",
+      "on-click": "quickaccess",
       "tooltip": false
     },
 
     "custom/powermenu": {
       "format": "",
-      "on-click": "powermenu.sh",
+      "on-click": "powermenu",
       "tooltip": false
     }
 }

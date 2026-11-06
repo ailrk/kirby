@@ -62,6 +62,15 @@
     <keybind key="W-b">
       <action name="Execute" command="sh -c '$BROWSER'" />
     </keybind>
+    <keybind key="W-n">
+      <action name="Execute" command="nautilus" />
+    </keybind>
+    <keybind key="W-r">
+      <action name="Execute" command="videorecording" />
+    </keybind>
+    <keybind key="W-h">
+      <action name="Execute" command="screenshot" />
+    </keybind>
     <keybind key="W-space">
       <action name="Execute" command="launcher drun" />
     </keybind>
