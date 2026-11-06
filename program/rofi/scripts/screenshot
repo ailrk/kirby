@@ -1,0 +1,79 @@
+#!/usr/bin/env lua
+
+local id = 2931
+local home = os.getenv("HOME") or ""
+local theme_dir = home .. "/.config/rofi/theme"
+local rofi_cmd = string.format("rofi -theme %s/menu.rasi -close-on-unfocus -dmenu -i", theme_dir)
+local img_dir = home .. "/Pictures/Screenshots"
+
+os.execute(string.format('mkdir -p "%s"', img_dir))
+
+local timestamp = os.date("%Y%m%d_%H%M%S")
+local img_path = string.format("%s/screenshot_%s.png", img_dir, timestamp)
+
+local function notify(msg)
+    os.execute(string.format('dunstify -t 4000 -r %d "Screenshot" "%s" -i camera-photo', id, msg))
+end
+
+local action = arg[1]
+
+if not action or action == "" then
+    local handle = io.popen(string.format('printf "sel\\nfull\\nwin" | %s -p "Screenshot Mode" -select "sel"', rofi_cmd))
+    if handle then
+        action = handle:read("*l")
+        handle:close()
+    end
+end
+
+if not action or action == "" then
+    os.exit(0)
+end
+
+local success = false
+
+if action == "full" then
+    local res = os.execute(string.format('grim "%s"', img_path))
+    success = (res == true or res == 0)
+    if success then
+        notify("Full screen saved to " .. img_dir)
+    end
+
+elseif action == "win" then
+    notify("Click the window you want to capture...")
+    local geom_handle = io.popen("slurp -p")
+    local geom = geom_handle and geom_handle:read("*a") or ""
+    local closed = geom_handle and geom_handle:close()
+    geom = string.gsub(geom, "^%s*(.-)%s*$", "%1")
+
+    if closed and geom ~= "" then
+        local res = os.execute(string.format('grim -g "%s" "%s"', geom, img_path))
+        success = (res == true or res == 0)
+        if success then
+            notify("Window captured to " .. img_dir)
+        end
+    end
+
+elseif action == "sel" then
+    notify("Select a region with your mouse...")
+    local geom_handle = io.popen("slurp")
+    local geom = geom_handle and geom_handle:read("*a") or ""
+    local closed = geom_handle and geom_handle:close()
+    geom = string.gsub(geom, "^%s*(.-)%s*$", "%1")
+
+    if closed and geom ~= "" then
+        local res = os.execute(string.format('grim -g "%s" "%s"', geom, img_path))
+        success = (res == true or res == 0)
+        if success then
+            notify("Selection saved to " .. img_dir)
+        end
+    end
+
+else
+    os.execute(string.format('dunstify -t 2000 -r %d "Screenshot" "Invalid option. Usage: %s [full|win|el]"', id, arg[0]))
+    os.exit(1)
+end
+
+if not success and action ~= "" then
+    os.remove(img_path)
+    notify("Screenshot cancelled or failed.")
+end

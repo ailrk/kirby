@@ -1,0 +1,32 @@
+#!/usr/bin/env lua
+
+local home = os.getenv("HOME") or ""
+local theme_dir = home .. "/.config/rofi/theme"
+local rofi_cmd = string.format("rofi -theme %s/menu.rasi -close-on-unfocus -dmenu -i", theme_dir)
+
+local browser = os.getenv("BROWSER") or "google-chrome-stable"
+local terminal = os.getenv("TERMINAL") or "foot"
+local files = os.getenv("FILES") or "thunar"
+
+local options = {
+    [" browser"] = browser,
+    [" terminal"] = terminal,
+    [" files"] = files,
+    ["S systemd"] = terminal .. " -e systemctl-tui",
+    [" launcher"] = "launcher.lua drun"
+}
+
+-- Prepare string for rofi
+local menu_items = {" browser", " terminal", " files", "S systemd", " launcher"}
+local menu_str = table.concat(menu_items, "\n")
+
+-- Execute Rofi and capture choice
+local handle = io.popen(string.format('printf "%%b" "%s" | %s -p "Quick Access" -selected-row 0', menu_str, rofi_cmd))
+if not handle then os.exit(1) end
+
+local chosen = handle:read("*l")
+handle:close()
+
+if chosen and options[chosen] then
+    os.execute(options[chosen] .. " &")
+end

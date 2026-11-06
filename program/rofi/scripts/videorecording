@@ -1,0 +1,110 @@
+#!/usr/bin/env lua
+
+local id = 2932
+local home = os.getenv("HOME") or ""
+local theme_dir = home .. "/.config/rofi/theme"
+local rofi_cmd = string.format("rofi -theme %s/menu.rasi -close-on-unfocus -dmenu -i", theme_dir)
+local rec_dir = home .. "/Videos/Recordings"
+
+os.execute(string.format('mkdir -p "%s"', rec_dir))
+
+local function notify(msg)
+    os.execute(string.format('dunstify -t 4000 -r %d "Screen Recorder" "%s" -i media-record', id, msg))
+end
+
+-- 1. Check if wf-recorder is already running (to stop it)
+local check_pkill = os.execute("pgrep -x wf-recorder > /dev/null")
+if check_pkill == true or check_pkill == 0 then
+    local handle = io.popen(string.format('printf "Stop Recording\\nCancel" | %s -p "Recording in progress..." -select "Stop Recording"', rofi_cmd))
+    if handle then
+        local choice = handle:read("*l")
+        handle:close()
+        if choice == "Stop Recording" then
+            os.execute("pkill -INT -x wf-recorder")
+            notify("Recording stopped and saved.")
+        end
+    end
+    os.exit(0)
+end
+
+-- 2. Select recording mode
+local handle_mode = io.popen(string.format('printf "sel\\nwin\\nfull" | %s -p "Record Mode" -select "sel"', rofi_cmd))
+if not handle_mode then os.exit(1) end
+local mode = handle_mode:read("*l")
+handle_mode:close()
+if not mode or mode == "" then os.exit(0) end
+
+-- 3. Select Audio Option
+local handle_audio = io.popen(string.format('printf "No Audio\\nInclude Audio (Mic)" | %s -p "Audio Option"', rofi_cmd))
+local audio_choice = handle_audio and handle_audio:read("*l") or ""
+if handle_audio then handle_audio:close() end
+if not audio_choice or audio_choice == "" then os.exit(0) end
+
+local audio_arg = ""
+if string.find(audio_choice, "Include Audio") then
+    audio_arg = "--audio"
+end
+
+-- 4. Select Output Format (MP4 video vs Animated GIF)
+local handle_format = io.popen(string.format('printf "MP4 (Video)\\nGIF (Animated Image)" | %s -p "Output Format"', rofi_cmd))
+local format_choice = handle_format and handle_format:read("*l") or ""
+if handle_format then handle_format:close() end
+if not format_choice or format_choice == "" then os.exit(0) end
+
+local is_gif = string.find(format_choice, "GIF")
+
+-- 5. Prepare Filename & Path
+local timestamp = os.date("%Y%m%d_%H%M%S")
+local ext = is_gif and "gif" or "mp4"
+local rec_path = string.format("%s/recording_%s.%s", rec_dir, timestamp, ext)
+
+-- 6. Geometry selection helper
+local function get_geometry(cmd)
+    local geom_handle = io.popen(cmd)
+    local geom = geom_handle and geom_handle:read("*a") or ""
+    local closed = geom_handle and geom_handle:close()
+    geom = string.gsub(geom, "^%s*(.-)%s*$", "%1")
+    if not closed or geom == "" then return nil end
+    return geom
+end
+
+-- 7. Build command and execute safely
+local geom_arg = ""
+if mode == "sel" then
+    notify("Select a region to record...")
+    local geom = get_geometry("slurp")
+    if not geom then os.exit(0) end
+    geom_arg = '-g "' .. geom .. '"'
+elseif mode == "win" then
+    notify("Click the window to record...")
+    local geom = get_geometry("slurp -p")
+    if not geom then os.exit(0) end
+    geom_arg = '-g "' .. geom .. '"'
+end
+
+-- Run wf-recorder and verify it successfully started
+local command
+if is_gif then
+    -- wf-recorder records mp4 natively; for GIF we record temp mp4 and convert on stop,
+    -- or use ffmpeg flags directly. Alternatively, keep a temp file or use wf-recorder pipeline.
+    -- For simplicity and reliability, record to temp mp4 then convert when stopped,
+    -- or stream straight into ffmpeg. Here is a clean background command:
+    local temp_mp4 = rec_dir .. "/temp_" .. timestamp .. ".mp4"
+    command = string.format('wf-recorder %s %s -f "%s" && ffmpeg -i "%s" -vf "fps=15,scale=720:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "%s" && rm "%s" &',
+        audio_arg, geom_arg, temp_mp4, temp_mp4, rec_path, temp_mp4)
+else
+    command = string.format('wf-recorder %s %s -f "%s" &', audio_arg, geom_arg, rec_path)
+end
+
+local res = os.execute(command)
+local success = (res == true or res == 0)
+
+if success then
+    if is_gif then
+        notify("Recording GIF... (Stop recording via menu to process)")
+    else
+        notify("Recording... (Run script again to stop)")
+    end
+else
+    notify("Failed to start recording.")
+end

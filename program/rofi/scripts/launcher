@@ -1,0 +1,15 @@
+#!/usr/bin/env lua
+
+local home = os.getenv("HOME") or ""
+local terminal = os.getenv("TERMINAL") or "foot"
+local theme_dir = home .. "/.config/rofi/theme"
+local style = theme_dir .. "/launcher.rasi"
+local modi = arg[1] or "drun"
+
+-- Command to run Rofi launcher
+local cmd = string.format(
+    'pkill rofi || rofi -no-lazy-grab -show "%s" -modi drun,window,ssh -theme "%s" -terminal "%s" -run-shell-command \'{terminal} -e \\"{cmd}; read -n 1 -s\\"\' -kb-mode-next "Alt+space" -close-on-unfocus -show-icons',
+    modi, style, terminal
+)
+
+os.execute(cmd)
