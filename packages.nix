@@ -1,5 +1,5 @@
 # common packages
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 [
   pkgs.binutils
   # tools
@@ -169,4 +169,5 @@
 
   # Mine
   (pkgs.callPackage ./pkgs/sgaunpack.nix {})
+  inputs.nixon.packages.${pkgs.system}.default
 ]

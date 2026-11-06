@@ -88,8 +88,7 @@ in
 
     # Install packages
     home = {
-      packages =
-        [
+      packages = [
         inputs.nixgl.packages.${pkgs.system}.nixVulkanIntel
         inputs.nixgl.packages.${pkgs.system}.nixGLIntel
         pkgs.libGL
@@ -112,8 +111,8 @@ in
         pkgs.upscayl
         pkgs.winetricks
         pkgs.wineWow64Packages.staging
-      ] ++ pkgs.callPackage ../packages.nix {};
-
+      ] ++
+        pkgs.callPackage ../packages.nix { inherit inputs; };
 
       # Environment
       sessionVariables = {
