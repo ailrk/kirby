@@ -1,0 +1,47 @@
+#!/usr/bin/env lua
+
+local home = os.getenv("HOME") or ""
+local theme_dir = home .. "/.config/rofi/theme"
+local rofi_cmd = string.format("rofi -theme %s/menu.rasi -close-on-unfocus -dmenu -i", theme_dir)
+local confirm_cmd = string.format("rofi -theme %s/confirm.rasi -close-on-unfocus -dmenu -i", theme_dir)
+
+local function confirm(action)
+    local handle = io.popen(string.format('printf " Yes\\n No" | %s -p "Confirm %s?"', confirm_cmd, action))
+    if not handle then return false end
+    local choice = handle:read("*l")
+    handle:close()
+    return choice == " Yes"
+end
+
+local function confirm_and_run(action, cmd)
+    if confirm(action) then
+        os.execute(cmd)
+    end
+end
+
+local menu_items = {
+    "⏻ Shutdown",
+    "🔄 Reboot",
+    "🔒 Lock",
+    "🌙 Suspend",
+    "🚪 Logout"
+}
+local menu_str = table.concat(menu_items, "\n")
+
+local handle = io.popen(string.format('printf "%%b" "%s" | %s -p "Power Menu" -selected-row 2', menu_str, rofi_cmd))
+if not handle then os.exit(1) end
+
+local chosen = handle:read("*l")
+handle:close()
+
+if chosen == "⏻ Shutdown" then
+    confirm_and_run("Shutdown", "systemctl poweroff")
+elseif chosen == "🔄 Reboot" then
+    confirm_and_run("Reboot", "systemctl reboot")
+elseif chosen == "🔒 Lock" then
+    os.execute("waylock")
+elseif chosen == "🌙 Suspend" then
+    os.execute("systemctl suspend")
+elseif chosen == "🚪 Logout" then
+    confirm_and_run("Logout", "bspc quit")
+end

@@ -119,7 +119,8 @@ require("lazy").setup({
                 debounce_ms = 100,
                 extra_asset_roots = {
                     vim.fn.expand("$HOME/repo/note"),
-                    vim.fn.expand("$HOME/note")
+                    vim.fn.expand("$HOME/note"),
+                    vim.fn.expand("$HOME/repo/home"),
                 },
                 default_theme = "light"
             })

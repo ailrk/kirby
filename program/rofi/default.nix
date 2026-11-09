@@ -5,20 +5,38 @@ let
   cfg = config.kirby.program.rofi;
   link = config.lib.file.mkOutOfStoreSymlink;
 in
-{
+  {
   options.kirby.program.rofi = {
     enable = mkEnableOption "Enable rofi application launcher";
   };
 
   config = mkIf cfg.enable {
-      home.packages = [ pkgs.rofi ];
-      xdg.configFile."rofi/scripts".source = ./scripts;
-      xdg.configFile."rofi/theme".source = ./theme;
-      xdg.configFile."rofi/styles".source = ./styles;
+    home.packages = [ pkgs.rofi ];
+    xdg.configFile."rofi/theme".source = ./theme;
+    xdg.configFile."rofi/styles".source = ./styles;
 
-      # link binaries to scripts
-      xdg.configFile."scripts/launcher.sh".source = link ./scripts/launcher.sh;
-      xdg.configFile."scripts/quickaccess.sh".source = link ./scripts/quickaccess.sh;
-      xdg.configFile."scripts/powermenu.sh".source = link ./scripts/powermenu.sh;
+    # link binaries to scripts
+    xdg.configFile."scripts/launcher".source = link ./scripts/launcher;
+    xdg.configFile."scripts/screenshot".source = link ./scripts/screenshot;
+    xdg.configFile."scripts/quickaccess".source = link ./scripts/quickaccess;
+    xdg.configFile."scripts/videorecording".source = link ./scripts/videorecording;
+    xdg.configFile."scripts/powermenu".source = link ./scripts/powermenu;
+
+    xdg.desktopEntries = {
+      screenshot = {
+        name = "Screenshot Tool";
+        exec = "${config.xdg.configHome}/scripts/screenshot";
+        icon = "camera-photo";
+        type = "Application";
+      };
+    };
+    xdg.desktopEntries = {
+      videorecording = {
+        name = "Video recording Tool";
+        exec = "${config.xdg.configHome}/scripts/videorecording";
+        icon = "camera-photo";
+        type = "Application";
+      };
+    };
   };
 }

@@ -62,11 +62,20 @@
     <keybind key="W-b">
       <action name="Execute" command="sh -c '$BROWSER'" />
     </keybind>
+    <keybind key="W-n">
+      <action name="Execute" command="nautilus" />
+    </keybind>
+    <keybind key="W-r">
+      <action name="Execute" command="videorecording" />
+    </keybind>
+    <keybind key="W-h">
+      <action name="Execute" command="screenshot" />
+    </keybind>
     <keybind key="W-space">
-      <action name="Execute" command="launcher.sh drun" />
+      <action name="Execute" command="launcher drun" />
     </keybind>
     <keybind key="S-W-space">
-      <action name="Execute" command="launcher.sh window" />
+      <action name="Execute" command="launcher window" />
     </keybind>
 
     <keybind key="W-q">
@@ -114,9 +123,6 @@
     <keybind key="XF86AudioMute"> <action name="Execute" command="volume mute" /> </keybind>
     <keybind key="XF86MonBrightnessDown"> <action name="Execute" command="brightness down" /> </keybind>
     <keybind key="XF86MonBrightnessUp"> <action name="Execute" command="brightness up" /> </keybind>
-
-    <keybind key="A-S-3"> <action name="Execute" command="screenshot full" /> </keybind>
-    <keybind key="A-S-4"> <action name="Execute" command="screenshot sel" /> </keybind>
   </keyboard>
 
   <!-- Some applicatoins with server side deocration will not be focused on click, e.g

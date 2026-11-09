@@ -111,8 +111,8 @@ in
         pkgs.upscayl
         pkgs.winetricks
         pkgs.wineWow64Packages.staging
-      ] ++ pkgs.callPackage ../packages.nix { inherit inputs; };
-
+      ] ++
+        pkgs.callPackage ../packages.nix { inherit inputs; };
 
       # Environment
       sessionVariables = {

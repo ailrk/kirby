@@ -97,7 +97,8 @@ in
           pkgs.chromium
           pkgs.firefox
           pkgs.tiled
-        ] ++ pkgs.callPackage ../packages.nix { inherit inputs; };
+    ] ++
+      pkgs.callPackage ../packages.nix { inherit inputs; };
 
 
     # Environment
