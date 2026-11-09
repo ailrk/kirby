@@ -28,6 +28,7 @@ set matchpairs+=<:>
 set exrc                            "local setting
 set number
 set mouse=a
+set textwidth=80
 
 " lua require("init")
 
