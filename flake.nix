@@ -17,6 +17,8 @@
 
     nixgl.url = "github:guibou/nixGL";
 
+    nixon.url = "github:ailrk/nixon";
+
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
   };
 

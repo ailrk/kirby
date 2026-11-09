@@ -1,5 +1,5 @@
 # common packages
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 [
   pkgs.binutils
   # tools
@@ -39,6 +39,7 @@
   pkgs.graph-easy
   pkgs.confetty
   pkgs.p7zip
+  pkgs.github-copilot-cli
 
   # new core
   pkgs.rsync
@@ -169,4 +170,5 @@
 
   # Mine
   (pkgs.callPackage ./pkgs/sgaunpack.nix {})
+  (inputs.nixon.packages.${pkgs.system}.default)
 ]
