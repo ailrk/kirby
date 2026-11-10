@@ -112,6 +112,18 @@ require("lazy").setup({
     { 'mtth/scratch.vim' },
 
     {
+        'jmbuhr/otter.nvim',
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter',
+        },
+        opts = {},
+    },
+
+    {
+        'michaelb/sniprun'
+    },
+
+    {
         dir = vim.fn.expand("$HOME/repo/live-preview.nvim"),
         config = function()
             require("live_preview").setup({
