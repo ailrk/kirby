@@ -120,10 +120,6 @@ require("lazy").setup({
     },
 
     {
-        'michaelb/sniprun'
-    },
-
-    {
         dir = vim.fn.expand("$HOME/repo/live-preview.nvim"),
         config = function()
             require("live_preview").setup({
