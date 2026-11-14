@@ -3,7 +3,8 @@ with
 lib;
 let
   cfg = config.kirby.program.rofi;
-  link = config.lib.file.mkOutOfStoreSymlink;
+  symlink = config.lib.file.mkOutOfStoreSymlink;
+  home = config.home.homeDirectory;
 in
   {
   options.kirby.program.rofi = {
@@ -12,15 +13,17 @@ in
 
   config = mkIf cfg.enable {
     home.packages = [ pkgs.rofi ];
-    xdg.configFile."rofi/theme".source = ./theme;
-    xdg.configFile."rofi/styles".source = ./styles;
 
-    # link binaries to scripts
-    xdg.configFile."scripts/launcher".source = link ./scripts/launcher;
-    xdg.configFile."scripts/screenshot".source = link ./scripts/screenshot;
-    xdg.configFile."scripts/quickaccess".source = link ./scripts/quickaccess;
-    xdg.configFile."scripts/videorecording".source = link ./scripts/videorecording;
-    xdg.configFile."scripts/powermenu".source = link ./scripts/powermenu;
+    xdg.configFile =
+      let
+        scripts = mapAttrs' (fileName: _: nameValuePair "scripts/${fileName}"
+          { source = symlink "${home}/kirby/program/rofi/scripts/${fileName}"; })
+          (builtins.readDir ./scripts);
+        themes = {
+          "rofi/theme".source = symlink "${home}/kirby/program/rofi/theme";
+          "rofi/styels".source = symlink "${home}/kirby/program/rofi/styles";
+        };
+      in themes // scripts;
 
     xdg.desktopEntries = {
       screenshot = {
