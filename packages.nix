@@ -74,6 +74,7 @@
   pkgs.litellm
   pkgs.bottles
   pkgs.tree-sitter
+  pkgs.claude-code
 
   # langs
   pkgs.valgrind

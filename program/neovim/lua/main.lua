@@ -124,7 +124,7 @@ require("lazy").setup({
         config = function()
             require("live_preview").setup({
                 open_browser = true,
-                debounce_ms = 100,
+                debounce_ms = 20,
                 extra_asset_roots = {
                     vim.fn.expand("$HOME/repo/note"),
                     vim.fn.expand("$HOME/note"),
