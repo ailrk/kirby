@@ -12,9 +12,39 @@ local function notify(msg)
     os.execute(string.format('dunstify -t 4000 -r %d "Screen Recorder" "%s" -i media-record', id, msg))
 end
 
+local function is_ok(res)
+    return res == true or res == 0
+end
+
+local function get_latest_file(dir)
+    -- List regular files sorted by modification time (newest first)
+    local cmd = string.format('find "%s" -maxdepth 1 -type f -printf "%%T@\\t%%p\\n" 2>/dev/null | sort -rn | head -n 1 | cut -f2-', dir)
+    local handle = io.popen(cmd)
+    if not handle then
+        return nil
+    end
+    local latest = handle:read("*a") or ""
+    handle:close()
+    latest = string.gsub(latest, "^%s*(.-)%s*$", "%1")
+    if latest == "" then
+        return nil
+    end
+    return latest
+end
+
+local function copy_to_clipboard(text)
+    local escaped = string.gsub(text, '"', '\\"')
+    if is_ok(os.execute("command -v wl-copy >/dev/null 2>&1")) then
+        return is_ok(os.execute(string.format('printf "%%s" "%s" | wl-copy', escaped)))
+    elseif is_ok(os.execute("command -v xclip >/dev/null 2>&1")) then
+        return is_ok(os.execute(string.format('printf "%%s" "%s" | xclip -selection clipboard', escaped)))
+    end
+    return false
+end
+
 -- 1. Check if wf-recorder is already running (to stop it)
 local check_pkill = os.execute("pgrep -x wf-recorder > /dev/null")
-if check_pkill == true or check_pkill == 0 then
+if is_ok(check_pkill) then
     local handle = io.popen(string.format('printf "Stop Recording\\nCancel" | %s -p "Recording in progress..." -select "Stop Recording"', rofi_cmd))
     if handle then
         local choice = handle:read("*l")
@@ -27,12 +57,28 @@ if check_pkill == true or check_pkill == 0 then
     os.exit(0)
 end
 
--- 2. Select recording mode
-local handle_mode = io.popen(string.format('printf "sel\\nwin\\nfull" | %s -p "Record Mode" -select "sel"', rofi_cmd))
+-- 2. Select recording mode (or copy latest recording path)
+local handle_mode = io.popen(string.format('printf "sel\\nwin\\nfull\\ncopy-latest" | %s -p "Record Mode" -select "sel"', rofi_cmd))
 if not handle_mode then os.exit(1) end
 local mode = handle_mode:read("*l")
 handle_mode:close()
 if not mode or mode == "" then os.exit(0) end
+
+if mode == "copy-latest" then
+    local latest_file = get_latest_file(rec_dir)
+    if not latest_file then
+        notify("No recordings found in " .. rec_dir)
+        os.exit(1)
+    end
+
+    if copy_to_clipboard(latest_file) then
+        notify("Copied path: " .. latest_file)
+    else
+        notify("Failed to copy path (wl-copy or xclip required).")
+        os.exit(1)
+    end
+    os.exit(0)
+end
 
 -- 3. Select Audio Option
 local handle_audio = io.popen(string.format('printf "No Audio\\nInclude Audio (Mic)" | %s -p "Audio Option"', rofi_cmd))
@@ -85,10 +131,6 @@ end
 -- Run wf-recorder and verify it successfully started
 local command
 if is_gif then
-    -- wf-recorder records mp4 natively; for GIF we record temp mp4 and convert on stop,
-    -- or use ffmpeg flags directly. Alternatively, keep a temp file or use wf-recorder pipeline.
-    -- For simplicity and reliability, record to temp mp4 then convert when stopped,
-    -- or stream straight into ffmpeg. Here is a clean background command:
     local temp_mp4 = rec_dir .. "/temp_" .. timestamp .. ".mp4"
     command = string.format('wf-recorder %s %s -f "%s" && ffmpeg -i "%s" -vf "fps=15,scale=720:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "%s" && rm "%s" &',
         audio_arg, geom_arg, temp_mp4, temp_mp4, rec_path, temp_mp4)
@@ -97,7 +139,7 @@ else
 end
 
 local res = os.execute(command)
-local success = (res == true or res == 0)
+local success = is_ok(res)
 
 if success then
     if is_gif then

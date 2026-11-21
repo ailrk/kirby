@@ -15,10 +15,41 @@ local function notify(msg)
     os.execute(string.format('dunstify -t 4000 -r %d "Screenshot" "%s" -i camera-photo', id, msg))
 end
 
+local function is_ok(res)
+    return res == true or res == 0
+end
+
+local function get_latest_file(dir)
+    -- List regular files sorted by modification time (newest first)
+    local cmd = string.format('find "%s" -maxdepth 1 -type f -printf "%%T@\\t%%p\\n" 2>/dev/null | sort -rn | head -n 1 | cut -f2-', dir)
+    local handle = io.popen(cmd)
+    if not handle then
+        return nil
+    end
+    local latest = handle:read("*a") or ""
+    handle:close()
+    latest = string.gsub(latest, "^%s*(.-)%s*$", "%1")
+    if latest == "" then
+        return nil
+    end
+    return latest
+end
+
+local function copy_to_clipboard(text)
+    -- Escape double quotes for shell safety
+    local escaped = string.gsub(text, '"', '\\"')
+    if is_ok(os.execute("command -v wl-copy >/dev/null 2>&1")) then
+        return is_ok(os.execute(string.format('printf "%%s" "%s" | wl-copy', escaped)))
+    elseif is_ok(os.execute("command -v xclip >/dev/null 2>&1")) then
+        return is_ok(os.execute(string.format('printf "%%s" "%s" | xclip -selection clipboard', escaped)))
+    end
+    return false
+end
+
 local action = arg[1]
 
 if not action or action == "" then
-    local handle = io.popen(string.format('printf "sel\\nfull\\nwin" | %s -p "Screenshot Mode" -select "sel"', rofi_cmd))
+    local handle = io.popen(string.format('printf "sel\\nfull\\nwin\\ncopy-latest" | %s -p "Screenshot Mode" -select "sel"', rofi_cmd))
     if handle then
         action = handle:read("*l")
         handle:close()
@@ -29,11 +60,27 @@ if not action or action == "" then
     os.exit(0)
 end
 
+if action == "copy-latest" then
+    local latest_file = get_latest_file(img_dir)
+    if not latest_file then
+        notify("No screenshots found in " .. img_dir)
+        os.exit(1)
+    end
+
+    if copy_to_clipboard(latest_file) then
+        notify("Copied path: " .. latest_file)
+    else
+        notify("Failed to copy path (wl-copy or xclip required).")
+        os.exit(1)
+    end
+    os.exit(0)
+end
+
 local success = false
 
 if action == "full" then
     local res = os.execute(string.format('grim "%s"', img_path))
-    success = (res == true or res == 0)
+    success = is_ok(res)
     if success then
         notify("Full screen saved to " .. img_dir)
     end
@@ -47,7 +94,7 @@ elseif action == "win" then
 
     if closed and geom ~= "" then
         local res = os.execute(string.format('grim -g "%s" "%s"', geom, img_path))
-        success = (res == true or res == 0)
+        success = is_ok(res)
         if success then
             notify("Window captured to " .. img_dir)
         end
@@ -62,14 +109,14 @@ elseif action == "sel" then
 
     if closed and geom ~= "" then
         local res = os.execute(string.format('grim -g "%s" "%s"', geom, img_path))
-        success = (res == true or res == 0)
+        success = is_ok(res)
         if success then
             notify("Selection saved to " .. img_dir)
         end
     end
 
 else
-    os.execute(string.format('dunstify -t 2000 -r %d "Screenshot" "Invalid option. Usage: %s [full|win|el]"', id, arg[0]))
+    os.execute(string.format('dunstify -t 2000 -r %d "Screenshot" "Invalid option. Usage: %s [full|win|sel|copy-latest]"', id, arg[0]))
     os.exit(1)
 end
 
