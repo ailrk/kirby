@@ -1,12 +1,34 @@
 #!/usr/bin/env bash
-#random number
+# random number
 ID=3421
+
+cur=$(brightnessctl get)
+max=$(brightnessctl max)
+# Round to nearest integer percentage
+pct=$(( (cur * 100 + max / 2) / max ))
+
 case $1 in
     up)
-        brightnessctl set 10%+
-        dunstify -t 1000 -r $ID "Brightness: up"
+        if (( pct <= 3 )); then
+            step="1%+"
+        elif (( pct < 10 )); then
+            step="2%+"
+        else
+            step="10%+"
+        fi
+        brightnessctl set "$step"
+        dunstify -t 1000 -r "$ID" "Brightness: up"
         ;;
     down)
-        brightnessctl set 10%-
-        dunstify -t 1000 -r $ID "Brightness: down"
+        # Use 1% at or below 3%, 2% up to 10%, and 10% above 10%
+        if (( pct <= 3 )); then
+            step="1%-"
+        elif (( pct <= 10 )); then
+            step="2%-"
+        else
+            step="10%-"
+        fi
+        brightnessctl set "$step"
+        dunstify -t 1000 -r "$ID" "Brightness: down"
+        ;;
 esac
