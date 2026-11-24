@@ -18,29 +18,29 @@
     ],
 
     "ext/workspaces": {
-      "format": "{name} {icon}",
-      "on-click": "activate",
-      "format-icons": {
-        "active": "",
-        "default": ""
-      },
-      "sort-by-id": true
+        "format": "{name} {icon}",
+        "on-click": "activate",
+        "format-icons": {
+            "active": "",
+            "default": ""
+        },
+        "sort-by-id": true
     },
 
     "wlr/taskbar": {
-      "format": "{icon}",
-      "icon-size": 18,
-      "tooltip-format": "{title}",
-      "on-click": "activate",
-      "on-click-middle": "close",
-      "app_ids-mapping": {
-        "firefoxdeveloperedition": "firefox-developer-edition",
-        "Alacritty": "terminal",
-        "alacritty": "terminal"
-      },
-      "rewrite": {
-        "Firefox Web Browser": "Firefox",
-      }
+        "format": "{icon}",
+        "icon-size": 18,
+        "all-outputs": false,
+        "sort-by-app-id": true,
+        "tooltip-format": "{title}",
+        "on-click": "activate",
+        "on-click-middle": "close",
+        "ignore-list": [],
+        "app_ids-mapping": {
+            "firefoxdeveloperedition": "firefox-developer-edition",
+            "Alacritty": "terminal",
+            "alacritty": "terminal"
+        }
     },
 
     "cpu": { "format": " {usage}%" },
@@ -66,11 +66,11 @@
     },
 
     "custom/im": {
-      "exec": "~/.config/waybar/im.sh",
-      "interval": 1,
-      "format": "  {}",
-      "on-click": "fcitx5-remote -t",
-      "tooltip": false
+        "exec": "~/.config/waybar/im.sh",
+        "interval": 1,
+        "format": "  {}",
+        "on-click": "fcitx5-remote -t",
+        "tooltip": false
     },
 
     "pulseaudio": {
@@ -81,28 +81,28 @@
     },
 
     "custom/battery": {
-      "exec": "~/.config/waybar/battery.sh",
-      "interval": 60,
-      "format": "{}",
-      "tooltip": false
+        "exec": "~/.config/waybar/battery.sh",
+        "interval": 60,
+        "format": "{}",
+        "tooltip": false
     },
 
     "clock": {
-      "interval": 1,
-      "format": " {:%m-%d %I:%M %p}",
-      "format-alt": " {:%Y-%m-%d %H:%M:%S}",
-      "tooltip": false
+        "interval": 1,
+        "format": " {:%m-%d %I:%M %p}",
+        "format-alt": " {:%Y-%m-%d %H:%M:%S}",
+        "tooltip": false
     },
 
     "custom/quickaccess": {
-      "format": "",
-      "on-click": "quickaccess",
-      "tooltip": false
+        "format": "",
+        "on-click": "quickaccess",
+        "tooltip": false
     },
 
     "custom/powermenu": {
-      "format": "",
-      "on-click": "powermenu",
-      "tooltip": false
+        "format": "",
+        "on-click": "powermenu",
+        "tooltip": false
     }
 }

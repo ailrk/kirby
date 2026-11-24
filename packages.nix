@@ -150,6 +150,7 @@
   pkgs.swaybg
   pkgs.mpvpaper
   pkgs.wlr-randr
+  pkgs.wf-recorder
   pkgs.grim
   pkgs.slurp
   pkgs.kooha

@@ -5,26 +5,64 @@ local home = os.getenv("HOME") or ""
 local theme_dir = home .. "/.config/rofi/theme"
 local rofi_cmd = string.format("rofi -theme %s/menu.rasi -close-on-unfocus -dmenu -i", theme_dir)
 local rec_dir = home .. "/Videos/Recordings"
+local log_file = rec_dir .. "/wf-recorder.log"
 
-os.execute(string.format('mkdir -p "%s"', rec_dir))
+local function escape_dunst(msg)
+    msg = tostring(msg or "")
+    msg = string.gsub(msg, "\\", "\\\\")
+    msg = string.gsub(msg, '"', '\\"')
+    msg = string.gsub(msg, "\n", " ")
+    return msg
+end
 
-local function notify(msg)
-    os.execute(string.format('dunstify -t 4000 -r %d "Screen Recorder" "%s" -i media-record', id, msg))
+local function notify(msg, urgency)
+    local urg_arg = urgency and string.format(" -u %s", urgency) or ""
+    os.execute(string.format('dunstify -t 5000 -r %d%s "Screen Recorder" "%s" -i media-record', id, urg_arg, escape_dunst(msg)))
+end
+
+local function notify_error(msg)
+    notify("Error: " .. msg, "critical")
 end
 
 local function is_ok(res)
     return res == true or res == 0
 end
 
+if not is_ok(os.execute(string.format('mkdir -p "%s"', rec_dir))) then
+    notify_error("Could not create directory: " .. rec_dir)
+    os.exit(1)
+end
+
+local function read_last_error(path)
+    local f = io.open(path, "r")
+    if not f then return nil end
+    local content = f:read("*a") or ""
+    f:close()
+    for line in string.gmatch(content, "[^\r\n]+") do
+        if string.match(string.lower(line), "error") or string.match(string.lower(line), "fail") then
+            return line
+        end
+    end
+    local last = ""
+    for line in string.gmatch(content, "[^\r\n]+") do
+        last = line
+    end
+    return last ~= "" and last or nil
+end
+
 local function get_latest_file(dir)
-    -- List regular files sorted by modification time (newest first)
-    local cmd = string.format('find "%s" -maxdepth 1 -type f -printf "%%T@\\t%%p\\n" 2>/dev/null | sort -rn | head -n 1 | cut -f2-', dir)
+    local cmd = string.format('find "%s" -maxdepth 1 -type f ! -name "wf-recorder.log" ! -name "temp_*.mp4" -printf "%%T@\\t%%p\\n" 2>/dev/null | sort -rn | head -n 1 | cut -f2-', dir)
     local handle = io.popen(cmd)
     if not handle then
+        notify_error("Failed to scan recordings folder.")
         return nil
     end
     local latest = handle:read("*a") or ""
-    handle:close()
+    local ok = handle:close()
+    if not is_ok(ok) then
+        notify_error("Error searching recordings in " .. dir)
+        return nil
+    end
     latest = string.gsub(latest, "^%s*(.-)%s*$", "%1")
     if latest == "" then
         return nil
@@ -46,20 +84,28 @@ end
 local check_pkill = os.execute("pgrep -x wf-recorder > /dev/null")
 if is_ok(check_pkill) then
     local handle = io.popen(string.format('printf "Stop Recording\\nCancel" | %s -p "Recording in progress..." -select "Stop Recording"', rofi_cmd))
-    if handle then
-        local choice = handle:read("*l")
-        handle:close()
-        if choice == "Stop Recording" then
-            os.execute("pkill -INT -x wf-recorder")
-            notify("Recording stopped and saved.")
+    if not handle then
+        notify_error("Failed to open Rofi stop menu.")
+        os.exit(1)
+    end
+    local choice = handle:read("*l")
+    handle:close()
+    if choice == "Stop Recording" then
+        if not is_ok(os.execute("pkill -INT -x wf-recorder")) then
+            notify_error("Failed to stop wf-recorder.")
+            os.exit(1)
         end
+        notify("Recording stopped and saved.")
     end
     os.exit(0)
 end
 
 -- 2. Select recording mode (or copy latest recording path)
 local handle_mode = io.popen(string.format('printf "sel\\nwin\\nfull\\ncopy-latest" | %s -p "Record Mode" -select "sel"', rofi_cmd))
-if not handle_mode then os.exit(1) end
+if not handle_mode then
+    notify_error("Failed to launch Rofi mode menu.")
+    os.exit(1)
+end
 local mode = handle_mode:read("*l")
 handle_mode:close()
 if not mode or mode == "" then os.exit(0) end
@@ -67,14 +113,14 @@ if not mode or mode == "" then os.exit(0) end
 if mode == "copy-latest" then
     local latest_file = get_latest_file(rec_dir)
     if not latest_file then
-        notify("No recordings found in " .. rec_dir)
+        notify_error("No recordings found in " .. rec_dir)
         os.exit(1)
     end
 
     if copy_to_clipboard(latest_file) then
         notify("Copied path: " .. latest_file)
     else
-        notify("Failed to copy path (wl-copy or xclip required).")
+        notify_error("Failed to copy path (wl-copy or xclip required).")
         os.exit(1)
     end
     os.exit(0)
@@ -82,9 +128,13 @@ end
 
 -- 3. Select Audio Option
 local handle_audio = io.popen(string.format('printf "No Audio\\nInclude Audio (Mic)" | %s -p "Audio Option"', rofi_cmd))
-local audio_choice = handle_audio and handle_audio:read("*l") or ""
-if handle_audio then handle_audio:close() end
-if not audio_choice or audio_choice == "" then os.exit(0) end
+if not handle_audio then
+    notify_error("Failed to launch Rofi audio menu.")
+    os.exit(1)
+end
+local audio_choice = handle_audio:read("*l") or ""
+handle_audio:close()
+if audio_choice == "" then os.exit(0) end
 
 local audio_arg = ""
 if string.find(audio_choice, "Include Audio") then
@@ -93,9 +143,13 @@ end
 
 -- 4. Select Output Format (MP4 video vs Animated GIF)
 local handle_format = io.popen(string.format('printf "MP4 (Video)\\nGIF (Animated Image)" | %s -p "Output Format"', rofi_cmd))
-local format_choice = handle_format and handle_format:read("*l") or ""
-if handle_format then handle_format:close() end
-if not format_choice or format_choice == "" then os.exit(0) end
+if not handle_format then
+    notify_error("Failed to launch Rofi format menu.")
+    os.exit(1)
+end
+local format_choice = handle_format:read("*l") or ""
+handle_format:close()
+if format_choice == "" then os.exit(0) end
 
 local is_gif = string.find(format_choice, "GIF")
 
@@ -105,12 +159,24 @@ local ext = is_gif and "gif" or "mp4"
 local rec_path = string.format("%s/recording_%s.%s", rec_dir, timestamp, ext)
 
 -- 6. Geometry selection helper
-local function get_geometry(cmd)
+local function get_geometry(cmd, label)
     local geom_handle = io.popen(cmd)
-    local geom = geom_handle and geom_handle:read("*a") or ""
-    local closed = geom_handle and geom_handle:close()
+    if not geom_handle then
+        notify_error("Failed to run " .. label)
+        return nil
+    end
+    local geom = geom_handle:read("*a") or ""
+    local closed = geom_handle:close()
     geom = string.gsub(geom, "^%s*(.-)%s*$", "%1")
-    if not closed or geom == "" then return nil end
+    if not is_ok(closed) then
+        if geom ~= "" then
+            notify_error(label .. " failed: " .. geom)
+        end
+        return nil
+    end
+    if geom == "" then
+        return nil
+    end
     return geom
 end
 
@@ -118,35 +184,53 @@ end
 local geom_arg = ""
 if mode == "sel" then
     notify("Select a region to record...")
-    local geom = get_geometry("slurp")
+    local geom = get_geometry("slurp", "slurp")
     if not geom then os.exit(0) end
     geom_arg = '-g "' .. geom .. '"'
 elseif mode == "win" then
     notify("Click the window to record...")
-    local geom = get_geometry("slurp -p")
+    local geom = get_geometry("slurp -p", "slurp -p")
     if not geom then os.exit(0) end
     geom_arg = '-g "' .. geom .. '"'
 end
 
--- Run wf-recorder and verify it successfully started
+-- Truncate log for this recording attempt and capture output
+os.execute(string.format(': > "%s"', log_file))
+
 local command
 if is_gif then
     local temp_mp4 = rec_dir .. "/temp_" .. timestamp .. ".mp4"
-    command = string.format('wf-recorder %s %s -f "%s" && ffmpeg -i "%s" -vf "fps=15,scale=720:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "%s" && rm "%s" &',
-        audio_arg, geom_arg, temp_mp4, temp_mp4, rec_path, temp_mp4)
+    command = string.format(
+        '(wf-recorder %s %s -f "%s" && ffmpeg -y -i "%s" -vf "fps=15,scale=720:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "%s" && rm -f "%s") >> "%s" 2>&1 || dunstify -t 6000 -r %d -u critical "Screen Recorder" "Error: Recording or GIF conversion failed. Check wf-recorder.log" -i media-record &',
+        audio_arg, geom_arg, temp_mp4, temp_mp4, rec_path, temp_mp4, log_file, id
+    )
 else
-    command = string.format('wf-recorder %s %s -f "%s" &', audio_arg, geom_arg, rec_path)
+    command = string.format(
+        '(wf-recorder %s %s -f "%s") >> "%s" 2>&1 || dunstify -t 6000 -r %d -u critical "Screen Recorder" "Error: wf-recorder failed. Check wf-recorder.log" -i media-record &',
+        audio_arg, geom_arg, rec_path, log_file, id
+    )
 end
 
 local res = os.execute(command)
-local success = is_ok(res)
+if not is_ok(res) then
+    notify_error("Failed to launch recording command.")
+    os.exit(1)
+end
 
-if success then
-    if is_gif then
-        notify("Recording GIF... (Stop recording via menu to process)")
+-- Give wf-recorder a moment to initialize and catch immediate startup errors
+os.execute("sleep 0.4")
+if not is_ok(os.execute("pgrep -x wf-recorder > /dev/null")) then
+    local err_line = read_last_error(log_file)
+    if err_line then
+        notify_error("wf-recorder exited: " .. err_line)
     else
-        notify("Recording... (Run script again to stop)")
+        notify_error("wf-recorder exited early. Check " .. log_file)
     end
+    os.exit(1)
+end
+
+if is_gif then
+    notify("Recording GIF... (Stop via menu to convert)")
 else
-    notify("Failed to start recording.")
+    notify("Recording... (Run script again to stop)")
 end

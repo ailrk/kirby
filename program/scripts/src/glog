@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/glog"
+NOTES_FILE="$DATA_DIR/glog.txt"
+
+mkdir -p "$DATA_DIR"
+touch "$NOTES_FILE"
+
+trap 'echo ""; exit 0' INT
+
+# Grab only the last 20 lines from disk and print them newest-first in one awk pass
+latest_20_formatted() {
+    [ -s "$NOTES_FILE" ] || return
+    tail -n 20 "$NOTES_FILE" | awk -F '\t' '
+        {
+            lines[NR] = sprintf("\033[2m%s\033[0m  %s", $1, $2)
+        }
+        END {
+            for (i = NR; i >= 1; i--) {
+                print lines[i]
+            }
+        }
+    '
+}
+
+while true; do
+    printf "\033[H\033[2J"
+    printf "\033[2mLatest 20 (newest first) • Empty Enter to filter • Ctrl+C to quit\033[0m\n\n"
+
+    latest_20_formatted
+    echo ""
+
+    NOTE=$(gum input --placeholder "New note...") || exit 0
+
+    if [ -n "$NOTE" ]; then
+        CLEAN_NOTE=$(printf '%s' "$NOTE" | tr '\t\r\n' '   ')
+        printf "%s\t%s\n" "$(date "+%Y-%m-%d %H:%M")" "$CLEAN_NOTE" >> "$NOTES_FILE"
+    elif [ -s "$NOTES_FILE" ]; then
+        tail -n 20 "$NOTES_FILE" | awk -F '\t' '{ lines[NR] = $0 } END { for (i = NR; i >= 1; i--) print lines[i] }' | \
+            gum filter --placeholder "Filter latest 20 (Esc to return)..." --height 22 >/dev/null || true
+    fi
+done
