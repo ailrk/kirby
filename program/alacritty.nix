@@ -107,7 +107,7 @@ in
             padding.y = 0;
             dynamic_padding = true;
             resize_increments = true;
-            opacity = 0.90;
+            opacity = 0.95;
             decorations = "none";
           };
 

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <labwc_config>
   <desktops>
-    <number>5</number>
+    <number>6</number>
     <names>
       <name>1</name>
       <name>2</name>
       <name>3</name>
       <name>4</name>
       <name>5</name>
+      <name>6</name>
     </names>
     <!-- margin needs to match the bar margin -->
     <margins>
@@ -59,16 +60,25 @@
     <keybind key="W-Return">
       <action name="Execute" command="sh -c '$TERMINAL'" />
     </keybind>
+    <keybind key="W-l">
+      <action name="Execute" command="sh -c &quot;$TERMINAL -o 'window.dimensions={columns=40,lines=30}' -e glog&quot;" />
+    </keybind>
+    <keybind key="W-u">
+      <action name="Execute" command="sh -c &quot;$TERMINAL -o 'window.dimensions={columns=140,lines=40}' -e btop&quot;" />
+    </keybind>
     <keybind key="W-b">
       <action name="Execute" command="sh -c '$BROWSER'" />
     </keybind>
     <keybind key="W-n">
       <action name="Execute" command="nautilus" />
     </keybind>
+    <keybind key="S-W-n">
+      <action name="Execute" command="sh -c &quot;$TERMINAL -o 'window.dimensions={columns=140,lines=40}' -e ranger&quot;" />
+    </keybind>
     <keybind key="W-r">
       <action name="Execute" command="videorecording" />
     </keybind>
-    <keybind key="W-h">
+    <keybind key="W-s">
       <action name="Execute" command="screenshot" />
     </keybind>
     <keybind key="W-space">
@@ -111,12 +121,14 @@
     <keybind key="W-3"> <action name="GoToDesktop" to="3" /> </keybind>
     <keybind key="W-4"> <action name="GoToDesktop" to="4" /> </keybind>
     <keybind key="W-5"> <action name="GoToDesktop" to="5" /> </keybind>
+    <keybind key="W-6"> <action name="GoToDesktop" to="6" /> </keybind>
 
     <keybind key="W-S-1"> <action name="SendToDesktop" to="1" /> </keybind>
     <keybind key="W-S-2"> <action name="SendToDesktop" to="2" /> </keybind>
     <keybind key="W-S-3"> <action name="SendToDesktop" to="3" /> </keybind>
     <keybind key="W-S-4"> <action name="SendToDesktop" to="4" /> </keybind>
     <keybind key="W-S-5"> <action name="SendToDesktop" to="5" /> </keybind>
+    <keybind key="W-S-6"> <action name="SendToDesktop" to="6" /> </keybind>
 
     <keybind key="XF86AudioLowerVolume"> <action name="Execute" command="volume down" /> </keybind>
     <keybind key="XF86AudioRaiseVolume"> <action name="Execute" command="volume up" /> </keybind>
