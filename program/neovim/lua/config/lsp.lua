@@ -13,6 +13,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', 'gn', vim.lsp.buf.type_definition, opts)
         vim.keymap.set('n', 'gR', vim.lsp.buf.references, opts)
         vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+        vim.keymap.set('n', 'ghi', vim.lsp.buf.incoming_calls)
+        vim.keymap.set('n', 'gho', vim.lsp.buf.outgoing_calls)
         vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
 
         -- Workspace Folders
@@ -61,6 +63,14 @@ vim.lsp.config('hls', {
         },
     }
 })
+
+-- vim.lsp.config('mhs-lsp', {
+--   cmd     = { '/home/fatmonad/repo/mhs-lsp/dist/mhs-lsp', '/nix/store/3gl54nr6a1algp1adhydjpbdf70xn12l-mhs-0.17.0.0/bin/mhs', '--debug' },
+--   filetypes    = { 'haskell' },
+--   root_markers = { '.git', '*.hs' },
+-- })
+
+-- vim.lsp.enable('mhs-lsp')
 
 
 -- Rust
