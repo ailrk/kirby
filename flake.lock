@@ -190,6 +190,22 @@
         "type": "github"
       }
     },
+    "raddbg": {
+      "locked": {
+        "lastModified": 1790963907,
+        "narHash": "sha256-YrhpyK7n5JSttMi5/feqG1MBfk5r6Fd1B1EIxi+fZnI=",
+        "owner": "MithicSpirit",
+        "repo": "nixpkgs",
+        "rev": "2ce1eca88f17297f18679f1de78a2fcc08e6d2bb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MithicSpirit",
+        "ref": "raddbg",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
@@ -198,6 +214,7 @@
         "nixon": "nixon",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "raddbg": "raddbg",
         "sops-nix": "sops-nix"
       }
     },

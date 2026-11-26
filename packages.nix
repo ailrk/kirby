@@ -94,6 +94,7 @@
   pkgs.lua-language-server
   pkgs.microhs
   pkgs.pyright
+  (inputs.raddbg.legacyPackages.${pkgs.system}.raddebugger)
 
   # python deps
   (let
