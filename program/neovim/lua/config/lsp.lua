@@ -64,14 +64,6 @@ vim.lsp.config('hls', {
     }
 })
 
--- vim.lsp.config('mhs-lsp', {
---   cmd     = { '/home/fatmonad/repo/mhs-lsp/dist/mhs-lsp', '/nix/store/3gl54nr6a1algp1adhydjpbdf70xn12l-mhs-0.17.0.0/bin/mhs', '--debug' },
---   filetypes    = { 'haskell' },
---   root_markers = { '.git', '*.hs' },
--- })
-
--- vim.lsp.enable('mhs-lsp')
-
 
 -- Rust
 vim.lsp.config('rust_analyzer', {
